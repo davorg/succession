@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use Text::ParseWords;
+use DateTime::Format::Strptime;
+use Succession::Schema;
+
+my $dt_p = DateTime::Format::Strptime->new(
+  pattern => '%d/%m/%Y',
+);
+
+my $sch = Succession::Schema->get_schema;
+
+my $person_rs = $sch->resultset('Person');
+
+<>;
+
+my @cols = qw[name born died parent family_order];
+
+my %people;
+
+while (<>) {
+  chomp;
+  my %rec;
+  @rec{@cols} = map { length ? $_ : undef} parse_line(',', 0, $_);
+
+  $rec{born} = $dt_p->parse_datetime($rec{born});
+  $rec{died} = $dt_p->parse_datetime($rec{died}) if $rec{died};
+
+  if ($rec{parent}) {
+    if (exists $people{$rec{parent}}) {
+      $rec{parent} = $people{$rec{parent}}->id;
+    } else {
+      warn "Can't find parent for $rec{name} ($rec{parent})\n";
+      next;
+    }
+  }
+  $people{$rec{name}} = $person_rs->create(\%rec);
+}
