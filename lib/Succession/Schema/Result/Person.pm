@@ -172,7 +172,7 @@ sub succession_on_date {
   printlog "Getting descendants of ", $self->name, "\n";
   my @desc = map {
     $_, $_->descendants
-  } $self->people;
+  } $self->sorted_children;
 
   printlog "Got ", scalar @desc, " descendants\n";
 
@@ -204,10 +204,9 @@ sub younger_siblings_and_descendants {
   my $parent = $self->parent;
   return unless $self->parent;
 
-  my @younger_siblings = $parent->people
-    -> search({
-      family_order => { '>' => $self->family_order },
-    });
+  my @younger_siblings = $parent->sorted_children->search({
+    family_order => { '>' => $self->family_order },
+  });
 
   my @people = map {
     $_, $_->descendants
@@ -220,11 +219,8 @@ sub descendants {
   my $self = shift;
   my ($date) = @_;
 
-  my @desc = $self->people({}, {
-    order_by => 'family_order',
-  });
+  my @desc = $self->sorted_children;
 
-#  return @desc;
   return map { $_, $_->descendants } @desc;
 }
 
@@ -236,6 +232,14 @@ sub is_alive_on_date {
   return 1 if !defined $self->died;
   return 0 if $self->died < $date;
   return 1;
+}
+
+sub sorted_children {
+  my $self = shift;
+
+  return $self->people({}, {
+    order_by => 'family_order',
+  });
 }
 
 sub describe {
