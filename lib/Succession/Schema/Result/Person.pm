@@ -161,50 +161,93 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+sub printlog {
+  print @_ if 0;
+}
+
 sub succession_on_date {
   my $self = shift;
   my ($date) = @_;
 
+  printlog "Getting descendants of ", $self->name, "\n";
   my @desc = map {
-    $_, $_->descendants_on_date($date)
-  } $self->descendants_on_date($date);
+    $_, $_->descendants
+  } $self->people;
 
-  push @desc, $self->younger_siblings_and_descendants_on_date($date);
+  printlog "Got ", scalar @desc, " descendants\n";
 
-  return @desc;
+  printlog "Adding younger siblings and their descendants\n";
+  push @desc, $self->younger_siblings_and_descendants;
+  printlog "Now we have ", scalar @desc, " descendants\n";
+
+  my $ancestor = $self->parent;
+  while (defined $ancestor) {
+    printlog "Adding descendants of ", $ancestor->name, "\n";
+    push @desc, $ancestor->younger_siblings_and_descendants;
+    printlog "Now we have ", scalar @desc, " descendants\n";
+    $ancestor = $ancestor->parent;
+  }
+
+  printlog $_->describe . "\n" for @desc;
+
+  printlog "Checking which of them are alive on $date\n";
+  my @living_desc = grep { $_->is_alive_on_date($date) } @desc;
+  printlog "Now we have ", scalar @living_desc, " descendants\n";
+
+  return @living_desc;
 }
 
-sub younger_siblings_and_descendants_on_date {
+sub younger_siblings_and_descendants {
   my $self = shift;
   my ($date) = @_;
 
   my $parent = $self->parent;
   return unless $self->parent;
 
-  my @younger_siblings = $parent->descendants_on_date($date)
+  my @younger_siblings = $parent->people
     -> search({
       family_order => { '>' => $self->family_order },
     });
 
   my @people = map {
-    $_, $_->descendants_on_date($date)
+    $_, $_->descendants
   } @younger_siblings;
 
   return @people;
 }
 
-sub descendants_on_date {
+sub descendants {
   my $self = shift;
   my ($date) = @_;
 
- $date = $self->result_source->schema->storage->
-         datetime_parser->format_datetime($date);
-
-  return $self->people({
-    born => { '<=' => $date },
-  }, {
+  my @desc = $self->people({}, {
     order_by => 'family_order',
   });
+
+#  return @desc;
+  return map { $_, $_->descendants } @desc;
+}
+
+sub is_alive_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  return 0 if $self->born > $date;
+  return 1 if !defined $self->died;
+  return 0 if $self->died < $date;
+  return 1;
+}
+
+sub describe {
+  my $self = shift;
+
+  my $desc = $self->name . ' (born ' . $self->born;
+  if (defined $self->died) {
+    $desc .= ', died ' . $self->died;
+  }
+  $desc .= ')';
+
+  return $desc;
 }
 
 __PACKAGE__->meta->make_immutable;
