@@ -32,7 +32,7 @@ CREATE TABLE `person` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'King George VI','1895-12-14','1952-02-06',21,2),(2,'Queen Elizabeth II','1926-04-21',NULL,1,1),(3,'Prince Charles','1948-11-14',NULL,2,1),(4,'Princess Anne','1950-08-15',NULL,2,4),(5,'Prince Andrew','1960-02-19',NULL,2,2),(6,'Prince Edward','1964-03-10',NULL,2,3),(7,'Peter Phillips','1977-11-15',NULL,4,1),(8,'Zara Tindall','1981-05-15',NULL,4,2),(9,'Prince William','1982-06-21',NULL,3,1),(10,'Prince Henry','1984-09-15',NULL,3,2),(11,'Princess Beatrice','1988-08-08',NULL,5,1),(12,'Princess Eugenie','1990-03-23',NULL,5,2),(13,'Lady Louise Windsor','2003-11-08',NULL,6,2),(14,'James, Viscount Severn','2007-12-17',NULL,6,1),(15,'Savannah Phillips','2010-12-29',NULL,7,1),(16,'Isla Phillips','2012-03-29',NULL,7,2),(17,'Prince George','2013-07-22',NULL,9,1),(18,'Mia Tindall','2014-01-17',NULL,8,1),(19,'Princess Charlotte','2015-05-02',NULL,9,2),(20,'Princess Margaret','1930-08-21','2002-02-09',1,2),(21,'King George V','1865-06-03','1936-01-20',NULL,1),(22,'King Edward VIII','1894-06-23','1972-05-28',21,1),(23,'Prince Henry, Duke of Gloucester','1900-03-31','1974-06-10',21,3),(24,'Prince George, Duke of Kent','1902-12-20','1942-08-25',21,4),(25,'Prince John','1905-07-12','1919-01-25',21,5),(26,'Mary, Princess Royal and Countess of Harewood','1897-04-25','1965-03-25',21,6),(27,'Viscount Linley','1961-11-03',NULL,20,1),(28,'Lady Sarah Chatto','1964-05-01',NULL,20,2),(29,'Charles Armstrong-Jones','1999-07-01',NULL,27,1),(30,'Margarita Armstrong-Jones','2002-05-14',NULL,27,2),(31,'Samuel Chatto','1996-07-28',NULL,28,1),(32,'Arthur Chatto','1999-02-05',NULL,28,2),(33,'George Lascalles, 7th Earl of Harewood','1923-02-23','2011-07-11',26,1),(34,'David Lascalles, 8th Earl of Harewood','1950-10-21',NULL,33,1),(35,'James Lascalles','1953-10-05',NULL,33,2),(36,'Jeremy Lascalles','1955-02-14',NULL,33,3),(37,'Prince William of Gloucester','1941-12-18','1972-08-28',23,1),(38,'Prince Richard, Duke of Gloucester','1944-08-26',NULL,23,2),(39,'Prince George, Duke of Kent','1902-12-20','1942-08-25',24,1),(40,'Prince Edward, Duke of Kent','1935-10-09',NULL,39,1),(41,'Princess Alexandra, The Hon. Lady Ogilvy','1936-12-25',NULL,39,3),(42,'Prince Michael of Kent','1942-07-04',NULL,39,2),(43,'George, Earl of St Andrews','1962-06-26',NULL,40,1),(44,'Lady Helen Taylor','1964-04-28',NULL,40,3),(45,'Lord Nicholoas Windsor','1970-07-25',NULL,40,2),(46,'James Ogilvy','1964-02-29',NULL,41,1),(47,'Marina Ogilvy','1966-07-31',NULL,41,2),(48,'Lord Frederick Windsor','1979-04-06',NULL,42,1),(49,'Lady Gabriella Windsor','1981-04-23',NULL,42,2),(50,'Alexander Windsor, Ealr of Ulster','1974-10-24',NULL,38,1),(51,'Lady Davina Lewis','1977-11-19',NULL,38,2),(52,'Lady Rose Gilman','1980-03-01',NULL,38,3),(53,'Xan Windsor, Lord Culloden','2007-03-12',NULL,50,1),(54,'Lady Cosima Windsor','2010-05-20',NULL,50,2),(55,'Senna Lewis','2010-06-22',NULL,51,1),(56,'T?ne Lewis','2012-05-25',NULL,51,2),(57,'Lyla Gilman','2010-05-30',NULL,52,1),(58,'Rufus Gilman','2012-10-30',NULL,52,2),(59,'Columbus Taylor','1994-08-06',NULL,44,1),(60,'Cassius Taylor','1996-12-26',NULL,44,2),(61,'Eloise Taylor','2003-03-02',NULL,44,3),(62,'Estella Taylor','2004-12-21',NULL,44,4),(63,'Maud Windsor','2013-08-15',NULL,48,1),(64,'Isabella Windsor','2016-01-16',NULL,48,2);
+INSERT INTO `person` VALUES (1,'King George VI','1895-12-14','1952-02-06',21,2),(2,'Queen Elizabeth II','1926-04-21',NULL,1,1),(3,'Prince Charles','1948-11-14',NULL,2,1),(4,'Princess Anne','1950-08-15',NULL,2,4),(5,'Prince Andrew','1960-02-19',NULL,2,2),(6,'Prince Edward','1964-03-10',NULL,2,3),(7,'Peter Phillips','1977-11-15',NULL,4,1),(8,'Zara Tindall','1981-05-15',NULL,4,2),(9,'Prince William','1982-06-21',NULL,3,1),(10,'Prince Henry','1984-09-15',NULL,3,2),(11,'Princess Beatrice','1988-08-08',NULL,5,1),(12,'Princess Eugenie','1990-03-23',NULL,5,2),(13,'Lady Louise Windsor','2003-11-08',NULL,6,2),(14,'James, Viscount Severn','2007-12-17',NULL,6,1),(15,'Savannah Phillips','2010-12-29',NULL,7,1),(16,'Isla Phillips','2012-03-29',NULL,7,2),(17,'Prince George','2013-07-22',NULL,9,1),(18,'Mia Tindall','2014-01-17',NULL,8,1),(19,'Princess Charlotte','2015-05-02',NULL,9,2),(20,'Princess Margaret','1930-08-21','2002-02-09',1,2),(21,'King George V','1865-06-03','1936-01-20',65,1),(22,'King Edward VIII','1894-06-23','1972-05-28',21,1),(23,'Prince Henry, Duke of Gloucester','1900-03-31','1974-06-10',21,3),(24,'Prince George, Duke of Kent','1902-12-20','1942-08-25',21,4),(25,'Prince John','1905-07-12','1919-01-25',21,5),(26,'Mary, Princess Royal and Countess of Harewood','1897-04-25','1965-03-25',21,6),(27,'Viscount Linley','1961-11-03',NULL,20,1),(28,'Lady Sarah Chatto','1964-05-01',NULL,20,2),(29,'Charles Armstrong-Jones','1999-07-01',NULL,27,1),(30,'Margarita Armstrong-Jones','2002-05-14',NULL,27,2),(31,'Samuel Chatto','1996-07-28',NULL,28,1),(32,'Arthur Chatto','1999-02-05',NULL,28,2),(33,'George Lascalles, 7th Earl of Harewood','1923-02-23','2011-07-11',26,1),(34,'David Lascalles, 8th Earl of Harewood','1950-10-21',NULL,33,1),(35,'James Lascalles','1953-10-05',NULL,33,2),(36,'Jeremy Lascalles','1955-02-14',NULL,33,3),(37,'Prince William of Gloucester','1941-12-18','1972-08-28',23,1),(38,'Prince Richard, Duke of Gloucester','1944-08-26',NULL,23,2),(40,'Prince Edward, Duke of Kent','1935-10-09',NULL,24,1),(41,'Princess Alexandra, The Hon. Lady Ogilvy','1936-12-25',NULL,24,3),(42,'Prince Michael of Kent','1942-07-04',NULL,24,2),(43,'George, Earl of St Andrews','1962-06-26',NULL,40,1),(44,'Lady Helen Taylor','1964-04-28',NULL,40,3),(45,'Lord Nicholoas Windsor','1970-07-25',NULL,40,2),(46,'James Ogilvy','1964-02-29',NULL,41,1),(47,'Marina Ogilvy','1966-07-31',NULL,41,2),(48,'Lord Frederick Windsor','1979-04-06',NULL,42,1),(49,'Lady Gabriella Windsor','1981-04-23',NULL,42,2),(50,'Alexander Windsor, Ealr of Ulster','1974-10-24',NULL,38,1),(51,'Lady Davina Lewis','1977-11-19',NULL,38,2),(52,'Lady Rose Gilman','1980-03-01',NULL,38,3),(53,'Xan Windsor, Lord Culloden','2007-03-12',NULL,50,1),(54,'Lady Cosima Windsor','2010-05-20',NULL,50,2),(55,'Senna Lewis','2010-06-22',NULL,51,1),(56,'Tāne Lewis','2012-05-25',NULL,51,2),(57,'Lyla Gilman','2010-05-30',NULL,52,1),(58,'Rufus Gilman','2012-10-30',NULL,52,2),(59,'Columbus Taylor','1994-08-06',NULL,44,1),(60,'Cassius Taylor','1996-12-26',NULL,44,2),(61,'Eloise Taylor','2003-03-02',NULL,44,3),(62,'Estella Taylor','2004-12-21',NULL,44,4),(63,'Maud Windsor','2013-08-15',NULL,48,1),(64,'Isabella Windsor','2016-01-16',NULL,48,2),(65,'King Edward VII','1841-11-09','1910-05-06',NULL,1);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +60,7 @@ CREATE TABLE `sovereign` (
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `sovereign_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `sovereign` (
 
 LOCK TABLES `sovereign` WRITE;
 /*!40000 ALTER TABLE `sovereign` DISABLE KEYS */;
-INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-05',1),(2,'1952-02-06',NULL,2),(3,'1936-01-20','1936-12-10',22),(4,'1910-05-06','1936-01-19',21);
+INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-05',1),(2,'1952-02-06',NULL,2),(3,'1936-01-20','1936-12-10',22),(4,'1910-05-06','1936-01-19',21),(5,'1901-01-22','1910-05-05',65);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -82,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-05 18:26:52
+-- Dump completed on 2016-12-05  2:44:03
