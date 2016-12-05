@@ -31,6 +31,7 @@ sub get_schema {
   return __PACKAGE__->connect(
     "dbi:mysql:host=$ENV{SUCC_DB_HOST};database=$ENV{SUCC_DB_NAME}",
     $ENV{SUCC_DB_USER}, $ENV{SUCC_DB_PASS},
+    { mysql_enable_utf8 => 1 },
   );
 }
 
