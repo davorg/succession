@@ -245,9 +245,11 @@ sub sorted_children {
 sub describe {
   my $self = shift;
 
-  my $desc = $self->name . ' (born ' . $self->born;
+  my $fmt = '%d %B %Y';
+
+  my $desc = $self->name . ' (born ' . $self->born->strftime($fmt);
   if (defined $self->died) {
-    $desc .= ', died ' . $self->died;
+    $desc .= ', died ' . $self->died->strftime($fmt);
   }
   $desc .= ')';
 

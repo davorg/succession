@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -CS
 
 use strict;
 use warnings;
@@ -27,4 +27,4 @@ say 'Sovereign on ', $date->strftime('%d %B %Y'), ': ', $sov->name;
 say 'Succession:';
 
 my $i = 1;
-say $i++, ': ', $_->name for $sov->succession_on_date($date);
+say $i++, ': ', $_->describe for $sov->succession_on_date($date);
