@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use feature 'say';
+
+use Succession::Schema;
+
+my $sch = Succession::Schema->get_schema;
+
+my $rs = $sch->resultset('Person');
+
+my @births = grep { defined } map { $_->born } $rs->all;
+my @deaths = grep { defined } map { $_->died } $rs->all;
+
+my @dates  = sort @births, @deaths;
+
+say for @dates;
