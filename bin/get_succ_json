@@ -1,0 +1,34 @@
+#!/usr/bin/perl -CS
+
+use strict;
+use warnings;
+use 5.010;
+
+use Succession::Schema;
+use DateTime;
+use DateTime::Format::Strptime;
+use JSON;
+
+my $date = shift;
+
+if (defined $date) {
+  $date = DateTime::Format::Strptime->new(
+    pattern => '%Y-%m-%d',
+  )->parse_datetime($date);
+} else {
+  $date = DateTime->now;
+}
+
+my $sch = Succession::Schema->get_schema;
+
+my $succession = {};
+
+my ($sov) = $sch->resultset('Sovereign')->sovereign_on_date($date);
+
+$succession->{sovereign} = $sov->name;
+
+for ($sov->succession_on_date($date)) {
+  push @{ $succession->{succ} }, $_->name;  
+}
+
+say encode_json($succession);
