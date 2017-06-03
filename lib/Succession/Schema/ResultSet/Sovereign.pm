@@ -14,7 +14,7 @@ sub sovereign_on_date {
   $date = $self->result_source->schema->storage->
           datetime_parser->format_datetime($date);
 
-  return $self->search({
+  return $self->find({
     start => { '<=' => $date },
     end   => [ { '>=' => $date }, undef ],
   });

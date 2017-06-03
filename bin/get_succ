@@ -4,27 +4,18 @@ use strict;
 use warnings;
 use 5.010;
 
-use Succession::Schema;
-use DateTime;
-use DateTime::Format::Strptime;
+use Succession::App;
 
-my $date = shift;
+my $args = {};
 
-if (defined $date) {
-  $date = DateTime::Format::Strptime->new(
-    pattern => '%Y-%m-%d',
-  )->parse_datetime($date);
-} else {
-  $date = DateTime->now;
-}
+$args->{date} = shift if @ARGV;
 
-my $sch = Succession::Schema->get_schema;
+my $app = Succession::App->new( $args );
 
-my ($sov) = $sch->resultset('Sovereign')->sovereign_on_date($date);
-
-say 'Sovereign on ', $date->strftime('%d %B %Y'), ': ', $sov->name;
+say 'Sovereign on ', $app->date->strftime('%d %B %Y'), ': ',
+    $app->sovereign->name;
 
 say 'Succession:';
 
 my $i = 1;
-say $i++, ': ', $_->describe for $sov->succession_on_date($date);
+say $i++, ': ', $_->describe for @{$app->succession};
