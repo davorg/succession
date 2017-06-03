@@ -4,11 +4,20 @@ use strict;
 use warnings;
 
 use Moose;
-
+use Moose::Util::TypeConstraints;
 use Succession::Schema;
 use JSON;
 use DateTime;
 use DateTime::Format::Strptime;
+
+subtype 'SuccesionDate',
+as 'DateTime';
+
+coerce 'SuccesionDate',
+from 'Str',
+via {
+  DateTime::Format::Strptime->new(pattern => '%Y-%d-%m')->parse_datetime($_);
+};
 
 has schema => (
   is => 'ro',
@@ -32,9 +41,9 @@ sub _build_sovereign_rs {
 
 has date => (
   is => 'ro',
-  isa => 'Maybe[DateTime]',
+  isa => 'SuccesionDate',
   lazy_build =>  1,
-#  coerce => 1,
+  coerce => 1,
 );
 
 sub _build_date {
