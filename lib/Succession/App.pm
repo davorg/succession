@@ -74,4 +74,24 @@ sub _build_succession {
   return [ $self->sovereign->succession_on_date($self->date) ];
 }
 
+sub get_succession {
+  my $self = shift;
+
+  my $succ = {
+    sovereign => $self->sovereign->name,
+  };
+
+  for (@{$self->succession}) {
+    push @{ $succ->{succ} }, $_->name;
+  }
+
+  return $succ;
+}
+
+sub get_succession_json {
+  my $self = shift;
+
+  return encode_json($self->get_succession);
+}
+
 1;
