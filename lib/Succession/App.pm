@@ -91,7 +91,21 @@ sub get_succession {
 sub get_succession_json {
   my $self = shift;
 
-  return encode_json($self->get_succession);
+  my $succ = {
+    sovereign => $self->sovereign->name,
+  };
+
+  my $i = 1;
+  my @succ = map {{
+    number => $i++,
+    name   => $_->name,
+    born   => $_->born->ymd,
+    age    => $_->age_on_date,
+  }} @{ $self->succession };
+
+  $succ->{successors} = \@succ;
+
+  return encode_json($succ);
 }
 
 1;
