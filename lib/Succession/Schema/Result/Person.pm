@@ -161,6 +161,8 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+use DateTime;
+
 sub printlog {
   print @_ if 0;
 }
@@ -250,10 +252,20 @@ sub describe {
   my $desc = $self->name . ' (born ' . $self->born->strftime($fmt);
   if (defined $self->died) {
     $desc .= ', died ' . $self->died->strftime($fmt);
+  } else {
+    $desc .= ', age ' . $self->age_on_date;
   }
   $desc .= ')';
 
   return $desc;
+}
+
+sub age_on_date {
+  my $self = shift;
+  my $date = (@_);
+
+  my $age = DateTime->now - $self->born;
+  return $age->years;
 }
 
 __PACKAGE__->meta->make_immutable;
