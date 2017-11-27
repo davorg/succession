@@ -10,13 +10,15 @@ use JSON;
 use DateTime;
 use DateTime::Format::Strptime;
 
+use feature 'say';
+
 subtype 'SuccesionDate',
 as 'DateTime';
 
 coerce 'SuccesionDate',
 from 'Str',
 via {
-  DateTime::Format::Strptime->new(pattern => '%Y-%d-%m')->parse_datetime($_);
+  DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
 has schema => (
@@ -107,5 +109,16 @@ sub get_succession_json {
 
   return encode_json($succ);
 }
+
+around BUILDARGS => sub {
+  my $orig  = shift;
+  my $class = shift;
+
+  if ( @_ == 1 && !ref $_[0] ) {
+    return $class->$orig({ date => $_[0] });
+  } else {
+    return $class->$orig(@_);
+  }
+};
 
 1;
