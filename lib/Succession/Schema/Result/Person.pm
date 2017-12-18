@@ -275,5 +275,11 @@ sub age_on_date {
   return $age->years;
 }
 
+sub name {
+  my $self = shift;
+
+  return $self->titles({ is_default => 1})->first->title;
+}
+
 __PACKAGE__->meta->make_immutable;
 1;
