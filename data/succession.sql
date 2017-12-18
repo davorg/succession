@@ -19,3 +19,15 @@ create table sovereign (
   person_id integer not null,
   foreign key (person_id) references person(id)
 );
+
+dopr table if exists title;
+
+create table title (
+  id integer primary key auto_increment,
+  title varchar(255),
+  start date,
+  end date,
+  person_id integer not null,
+  is_default smallint not null default 0,
+  foreign key (person_id) references person(id)
+);

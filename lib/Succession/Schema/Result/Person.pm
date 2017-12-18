@@ -44,12 +44,6 @@ __PACKAGE__->table("person");
   is_auto_increment: 1
   is_nullable: 0
 
-=head2 name
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 50
-
 =head2 born
 
   data_type: 'date'
@@ -78,8 +72,6 @@ __PACKAGE__->table("person");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-  "name",
-  { data_type => "varchar", is_nullable => 0, size => 50 },
   "born",
   { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 0 },
   "died",
@@ -154,9 +146,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 titles
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-12-04 17:40:32
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6h03yIJpwjWvQGw1B+Es6Q
+Type: has_many
+
+Related object: L<Succession::Schema::Result::Title>
+
+=cut
+
+__PACKAGE__->has_many(
+  "titles",
+  "Succession::Schema::Result::Title",
+  { "foreign.person_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-12-18 17:36:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iKDi45Y/ZjGOPwSwZk26fA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
