@@ -18,4 +18,4 @@ say 'Sovereign on ', $app->date->strftime('%d %B %Y'), ': ',
 say 'Succession:';
 
 my $i = 1;
-say $i++, ': ', $_->describe for @{$app->succession};
+say $i++, ': ', $_->describe($app->date) for @{$app->succession};

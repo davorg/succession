@@ -197,7 +197,7 @@ sub succession_on_date {
     $ancestor = $ancestor->parent;
   }
 
-  printlog $_->describe . "\n" for @desc;
+  printlog $_->describe($date) . "\n" for @desc;
 
   printlog "Checking which of them are alive on $date\n";
   my @living_desc = grep { $_->is_alive_on_date($date) } @desc;
@@ -253,10 +253,12 @@ sub sorted_children {
 
 sub describe {
   my $self = shift;
+  my ($date) = @_;
 
   my $fmt = '%d %B %Y';
 
-  my $desc = $self->name . ' (born ' . $self->born->strftime($fmt);
+  my $desc = $self->name_on_date($date) .
+    ' (born ' . $self->born->strftime($fmt);
   if (defined $self->died) {
     $desc .= ', died ' . $self->died->strftime($fmt);
   } else {
@@ -269,7 +271,7 @@ sub describe {
 
 sub age_on_date {
   my $self = shift;
-  my $date = (@_);
+  my ($date) = @_;
 
   my $age = DateTime->now - $self->born;
   return $age->years;
@@ -279,6 +281,32 @@ sub name {
   my $self = shift;
 
   return $self->titles({ is_default => 1})->first->title;
+}
+
+sub name_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  unless ($self->is_alive_on_date($date)) {
+    return '[' . $self->name . ']';
+  }
+
+  my $dtf      = $self->result_source->storage->datetime_parser;
+  my $fmt_date = $dtf->format_datetime($date);
+
+  return $self->titles([{
+    start => undef,
+    end   => undef,
+  },{
+    start => undef,
+    end   => { '>=' => $fmt_date },
+  },{
+    start => { '<=' => $fmt_date },
+    end   => undef,
+  },{
+    start => { '<=' => $fmt_date },
+    end   => { '>=' => $fmt_date },
+  }])->first->title;
 }
 
 __PACKAGE__->meta->make_immutable;
