@@ -5,45 +5,37 @@ use warnings;
 
 use Moose;
 use Moose::Util::TypeConstraints;
-use Succession::Schema;
 use JSON;
 use DateTime;
 use DateTime::Format::Strptime;
 
+use Succession::Model;
+
 use feature 'say';
 
-subtype 'SuccesionDate',
+subtype 'SuccessionDate',
 as 'DateTime';
 
-coerce 'SuccesionDate',
+coerce 'SuccessionDate',
 from 'Str',
 via {
   DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
-has schema => (
+has model => (
   is => 'ro',
-  isa => 'Succession::Schema',
-  lazy_build =>  1,
+  isa => 'Succession::Model',
+  lazy_build => 1,
+  handles => [ qw(get_succession get_succession_json) ],
 );
 
-sub _build_schema {
-  return Succession::Schema->get_schema;
-}
-
-has sovereign_rs => (
-  is => 'ro',
-  isa => 'DBIx::Class::ResultSet',
-  lazy_build =>  1,
-);
-
-sub _build_sovereign_rs {
-  return $_[0]->schema->resultset('Sovereign');
+sub _build_model {
+  return Succession::Model->new;
 }
 
 has date => (
   is => 'ro',
-  isa => 'SuccesionDate',
+  isa => 'SuccessionDate',
   lazy_build =>  1,
   coerce => 1,
 );
@@ -55,59 +47,23 @@ sub _build_date {
 has sovereign => (
   is => 'ro',
   isa => 'Succession::Schema::Result::Sovereign',
-  lazy_build =>  1,
+  lazy_build => 1,
 );
 
 sub _build_sovereign {
   my $self = shift;
-
-  return $self->sovereign_rs->sovereign_on_date($self->date);
+  return $self->model->sovereign_on_date($self->date);
 }
 
 has succession => (
   is => 'ro',
   isa => 'ArrayRef',
-  lazy_build =>  1,
+  lazy_build => 1,
 );
 
 sub _build_succession {
   my $self = shift;
-
   return [ $self->sovereign->succession_on_date($self->date) ];
-}
-
-sub get_succession {
-  my $self = shift;
-
-  my $succ = {
-    sovereign => $self->sovereign->name,
-  };
-
-  for (@{$self->succession}) {
-    push @{ $succ->{succ} }, $_->name;
-  }
-
-  return $succ;
-}
-
-sub get_succession_json {
-  my $self = shift;
-
-  my $succ = {
-    sovereign => $self->sovereign->name,
-  };
-
-  my $i = 1;
-  my @succ = map {{
-    number => $i++,
-    name   => $_->name,
-    born   => $_->born->ymd,
-    age    => $_->age_on_date,
-  }} @{ $self->succession };
-
-  $succ->{successors} = \@succ;
-
-  return encode_json($succ);
 }
 
 around BUILDARGS => sub {

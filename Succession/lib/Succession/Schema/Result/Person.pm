@@ -273,7 +273,9 @@ sub age_on_date {
   my $self = shift;
   my ($date) = @_;
 
-  my $age = DateTime->now - $self->born;
+  $date //= DateTime->now;
+
+  my $age = $date - $self->born;
   return $age->years;
 }
 
