@@ -1,4 +1,12 @@
 <% USE Dumper -%>
+    <% IF error -%>
+    <div class="alert alert-danger alert-dismissable fade show">
+    <% error %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <% END -%>
     <h1>Line of Succession: <% date.strftime('%d %B %Y') %></h1>
 
     <p>Sovereign: <% sovereign.person.name %></p>

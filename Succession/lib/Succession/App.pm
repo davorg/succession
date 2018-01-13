@@ -44,6 +44,15 @@ sub _build_date {
   return DateTime->now;
 }
 
+has earliest => (
+  is => 'ro',
+  isa => 'DateTime',
+  required => 1,
+  default => sub { DateTime::Format::Strptime->new(
+    pattern => '%Y-%m-%d'
+  )->parse_datetime('1952-02-06') },
+);
+
 has sovereign => (
   is => 'ro',
   isa => 'Succession::Schema::Result::Sovereign',
@@ -76,5 +85,15 @@ around BUILDARGS => sub {
     return $class->$orig(@_);
   }
 };
+
+sub too_early {
+  my $self = shift;
+  return $self->date < $self->earliest;
+}
+
+sub too_late {
+  my $self = shift;
+  return DateTime->now < $self->date;
+}
 
 1;
