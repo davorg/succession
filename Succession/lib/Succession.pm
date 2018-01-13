@@ -7,6 +7,12 @@ our $VERSION = '0.1';
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   my ($date) = splat;
+
+  unless ($date) {
+    my $p = query_parameters;
+    $date = $p->get('date');
+  }
+
   my $app = Succession::App->new($date // ());
 
   my $date_err;
