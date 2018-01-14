@@ -1,11 +1,11 @@
-(54)HM King Edward VII:9 November 1841:6 May 1910
-(65)* HRH Prince Albert Victor, Duke of Clarence and Avondale:8 January 1864:14 January 1892
-(21)* HM King George V:3 June 1865:20 January 1936
-(67)* HRH The Princess Louise, Princess Royal, Duchess of Fife:20 February 1867:4 January 1931
+(54)King Edward VII:9 November 1841:6 May 1910
+(65)* Prince Albert Victor, Duke of Clarence and Avondale:8 January 1864:14 January 1892
+(21)* King George V:3 June 1865:20 January 1936
+(67)* The Princess Louise, Princess Royal, Duchess of Fife:20 February 1867:4 January 1931
 ** Alastair Duff, Marquess of Macduff:16 June 1890:16 June 1890
-** HRH Princess Arthur of Connaught, Duchess of Fife:17 May 1891:26 February 1959
+** Princess Arthur of Connaught, Duchess of Fife:17 May 1891:26 February 1959
 *** Alastair Windsor, 2nd Duke of Connaught and Strathearn:9 August 1914:26 April 1943
-** HH Princess Maud, Countess of Southesk:3 April 1893:14 December 1945
+** Princess Maud, Countess of Southesk:3 April 1893:14 December 1945
 *** James Carnegie, 3rd Duke of Fife:23 September 1929:22 June 2015
 **** Lady Alexandra Clare Carnegie:20 June 1959:
 ***** Amelia Mary Carnegie Etherington:24 December 2001
@@ -13,8 +13,8 @@
 ***** Charles Duff Carnegie, Earl of Southesk:1 July 1989:
 ***** Lord George William Carnegie:23 March 1991:
 ***** Lord Hugh Alexander Carnegie:10 June 1993:
-(69)* HRH The Princess Victoria:6 July 1868:3 December 1935
-(69)* HM Queen Maud of Norway:26 November 1869:20 November 1938
+(69)* The Princess Victoria:6 July 1868:3 December 1935
+(69)* Queen Maud of Norway:26 November 1869:20 November 1938
 ** Olaf V of Norway:2 July 1903:17 January 1991
 *** Princess Ragnhild of Norway:9 June 1930:16 September 2012
 **** Haakon Lorentzen:23 August 1954:
@@ -39,4 +39,4 @@
 **** Crown Prince Haakon Magnus: 20 July 1973:
 ***** Princess Ingrid Alexandra:21 January 2004:
 ***** Prince Sverre Magnus:3 December 2005
-(67)* HRH Prince Alexander John of Wales:6 April 1871:7 April 1871
+(67)* Prince Alexander John of Wales:6 April 1871:7 April 1871
