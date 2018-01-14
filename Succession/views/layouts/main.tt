@@ -30,10 +30,10 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <!-- li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
-          <!-- li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
           <li class="nav-item">
@@ -49,11 +49,10 @@
           </li -->
         </ul>
         <form class="form-inline my-2 my-lg-0" method="get" action="/">
-          Date:
           <input class="form-control mr-sm-2" type="date" name="date" id="date"
             placeholder="" min="<% app.earliest.strftime('%Y-%m-%d') %>"
             max="<% app.today.strftime('%Y-%m-%d') %>" aria-label="Date">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Change</button>
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Change Date</button>
         </form>
       </div>
     </nav>
