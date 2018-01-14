@@ -9,7 +9,9 @@
     <% END -%>
     <h1>Line of Succession: <% date.strftime('%d %B %Y') %></h1>
 
-    <p>Sovereign: <% sovereign.person.name %></p>
+    <p>Sovereign: <% sovereign.person.name %>
+     <span class="born">b. <% sovereign.person.born.strftime('%d %b %Y') %>,
+      Aged <% sovereign.person.age_on_date(date) %></span></p>
     <ol>
 <% FOR person IN succession %>
       <li><% person.name_on_date(date) %>
