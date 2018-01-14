@@ -1,7 +1,7 @@
-(54)King Edward VII:9 November 1841:6 May 1910
-(65)* Prince Albert Victor, Duke of Clarence and Avondale:8 January 1864:14 January 1892
+(65)King Edward VII:9 November 1841:6 May 1910
+(66)* Prince Albert Victor, Duke of Clarence and Avondale:8 January 1864:14 January 1892
 (21)* King George V:3 June 1865:20 January 1936
-(67)* The Princess Louise, Princess Royal, Duchess of Fife:20 February 1867:4 January 1931
+(68)* The Princess Louise, Princess Royal, Duchess of Fife:20 February 1867:4 January 1931
 ** Alastair Duff, Marquess of Macduff:16 June 1890:16 June 1890
 ** Princess Arthur of Connaught, Duchess of Fife:17 May 1891:26 February 1959
 *** Alastair Windsor, 2nd Duke of Connaught and Strathearn:9 August 1914:26 April 1943
@@ -14,7 +14,7 @@
 ***** Lord George William Carnegie:23 March 1991:
 ***** Lord Hugh Alexander Carnegie:10 June 1993:
 (69)* The Princess Victoria:6 July 1868:3 December 1935
-(69)* Queen Maud of Norway:26 November 1869:20 November 1938
+(70)* Queen Maud of Norway:26 November 1869:20 November 1938
 ** Olaf V of Norway:2 July 1903:17 January 1991
 *** Princess Ragnhild of Norway:9 June 1930:16 September 2012
 **** Haakon Lorentzen:23 August 1954:
