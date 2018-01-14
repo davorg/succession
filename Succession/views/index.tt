@@ -9,9 +9,9 @@
     <% END -%>
     <h1>Line of Succession: <% app.date.strftime('%d %B %Y') %></h1>
 
-    <p>Sovereign: <% app.sovereign.person.name %>
+    <h2>Sovereign: <% app.sovereign.person.name %>
      <span class="born">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
-      Aged <% app.sovereign.person.age_on_date(app.date) %></span></p>
+      Aged <% app.sovereign.person.age_on_date(app.date) %></span></h2>
     <ol>
 <% FOR person IN app.succession %>
       <li><% person.name_on_date(app.date) %>
