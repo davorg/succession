@@ -12,7 +12,7 @@
     <p>Sovereign: <% sovereign.person.name %></p>
     <ol>
 <% FOR person IN succession %>
-      <li><% person.name %>
+      <li><% person.name_on_date(date) %>
         <br><span class="born">b. <% person.born.strftime('%d %b %Y') %>,
         Aged <% person.age_on_date(date) %></span></li>
 <%   LAST IF loop.count == 20 -%>
