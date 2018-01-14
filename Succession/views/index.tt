@@ -7,8 +7,7 @@
      </button>
     </div>
     <% END -%>
-    <h1>Line of Succession:
-      <br><% date.strftime('%d %B %Y') %></h1>
+    <h1>Line of Succession: <% app.date.strftime('%d %B %Y') %></h1>
 
     <p>Sovereign: <% app.sovereign.person.name %>
      <span class="born">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
