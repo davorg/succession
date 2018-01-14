@@ -17,6 +17,7 @@ my $dt_parser = DateTime::Format::Strptime->new(
 
 my @person;
 my $order = 1;
+my $prev_level = 0;
 
 while (<>) {
   my $person_id = 0;
@@ -33,6 +34,13 @@ while (<>) {
     s/^\*+ //;
   }
 
+  if ($level == $prev_level) {
+    $order++;
+  } else {
+    $order = 1;
+  }
+  $prev_level = $level;
+
   my ($name, $born, $died) = split /:/;
 
   $born = $dt_parser->parse_datetime($born) if defined $born;
@@ -45,7 +53,7 @@ while (<>) {
       born => $born,
       died => $died,
       parent => $person[$level - 1]->id,
-      family_order => $order++,
+      family_order => $order,
     });
     $person[$level]->add_to_titles({
       title => $name,
