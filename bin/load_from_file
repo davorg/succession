@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use DateTime::Format::Strptime;
+
+use Succession::Schema;
+
+my $sch = Succession::Schema->get_schema;
+my $rs  = $sch->resultset('Person');
+
+my $dt_parser = DateTime::Format::Strptime->new(
+  pattern => '%d %B %Y',
+);
+
+my @person;
+my $order = 1;
+
+while (<>) {
+  my $person_id = 0;
+
+  if (/^\((\d+)\)/) {
+    $person_id = $1;
+    s/^\((\d+)\)//;
+  }
+
+  my $level = 0;
+
+  if (/^(\*+) /) {
+    $level = length $1;
+    s/^\*+ //;
+  }
+
+  my ($name, $born, $died) = split /:/;
+
+  $born = $dt_parser->parse_datetime($born) if defined $born;
+  $died = $dt_parser->parse_datetime($died) if defined $died;
+
+  if ($person_id) {
+    $person[$level] = $rs->find($person_id);
+  } else {
+    $person[$level] = $rs->create({
+      born => $born,
+      died => $died,
+      parent => $person[$level - 1]->id,
+      family_order => $order++,
+    });
+    $person[$level]->add_to_titles({
+      title => $name,
+      start => $born,
+      end   => $died,
+      is_default => 1,
+    });
+  }
+
+  say "[$person_id] $level: $name";
+}
