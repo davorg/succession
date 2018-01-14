@@ -259,10 +259,10 @@ sub describe {
 
   my $desc = $self->name_on_date($date) .
     ' (born ' . $self->born->strftime($fmt);
-  if (defined $self->died) {
-    $desc .= ', died ' . $self->died->strftime($fmt);
+  if (defined $self->is_alive_on_date($date)) {
+    $desc .= ', age ' . $self->age_on_date($date);
   } else {
-    $desc .= ', age ' . $self->age_on_date;
+    $desc .= ', died ' . $self->died->strftime($fmt);
   }
   $desc .= ')';
 
