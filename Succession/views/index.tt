@@ -10,14 +10,14 @@
     <h1>Line of Succession:
       <br><% date.strftime('%d %B %Y') %></h1>
 
-    <p>Sovereign: <% sovereign.person.name %>
-     <span class="born">b. <% sovereign.person.born.strftime('%d %b %Y') %>,
-      Aged <% sovereign.person.age_on_date(date) %></span></p>
+    <p>Sovereign: <% app.sovereign.person.name %>
+     <span class="born">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
+      Aged <% app.sovereign.person.age_on_date(app.date) %></span></p>
     <ol>
-<% FOR person IN succession %>
-      <li><% person.name_on_date(date) %>
+<% FOR person IN app.succession %>
+      <li><% person.name_on_date(app.date) %>
         <br><span class="born">b. <% person.born.strftime('%d %b %Y') %>,
-        Aged <% person.age_on_date(date) %></span></li>
+        Aged <% person.age_on_date(app.date) %></span></li>
 <%   LAST IF loop.count == 20 -%>
 <% END -%>
     </ol>

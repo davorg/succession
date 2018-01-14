@@ -11,7 +11,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
 
-    <title>Hello, world!</title>
+    <title>Line of Succession</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56332-63"></script>
     <script>
@@ -48,9 +48,12 @@
             </div>
           </li -->
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline my-2 my-lg-0" method="get" action="/">
+          Date:
+          <input class="form-control mr-sm-2" type="date" name="date" id="date"
+            placeholder="" min="<% app.earliest.strftime('%Y-%m-%d') %>"
+            max="<% app.today.strftime('%Y-%m-%d') %>" aria-label="Date">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Change</button>
         </form>
       </div>
     </nav>

@@ -29,10 +29,8 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   }
 
   template 'index', {
-    date       => $app->date,
-    sovereign  => $app->sovereign,
-    succession => $app->succession,
-    error      => $date_err,
+    app   => $app,
+    error => $date_err,
   };
 };
 

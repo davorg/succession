@@ -44,6 +44,17 @@ sub _build_date {
   return DateTime->now;
 }
 
+has today => (
+  is => 'ro',
+  isa => 'SuccessionDate',
+  lazy_build => 1,
+  coerce => 1,
+);
+
+sub _build_today {
+  return DateTime->today;
+}
+
 has earliest => (
   is => 'ro',
   isa => 'DateTime',
