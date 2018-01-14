@@ -61,7 +61,7 @@ has earliest => (
   required => 1,
   default => sub { DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
-  )->parse_datetime('1910-05-10') },
+  )->parse_datetime('1910-05-06') },
 );
 
 has sovereign => (
