@@ -19,13 +19,13 @@
         Aged <% person.age_on_date(app.date) %></span></li>
 <%   LAST IF loop.count == 20 -%>
 <% END -%>
+    </ol>
     <% IF app.succession.size < 20 -%>
     <div class="alert alert-danger alert-dismissable fade show">
     We don't have twenty people to go here yet.
-    We obviously need more date. Apologies for that.
+    We obviously need more data. Apologies for that.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
        <span aria-hidden="true">&times;</span>
      </button>
     </div>
     <% END -%>
-    </ol>
