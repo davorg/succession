@@ -62,6 +62,7 @@
 
       <div class="starter-template">
 <% content %>
+      <!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_native_toolbox"></div>
       </div>
     </main>
 
@@ -70,6 +71,8 @@
         <span class="text-muted">Made by <a href="https://twitter.com/davorg">@davorg</a> / Code <a href="https://github.com/davorg/succession/">on Github</a></span>
       </div>
     </footer>
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools --> <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56165a02d0fe210e"></script
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
