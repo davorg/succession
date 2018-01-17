@@ -41,7 +41,7 @@ has date => (
 );
 
 sub _build_date {
-  return DateTime->now;
+  return DateTime->today;
 }
 
 has today => (

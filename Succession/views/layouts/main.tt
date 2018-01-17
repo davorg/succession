@@ -12,7 +12,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
 
-    <title>Line of Succession</title>
+    <title>Line of Succession<% IF app.date != app.today %> on <% app.date.strftime('%d %B %Y'); END %></title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56332-63"></script>
     <script>
@@ -23,6 +23,10 @@
     </script>
   </head>
   <body>
+<! -- <% app %>
+      <% app.date %>
+      <% app.today %>
+      <% app.model %> -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <a class="navbar-brand" href="#">Line of Succession</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
