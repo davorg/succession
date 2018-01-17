@@ -9,7 +9,7 @@
     <% END -%>
     <h1>Line of Succession: <% app.date.strftime('%d %B %Y') %></h1>
 
-    <h2>Sovereign: <% app.sovereign.person.name %>
+    <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span>
      <span class="born">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
       Aged <% app.sovereign.person.age_on_date(app.date) %></span></h2>
     <ol>
