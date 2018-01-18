@@ -1,4 +1,4 @@
-#!/usr/bin/perl -CS
+#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -6,13 +6,30 @@ use 5.010;
 
 use Succession::App;
 
-my $app  = Succession::App->new;
+my $app = Succession::App->new;
+
 my $date = $app->earliest;
 
-my %prev_succ = ();
-while ($date <= $date->today ) {
-  my %succ = map { $_->id => 1 } @{ $app->succession };
-  $#succ = 19 if @succ > 20;
-  $date->add(days => 1);
-}
+my $prev_succ_str = '';
+my $prev_year = 0;
 
+while ($date <= $app->today) {
+  if ($date->year != $prev_year) {
+    warn 'Starting ', $date->year, "\n";
+    $prev_year = $date->year;
+  }
+  $app = Succession::App->new( date => $date );
+
+  my @succ = @{ $app->succession };
+
+  $#succ = 19 if @succ > 20;
+
+  my $succ_str = join ':', map { $_->id } @succ;
+
+  if ($succ_str ne $prev_succ_str) {
+    say $date->ymd;
+    $prev_succ_str = $succ_str;
+  }
+
+  $date->add( days => 1 );
+}
