@@ -17,7 +17,7 @@ Daemon::Control->new({
  
   program      => '/usr/bin/starman',
   program_args => [ '--workers', 10, '-l', ':2000',
-                    dirname(abs_path($0)) . '../Succession/bin/app.psgi' ],
+                    dirname(abs_path($0)) . '/../Succession/bin/app.psgi' ],
  
   user  => 'davorg',
   group => 'psacln',
