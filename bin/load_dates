@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use DateTime::Format::Strptime;
+
+use Succession::Schema;
+
+my $dtp = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d');
+my $rs  = Succession::Schema->get_schema->resultset('ChangeDate');
+
+while (<>) {
+  chomp;
+  my $date = $dtp->parse_datetime($_);
+
+  $rs->create({change_date => $date});
+}

@@ -20,7 +20,7 @@ create table sovereign (
   foreign key (person_id) references person(id)
 );
 
-dopr table if exists title;
+drop table if exists title;
 
 create table title (
   id integer primary key auto_increment,
@@ -30,4 +30,11 @@ create table title (
   person_id integer not null,
   is_default smallint not null default 0,
   foreign key (person_id) references person(id)
+);
+
+drop table if exists change_date;
+
+create table change_date (
+  id integer primary key  auto_increment,
+  change_date date
 );
