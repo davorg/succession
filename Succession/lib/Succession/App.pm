@@ -107,4 +107,8 @@ sub too_late {
   return DateTime->now < $self->date;
 }
 
+sub canonical_date {
+  return $_[0]->model->get_canonical_date($_[0]->date);
+}
+
 1;

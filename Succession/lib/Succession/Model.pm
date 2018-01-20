@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Moose;
+use DateTime;
 use Succession::Schema;
 
 has schema => (
@@ -25,6 +26,16 @@ has sovereign_rs => (
 
 sub _build_sovereign_rs {
   return $_[0]->schema->resultset('Sovereign');
+}
+
+has change_date_rs => (
+  is => 'ro',
+  isa => 'DBIx::Class::ResultSet',
+  lazy_build =>  1,
+);
+
+sub _build_change_date_rs {
+  return $_[0]->schema->resultset('ChangeDate');
 }
 
 has sovereign => (
@@ -83,6 +94,28 @@ sub get_succession_json {
   $succ->{successors} = \@succ;
 
   return encode_json($succ);
+}
+
+sub get_canonical_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $max_date = $self->change_date_rs->get_column('change_date')->max;
+
+  my $search_date =
+    $self->schema->storage->datetime_parser->format_datetime($date);
+
+  my ($canon_date) = $self->change_date_rs->search({
+    change_date => { '<=', $search_date },
+  },{
+    order_by => { -desc => 'change_date' },
+  });
+
+  if ($canon_date->change_date->strftime('%Y-%m-%d') eq $max_date) {
+    return '';
+  } else {
+    return $canon_date->change_date->strftime('%Y-%m-%d');
+  }
 }
 
 1;
