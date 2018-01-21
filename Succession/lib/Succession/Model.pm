@@ -111,6 +111,9 @@ sub get_canonical_date {
     order_by => { -desc => 'change_date' },
   });
 
+  # TODO: Remove hack!
+  return '' unless $canon_date;
+
   if ($canon_date->change_date->strftime('%Y-%m-%d') eq $max_date) {
     return '';
   } else {
