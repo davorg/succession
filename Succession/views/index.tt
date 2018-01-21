@@ -16,7 +16,8 @@
 <% FOR person IN app.succession %>
       <li itemscope itemtype="http://schema.org/Person"><span itemprop="name"><% person.name_on_date(app.date) %></span>
         <br><span class="born">b. <% person.born.strftime('%d %b %Y') %>,
-        Aged <% person.age_on_date(app.date) %></span></li>
+        Aged <% person.age_on_date(app.date) %>
+        <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
 <%   LAST IF loop.count == 20 -%>
 <% END -%>
     </ol>

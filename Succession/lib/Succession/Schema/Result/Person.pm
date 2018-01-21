@@ -67,6 +67,13 @@ __PACKAGE__->table("person");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 sex
+
+  data_type: 'enum'
+  default_value: 'm'
+  extra: {list => ["m","f"]}
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -80,6 +87,13 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "family_order",
   { data_type => "integer", is_nullable => 1 },
+  "sex",
+  {
+    data_type => "enum",
+    default_value => "m",
+    extra => { list => ["m", "f"] },
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -162,13 +176,15 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-12-18 17:36:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iKDi45Y/ZjGOPwSwZk26fA
+# Created by DBIx::Class::Schema::Loader v0.07047 @ 2018-01-21 13:58:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Gj8T/y8Q7MKfja1PZk0tsA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
 use DateTime;
+use List::Util qw[first];
+use List::MoreUtils qw[firstidx];
 
 sub printlog {
   print @_ if 0;
@@ -309,6 +325,94 @@ sub name_on_date {
     start => { '<=' => $fmt_date },
     end   => { '>=' => $fmt_date },
   }])->first->title;
+}
+
+sub ancestors {
+  my $self = shift;
+
+  if ($self->parent) {
+    return ($self, $self->parent->ancestors);
+  } else {
+    return $self;
+  }
+}
+
+sub most_recent_common_ancestor_with {
+  my $self = shift;
+  my ($person) = @_;
+
+  my @my_ancestors = $self->ancestors;
+
+  if (my $anc = first { $_->id == $person->id } @my_ancestors) {
+    return $anc;
+  }
+
+  my @their_ancestors = $person->ancestors;
+
+  if (my $anc = first { $_->id == $self->id } @their_ancestors) {
+    return $anc;
+  }
+
+  for my $my_anc (@my_ancestors) {
+    for my $their_anc (@their_ancestors) {
+      return $my_anc if $my_anc->id == $their_anc->id;
+    }
+  }
+
+  die "Can't find a common ancestor.\n";
+}
+
+sub relationship_with {
+  my $self = shift;
+  my ($person) = @_;
+
+  our $relationships = {
+    m => [
+    [ undef, 'Father', 'Grandfather', 'Great grandfather' ],
+    ['Son', 'Brother', 'Uncle', 'Great uncle' ],
+    ['Grandson', 'Nephew', 'First cousin', 'First cousin once removed'],
+    ['Great grandson', 'Great nephew', 'First cousin once removed', 'Second cousin'],
+    ],
+    f => [
+    [ undef, 'Mother', 'Grandmother', 'Great grandmother' ],
+    ['Daughter', 'Sister', 'Aunt', 'Great aunt' ],
+    ['Granddaughter', 'Niece', 'First cousin', 'First cousin once removed'],
+    ['Great granddaughter', 'Great niece', 'First cousin once removed', 'Second cousin'],
+    ],
+  };
+
+  my ($x, $y) = $self->get_relationship_coords($person);
+
+  return $relationships->{$self->sex}[$x][$y] // join '/', ($x, $y);
+}
+
+sub get_relationship_coords {
+  my $self = shift;
+  my ($person) = @_;
+
+  my @my_ancestors = $self->ancestors;
+
+  my $idx = firstidx { $_->id == $person->id } @my_ancestors;
+  return ($idx, 0) if $idx != -1;
+
+  my @their_ancestors = $person->ancestors;
+
+  $idx = firstidx { $_->id == $self->id } @their_ancestors;
+  return (0, $idx) if $idx != -1;
+
+  for my $i (0 .. $#my_ancestors) {
+    for my $j (0 .. $#their_ancestors) {
+      return ($i, $j) if $my_ancestors[$i]->id == $their_ancestors[$j]->id;
+    }
+  }
+
+  die "Can't work out the relationship.\n";
+}
+
+sub anc_string {
+  my $self = shift;
+
+  return join ' / ', map { $_->name } $self->ancestors;
 }
 
 __PACKAGE__->meta->make_immutable;
