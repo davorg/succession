@@ -60,6 +60,7 @@
               <a class="dropdown-item<% active_date('1936-01-20') %>" href="/1936-01-20">20 January 1936<br><span class="small">Start of Edward VIII's reign</span></a>
               <a class="dropdown-item<% active_date('1935-12-11') %>" href="/1936-12-11">11 December 1936<br><span class="small">Start of George VI's reign></span></a>
               <a class="dropdown-item<% active_date('1952-02-06') %>" href="/1952-02-06">6 February 1952<br><span class="small">Start of Elizabeth II's reign</span></a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item<% active_date(app.today.strftime('%Y-%m-%d')) %>" href="/">Today</a>
             </div>
           </li>
