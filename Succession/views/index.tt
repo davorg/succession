@@ -10,12 +10,12 @@
     <h1>Line of Succession: <% app.date.strftime('%d %B %Y') %></h1>
 
     <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span>
-     <span class="born">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
+     <span class="small">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
       Aged <% app.sovereign.person.age_on_date(app.date) %></span></h2>
     <ol>
 <% FOR person IN app.succession %>
       <li itemscope itemtype="http://schema.org/Person"><span itemprop="name"><% person.name_on_date(app.date) %></span>
-        <br><span class="born">b. <% person.born.strftime('%d %b %Y') %>,
+        <br><span class="small">b. <% person.born.strftime('%d %b %Y') %>,
         Aged <% person.age_on_date(app.date) %>
         <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
 <%   LAST IF loop.count == 20 -%>
