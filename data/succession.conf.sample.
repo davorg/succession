@@ -1,0 +1,13 @@
+schema_class Succession::Schema
+
+<connect_info>
+  dsn	dbi:mysql:<some database>
+  user	<some user>
+  pass	<some password>
+</connect_info>
+
+<loader_options>
+  dump_directory	./Succession/lib
+  components    InflateColumn::DateTime
+  use_moose	1
+</loader_options>
