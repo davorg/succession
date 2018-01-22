@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use WWW::Wikipedia;
+use Data::Dumper;
+
+use Succession::Schema;
+
+my $person_rs = Succession::Schema->get_schema->resultset('Person');
+my $wp = WWW::Wikipedia->new;
+
+while (my $p = $person_rs->next) {
+  my $result = $wp->search($p->name);
+
+  unless ($result->{src}) {
+    warn $p->name, " / ", Dumper($result), "\n";
+    next;
+  }
+
+  my ($url) = $result->{src} =~ /title=(.*?)&/;
+
+  say "https://en.wikipedia.org/wiki/$url";
+}
