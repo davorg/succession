@@ -2,11 +2,13 @@ drop table if exists person;
 
 create table person (
   id integer primary key auto_increment,
-  name varchar(50) not null,
+  name varchar(100) not null,
   born date not null,
   died date,
   parent integer null,
   family_order integer,
+  wikipedia text,
+  slug varchar(100) not null,
   foreign key (parent) references person(id)
 );
 
