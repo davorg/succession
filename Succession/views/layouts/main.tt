@@ -24,7 +24,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
 
-    <title>Line of Succession<% IF app.date != app.today %> on <% app.date.strftime('%d %B %Y'); END %></title>
+    <title>British Line of Succession<% IF app.date != app.today %> on <% app.date.strftime('%d %B %Y'); END %></title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56332-63"></script>
     <script>
