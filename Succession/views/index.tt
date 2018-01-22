@@ -1,3 +1,10 @@
+<% MACRO link_date(the_date) BLOCK;
+   IF the_date < app.earliest;
+     the_date.strftime('%d %b %Y');
+   ELSE;
+     '<a href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%d %b %Y'); '</a>';
+   END;
+   END -%>
     <% IF error -%>
     <div class="alert alert-danger alert-dismissable fade show">
     <% error %>
@@ -9,7 +16,7 @@
     <h1>Line of Succession: <% app.date.strftime('%d %B %Y') %></h1>
 
     <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span>
-     <span class="small">b. <% app.sovereign.person.born.strftime('%d %b %Y') %>,
+     <span class="small">b. <% link_date(app.sovereign.person.born) %>,
       Aged <% app.sovereign.person.age_on_date(app.date) %></span></h2>
     <ol>
 <% FOR person IN app.succession %>
@@ -17,7 +24,7 @@
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
-        <br><span class="small">b. <% person.born.strftime('%d %b %Y') %>,
+        <br><span class="small">b. <% link_date(person.born) %>,
         Aged <% person.age_on_date(app.date) %>
         <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
 <%   LAST IF loop.count == 20 -%>
