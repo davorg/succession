@@ -1,4 +1,3 @@
-<% USE Dumper -%>
     <% IF error -%>
     <div class="alert alert-danger alert-dismissable fade show">
     <% error %>
