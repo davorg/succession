@@ -22,5 +22,5 @@ while (my $p = $person_rs->next) {
 
   my ($url) = $result->{src} =~ /title=(.*?)&/;
 
-  say "https://en.wikipedia.org/wiki/$url";
+  $p->update({ wikipedia => $url });
 }

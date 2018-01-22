@@ -11,5 +11,7 @@ use Succession::Schema;
 my $person_rs = Succession::Schema->get_schema->resultset('Person');
 
 while (my $p = $person_rs->next) {
-  say lc $p->name =~ s/\W+/-/gr;
+  my $slug = lc $p->name =~ s/\W+/-/gr;
+
+  $p->update({ slug => $slug });
 }
