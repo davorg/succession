@@ -24,8 +24,8 @@
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
-        <br><span class="small">b. <% link_date(person.born) %>,
-        Aged <% person.age_on_date(app.date) %>
+        <br><span class="small">Age <% person.age_on_date(app.date) %>
+        (born <% link_date(person.born) %>),
         <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
 <%   LAST IF loop.count == 20 -%>
 <% END -%>
