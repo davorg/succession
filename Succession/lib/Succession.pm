@@ -20,6 +20,12 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
     $date = undef;
   }
 
+  if (defined $date and !Succession::App->is_valid_date($date)) {
+    $date_err = "$date is not a valid date";
+    warn $date_err, "\n";
+    $date = undef;
+  }
+
   my $app = Succession::App->new($date // ());
 
   if ($app->too_early) {

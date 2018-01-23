@@ -107,6 +107,14 @@ sub too_late {
   return DateTime->now < $self->date;
 }
 
+sub is_valid_date {
+  my $self = shift;
+
+  return !! DateTime::Format::Strptime->new(
+    pattern => '%Y-%m-%d'
+  )->parse_datetime($_[0]);
+}
+
 sub canonical_date {
   return $_[0]->model->get_canonical_date($_[0]->date);
 }
