@@ -383,16 +383,18 @@ sub relationship_with {
 
   our $relationships = {
     m => [
-    [ undef, 'Father', 'Grandfather', 'Great grandfather' ],
-    ['Son', 'Brother', 'Uncle', 'Great uncle' ],
-    ['Grandson', 'Nephew', 'First cousin', 'First cousin once removed'],
-    ['Great grandson', 'Great nephew', 'First cousin once removed', 'Second cousin'],
+    [ undef, 'Father', 'Grandfather', 'Great grandfather', 'Great, great grandfather' ],
+    ['Son', 'Brother', 'Uncle', 'Great uncle', 'Great, great uncle' ],
+    ['Grandson', 'Nephew', 'First cousin', 'First cousin once removed', 'First cousin twice removed' ],
+    ['Great grandson', 'Great nephew', 'First cousin once removed', 'Second cousin', 'Second cousin once removed'],
+    ['Great, great grandson', 'Great, great nephew', 'First cousin twice removed', 'Second cousin once removed', 'Third cousin',],
     ],
     f => [
-    [ undef, 'Mother', 'Grandmother', 'Great grandmother' ],
-    ['Daughter', 'Sister', 'Aunt', 'Great aunt' ],
-    ['Granddaughter', 'Niece', 'First cousin', 'First cousin once removed'],
-    ['Great granddaughter', 'Great niece', 'First cousin once removed', 'Second cousin'],
+    [ undef, 'Mother', 'Grandmother', 'Great grandmother', 'Great, great grandmother' ],
+    ['Daughter', 'Sister', 'Aunt', 'Great aunt', 'Great, great aunt' ],
+    ['Granddaughter', 'Niece', 'First cousin', 'First cousin once removed', 'First cousin twice removed'],
+    ['Great granddaughter', 'Great niece', 'First cousin once removed', 'Second cousin', 'Second cousin once removed'],
+    ['Great, great granddaughter', 'Great, great niece', 'First cousin twice removed', 'Second cousin once removed', 'Third cousin',],
     ],
   };
 
