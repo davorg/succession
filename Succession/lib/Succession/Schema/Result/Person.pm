@@ -327,7 +327,7 @@ sub name_on_date {
   my $dtf      = $self->result_source->storage->datetime_parser;
   my $fmt_date = $dtf->format_datetime($date);
 
-  return $self->titles([{
+  my $name = $self->titles([{
     start => undef,
     end   => undef,
   },{
@@ -339,7 +339,13 @@ sub name_on_date {
   },{
     start => { '<=' => $fmt_date },
     end   => { '>=' => $fmt_date },
-  }])->first->title;
+  }])->first;
+
+  if ($name) {
+    return $name->title;
+  } else {
+    return $self->name;
+  }
 }
 
 sub ancestors {
