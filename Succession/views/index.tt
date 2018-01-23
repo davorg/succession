@@ -2,7 +2,7 @@
    IF the_date < app.earliest;
      the_date.strftime('%d %b %Y');
    ELSE;
-     '<a href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%d %b %Y'); '</a>';
+     '<a title="Line of Succession on '; the_date.strftime('%d %B %Y'); '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%d %B %Y'); '</a>';
    END;
    END -%>
     <% IF error -%>
