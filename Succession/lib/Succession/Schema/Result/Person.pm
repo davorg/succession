@@ -313,7 +313,11 @@ sub age_on_date {
 sub name {
   my $self = shift;
 
-  return $self->titles({ is_default => 1})->first->title;
+  if (my $title = $self->titles({ is_default => 1})->first) {
+    return $title->title;
+  } else {
+    return 'XXX';
+  }
 }
 
 sub name_on_date {
