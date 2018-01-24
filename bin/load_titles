@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use DateTime::Format::Strptime;
+
+use Succession::Schema;
+
+my $dtp = DateTime::Format::Strptime->new(pattern => '%d %B %Y');
+
+my $rs = Succession::Schema->get_schema->resultset('Person');
+
+my $p;
+
+while (<>) {
+  chomp;
+
+  if (/^(\d+)$/) {
+    $p = $rs->find($1);
+    say $p->name;
+    $p->titles->delete;
+    next;
+  }
+
+  my ($title, $start, $end, $is_default) = split /:/;
+
+  my $start_dt = $dtp->parse_datetime($start);
+  my $end_dt   = $dtp->parse_datetime($end);
+  $is_default //= 0;
+
+  say join ' / ', $title, ($start_dt // ''), ($end_dt // ''), ($is_default // 0);
+
+  $p->add_to_titles({
+    title => $title,
+    start => $start_dt,
+    end   => $end_dt,
+    is_default => $is_default,
+  });
+}
