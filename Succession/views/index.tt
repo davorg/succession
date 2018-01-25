@@ -18,9 +18,9 @@
     <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span><br>
      <span class="small">Age <% app.sovereign.person.age_on_date(app.date) %>
      (born <% link_date(app.sovereign.person.born) %>)</span></h2>
-    <ol>
+    <ul>
 <% FOR person IN app.succession %>
-      <li itemscope itemtype="http://schema.org/Person"><span itemprop="name"><% person.name_on_date(app.date) %></span>
+      <li itemscope itemtype="http://schema.org/Person"><b><% loop.count %>.</b> <span itemprop="name"><% person.name_on_date(app.date) %></span>
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
@@ -29,7 +29,7 @@
         <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
 <%   LAST IF loop.count == 20 -%>
 <% END -%>
-    </ol>
+    </ul>
     <% IF app.succession.size < 20 -%>
     <div class="alert alert-danger alert-dismissable fade show">
     We don't have twenty people to go here yet.
