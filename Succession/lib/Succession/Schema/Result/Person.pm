@@ -249,7 +249,11 @@ sub succession_on_date {
   my @living_desc = grep { $_->is_alive_on_date($date) } @desc;
   printlog "Now we have ", scalar @living_desc, " descendants\n";
 
-  return @living_desc;
+  printlog "Checking for exclusions\n";
+  my @succession = grep { ! $_->excluded_on_date($date) } @living_desc;
+  printlog "Now we have ", scalar @succession, " descendants\n";
+
+  return @succession;
 }
 
 sub younger_siblings_and_descendants {
@@ -365,6 +369,31 @@ sub name_on_date {
   } else {
     return $self->name;
   }
+}
+
+sub excluded_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $dtf      = $self->result_source->storage->datetime_parser;
+  my $fmt_date = $dtf->format_datetime($date);
+
+  my $exc = $self->exclusions([{
+    start => undef,
+    end   => undef,
+  },{
+    start => undef,
+    end   => { '>=' => $fmt_date },
+  },{
+    start => { '<=' => $fmt_date },
+    end   => undef,
+  },{
+    start => { '<=' => $fmt_date },
+    end   => { '>=' => $fmt_date },
+  }])->first;
+
+  return unless $exc;
+  return $exc->reason;
 }
 
 sub ancestors {
