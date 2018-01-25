@@ -82,7 +82,7 @@ __PACKAGE__->table("person");
 =head2 slug
 
   data_type: 'varchar'
-  is_nullable: 0
+  is_nullable: 1
   size: 100
 
 =cut
@@ -108,7 +108,7 @@ __PACKAGE__->add_columns(
   "wikipedia",
   { data_type => "text", is_nullable => 1 },
   "slug",
-  { data_type => "varchar", is_nullable => 0, size => 100 },
+  { data_type => "varchar", is_nullable => 1, size => 100 },
 );
 
 =head1 PRIMARY KEY
@@ -124,6 +124,21 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 exclusions
+
+Type: has_many
+
+Related object: L<Succession::Schema::Result::Exclusion>
+
+=cut
+
+__PACKAGE__->has_many(
+  "exclusions",
+  "Succession::Schema::Result::Exclusion",
+  { "foreign.person_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
 
 =head2 parent
 
@@ -191,8 +206,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07047 @ 2018-01-22 19:20:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:abM6MUxFzxm15QSRQAM45Q
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2018-01-25 09:04:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ddaCctoH4K+ljm7VE6jMCg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
