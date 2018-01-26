@@ -19,7 +19,8 @@
      <span class="small">Age <% app.sovereign.person.age_on_date(app.date) %>
      (born <% link_date(app.sovereign.person.born) %>)</span></h2>
     <ol>
-<% FOR person IN app.succession %>
+<% count = 0;
+   FOR person IN app.succession -%>
       <li <% IF person.excluded_on_date(app.date) %>class="disable" <% END %>itemscope itemtype="http://schema.org/Person"><span itemprop="name"><% person.name_on_date(app.date) %></span>
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
@@ -27,7 +28,11 @@
         <br><span class="small">Age <% person.age_on_date(app.date) %>
         (born <% link_date(person.born) %>),
         <br><% person.relationship_with(app.sovereign.person) %> of the sovereign</span></li>
-<%   LAST IF loop.count == 20 -%>
+<% IF NOT person.excluded_on_date(app.date);
+     count = count + 1;
+   END -%>
+<!-- <% count %> -->
+<%   LAST IF count >= 20 -%>
 <% END -%>
     </ol>
     <% IF app.succession.size < 20 -%>
