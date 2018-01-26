@@ -249,11 +249,7 @@ sub succession_on_date {
   my @living_desc = grep { $_->is_alive_on_date($date) } @desc;
   printlog "Now we have ", scalar @living_desc, " descendants\n";
 
-  printlog "Checking for exclusions\n";
-  my @succession = grep { ! $_->excluded_on_date($date) } @living_desc;
-  printlog "Now we have ", scalar @succession, " descendants\n";
-
-  return @succession;
+  return @living_desc;
 }
 
 sub younger_siblings_and_descendants {
