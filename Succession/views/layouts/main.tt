@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="See the Line of Succession to the British Throne on any day in the last 100 years.">
 
-    <link rel="alternate" href="https://lineofsuccession.co.uk/" hreflang="en-gb" />
+    <link rel="alternate" href="https://lineofsuccession.co.uk/<% app.page_date %>" hreflang="en-gb" />
 
-    <link rel="canonical" href="https://lineofsuccession.co.uk/<% app.canonical_date%>" />
+    <link rel="canonical" href="https://lineofsuccession.co.uk/<% app.canonical_date %>" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">

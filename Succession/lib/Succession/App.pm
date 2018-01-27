@@ -119,4 +119,12 @@ sub canonical_date {
   return $_[0]->model->get_canonical_date($_[0]->date);
 }
 
+sub page_date {
+  my $self = shift;
+
+  return '' unless $self->date;
+  return '' if $self->date == $self->today;
+  return $self->date->strftime('%Y-%m-%d');
+}
+
 1;
