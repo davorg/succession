@@ -1,0 +1,246 @@
+Queen Victoria:24 May 1819:22 January 1901:f:1
+* Victoria, Princess Royal:21 November 1840:5 August 1901:f:5
+** Kaiser Wilhelm II:27 January 1859:4 June 1941:m:1
+*** Crown Prince Wilhelm:6 May 1882:20 July 1951:m:1
+**** Prince Wilhelm of Prussia:4 July 1906:26 May 1940:m:1
+**** Louis Ferdinand, Prince of Prussia:9 November 1907:26 September 1994:m:2
+**** Prince Hubertus of Prussia:30 September 1909:8 April 1950:m:3
+**** Prince Frederick of Prussia:19 December 1911:20 April 1966:m:4
+**** Princess Alexandrine of Prussia:7 April 1915:2 October 1980:f:5
+**** Princess Cecilie of Prussia:5 September 1971:21 April 1975:f:6
+*** Prince Eitel Friedrich of Prussia:7 July 1883:8 December 1942:m:2
+*** Prince Adalbert of Prussia:14 July 1884:22 September 1948:m:3
+**** Princess Victoria Marina of Prussia:11 September 1917:21 January 1981:f:2
+**** Prince Wilhelm Victor of Prussia:15 February 1919:7 February 1989:m:1
+*** Prince August Wilhelm of Prussia:29 January 1887:25 March 1949:m:4
+**** Prince Alexander Ferdinand of Prussia:26 December 1912:12 June 1985:m:1
+*** Prince Oskar of Prussia:27 July 1888:27 January 1958:m:5
+**** Prince Oskar of Prussia:12 July 1915:September 1939:m:1
+**** Prince Burchard of Prussia:8 January 1917:12 August 1988:m:2
+**** Princess Herzeleide of Prussia:25 December 1918:22 March 1989:f:4
+**** Prince Wilhelm-Karl of Prussia:20 January 1922:9 April 2007:m:3
+*** Prince Joachim of Prussia:17 December 1890:18 July 1920:m:6
+**** Prince Karl Franz of Prussia:15 December 1916:23 January 1975:m:1
+*** Princess Victoria Louise of Prussia:13 September 1892:11 December 1980:f:7
+**** Prince Ernest Augustus of Hanover:18 March 1914:9 December 1987:m:1
+**** Prince George William of Hanover:25 March 1915:8 January 2006:m:2
+**** Frederica of Hanover:18 April 1917:6 February 1981:f:5
+**** Prince Christian Oscar of Hanover:1 September 1919:10 December 1981:m:3
+**** Prince Welf Henry of Hanover:11 March 1923:12 July 1997:m:4
+** Princess Charlotte of Prussia:24 July 1860:1 October 1919:f:5
+*** Princess Feodora of Saxe-Meiningen:12 May 1879:26 August 1945:f:1
+** Prince Henry of Prussia:14 August 1862:20 April 1929:m:2
+*** Prince Waldemar of Prussia:20 March 1889:2 May 1945:m:1
+*** Prince Sigismund of Prussia:27 November 1896:14 November 1978:m:2
+**** Princess Barbara of Prussia:2 August 1920:31 May 1994:f:2
+**** Prince Alfred of Prussia:17 August 1924:5 June 2013:m:1
+*** Prince Henry of Prussia:9 January 1900:26 February 1904:m:3
+** Prince Sigismund of Prussia:15 September 1864:18 June 1866:m:3
+** Princess Viktoria of Prussia:12 April 1866:13 November 1929:f:6
+** Prince Waldemar of Prussia:10 February 1868:27 March 1879:m:4
+** Sophia of Prussia:14 June 1870:13 January 1932:f:7
+*** George II of Greece:19 July 1890:1 April 1947:m:1
+*** Alexander of Greece:1 August 1893:25 October 1920:m:2
+**** Alexandra of Yugoslavia:25 March 1921:30 January 1993:f:1
+*** Helen of Greece and Denmark:2 May 1896:28 November 1982:f:4
+**** Michael I of Romania:25 October 1921:5 December 2017:m:1
+*** Paul of Greece:14 December 1901:6 March 1964:m:3
+**** Queen Sofía of Spain:2 November 1938::f:2
+**** Constantine II of Greece:2 June 1940::m:1
+**** Princess Irene of Greece and Denmark:11 May 1942:f:3
+*** Princess Irene, Duchess of Aosta:13 February 1904:15 April 1974:f:5
+**** Prince Amedeo, Duke of Aosta:27 September 1943::m:1
+*** Princess Katherine of Greece and Denmark:4 May 1913:2 October 2007:f:6
+**** Paul Brandram:1 April 1948::m:1
+** Princess Margaret of Prussia:22 April 1872:22 January 1954:f:8
+*** Prince Friedrich Wilhelm of Hesse-Kassel:24 November 1893:12 September 1916:m:1
+*** Prince Maximilian of Hesse-Kassel:20 October 1894:13 October 1914:m:2
+*** Prince Philipp of Hesse-Kassel:6 Nov 1896:25 Oct 1980:m:3
+**** Prince Moritz, Landgrave of Hesse:6 August 1926:23 May 2013:m:1
+**** Prince Heinrich of Hesse-Kassel:30 October 1927:31 January 1999:m:2
+**** Prince Otto Adolf of Hesse-Kassel:3 June 1937:3 January 1998:m:3
+**** Princess Elisabeth Margarethe of Hesse-Kassel:8 October 1940::f:4
+*** Prince Wolfgang of Hesse-Kassel:6 Nov 1896:12 Jul 1989:m:4
+*** Prince Richard Wilhelm Leopold of Hesse-Kassel:14 May 1901:11 Feb 1969:m:5
+*** Prince Christoph of Hesse-Kassel:14 May 1901:7 Oct 1943:m:6
+**** Princess Christina Margarethe of Hesse:10 January 1933:22 November 2011:f:3
+**** Princess Dorothea Charlotte Karin of Hesse:born 24 July 1934::f:4
+**** Prince Karl Adolf Andreas of Hesse:26 March 1937::m:1
+**** Prince Rainer Christoph Friedrich of Hesse:18 November 1939::m:2
+**** Princess Clarissa Alice of Hesse:6 February 1944::d:5
+* Princess Alice of the United Kingdom:25 April 1843:14 December 1878:f:6
+** Princess Victoria of Hesse and by Rhine:5 April 1863:24 September 1950:f:3
+*** Princess Alice of Battenberg:25 February 1885:5 December 1969:f:3
+**** Princess Margarita of Greece and Denmark:18 April 1905:24 April 1981:f:2
+**** Princess Theodora of Greece and Denmark:30 May 1906:16 October 1969:f:3
+**** Princess Cecilie of Greece and Denmark:22 June 1911:16 November 1937:f:4
+**** Princess Sophie of Greece and Denmark:26 June 1914:3 November 2001:f:5
+**** Prince Philip, Duke of Edinburgh:10 June 1921::m:1
+*** Louise Mountbatten:13 July 1889:7 March 1965:f:4
+*** George Mountbatten, 2nd Marquess of Milford Haven,6 December 1892:8 April 1938:m:1
+**** Lady Tatiana Elizabeth Mountbatten:16 December 1917:15 May 1988:f:2
+**** David Michael Mountbatten, 3rd Marquess of Milford Haven:12 May 1919:14 April 1970:m:1
+*** Louis Mountbatten, 1st Earl Mountbatten of Burma:25 June 1900:27 August 1979:m:2
+**** Patricia Knatchbull, 2nd Countess Mountbatten of Burma:14 February 1924:13 June 2017:f:1
+**** Lady Pamela Hicks:19 April 1929::f:2
+** Princess Elisabeth of Hesse and by Rhine:1 November 1864:18 July 1918:f:4
+** Princess Irene of Hesse and by Rhine:11 July 1866:11 November 1953:f:5
+** Ernest Louis, Grand Duke of Hesse:25 November 1868:9 October 1937:m:1
+*** Princess Elisabeth of Hesse and by Rhine:11 March 1895:16 November 1903:f:3
+*** Georg Donatus, Hereditary Grand Duke of Hesse:8 November 1906:16 November 1937:m:1
+**** Prince Ludwig of Hesse and by Rhine:25 October 1931:16 November 1937:m:1
+**** Prince Alexander of Hesse and by Rhine:14 April 1933:16 November 1937:m:2
+**** Princess Johanna of Hesse and by Rhine:20 September 1936:14 June 1939:f:3
+*** Louis, Prince of Hesse and by Rhine:0 November 1908:30 May 1968:m:2
+** Prince Friedrich of Hesse and by Rhine:7 October 1870:29 May 1873:m:2
+** Alexandra Feodorovna:6 June 1872:17 July 1918:f:6
+*** Grand Duchess Olga Nikolaevna of Russia:15 November 1895:17 July 1918:f:2
+*** Grand Duchess Tatiana Nikolaevna of Russia:10 June 1897:17 July 1918:f:3
+*** Grand Duchess Maria Nikolaevna of Russia:26 June 1899:17 July 1918:f:4
+*** Grand Duchess Anastasia Nikolaevna of Russia:18 June 1901:17 July 1918:f:5
+*** Alexei Nikolaevich, Tsarevich of Russia:12 August 1904:17 July 1918:m:1
+** Princess Marie of Hesse and by Rhine:24 May 1874:16 November 1878:f:7
+* Alfred, Duke of Saxe-Coburg and Gotha:6 August 1844:30 July 1900:m:2
+** Alfred, Hereditary Prince of Saxe-Coburg and Gotha:15 October 1874:6 February 1899:m:1
+** Marie of Romania:29 October 1875:18 July 1938:f:2
+*** Carol II of Romania:15 October 1893:4 April 1953:m:1
+**** Carol Lambrino:8 August 1920:27 January 2006:m:1
+*** Elisabeth of Romania:12 October 1894:14 November 1956:f:3
+*** Maria of Yugoslavia:6 January 1900:22 June 1961:f:4
+**** Peter II of Yugoslavia:6 September 1923:3 November 1970:m:1
+**** Prince Tomislav of Yugoslavia:19 January 1928:12 July 2000:m:2
+**** Prince Andrew of Yugoslavia:28 June 1929:7 May 1990:m:3
+**** Prince Nicholas of Romania:5 August 1903:9 June 1978:m:4
+*** Princess Ileana of Romania:5 January 1909:21 January 1991:f:5
+**** Archduke Stefan of Austria:5 August 1932:12 November 1998:m:1
+**** Archduchess Maria Ileana of Austria:18 December 1933:11 January 1959:f:3
+**** Archduchess Alexandra of Austria:21 May 1935::f:4
+**** Archduke Dominic of Austria:4 July 1937::m:2
+**** Archduchess Maria Magdalena of Austria:2 October 1939::f:5
+**** Archduchess Elisabeth of Austria:15 January 1942::f:6
+*** Prince Mircea of Romania:3 January 1913:2 November 1916:m:2
+** Princess Victoria Melita of Saxe-Coburg and Gotha:25 November 1876:2 March 1936:f:3
+*** Grand Duchess Maria Kirillovna of Russia:2 February 1907:25 October 1951:f:2
+**** Prince Emich Kirill Ferdinand Hermann of Leiningen:18 October 1926:30 October 1991:m:1
+**** Prince Karl Vladimir Ernst Heinrich of Leiningen:2 January 1928:28 September 1990:m:2
+**** Princess Kira Melita Feodora Marie Victoria Alexandra of Leiningen:18 July 1930:24 September 2005:f:5
+**** Princess Margarita Ileana Victoria of Leiningen:9 May 1932:16 June 1996:f:6
+**** Princess Mechtilde Alexandra of Leiningen:2 January 1936::f:7
+**** Prince Friedrich Wilhelm Berthold of Leiningen:18 June 1938:29 August 1998:m:3
+**** Prince Peter Victor of Leiningen:23 December 1942:12 January 1943:m:4
+*** Grand Duchess Kira Kirillovna of Russia:9 May 1909:8 September 1967:f:3
+**** Prince Friedrich Wilhelm of Prussia:9 February 1939:29 September 2015:m:1
+**** Prince Michael of Prussia:22 March 1940:3 April 2014:m:2
+**** Princess Marie Cécile of Prussia:28 May 1942::f:5
+**** Princess Kira of Prussia:27 June 1943:10 January 2004:f:5
+**** Prince Louis Ferdinand of Prussia:25 August 1944:11 July 1977:m:3
+**** Prince Christian-Sigismund of Prussia:14 March 1946::m:4
+**** Princess Xenia of Prussia:9 December 1948:18 January 1992:f:6
+*** Grand Duke Vladimir Kirillovich of Russia:30 August 1917:21 April 1992:m:1
+**** Maria Vladimirovna, Grand Duchess of Russia:23 December 1953::f:1
+** Princess Alexandra of Saxe-Coburg and Gotha:1 September 1878:16 April 1942:f:4
+*** Prince Gottfried, 8th Prince of Hohenlohe-Langenburg:24 May 1897:11 May 1960:m:1
+**** Prince Kraft Alexander Ernst Ludwig Georg Emich:25 June 1935:16 March 2004:m:1
+**** Princess Beatrix Alice Marie Melita Margarete of Hohenlohe-Langenburg:10 June 1936:15 November 1997:m:2
+**** Prince Georg Andreas Heinrich of Hohenlohe-Langenburg:24 November 1938::m:3
+**** Prince Rupprecht Sigismund Philipp Ernst of Hohenlohe-Langenburg:7 April 1944:8 April 1978:m:4
+**** Prince Albrecht Wolfgang Christoph of Hohenlohe-Langenburg:7 April 1944:23 April 1992:m:5
+*** Princess Marie Melita of Hohenlohe-Langenburg:18 January 1899:8 November 1967:f:3
+**** Hans Albrecht, Hereditary Prince of Schleswig-Holstein:12 May 1917:10 August 1944:m:1
+**** Prince Wilhelm Alfred Ferdinand of Schleswig-Holstein-Sonderburg-Glücksburg:24 September 1919:17 June 1926:m:2
+**** Friedrich Ernst Peter, Duke of Schleswig-Holstein:30 April 1922:30 September 1980:m:3
+**** Princess Marie Alexandra of Schleswig-Holstein:9 July 1927:14 December 2000:f:4
+*** Princess Alexandra of Hohenlohe-Langenburg:2 April 1901:26 October 1963:f:4
+*** Princess Irma of Hohenlohe-Langenburg:4 July 1902:8 March 1986:f:5
+*** Prince Alfred of Hohenlohe-Langenburg:16 April 1911:18 April 1911:m:2
+** Princess Beatrice of Saxe-Coburg and Gotha:20 April 1884:13 July 1966:f:5
+*** Infante Alvaro, Duke of Galliera:20 April 1910:22 August 1997:m:1
+**** Doña Gerarda de Orléans-Borbón y Parodi Delfino:born 25 August 1939::f:3
+**** Don Alonso de Orléans-Borbón y Parodi Delfino:23 August 1941:6 September 1975:m:1
+**** Doña Beatriz de Orléans-Borbón y Parodi Delfino:27 April 1943::f:4
+**** Alvaro-Jaime de Orléans-Borbón y Parodi Delfino:1 March 1947::m:2
+*** Alonso María Cristino Justo:28 May 1912:18 November 1936:m:2
+*** Ataúlfo Alejandro Isabelo Carlos:20 October 1913:4 October 1974:m:3
+* Princess Helena of the United Kingdom:25 May 1846:9 June 1923:f:7
+** Prince Christian Victor of Schleswig-Holstein:14 April 1867:29 October 1900:m:1
+** Albert, Duke of Schleswig-Holstein::26 February 1869:27 April 1931:m:2
+** Princess Helena Victoria of Schleswig-Holstein:May 1870:13 March 1948:f:4
+** Princess Marie Louise of Schleswig-Holstein:12 August 1872:8 December 1956:f:5
+** Prince Harald:12 May 1876:20 May 1876:m:3
+* Princess Louise, Duchess of Argyll:18 March 1848:3 December 1939:f:8
+* Prince Arthur, Duke of Connaught and Strathearn:1 May 1850:16 January 1942:m:3
+** Princess Margaret of Connaught:15 January 1882:1 May 1920:f:2
+*** Prince Gustaf Adolf, Duke of Västerbotten:22 April 1906:26 January 1947:m:1
+**** Princess Margaretha:31 October 1934::f
+**** Princess Birgitta of Sweden:January 1937::f:2
+**** Princess Désirée, Baroness Silfverschiöld:2 June 1938::f:3
+**** Princess Christina:3 August 1943::f:4
+**** Carl XVI Gustaf of Sweden:30 April 1946::m:1
+*** Sigvard Bernadotte:7 June 1907:4 February 2002:m:2
+**** Count Michael Sigvard Bernadotte af Wisborg:21 August 1944:m:1
+*** Ingrid of Sweden:28 March 1910:7 November 2000:f:5
+**** Queen Margrethe II of Denmark:16 April 1940::f:1
+**** Princess Benedikte of Denmark:29 April 1944::f:2
+**** Queen Anne-Marie of Greece:30 August 1946::f:3
+*** Prince Bertil, Duke of Halland:28 February 1912:5 January 1997:m:3
+*** Carl Johan Bernadotte:31 October 1916:5 May 2012:m:4
+** Prince Arthur of Connaught:13 January 1883:12 September 1938:m:1
+*** Alastair Windsor, 2nd Duke of Connaught and Strathearn:9 August 1914:26 April 1943:m:1
+** Princess Patricia of Connaught:17 March 1886:12 January 1974:f:3
+*** Alexander Ramsay of Mar:21 December 1919:20 December 2000:m:1
+**** Katharine Ingrid Mary Isabel Fraser, Deputy Lieutenant of Aberdeenshire:11 October 1957::f:1
+**** Alice Elizabeth Margaret Ramsay of Mar:8 July 1961::f:2
+**** Elizabeth Alexandra Mary Ramsay of Mar:15 April 1963::f:3
+* Prince Leopold, Duke of Albany:7 April 1853:28 March 1884:m:4
+** Princess Alice, Countess of Athlone:25 February 1883:3 January 1981:f:2
+*** Lady May Abel Smith:23 January 1906:29 May 1994:f:2
+**** Anne Mary Sibylla Abel Smith:28 July 1932::f:2
+**** Colonel Richard Francis Abel Smith:11 October 1933:23 December 2004:m:1
+**** Elizabeth Alice Abel Smith:5 September 1936::f:3
+*** Rupert Cambridge, Viscount Trematon:24 August 1907:15 April 1928:m:1
+**** Prince Maurice of Teck:29 March 1910:14 September 1910:m:1
+** Charles Edward, Duke of Saxe-Coburg and Gotha:19 July 1884:6 March 1954:m:1
+*** Johann Leopold, Hereditary Prince of Saxe-Coburg and Gotha:2 August 1906:4 May 1972:m:1
+**** Caroline Mathilde Prinzessin von Sachsen-Coburg und Gotha:5 April 1933::f:3
+**** Ernst Leopold Prinz von Sachsen-Coburg und Gotha:14 January 1935:27 June 1996:m:1
+**** Peter Albert Prinz von Sachsen-Coburg und Gotha:12 June 1939::m:2
+*** Princess Sibylla of Saxe-Coburg and Gotha:18 January 1908:28 November 1972:f:4
+*** Prince Hubertus of Saxe-Coburg and Gotha:24 August 1909:26 November 1943:m:2
+*** Princess Caroline Mathilde of Saxe-Coburg and Gotha:22 June 1912:5 September 1983:f:5
+**** Count Bertram Friedrich of Castell-Rüdenhausen:12 July 1932::m:1
+**** Count Conradin Friedrich of Castell-Rüdenhausen:10 October 1933:1 October 2011:m:2
+**** Countess Viktoria Adelheid of Castell-Rüdenhausen:26 February 1935::f:4
+**** Calma Barbara Schnirring:18 November 1938::f:5
+**** Dagmar Schnirring:22 November 1940::f:6
+**** Peter Michael Schnirring:4 January 1943:10 February 1966:m:3
+*** Friedrich Josias, Prince of Saxe-Coburg and Gotha:29 November 1918:23 January 1998:m:3
+**** Andreas, Prince of Saxe-Coburg and Gotha:21 March 1943::m:1
+**** Maria Claudia Sibylla:22 May 1949:5 February 2016:f:3
+**** Beatrice Charlotte:15 July 1951::f:4
+**** Prince Adrian of Saxe-Coburg and Gotha:18 October 1955:30 August 2011:m:2
+* Princess Beatrice of the United Kingdom:14 April 1857:26 October 1944:f:9
+** Alexander Mountbatten, 1st Marquess of Carisbrooke:23 November 1886:23 February 1960:m:1
+*** Lady Iris Mountbatten:13 January 1920:1 September 1982:f:1
+**** Robin Alexander Bryan:20 December 1957::m:1
+** Victoria Eugenie of Battenberg:24 October 1887:15 April 1969:f:2
+*** Alfonso, Prince of Asturias:10 May 1907:6 September 1938:m:1
+*** Infante Jaime, Duke of Segovia:23 June 1908:20 March 1975:m:2
+**** Alfonso, Duke of Anjou and Cádiz:20 April 1936:30 January 1989:m:1
+**** Gonzalo, Duke of Aquitaine:5 June 1937:27 May 2000:m:2
+*** Infanta Beatriz of Spain:22 June 1909:22 November 2002:f:6
+**** Princess Doña Sandra Torlonia of Civitella-Cesi:14 February 1936:31 December 2014:f:3
+**** Marco Torlonia, 6th Prince of Civitella-Cesi:2 July 1937:5 December 2014:m:1
+**** Prince Don Marino Torlonia of Civitella-Cesi:13 December 1939:28 December 1995:m:2
+**** Princess Doña Olimpia Torlonia of Civitella-Cesi:27 December 1943::f:4
+*** Infanta Maria Cristina of Spain:12 December 1911:23 December 1996:f
+**** Doña Vittoria Eugenia Alfonsa Alberta del Pilar Enrica Paola Marone-Cinzano:5 March 1941::f:1
+**** Giovanna Paola Gabriella Marone-Cinzano:31 January 1943::f:2
+**** María Theresa Beatrice Marone-Cinzano:4 January 1945::f:3
+**** Anna Alessandra Marone-Cinzano:21 December 1948::f:4
+*** Infante Juan, Count of Barcelona:20 June 1913:1 April 1993:m:3:7
+**** Infanta Pilar, Duchess of Badajoz:30 July 1936::f:2
+**** Juan Carlos I of Spain:5 January 1938::m:1
+**** Infanta Margarita, Duchess of Soria:6 March 1939::f:3
+**** Infante Alfonso of Spain (3 October 1941:29 March 1956:f:4
+*** Lord Leopold Mountbatten:21 May 1889:23 April 1922:m:4
+*** Prince Maurice of Battenberg:3 October 1891:27 October 1914:m:5
