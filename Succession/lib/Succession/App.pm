@@ -8,6 +8,7 @@ use Moose::Util::TypeConstraints;
 use JSON;
 use DateTime;
 use DateTime::Format::Strptime;
+use Lingua::EN::Numbers 'num2en';
 
 use Succession::Model;
 
@@ -63,6 +64,25 @@ has earliest => (
     pattern => '%Y-%m-%d'
   )->parse_datetime('1901-01-22') },
 );
+
+has list_size => (
+  is => 'ro',
+  isa => 'Int',
+  required => 1,
+  default => 25,
+);
+
+has list_size_str => (
+  is => 'ro',
+  isa => 'Str',
+  required => 1,
+  lazy_build => 1,
+);
+
+sub _build_list_size_str {
+  my $self = shift;
+  return num2en($self->list_size);
+}
 
 has sovereign => (
   is => 'ro',

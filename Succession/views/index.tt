@@ -39,12 +39,12 @@
      count = count + 1;
    END -%>
 <!-- <% count %> -->
-<%   LAST IF count >= 20 -%>
+<%   LAST IF count >= app.list_size -%>
 <% END -%>
     </ol>
-    <% IF app.succession.size < 20 -%>
+    <% IF count < app.list_size -%>
     <div class="alert alert-danger alert-dismissable fade show">
-    We don't have twenty people to go here yet.
+    We don't have <% app.list_size_str %> people to go here yet.
     We obviously need more data. Apologies for that.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
        <span aria-hidden="true">&times;</span>
