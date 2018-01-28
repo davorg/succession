@@ -351,13 +351,13 @@ sub name_on_date {
     end   => undef,
   },{
     start => undef,
-    end   => { '>=' => $fmt_date },
+    end   => { '>'  => $fmt_date },
   },{
     start => { '<=' => $fmt_date },
     end   => undef,
   },{
     start => { '<=' => $fmt_date },
-    end   => { '>=' => $fmt_date },
+    end   => { '>'  => $fmt_date },
   }])->first;
 
   if ($name) {
@@ -379,13 +379,13 @@ sub excluded_on_date {
     end   => undef,
   },{
     start => undef,
-    end   => { '>=' => $fmt_date },
+    end   => { '>'  => $fmt_date },
   },{
     start => { '<=' => $fmt_date },
     end   => undef,
   },{
     start => { '<=' => $fmt_date },
-    end   => { '>=' => $fmt_date },
+    end   => { '>'  => $fmt_date },
   }])->first;
 
   return unless $exc;
