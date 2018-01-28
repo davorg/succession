@@ -69,7 +69,7 @@ has list_size => (
   is => 'ro',
   isa => 'Int',
   required => 1,
-  default => 25,
+  default => 30,
 );
 
 has list_size_str => (

@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use 5.010;
 
+use DateTime;
+
 use Succession::App;
 
 my $app = Succession::App->new;
@@ -15,14 +17,14 @@ my $prev_year = 0;
 
 while ($date <= $app->today) {
   if ($date->year != $prev_year) {
-    warn 'Starting ', $date->year, "\n";
+    warn DateTime->now->time, ' - Starting ', $date->year, "\n";
     $prev_year = $date->year;
   }
   $app = Succession::App->new( date => $date );
 
   my @succ = @{ $app->succession };
 
-  $#succ = 19 if @succ > 20;
+  $#succ = $app->list_size - 1 if @succ > $app->list_size;
 
   my $succ_str = join ':', map { $_->id } @succ;
 
