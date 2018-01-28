@@ -22,7 +22,8 @@
 
     <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span><br>
      <span class="small">Age <% app.sovereign.person.age_on_date(app.date) %>
-     (born <% link_date(app.sovereign.person.born) %>)</span></h2>
+     (born <% link_date(app.sovereign.person.born) %>)<br>
+     Sovereign since <% link_date(app.sovereign.start) %></span></h2>
     <ol>
 <% count = 0;
    FOR person IN app.succession;
