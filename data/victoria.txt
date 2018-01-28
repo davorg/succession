@@ -47,7 +47,7 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 *** Paul of Greece:14 December 1901:6 March 1964:m:3
 **** Queen Sofía of Spain:2 November 1938::f:2
 **** Constantine II of Greece:2 June 1940::m:1
-**** Princess Irene of Greece and Denmark:11 May 1942:f:3
+**** Princess Irene of Greece and Denmark:11 May 1942::f:3
 *** Princess Irene, Duchess of Aosta:13 February 1904:15 April 1974:f:5
 **** Prince Amedeo, Duke of Aosta:27 September 1943::m:1
 *** Princess Katherine of Greece and Denmark:4 May 1913:2 October 2007:f:6
@@ -67,7 +67,7 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 **** Princess Dorothea Charlotte Karin of Hesse:born 24 July 1934::f:4
 **** Prince Karl Adolf Andreas of Hesse:26 March 1937::m:1
 **** Prince Rainer Christoph Friedrich of Hesse:18 November 1939::m:2
-**** Princess Clarissa Alice of Hesse:6 February 1944::d:5
+**** Princess Clarissa Alice of Hesse:6 February 1944::f:5
 * Princess Alice of the United Kingdom:25 April 1843:14 December 1878:f:6
 ** Princess Victoria of Hesse and by Rhine:5 April 1863:24 September 1950:f:3
 *** Princess Alice of Battenberg:25 February 1885:5 December 1969:f:3
@@ -77,7 +77,7 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 **** Princess Sophie of Greece and Denmark:26 June 1914:3 November 2001:f:5
 **** Prince Philip, Duke of Edinburgh:10 June 1921::m:1
 *** Louise Mountbatten:13 July 1889:7 March 1965:f:4
-*** George Mountbatten, 2nd Marquess of Milford Haven,6 December 1892:8 April 1938:m:1
+*** George Mountbatten, 2nd Marquess of Milford Haven:6 December 1892:8 April 1938:m:1
 **** Lady Tatiana Elizabeth Mountbatten:16 December 1917:15 May 1988:f:2
 **** David Michael Mountbatten, 3rd Marquess of Milford Haven:12 May 1919:14 April 1970:m:1
 *** Louis Mountbatten, 1st Earl Mountbatten of Burma:25 June 1900:27 August 1979:m:2
@@ -91,7 +91,7 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 **** Prince Ludwig of Hesse and by Rhine:25 October 1931:16 November 1937:m:1
 **** Prince Alexander of Hesse and by Rhine:14 April 1933:16 November 1937:m:2
 **** Princess Johanna of Hesse and by Rhine:20 September 1936:14 June 1939:f:3
-*** Louis, Prince of Hesse and by Rhine:0 November 1908:30 May 1968:m:2
+*** Louis, Prince of Hesse and by Rhine:20 November 1908:30 May 1968:m:2
 ** Prince Friedrich of Hesse and by Rhine:7 October 1870:29 May 1873:m:2
 ** Alexandra Feodorovna:6 June 1872:17 July 1918:f:6
 *** Grand Duchess Olga Nikolaevna of Russia:15 November 1895:17 July 1918:f:2
@@ -163,21 +163,21 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 *** Ataúlfo Alejandro Isabelo Carlos:20 October 1913:4 October 1974:m:3
 * Princess Helena of the United Kingdom:25 May 1846:9 June 1923:f:7
 ** Prince Christian Victor of Schleswig-Holstein:14 April 1867:29 October 1900:m:1
-** Albert, Duke of Schleswig-Holstein::26 February 1869:27 April 1931:m:2
-** Princess Helena Victoria of Schleswig-Holstein:May 1870:13 March 1948:f:4
+** Albert, Duke of Schleswig-Holstein:26 February 1869:27 April 1931:m:2
+** Princess Helena Victoria of Schleswig-Holstein:3 May 1870:13 March 1948:f:4
 ** Princess Marie Louise of Schleswig-Holstein:12 August 1872:8 December 1956:f:5
 ** Prince Harald:12 May 1876:20 May 1876:m:3
 * Princess Louise, Duchess of Argyll:18 March 1848:3 December 1939:f:8
 * Prince Arthur, Duke of Connaught and Strathearn:1 May 1850:16 January 1942:m:3
 ** Princess Margaret of Connaught:15 January 1882:1 May 1920:f:2
 *** Prince Gustaf Adolf, Duke of Västerbotten:22 April 1906:26 January 1947:m:1
-**** Princess Margaretha:31 October 1934::f
-**** Princess Birgitta of Sweden:January 1937::f:2
+**** Princess Margaretha:31 October 1934::f:1
+**** Princess Birgitta of Sweden:19 January 1937::f:2
 **** Princess Désirée, Baroness Silfverschiöld:2 June 1938::f:3
 **** Princess Christina:3 August 1943::f:4
 **** Carl XVI Gustaf of Sweden:30 April 1946::m:1
 *** Sigvard Bernadotte:7 June 1907:4 February 2002:m:2
-**** Count Michael Sigvard Bernadotte af Wisborg:21 August 1944:m:1
+**** Count Michael Sigvard Bernadotte af Wisborg:21 August 1944::m:1
 *** Ingrid of Sweden:28 March 1910:7 November 2000:f:5
 **** Queen Margrethe II of Denmark:16 April 1940::f:1
 **** Princess Benedikte of Denmark:29 April 1944::f:2
@@ -232,15 +232,15 @@ Queen Victoria:24 May 1819:22 January 1901:f:1
 **** Marco Torlonia, 6th Prince of Civitella-Cesi:2 July 1937:5 December 2014:m:1
 **** Prince Don Marino Torlonia of Civitella-Cesi:13 December 1939:28 December 1995:m:2
 **** Princess Doña Olimpia Torlonia of Civitella-Cesi:27 December 1943::f:4
-*** Infanta Maria Cristina of Spain:12 December 1911:23 December 1996:f
+*** Infanta Maria Cristina of Spain:12 December 1911:23 December 1996:f:7
 **** Doña Vittoria Eugenia Alfonsa Alberta del Pilar Enrica Paola Marone-Cinzano:5 March 1941::f:1
 **** Giovanna Paola Gabriella Marone-Cinzano:31 January 1943::f:2
 **** María Theresa Beatrice Marone-Cinzano:4 January 1945::f:3
 **** Anna Alessandra Marone-Cinzano:21 December 1948::f:4
-*** Infante Juan, Count of Barcelona:20 June 1913:1 April 1993:m:3:7
+*** Infante Juan, Count of Barcelona:20 June 1913:1 April 1993:m:3
 **** Infanta Pilar, Duchess of Badajoz:30 July 1936::f:2
 **** Juan Carlos I of Spain:5 January 1938::m:1
 **** Infanta Margarita, Duchess of Soria:6 March 1939::f:3
-**** Infante Alfonso of Spain (3 October 1941:29 March 1956:f:4
+**** Infante Alfonso of Spain:3 October 1941:29 March 1956:f:4
 *** Lord Leopold Mountbatten:21 May 1889:23 April 1922:m:4
 *** Prince Maurice of Battenberg:3 October 1891:27 October 1914:m:5

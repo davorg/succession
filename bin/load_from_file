@@ -43,10 +43,16 @@ while (<>) {
   if ($person_id) {
     $person[$level] = $rs->find($person_id);
   } else {
+    my $parent;
+    if ($level >= 1) {
+      $parent = $person[$level - 1]->id;
+    } else {
+      $parent = undef;
+    }
     $person[$level] = $rs->create({
       born => $born,
       died => $died,
-      parent => $person[$level - 1]->id,
+      parent => $parent,
       family_order => $order,
       sex => $sex,
     });
