@@ -78,9 +78,14 @@
 
     <main role="main" class="container">
 
-      <div class="starter-template">
+      <div class="starter-template row">
+        <div class="col-sm-9">
 <% content %>
       <!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_native_toolbox"></div>
+        </div>
+        <div class="col-sm-3">
+<a class="twitter-timeline" href="https://twitter.com/linesuccession?ref_src=twsrc%5Etfw">Tweets by linesuccession</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
       </div>
     </main>
 
