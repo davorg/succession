@@ -12,7 +12,20 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="See the Line of Succession to the British Throne on any day in the last 100 years.">
+    <meta name="description" content="See the Line of Succession to the British Throne on any date in the last 100 years.">
+
+<% title = 'British Line of Succession';
+   IF app.date != app.today;
+     title = title _ ' on ' _ app.date.strftime('%e %B %Y');
+   END -%>
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png"/>
+    <meta property="og:title" content="<% title %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lineofsuccession.co.uk/<% app.page_date %>" />
+    <meta property="og:description" content="See the Line of Succession to the British Throne on any date in the last 100 years." />
+    <meta property="og:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png" />
 
     <link href="https://fonts.googleapis.com/css?family=Faustina" rel="stylesheet">
     <link rel="alternate" href="https://lineofsuccession.co.uk/<% app.page_date %>" hreflang="en-gb" />
