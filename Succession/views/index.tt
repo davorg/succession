@@ -2,7 +2,7 @@
    IF the_date < app.earliest;
      the_date.strftime('%e %b %Y');
    ELSE;
-     '<a title="Line of Succession on '; the_date.strftime('%e %B %Y'); '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%e %B %Y'); '</a>';
+     '<a title="Line of Succession on '; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '</a>';
    END;
    END;
    exclusions = {
@@ -18,7 +18,7 @@
      </button>
     </div>
     <% END -%>
-    <h1>British Line of Succession on <% app.date.strftime('%e %B %Y') %></h1>
+    <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
     <h2 itemscope itemtype="http://schema.org/Person">Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span><br>
      <span class="small">Age <% app.sovereign.person.age_on_date(app.date) %>
