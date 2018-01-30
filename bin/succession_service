@@ -11,20 +11,20 @@ Daemon::Control->new({
   name      => 'Succession',
   lsb_start => '$syslog $remote_fs',
   lsb_stop  => '$syslog',
-  lsb_sdesc => 'Advice from Klortho',
-  lsb_desc  => 'UK Line of Succession',
+  lsb_sdesc => 'British Line of Succession',
+  lsb_desc  => 'British Line of Succession',
   path      => abs_path($0),
  
   program      => '/usr/bin/starman',
-  program_args => [ '--workers', 10, '-l', ':2000',
+  program_args => [ '--workers', 10, '-l', ':2222',
                     dirname(abs_path($0)) . '/../Succession/bin/app.psgi' ],
  
-  user  => 'davorg',
+  user  => 'succession',
   group => 'psacln',
  
-  pid_file    => '/tmp/succession.pid',
-  stderr_file => '/tmp/succession.err',
-  stdout_file => '/tmp/succession.out',
+  pid_file    => '/var/run/succession.pid',
+  stderr_file => '/var/log/succession/error.log',
+  stdout_file => '/var/log/succession/output.log',
  
   fork => 2,
 })->run;
