@@ -1,0 +1,13 @@
+[Unit]
+Description=Succession Web App
+After=network.target
+
+[Service]
+Type=fork
+EnvironmentFile=~succession/.bashrc
+ExecStart=/opt/succession/bin/succession_service start
+ExecReload=/opt/succession/bin/succession_service restart
+ExecStop=/opt/succession/bin/succession_service stop
+
+[Install]
+WantedBy=multi-user.target
