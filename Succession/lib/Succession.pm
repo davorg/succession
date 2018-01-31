@@ -22,7 +22,6 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 
   if (defined $date and !Succession::App->is_valid_date($date)) {
     $date_err = "$date is not a valid date";
-    warn $date_err, "\n";
     $date = undef;
   }
 
@@ -37,7 +36,8 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   }
 
   if ($date_err) {
-    $app = Succession::App->new;
+    var date_err => $date_err;
+    send_error $date_err, 404;
   }
 
   template 'index', {

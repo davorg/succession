@@ -1,0 +1,6 @@
+<h1>404 - Not Found</h1>
+<p>We've even looked down the back of the sofa.</p>
+<% IF vars.date_err -%>
+<p><% vars.date_err %></p>
+<% end -%>
+<p>See the <a href="/">Line of Succession for today</a>.</p>

@@ -112,6 +112,8 @@ around BUILDARGS => sub {
 
   if ( @_ == 1 && !ref $_[0] ) {
     return $class->$orig({ date => $_[0] });
+  } elsif (!@_ or (@_ == 1 and !defined $_[0])) {
+    return $class->$orig({ date => DateTime->today });
   } else {
     return $class->$orig(@_);
   }
