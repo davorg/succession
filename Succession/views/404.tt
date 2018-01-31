@@ -1,4 +1,5 @@
 <h1>404 - Not Found</h1>
+<p>We can't find <% request.path %> anywhere.</p>
 <p>We've even looked down the back of the sofa.</p>
 <% IF vars.date_err -%>
 <p><% vars.date_err %></p>
