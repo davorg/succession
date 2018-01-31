@@ -7,18 +7,21 @@ use Daemon::Control;
 use Cwd qw(abs_path);
 use File::Basename;
  
+my $abs_path = abs_path($0);
+my $abs_dir  = dirname($0);
+
 Daemon::Control->new({
   name      => 'Succession',
   lsb_start => '$syslog $remote_fs',
   lsb_stop  => '$syslog',
   lsb_sdesc => 'British Line of Succession',
   lsb_desc  => 'British Line of Succession',
-  path      => abs_path($0),
- 
+  path      => $abs_path,
+
   program      => '/usr/bin/starman',
   program_args => [ '--workers', 10, '-l', ':2222',
-                    dirname(abs_path($0)) . '/../Succession/bin/app.psgi' ],
- 
+                    "$abs_dir/../Succession/bin/app.psgi" ],
+
   user  => 'succession',
   group => 'psacln',
  
