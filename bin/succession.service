@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
-EnvironmentFile=/opt/successionsuccession.conf
+EnvironmentFile=/opt/succession/succession.conf
 ExecStart=/opt/succession/bin/succession_service start
 ExecReload=/opt/succession/bin/succession_service restart
 ExecStop=/opt/succession/bin/succession_service stop
