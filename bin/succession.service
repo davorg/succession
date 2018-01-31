@@ -3,7 +3,7 @@ Description=Succession Web App
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 EnvironmentFile=/opt/succession/succession.conf
 ExecStart=/opt/succession/bin/succession_service start
 ExecReload=/opt/succession/bin/succession_service restart
