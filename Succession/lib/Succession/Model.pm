@@ -100,25 +100,57 @@ sub get_canonical_date {
   my $self = shift;
   my ($date) = @_;
 
-  my $max_date = $self->change_date_rs->get_column('change_date')->max;
-
   my $search_date =
     $self->schema->storage->datetime_parser->format_datetime($date);
 
-  my ($canon_date) = $self->change_date_rs->search({
-    change_date => { '<=', $search_date },
-  },{
-    order_by => { -desc => 'change_date' },
-  });
+  my $canon_date = $self->get_prev_change_date($date, 1);
 
   # TODO: Remove hack!
   return '' unless $canon_date;
+
+  my $max_date = $self->change_date_rs->get_column('change_date')->max;
 
   if ($canon_date->change_date->strftime('%Y-%m-%d') eq $max_date) {
     return '';
   } else {
     return $canon_date->change_date->strftime('%Y-%m-%d');
   }
+}
+
+sub get_prev_change_date {
+  my $self = shift;
+  my ($date, $include_curr) = @_;
+
+  my $search_date =
+    $self->schema->storage->datetime_parser->format_datetime($date);
+
+  my $cmp = ($include_curr ? '<=' : '<');
+
+  my ($prev_date) = $self->change_date_rs->search({
+    change_date => { $cmp, $search_date },
+  },{
+    order_by => { -desc => 'change_date' },
+  });
+
+  return $prev_date;
+}
+
+sub get_next_change_date {
+  my $self = shift;
+  my ($date, $include_curr) = @_;
+
+  my $search_date =
+    $self->schema->storage->datetime_parser->format_datetime($date);
+
+  my $cmp = ($include_curr ? '>=' : '>');
+
+  my ($next_date) = $self->change_date_rs->search({
+    change_date => { $cmp, $search_date },
+  },{
+    order_by => { -asc => 'change_date' },
+  });
+
+  return $next_date;
 }
 
 1;

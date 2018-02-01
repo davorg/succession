@@ -149,4 +149,16 @@ sub page_date {
   return $self->date->strftime('%Y-%m-%d');
 }
 
+sub prev_change_date {
+  my $self = shift;
+  my $date = $self->model->get_prev_change_date($self->date);
+  return $date ? $date->change_date : '';
+}
+
+sub next_change_date {
+  my $self = shift;
+  my $date = $self->model->get_next_change_date($self->date);
+  return $date ? $date->change_date : '';
+}
+
 1;
