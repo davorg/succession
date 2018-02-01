@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.2.10-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.25-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.2.10-MariaDB
+-- Server version	10.1.25-MariaDB-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -202,7 +202,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text DEFAULT NULL,
+  `wikipedia` text,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -369,7 +369,7 @@ INSERT INTO `person` VALUES (221,'1890-07-19','1947-04-01',220,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (222,'1893-08-01','1920-10-25',220,2,'m',NULL,NULL);
 INSERT INTO `person` VALUES (223,'1921-03-25','1993-01-30',222,1,'f',NULL,NULL);
 INSERT INTO `person` VALUES (224,'1896-05-02','1982-11-28',220,4,'f',NULL,NULL);
-INSERT INTO `person` VALUES (225,'1921-10-25','2017-12-05',224,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (225,'1921-10-25','2017-12-05',285,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (226,'1901-12-14','1964-03-06',220,3,'m',NULL,NULL);
 INSERT INTO `person` VALUES (227,'1938-11-02',NULL,226,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (228,'1940-06-02',NULL,226,1,'m',NULL,NULL);
@@ -619,7 +619,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT 0,
+  `is_default` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
@@ -1057,4 +1057,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-29  6:29:13
+-- Dump completed on 2018-02-01 11:03:42
