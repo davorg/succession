@@ -1,18 +1,8 @@
 #!/bin/bash
 
-declare -a vars=(SUCC_DB_HOST SUCC_DB_NAME SUCC_DB_USER SUCC_DB_PASS)
+. bin/func_defs
 
-for var_name in "${vars[@]}"
-do
-  if [ -z "$(eval "echo \$$var_name")" ]; then
-    errors+=($var_name)
-  fi
-done
-
-if [ ${#errors[@]} -ne 0 ]; then
-    echo "Missing environment variable(s) ${errors[*]}"
-    exit 1
-fi
+check_vars
 
 echo Dumping database
 mysqldump --skip-extended-insert \
