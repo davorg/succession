@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.25-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.2.10-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.1.25-MariaDB-
+-- Server version	10.2.10-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -202,7 +202,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text,
+  `wikipedia` text DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -290,7 +290,7 @@ INSERT INTO `person` VALUES (142,'1891-05-17','1959-02-26',68,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (143,'1914-08-09','1943-04-26',142,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (144,'1893-04-03','1945-12-14',68,3,'f',NULL,NULL);
 INSERT INTO `person` VALUES (145,'1929-09-23','2015-06-22',144,1,'m',NULL,NULL);
-INSERT INTO `person` VALUES (146,'1959-06-20',NULL,145,1,'f',NULL,NULL);
+INSERT INTO `person` VALUES (146,'1959-06-20',NULL,145,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (147,'2001-12-24',NULL,146,1,'f',NULL,NULL);
 INSERT INTO `person` VALUES (148,'1961-03-03',NULL,145,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (149,'1989-07-01',NULL,148,1,'m',NULL,NULL);
@@ -313,7 +313,7 @@ INSERT INTO `person` VALUES (165,'1969-03-30',NULL,157,1,'f',NULL,NULL);
 INSERT INTO `person` VALUES (166,'1999-04-25',NULL,165,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (167,'1972-10-22',NULL,157,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (168,'1937-02-21',NULL,152,1,'m',NULL,NULL);
-INSERT INTO `person` VALUES (169,'1971-09-22',NULL,168,1,'f',NULL,NULL);
+INSERT INTO `person` VALUES (169,'1971-09-22',NULL,168,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (170,'2003-04-29',NULL,169,1,'f',NULL,NULL);
 INSERT INTO `person` VALUES (171,'2005-04-08',NULL,169,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (172,'2008-09-29',NULL,169,3,'f',NULL,NULL);
@@ -619,7 +619,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT '0',
+  `is_default` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
@@ -1057,4 +1057,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-01 11:03:42
+-- Dump completed on 2018-02-02  7:50:12
