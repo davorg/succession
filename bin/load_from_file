@@ -19,6 +19,7 @@ my @person;
 my $prev_level = 0;
 
 while (<>) {
+  chomp;
   my $person_id = 0;
 
   if (/^\((\d+)\)/) {
@@ -36,6 +37,8 @@ while (<>) {
   $prev_level = $level;
 
   my ($name, $born, $died, $sex, $order) = split /:/;
+
+  say join ' / ', split /:/;
 
   $born = $dt_parser->parse_datetime($born) if defined $born;
   $died = $dt_parser->parse_datetime($died) if defined $died;
