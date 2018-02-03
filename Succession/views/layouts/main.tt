@@ -104,6 +104,12 @@
         <div class="col-sm-3">
           <p>Welcome to the site.</p>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
+          <hr>
+<% USE Dumper -%>
+<!-- <% Dumper.Dump(changes) %> -->
+<% IF changes.count -%>
+          <p><b>Changes on <% app.date.strftime('%e %B %Y') %></b></p>
+<% END -%>
 <a class="twitter-timeline" href="https://twitter.com/linesuccession?ref_src=twsrc%5Etfw">Tweets by linesuccession</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
       </div>

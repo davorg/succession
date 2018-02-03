@@ -153,4 +153,27 @@ sub get_next_change_date {
   return $next_date;
 }
 
+sub get_changes_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $search_date =
+    $self->schema->storage->datetime_parser->format_datetime($date);
+
+  my $person_rs    = $self->schema->resultset('Person');
+  my $exclusion_rs = $self->schema->resultset('Exclusion');
+
+  my $changes;
+
+  for (qw[born died]) {
+    $changes->{person}{$_} = [ $person_rs->search({$_ => $search_date}) ];
+    $changes->{count} += @{$changes->{person}{$_}};
+  }
+
+  for (qw[start end]) {
+    $changes->{exclusion}{$_} = [ $exclusion_rs->search({$_ => $search_date}) ];
+    $changes->{count} += @{$changes->{exclusion}{$_}};
+  }
+}
+
 1;

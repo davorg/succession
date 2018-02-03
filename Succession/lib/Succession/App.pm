@@ -161,4 +161,9 @@ sub next_change_date {
   return $date ? $date->change_date : '';
 }
 
+sub get_changes {
+  my $self = shift;
+  return $self->model->get_changes_on_date($self->date);
+}
+
 1;

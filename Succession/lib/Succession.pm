@@ -41,8 +41,9 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   }
 
   template 'index', {
-    app   => $app,
-    error => $date_err,
+    app     => $app,
+    changes => $app->get_changes,
+    error   => $date_err,
   };
 };
 
