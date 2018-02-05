@@ -160,10 +160,15 @@ sub get_changes_on_date {
   my $search_date =
     $self->schema->storage->datetime_parser->format_datetime($date);
 
+  my $changes = { count => 0 };
+
+  return $changes
+    unless $self->schema->resultset('ChangeDate')->search({
+      change_date => $search_date,
+    });
+
   my $person_rs    = $self->schema->resultset('Person');
   my $exclusion_rs = $self->schema->resultset('Exclusion');
-
-  my $changes;
 
   for (qw[born died]) {
     $changes->{person}{$_} = [ $person_rs->search({$_ => $search_date}) ];
@@ -174,6 +179,8 @@ sub get_changes_on_date {
     $changes->{exclusion}{$_} = [ $exclusion_rs->search({$_ => $search_date}) ];
     $changes->{count} += @{$changes->{exclusion}{$_}};
   }
+
+  return $changes;
 }
 
 1;
