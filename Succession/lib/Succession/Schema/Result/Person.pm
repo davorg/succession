@@ -226,7 +226,7 @@ sub succession_on_date {
 
   printlog "Getting descendants of ", $self->name, "\n";
   my @desc = map {
-    $_, $_->descendants->search({}, { prefetch => ['titles', 'exclusions'] })
+    $_, $_->descendants
   } $self->sorted_children;
 
   printlog "Got ", scalar @desc, " descendants\n";
