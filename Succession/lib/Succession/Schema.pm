@@ -28,11 +28,16 @@ sub get_schema {
         join(', ', @errors), "\n";
   }
 
-  return __PACKAGE__->connect(
+  my $sch = __PACKAGE__->connect(
     "dbi:mysql:host=$ENV{SUCC_DB_HOST};database=$ENV{SUCC_DB_NAME}",
     $ENV{SUCC_DB_USER}, $ENV{SUCC_DB_PASS},
     { mysql_enable_utf8 => 1 },
   );
+
+  # For caching.
+  $DBIx::Class::ResultSourceHandle::thaw_schema = $sch;
+
+  return $sch;
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);

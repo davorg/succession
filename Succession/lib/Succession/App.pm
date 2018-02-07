@@ -103,7 +103,7 @@ has succession => (
 
 sub _build_succession {
   my $self = shift;
-  return [ $self->sovereign->succession_on_date($self->date) ];
+  return $self->model->succession_on_date($self->date);
 }
 
 around BUILDARGS => sub {
