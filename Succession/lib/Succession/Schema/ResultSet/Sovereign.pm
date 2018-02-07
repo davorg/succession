@@ -17,6 +17,8 @@ sub sovereign_on_date {
   return $self->find({
     start => { '<=' => $date },
     end   => [ { '>' => $date }, undef ],
+  }, {
+    prefetch => qw[person],
   });
 }
 

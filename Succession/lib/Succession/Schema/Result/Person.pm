@@ -226,7 +226,7 @@ sub succession_on_date {
 
   printlog "Getting descendants of ", $self->name, "\n";
   my @desc = map {
-    $_, $_->descendants
+    $_, $_->descendants->search({}, { prefetch => ['titles', 'exclusions'] })
   } $self->sorted_children;
 
   printlog "Got ", scalar @desc, " descendants\n";
@@ -261,10 +261,10 @@ sub younger_siblings_and_descendants {
 
   my @younger_siblings = $parent->sorted_children->search({
     family_order => { '>' => $self->family_order },
-  });
+  }, { prefetch => [ 'titles', 'exclusions' ]});
 
   my @people = map {
-    $_, $_->descendants
+    $_, $_->descendants,
   } @younger_siblings;
 
   return @people;
@@ -274,7 +274,9 @@ sub descendants {
   my $self = shift;
   my ($date) = @_;
 
-  my @desc = $self->sorted_children;
+  my @desc = $self->sorted_children->search({}, {
+    prefetch => [ 'titles', 'exclusions'],
+  });
 
   return map { $_, $_->descendants } @desc;
 }
