@@ -13,6 +13,8 @@ create table person (
   foreign key (parent) references person(id)
 );
 
+create index person_parent on person (parent);
+
 drop table if exists sovereign;
 
 create table sovereign (
@@ -22,6 +24,9 @@ create table sovereign (
   person_id integer not null,
   foreign key (person_id) references person(id)
 );
+
+create index sovereign_start on sovereign (start);
+create index sovereign_end   on sovereign (end);
 
 drop table if exists title;
 
@@ -35,6 +40,11 @@ create table title (
   foreign key (person_id) references person(id)
 );
 
+create index title_start      on title (start);
+create index title_end        on title (end);
+create index title_is_default on title (is_default);
+create index title_person_id  on title (person_id);
+
 drop table if exists exclusion;
 
 create table exclusion (
@@ -46,9 +56,16 @@ create table exclusion (
   foreign key (person_id) references person(id)
 );
 
+create index exclusion_start     on exclusion (start);
+create index exclusion_end       on exclusion (end);
+create index exclusion_person_id on exclusion (person_id);
+
 drop table if exists change_date;
 
 create table change_date (
   id integer primary key  auto_increment,
   change_date date
 );
+
+create index change_date_change_date on change_date (change_date);
+
