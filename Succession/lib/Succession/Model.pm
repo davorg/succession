@@ -140,10 +140,11 @@ sub get_canonical_date {
 
 sub get_prev_change_date {
   my $self = shift;
-  my ($date, $include_curr) = @_;
+  my ($date) = @_;
+  my $include_curr = $_[1] // 0;
 
   my $prev_date = $self->cache->compute(
-    'prev_change' . $date->ymd, undef,
+    "prev_change|$include_curr|" . $date->ymd, undef,
     sub {
       my $search_date =
         $self->schema->storage->datetime_parser->format_datetime($date);
@@ -164,10 +165,11 @@ sub get_prev_change_date {
 
 sub get_next_change_date {
   my $self = shift;
-  my ($date, $include_curr) = @_;
+  my ($date) = @_;
+  my $include_curr = $_[1] // 0;
 
   my $next_date = $self->cache->compute(
-    'next_change' . $date->ymd, undef,
+    "next_change|$include_curr|" . $date->ymd, undef,
     sub {
       my $search_date =
         $self->schema->storage->datetime_parser->format_datetime($date);
