@@ -78,8 +78,10 @@
               <a class="dropdown-item<% active_date('1936-12-11') %>" href="/1936-12-11">11 December 1936<br><span class="small">Start of George VI's reign</span></a>
               <a class="dropdown-item<% active_date('1952-02-06') %>" href="/1952-02-06">6 February 1952<br><span class="small">Start of Elizabeth II's reign</span></a>
               <a class="dropdown-item<% active_date('1977-02-06') %>" href="/1977-02-06">6 February 1977<br><span class="small">Silver Jubilee of Elizabeth II</span></a>
+              <a class="dropdown-item<% active_date('1992-02-06') %>" href="/1992-02-06">6 February 1992<br><span class="small">Ruby Jubilee of Elizabeth II</span></a>
               <a class="dropdown-item<% active_date('2002-02-06') %>" href="/2002-02-06">6 February 2002<br><span class="small">Golden Jubilee of Elizabeth II</span></a>
               <a class="dropdown-item<% active_date('2012-02-06') %>" href="/2012-02-06">6 February 2012<br><span class="small">Diamond Jubilee of Elizabeth II</span></a>
+              <a class="dropdown-item<% active_date('2017-02-06') %>" href="/2017-02-06">6 February 2017<br><span class="small">Sapphire Jubilee of Elizabeth II</span></a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item<% active_date(app.today.strftime('%Y-%m-%d')) %>" href="/">Today</a>
             </div>
