@@ -90,7 +90,7 @@ sub _build_interesting_dates {
     date => DateTime->new(year => 2002, month =>  2, day =>  6),
     desc => "Golden Jubilee of Elizabeth II",
   }, {
-    date => DateTime->new(year => 2022, month =>  2, day =>  6),
+    date => DateTime->new(year => 2012, month =>  2, day =>  6),
     desc => "Diamond Jubilee of Elizabeth II",
   }, {
     date => DateTime->new(year => 2017, month =>  2, day =>  6),
