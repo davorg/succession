@@ -110,7 +110,7 @@ sub succession_on_date {
   my ($date) = @_;
 
   my $succession = $self->cache->compute(
-    'succ' . $date->ymd, undef,
+    'succ|' . $date->ymd, undef,
     sub {
       [ $self->sovereign_on_date($date)->succession_on_date($date) ]
     },
@@ -158,7 +158,7 @@ sub get_canonical_date {
   my ($date) = @_;
 
   my $canonical_date = $self->cache->compute(
-    'canon' . $date->ymd, undef,
+    'canon|' . $date->ymd, undef,
     sub {
       my $search_date =
         $self->schema->storage->datetime_parser->format_datetime($date);
@@ -236,7 +236,7 @@ sub get_changes_on_date {
   my ($date) = @_;
 
   my $date_changes = $self->cache->compute(
-    'changes' . $date->ymd, undef,
+    'changes|' . $date->ymd, undef,
     sub {
       my $search_date =
         $self->schema->storage->datetime_parser->format_datetime($date);
