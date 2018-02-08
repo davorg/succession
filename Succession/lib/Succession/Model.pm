@@ -55,6 +55,49 @@ sub _build_cache {
   );
 }
 
+has interesting_dates => (
+  is => 'ro',
+  isa => 'ArrayRef',
+  lazy_build => 1,
+);
+
+sub _build_interesting_dates {
+  return [{
+    date => DateTime->new(year => 1901, month =>  1, day => 22),
+    desc => "Start of Edward VII's reign",
+  }, {
+    date => DateTime->new(year => 1910, month =>  5, day =>  6),
+    desc => "Start of George V's reign",
+  }, {
+    date => DateTime->new(year => 1935, month =>  5, day =>  6),
+    desc => "Silver Jubilee of George V",
+  }, {
+    date => DateTime->new(year => 1936, month =>  1, day => 20),
+    desc => "Start of Edward VIII's reign",
+  }, {
+    date => DateTime->new(year => 1936, month => 12, day => 11),
+    desc => "Start of George VI's reign",
+  }, {
+    date => DateTime->new(year => 1952, month =>  2, day =>  6),
+    desc => "Start of Elizabeth II's reign",
+  }, {
+    date => DateTime->new(year => 1977, month =>  2, day =>  6),
+    desc => "Silver Jubilee of Elizabeth II",
+  }, {
+    date => DateTime->new(year => 1992, month =>  2, day =>  6),
+    desc => "Ruby Jubilee of Elizabeth II",
+  }, {
+    date => DateTime->new(year => 2002, month =>  2, day =>  6),
+    desc => "Golden Jubilee of Elizabeth II",
+  }, {
+    date => DateTime->new(year => 2022, month =>  2, day =>  6),
+    desc => "Diamond Jubilee of Elizabeth II",
+  }, {
+    date => DateTime->new(year => 2017, month =>  2, day =>  6),
+    desc => "Sapphire Jubilee of Elizabeth II",
+  }];
+}
+
 # sub sovereign_on_date {
 #   my $seslf = shift;
 #   my ($date) = @_;
