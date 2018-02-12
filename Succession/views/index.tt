@@ -42,7 +42,7 @@
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(app.date) %>
         (born <% link_date(person.born) %>),
-        <br><% person.relationship_with(app.sovereign.person) %> of the sovereign
+        <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
 <% IF NOT exc;
      count = count + 1;

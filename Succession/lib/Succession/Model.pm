@@ -267,4 +267,18 @@ sub get_changes_on_date {
   return $date_changes;
 }
 
+sub get_relationship_between_people {
+  my $self = shift;
+  my ($person1, $person2) = @_;
+
+  my $relationship = $self->cache->compute(
+    'rel|' . $person1->id . '|' . $person2->id, undef,
+    sub {
+      return $person1->relationship_with($person2);
+    }
+  );
+
+  return $relationship;
+}
+
 1;
