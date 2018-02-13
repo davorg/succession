@@ -101,6 +101,9 @@ sub sovereign_on_date {
   my $self = shift;
   my ($date) = @_;
 
+  # TODO Ensure schema is set
+  $self->schema;
+
   my $sovereign = $self->cache->compute(
     'sov|' . $date->ymd, undef,
     sub {
