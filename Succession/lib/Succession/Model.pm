@@ -10,7 +10,7 @@ use Succession::Schema;
 
 has schema => (
   is => 'ro',
-  lazy_build => 1,
+  builder => '_build_schema',
   isa => 'Succession::Schema',
 );
 
@@ -100,9 +100,6 @@ sub _build_interesting_dates {
 sub sovereign_on_date {
   my $self = shift;
   my ($date) = @_;
-
-  # TODO Ensure schema is set
-  $self->schema;
 
   my $sovereign = $self->cache->compute(
     'sov|' . $date->ymd, undef,
