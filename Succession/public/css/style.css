@@ -10,6 +10,10 @@ span.small {
   font-size: 75%;
 }
 
+p.large {
+  font-size: 120%;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
