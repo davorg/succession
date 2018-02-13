@@ -22,7 +22,6 @@ has sovereign_rs => (
   is => 'ro',
   isa => 'DBIx::Class::ResultSet',
   lazy_build =>  1,
-  handles => [ qw(sovereign_on_date) ],
 );
 
 sub _build_sovereign_rs {
@@ -98,12 +97,19 @@ sub _build_interesting_dates {
   }];
 }
 
-# sub sovereign_on_date {
-#   my $seslf = shift;
-#   my ($date) = @_;
-#
-#   return $self->sovereign_rs->sovereign_on_date($date);
-# }
+sub sovereign_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $sovereign = $self->cache->compute(
+    'sov|' . $date->ymd, undef,
+    sub {
+      $self->sovereign_rs->sovereign_on_date($date);
+    },
+  );
+
+  return $sovereign;
+}
 
 sub succession_on_date {
   my $self = shift;
