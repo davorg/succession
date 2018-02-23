@@ -692,7 +692,7 @@ INSERT INTO `title` VALUES (64,'King Edward VII','1901-01-22',NULL,65,1);
 INSERT INTO `title` VALUES (65,'Prince Albert Victor, Duke of Clarence and Avondale',NULL,NULL,66,1);
 INSERT INTO `title` VALUES (66,'Prince Alexander John',NULL,NULL,67,1);
 INSERT INTO `title` VALUES (67,'Louise, Princess Royal',NULL,NULL,68,1);
-INSERT INTO `title` VALUES (68,'Princess Victora',NULL,NULL,69,1);
+INSERT INTO `title` VALUES (68,'Princess Victoria',NULL,NULL,69,1);
 INSERT INTO `title` VALUES (69,'Maud, Queen of Norway',NULL,NULL,70,1);
 INSERT INTO `title` VALUES (128,'The Princess Elizabeth, Duchess of Edinburgh','1947-11-20','1952-02-06',2,0);
 INSERT INTO `title` VALUES (129,'The Princess Elizabeth','1936-12-11','1947-11-20',2,0);
