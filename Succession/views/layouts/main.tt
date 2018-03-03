@@ -8,6 +8,7 @@
 <% title = 'British Line of Succession';
    desc  = 'See the Line of Succession to the British Throne';
    IF app.date == app.today;
+     title = title _ ' on any date in the last 100 years.';
      desc  = desc  _ ' on any date in the last 100 years.';
    ELSE;
      title = title _ ' on ' _ app.date.strftime('%e %B %Y');
