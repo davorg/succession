@@ -1,5 +1,5 @@
 body {
-  padding-top: 5rem;
+  padding-top: 1em;
   font-family: 'Faustina', serif;
 }
 .starter-template {
@@ -46,7 +46,11 @@ ol>li:before {
   left: 0;
 }
 
-ol>li:not(.disable):before {
+ol>li.sov {
+  font-weight: bold;
+}
+
+ol>li.enable:before {
   counter-increment: list;
   content: counter(list) ". ";
 }
@@ -62,4 +66,8 @@ ol>li {
 
 ol>li.disable {
   opacity: .5;
+}
+
+ol>li.enable {
+  opacity: 1 !important;
 }
