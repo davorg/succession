@@ -22,7 +22,7 @@
 
     <div itemscope itemtype="http://schema.org/Person"><h2>Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
-     (born <% link_date(app.sovereign.person.born) %>)<br>
+     (born <time itemprop="birthDate" datetime="<% app.sovereign.person.born.strftime('%Y-%m-%d') %>"><% link_date(app.sovereign.person.born) %></time>)<br>
      Sovereign since <% link_date(app.sovereign.start) %></p></div>
 <% SET prev_dt = app.prev_change_date;
    SET next_dt = app.next_change_date -%>
@@ -41,7 +41,7 @@
         <span class="small">(<% person.name %>)</span>
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(app.date) %>
-        (born <% link_date(person.born) %>),
+        (born <time property="birthDate" datetime="<% person.born.strftime('%Y-%m-%d') %>"><% link_date(person.born) %></time>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
 <% IF NOT exc;
