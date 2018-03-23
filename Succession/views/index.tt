@@ -41,7 +41,7 @@
         <span class="small">(<% person.name %>)</span>
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(app.date) %>
-        (born <time property="birthDate" datetime="<% person.born.strftime('%Y-%m-%d') %>"><% link_date(person.born) %></time>),
+        (born <time itemprop="birthDate" datetime="<% person.born.strftime('%Y-%m-%d') %>"><% link_date(person.born) %></time>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
 <% IF NOT exc;
