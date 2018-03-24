@@ -5,12 +5,12 @@ use warnings;
 
 use Moose;
 use Moose::Util::TypeConstraints;
-use JSON;
 use DateTime;
 use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
 
 use Succession::Model;
+with 'Succession::Role::JSONLD';
 
 use feature 'say';
 
@@ -103,7 +103,18 @@ has succession => (
 
 sub _build_succession {
   my $self = shift;
-  return $self->model->succession_on_date($self->date);
+  my $succ = $self->model->succession_on_date($self->date);
+
+  my ($i, $count) = (0, 0);
+
+  my @short_succ;
+
+  while ($count <= $self->list_size) {
+    $count++ if ! $succ->[$i]->excluded_on_date($self->date);
+    push @short_succ, $succ->[$i++];
+  }
+
+  return \@short_succ;
 }
 
 around BUILDARGS => sub {
@@ -165,5 +176,26 @@ sub get_changes {
   my $self = shift;
   return $self->model->get_changes_on_date($self->date);
 }
+
+sub json_ld_type { 'ItemList' }
+sub json_ld_fields { [] }
+
+around json_ld_data => sub {
+  my $orig = shift;
+  my $self = shift;
+
+  my $data = $self->$orig(@_);
+
+  my $pos = 0;
+  $data->{itemListElement} = [
+    map {
+      my $d = $_->json_ld_data;
+      #$d->{position} = $pos++;
+      $d;
+    } ($self->sovereign->person, @{$self->succession})
+  ];
+
+  return $data;
+};
 
 1;

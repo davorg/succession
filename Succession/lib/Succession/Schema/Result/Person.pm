@@ -212,9 +212,24 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+with 'Succession::Role::JSONLD';
+
 use DateTime;
 use List::Util qw[first];
 use List::MoreUtils qw[firstidx];
+
+sub json_ld_fields {
+  return [
+    'name',
+    {
+      birthDate => sub { $_[0]->born->ymd },
+    }
+  ];
+}
+
+sub json_ld_type {
+  return 'Person';
+}
 
 sub printlog {
   print @_ if 0;

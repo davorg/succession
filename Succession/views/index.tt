@@ -20,9 +20,9 @@
     <% END -%>
     <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
-    <div itemscope itemtype="http://schema.org/Person"><h2>Sovereign: <span itemprop="name"><% app.sovereign.person.name_on_date(app.date) %></span></h2>
+    <div><h2>Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
-     (born <time itemprop="birthDate" datetime="<% app.sovereign.person.born.strftime('%Y-%m-%d') %>"><% link_date(app.sovereign.person.born) %></time>)<br>
+     (born <% link_date(app.sovereign.person.born) %>)<br>
      Sovereign since <% link_date(app.sovereign.start) %></p></div>
 <% SET prev_dt = app.prev_change_date;
    SET next_dt = app.next_change_date -%>
@@ -36,12 +36,12 @@
 <% count = 0;
    FOR person IN app.succession;
      exc = person.excluded_on_date(app.date) -%>
-      <li <% IF exc %>class="disable" <% END %>itemscope itemtype="http://schema.org/Person"><span itemprop="name"><% person.name_on_date(app.date) %></span>
+      <li <% IF exc %>class="disable" <% END %>><% person.name_on_date(app.date) %>
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(app.date) %>
-        (born <time itemprop="birthDate" datetime="<% person.born.strftime('%Y-%m-%d') %>"><% link_date(person.born) %></time>),
+        (born <% link_date(person.born) %>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
 <% IF NOT exc;
