@@ -1,18 +1,19 @@
 package Succession::Role::JSONLD;
 
-use Moose::Role;
+use Moo::Role;
 use JSON;
 use Carp;
+use Types::Standard 'InstanceOf';
 
 requires qw[json_ld_type json_ld_fields];
 
-has json => (
-  isa => 'JSON',
+has json_ld_encoder => (
+  isa => InstanceOf['JSON'],
   is  => 'ro',
   lazy_build => 1,
 );
 
-sub _build_json {
+sub _build_json_ld_encoder {
   return JSON->new->utf8->space_after->indent->pretty;
 }
 
@@ -49,7 +50,7 @@ sub json_ld_data {
 sub json_ld {
   my $self = shift;
 
-  return $self->json->encode($self->json_ld_data);
+  return $self->json_ld_encoder->encode($self->json_ld_data);
 }
 
 1;
