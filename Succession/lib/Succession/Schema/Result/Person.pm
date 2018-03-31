@@ -217,6 +217,19 @@ with 'MooX::Role::JSON_LD';
 use DateTime;
 use List::Util qw[first];
 use List::MoreUtils qw[firstidx];
+use Genealogy::Relationship;
+
+has rel => (
+  is => 'ro',
+  isa => 'Genealogy::Relationship',
+  lazy_build => 1,
+);
+
+sub _build_rel {
+  my $self = shift;
+
+  return Generalogy::Relationship->new;
+}
 
 sub json_ld_fields {
   return [
@@ -412,85 +425,21 @@ sub excluded_on_date {
 sub ancestors {
   my $self = shift;
 
-  if ($self->parent) {
-    return ($self, $self->parent->ancestors);
-  } else {
-    return $self;
-  }
+  return $self->rel->get_ancestors($self);
 }
 
 sub most_recent_common_ancestor_with {
   my $self = shift;
   my ($person) = @_;
 
-  my @my_ancestors = $self->ancestors;
-
-  if (my $anc = first { $_->id == $person->id } @my_ancestors) {
-    return $anc;
-  }
-
-  my @their_ancestors = $person->ancestors;
-
-  if (my $anc = first { $_->id == $self->id } @their_ancestors) {
-    return $anc;
-  }
-
-  for my $my_anc (@my_ancestors) {
-    for my $their_anc (@their_ancestors) {
-      return $my_anc if $my_anc->id == $their_anc->id;
-    }
-  }
-
-  die "Can't find a common ancestor.\n";
+  return $self->rel->most_recent_common_ancestor($self, $person);
 }
 
 sub relationship_with {
   my $self = shift;
   my ($person) = @_;
 
-  our $relationships = {
-    m => [
-    [ undef, 'Father', 'Grandfather', 'Great grandfather', 'Great, great grandfather' ],
-    ['Son', 'Brother', 'Uncle', 'Great uncle', 'Great, great uncle' ],
-    ['Grandson', 'Nephew', 'First cousin', 'First cousin once removed', 'First cousin twice removed' ],
-    ['Great grandson', 'Great nephew', 'First cousin once removed', 'Second cousin', 'Second cousin once removed'],
-    ['Great, great grandson', 'Great, great nephew', 'First cousin twice removed', 'Second cousin once removed', 'Third cousin',],
-    ],
-    f => [
-    [ undef, 'Mother', 'Grandmother', 'Great grandmother', 'Great, great grandmother' ],
-    ['Daughter', 'Sister', 'Aunt', 'Great aunt', 'Great, great aunt' ],
-    ['Granddaughter', 'Niece', 'First cousin', 'First cousin once removed', 'First cousin twice removed'],
-    ['Great granddaughter', 'Great niece', 'First cousin once removed', 'Second cousin', 'Second cousin once removed'],
-    ['Great, great granddaughter', 'Great, great niece', 'First cousin twice removed', 'Second cousin once removed', 'Third cousin',],
-    ],
-  };
-
-  my ($x, $y) = $self->get_relationship_coords($person);
-
-  return $relationships->{$self->sex}[$x][$y] // join '/', ($x, $y);
-}
-
-sub get_relationship_coords {
-  my $self = shift;
-  my ($person) = @_;
-
-  my @my_ancestors = $self->ancestors;
-
-  my $idx = firstidx { $_->id == $person->id } @my_ancestors;
-  return ($idx, 0) if $idx != -1;
-
-  my @their_ancestors = $person->ancestors;
-
-  $idx = firstidx { $_->id == $self->id } @their_ancestors;
-  return (0, $idx) if $idx != -1;
-
-  for my $i (0 .. $#my_ancestors) {
-    for my $j (0 .. $#their_ancestors) {
-      return ($i, $j) if $my_ancestors[$i]->id == $their_ancestors[$j]->id;
-    }
-  }
-
-  die "Can't work out the relationship.\n";
+  return $self->rel->get_relationship($self, $person);
 }
 
 sub anc_string {
