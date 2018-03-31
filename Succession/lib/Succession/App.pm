@@ -10,7 +10,7 @@ use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
 
 use Succession::Model;
-with 'Succession::Role::JSONLD';
+with 'MooX::Role::JSON_LD';
 
 use feature 'say';
 
