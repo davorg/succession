@@ -219,6 +219,8 @@ use List::Util qw[first];
 use List::MoreUtils qw[firstidx];
 use Genealogy::Relationship;
 
+sub gender { $_[0]->sex; }
+
 has rel => (
   is => 'ro',
   isa => 'Genealogy::Relationship',
@@ -228,7 +230,7 @@ has rel => (
 sub _build_rel {
   my $self = shift;
 
-  return Generalogy::Relationship->new;
+  return Genealogy::Relationship->new;
 }
 
 sub json_ld_fields {
@@ -236,6 +238,7 @@ sub json_ld_fields {
     'name',
     {
       birthDate => sub { $_[0]->born->ymd },
+      url => sub { 'https://lineofsuccession.co.uk/' },
     }
   ];
 }

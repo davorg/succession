@@ -186,12 +186,16 @@ around json_ld_data => sub {
 
   my $data = $self->$orig(@_);
 
-  my $pos = 0;
+  my $pos = 1;
   $data->{itemListElement} = [
     map {
       my $d = $_->json_ld_data;
-      #$d->{position} = $pos++;
-      $d;
+      delete $d->{'@context'};
+      {
+        '@type' => 'ListItem',
+	position => $pos++,
+	item => $d,
+      }
     } ($self->sovereign->person, @{$self->succession})
   ];
 
