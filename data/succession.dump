@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.30-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.2.14-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.1.30-MariaDB-0ubuntu0.17.10.1
+-- Server version	10.2.14-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -220,7 +220,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text,
+  `wikipedia` text DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -622,7 +622,7 @@ INSERT INTO `person` VALUES (455,'1845-09-21','1923-11-14',454,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (456,'1848-01-09','1926-10-16',454,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (457,'1849-12-03','1904-06-04',454,3,'f',NULL,NULL);
 INSERT INTO `person` VALUES (458,'1773-01-27','1843-04-21',442,6,'m',NULL,NULL);
-INSERT INTO `person` VALUES (459,'1774-02-24',NULL,442,0,'m',NULL,NULL);
+INSERT INTO `person` VALUES (459,'1774-02-24','1850-07-08',442,0,'m',NULL,NULL);
 INSERT INTO `person` VALUES (460,'1819-03-28','1904-03-17',459,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (461,'1822-07-19','1916-12-05',459,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (462,'1848-07-22','1914-06-11',461,1,'m',NULL,NULL);
@@ -690,7 +690,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT '0',
+  `is_default` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `title_start` (`start`),
@@ -1182,4 +1182,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-13 16:53:51
+-- Dump completed on 2018-04-13 21:29:26
