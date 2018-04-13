@@ -62,6 +62,15 @@ has interesting_dates => (
 
 sub _build_interesting_dates {
   return [{
+    date => DateTime->new(year => 1837, month =>  6, day => 20),
+    desc => "Start of Victoria's reign",
+  }, {
+    date => DateTime->new(year => 1862, month =>  6, day => 20),
+    desc => "Silver Jubilee of Victoria",
+  }, {
+    date => DateTime->new(year => 1887, month =>  6, day => 20),
+    desc => "Golden Jubilee of Victoria",
+  }, {
     date => DateTime->new(year => 1901, month =>  1, day => 22),
     desc => "Start of Edward VII's reign",
   }, {
