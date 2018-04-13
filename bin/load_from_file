@@ -12,7 +12,8 @@ my $sch = Succession::Schema->get_schema;
 my $rs  = $sch->resultset('Person');
 
 my $dt_parser = DateTime::Format::Strptime->new(
-  pattern => '%d %B %Y',
+#  pattern => '%d %B %Y',
+  pattern => '%Y-%m-%d',
 );
 
 my @person;
