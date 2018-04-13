@@ -1,14 +1,29 @@
 King George III:1738-06-04:1820-01-29:m:1
 * King George IV:1762-08-12:1830-02-26:m:1
-* Frederick, Duke of York:1763-08-16:1827-01-05,m:2
+** Princess Charlotte Augusta of Wales:1796-01-07:1817-11-06:f:1
+* Prince Frederick, Duke of York:1763-08-16:1827-01-05:m:2
 * King William IV:1765-08-21:1837-06-20:m:3
-* Charlotte, Princess Royal:1766-09-29:1828-10-06,f,10
-* Edward, Duke of Kent:1767-11-02:1820-01-23:m:4
+** Princess Charlotte Augusta Louise of Clarence:1819-03-27:1819-03-27:f:1
+** Princess Elizabeth Georgiana Adelaide of Clarence:1820-12-10:1821-03-04:f:2
+* Charlotte, Princess Royal:1766-09-29:1828-10-06:f:10
+* Prince Edward, Duke of Kent:1767-11-02:1820-01-23:m:4
 * Princess Augusta Sophia:1768-11-08:1840-09-22:f:11
 * Princess Elizabeth:1770-05-22:1840-01-10:f:12
 * Ernest Augustus I of Hanover:1771-06-50:1851-11-18:m:5
-* Augustus, Duke of Sussex:1773-01-27:1843-04-21:m:6
-* Adolphus, Duke of Cambridge:1774-02-24:1850:07-08:m:7
+** George V of Hanover:1819-05-027:1878-06-12:m:1
+*** Ernest Augustus, Crown Prince of Hanover:1845-09-21:1923-11-14:m:1
+*** Princess Frederica of Hanover:1848-01-09:1926-10-16:f:2
+*** Princess Marie of Hanover:1849-12-03:1904-06-04:f:3
+* Prince Augustus, Duke of Sussex:1773-01-27:1843-04-21:m:6
+* Prince Adolphus, Duke of Cambridge:1774-02-24:1850:07-08:m:7
+** Prince George, Duke of Cambridge:1819-03-28:1904-03-17:m:1
+** Princess Augusta of Cambridge:1822-07-19:1916-12-05:f:2
+*** Adolf Friedrich V, Grand Duke of Mecklenberg-Strelitz:1848-07-22:1914-06-11:m:1
+** Princess Mary Adelaide of Cambridge:1833-11-27:1897-10-27:f:3
+*** Princess Victoria Mary of Teck:1867-05-28:1953-03-24:f:4
+*** Prince Adolphus of Teck:1868-08-13:1927-01-23:m:1
+*** Prince Francis of Teck:1870-01-09:1910-10-22:m:2
+*** Prince Alexander of Teck:1874-04-14:1957-01-16:m:3
 * Princess Mary, Duchess of Gloucester:1776-04-25:1857-04-30:f:13
 * Princess Sophia:1777-11-03:1848-05-27:f:14
 * Prince Octavius:1779-02-23:1783--05-03:m:8
