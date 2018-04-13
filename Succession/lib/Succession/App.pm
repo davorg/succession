@@ -62,7 +62,7 @@ has earliest => (
   required => 1,
   default => sub { DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
-  )->parse_datetime('1901-01-22') },
+  )->parse_datetime('1760-10-25') },
 );
 
 has list_size => (
@@ -109,7 +109,7 @@ sub _build_succession {
 
   my @short_succ;
 
-  while ($count <= $self->list_size) {
+  while ($count <= $self->list_size and $succ->[$i]) {
     $count++ if ! $succ->[$i]->excluded_on_date($self->date);
     push @short_succ, $succ->[$i++];
   }
