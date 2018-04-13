@@ -62,7 +62,7 @@ has earliest => (
   required => 1,
   default => sub { DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
-  )->parse_datetime('1760-10-25') },
+  )->parse_datetime('1837-06-20') },
 );
 
 has list_size => (
