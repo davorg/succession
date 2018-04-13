@@ -1,0 +1,16 @@
+King George III:1738-06-04:1820-01-29:m:1
+* King George IV:1762-08-12:1830-02-26:m:1
+* Frederick, Duke of York:1763-08-16:1827-01-05,m:2
+* King William IV:1765-08-21:1837-06-20:m:3
+* Charlotte, Princess Royal:1766-09-29:1828-10-06,f,10
+* Edward, Duke of Kent:1767-11-02:1820-01-23:m:4
+* Princess Augusta Sophia:1768-11-08:1840-09-22:f:11
+* Princess Elizabeth:1770-05-22:1840-01-10:f:12
+* Ernest Augustus I of Hanover:1771-06-50:1851-11-18:m:5
+* Augustus, Duke of Sussex:1773-01-27:1843-04-21:m:6
+* Adolphus, Duke of Cambridge:1774-02-24:1850:07-08:m:7
+* Princess Mary, Duchess of Gloucester:1776-04-25:1857-04-30:f:13
+* Princess Sophia:1777-11-03:1848-05-27:f:14
+* Prince Octavius:1779-02-23:1783--05-03:m:8
+* Prince Alfred:1780-09-22:20-08:1782-08-02:m:9
+* Princess Amelia:1783-08-07:1810-11-02:f:115
