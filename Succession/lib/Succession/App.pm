@@ -198,7 +198,7 @@ around json_ld_data => sub {
       position => $pos++,
       item     => $d,
     };
-  };
+  }
 
   $data->{itemListElement} = $people;
 
