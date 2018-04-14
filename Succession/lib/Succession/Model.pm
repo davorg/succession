@@ -296,4 +296,7 @@ sub get_relationship_between_people {
   return $relationship;
 }
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 1;

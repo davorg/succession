@@ -202,4 +202,7 @@ around json_ld_data => sub {
   return $data;
 };
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 1;
