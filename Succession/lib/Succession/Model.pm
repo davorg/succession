@@ -127,7 +127,7 @@ sub succession_on_date {
   my $succession = $self->cache->compute(
     'succ|' . $date->ymd, undef,
     sub {
-      [ $self->sovereign_on_date($date)->succession_on_date($date) ]
+      [ $self->sovereign_on_date($date)->succession_on_date($date) ];
     },
   );
 
