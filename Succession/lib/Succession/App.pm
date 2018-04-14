@@ -192,9 +192,9 @@ around json_ld_data => sub {
       my $d = $_->json_ld_data;
       delete $d->{'@context'};
       {
-        '@type' => 'ListItem',
-	position => $pos++,
-	item => $d,
+        '@type'  => 'ListItem',
+        position => $pos++,
+        item     => $d,
       }
     } ($self->sovereign->person, @{$self->succession})
   ];
