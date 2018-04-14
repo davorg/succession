@@ -226,7 +226,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=473 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -605,7 +605,7 @@ INSERT INTO `person` VALUES (438,'1982-09-07',NULL,36,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (439,'1984-12-17',NULL,36,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (440,'1986-06-26',NULL,36,3,'f',NULL,NULL);
 INSERT INTO `person` VALUES (441,'2005-12-01',NULL,36,4,'f',NULL,NULL);
-INSERT INTO `person` VALUES (442,'1738-06-04','1820-01-29',NULL,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (442,'1738-06-04','1820-01-29',473,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (443,'1762-08-12','1830-02-26',442,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (444,'1796-01-07','1817-11-06',443,1,'f',NULL,NULL);
 INSERT INTO `person` VALUES (445,'1763-08-16','1827-01-05',442,2,'m',NULL,NULL);
@@ -636,6 +636,39 @@ INSERT INTO `person` VALUES (469,'1777-11-03','1848-05-27',442,14,'f',NULL,NULL)
 INSERT INTO `person` VALUES (470,'1779-02-23','1783-05-03',442,8,'m',NULL,NULL);
 INSERT INTO `person` VALUES (471,'1780-09-22','1782-08-02',442,9,'m',NULL,NULL);
 INSERT INTO `person` VALUES (472,'1783-08-07','1810-11-02',442,15,'f',NULL,NULL);
+INSERT INTO `person` VALUES (473,'1707-02-01','1751-03-31',NULL,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (474,'1737-07-31','1813-03-23',473,6,'f',NULL,NULL);
+INSERT INTO `person` VALUES (475,'1764-12-03','1788-09-27',474,5,'f',NULL,NULL);
+INSERT INTO `person` VALUES (476,'1781-09-27','1864-06-25',475,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (477,'1783-02-21','1835-11-29',475,3,'f',NULL,NULL);
+INSERT INTO `person` VALUES (478,'1783-12-24','1784-10-03',475,4,'f',NULL,NULL);
+INSERT INTO `person` VALUES (479,'1785-01-19','1852-04-16',475,2,'m',NULL,NULL);
+INSERT INTO `person` VALUES (480,'1766-02-08','1806-09-20',474,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (481,'1768-05-17','1821-08-07',474,5,'f',NULL,NULL);
+INSERT INTO `person` VALUES (482,'1796-01-07','1817-11-06',481,1,'f',NULL,NULL);
+INSERT INTO `person` VALUES (483,'1769-06-27','1811-09-16',474,2,'m',NULL,NULL);
+INSERT INTO `person` VALUES (484,'1770-08-18','1822-12-18',474,3,'m',NULL,NULL);
+INSERT INTO `person` VALUES (485,'1771-10-09','1815-06-16',474,4,'m',NULL,NULL);
+INSERT INTO `person` VALUES (486,'1804-10-30','1873-08-18',485,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (487,'1806-04-25','1884-10-18',485,2,'m',NULL,NULL);
+INSERT INTO `person` VALUES (488,'1772-11-22','1773-04-02',474,7,'f',NULL,NULL);
+INSERT INTO `person` VALUES (489,'1739-03-25','1767-09-04',473,2,'m',NULL,NULL);
+INSERT INTO `person` VALUES (490,'1741-01-10','1759-09-04',473,7,'f',NULL,NULL);
+INSERT INTO `person` VALUES (491,'1743-11-25','1805-08-25',473,3,'m',NULL,NULL);
+INSERT INTO `person` VALUES (492,'1773-05-29','1844-11-29',491,2,'f',NULL,NULL);
+INSERT INTO `person` VALUES (493,'1774-06-24','1775-03-14',491,3,'f',NULL,NULL);
+INSERT INTO `person` VALUES (494,'1776-01-15','1834-11-30',491,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (495,'1745-11-07','1790-09-18',473,4,'m',NULL,NULL);
+INSERT INTO `person` VALUES (496,'1749-03-19','1768-05-13',473,8,'f',NULL,NULL);
+INSERT INTO `person` VALUES (497,'1750-05-13','1765-12-29',473,5,'m',NULL,NULL);
+INSERT INTO `person` VALUES (498,'1751-07-11','1775-05-10',473,9,'f',NULL,NULL);
+INSERT INTO `person` VALUES (499,'1768-01-28','1839-12-03',498,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (500,'1793-10-28','1881-03-31',499,1,'f',NULL,NULL);
+INSERT INTO `person` VALUES (501,'1808-01-18','1891-05-30',499,2,'f',NULL,NULL);
+INSERT INTO `person` VALUES (502,'1771-07-07','1843-01-13',498,2,'f',NULL,NULL);
+INSERT INTO `person` VALUES (503,'1796-06-28','1881-03-09',502,3,'f',NULL,NULL);
+INSERT INTO `person` VALUES (504,'1798-07-19','1869-03-11',502,1,'m',NULL,NULL);
+INSERT INTO `person` VALUES (505,'1800-08-23','1865-07-02',502,2,'m',NULL,NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -698,7 +731,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=799 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=832 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1176,6 +1209,39 @@ INSERT INTO `title` VALUES (795,'Prince George, The Prince of Wales','1751-03-31
 INSERT INTO `title` VALUES (796,'Prince George, The Prince of Wales','1762-08-12','1820-01-29',443,0);
 INSERT INTO `title` VALUES (797,'The Prince William Henry','1765-08-21','1789-05-16',446,0);
 INSERT INTO `title` VALUES (798,'The Prince William, Duke of Clarence and St Andrews','1789-05-16','1830-06-26',446,0);
+INSERT INTO `title` VALUES (799,'Frederick, Prince of Wales',NULL,NULL,473,1);
+INSERT INTO `title` VALUES (800,'Princess Augusta, Duchess of Brunswick',NULL,NULL,474,1);
+INSERT INTO `title` VALUES (801,'Auguste Caroline Friederike Luise',NULL,NULL,475,1);
+INSERT INTO `title` VALUES (802,'William I of Württemberg',NULL,NULL,476,1);
+INSERT INTO `title` VALUES (803,'Catharina of Württemberg',NULL,NULL,477,1);
+INSERT INTO `title` VALUES (804,'Princess Sophia Dorothea of Württemberg',NULL,NULL,478,1);
+INSERT INTO `title` VALUES (805,'Prince Paul of Württemberg',NULL,NULL,479,1);
+INSERT INTO `title` VALUES (806,'Karl Georg August',NULL,NULL,480,1);
+INSERT INTO `title` VALUES (807,'Caroline Amalie Elisabeth',NULL,NULL,481,1);
+INSERT INTO `title` VALUES (808,'Princess Charlotte of Wales',NULL,NULL,482,1);
+INSERT INTO `title` VALUES (809,'Georg Wilhelm Christian',NULL,NULL,483,1);
+INSERT INTO `title` VALUES (810,'August',NULL,NULL,484,1);
+INSERT INTO `title` VALUES (811,'Friedrich Wilhelm',NULL,NULL,485,1);
+INSERT INTO `title` VALUES (812,'Charles II, Duke of Brunswick',NULL,NULL,486,1);
+INSERT INTO `title` VALUES (813,'William, Duke of Brunswick',NULL,NULL,487,1);
+INSERT INTO `title` VALUES (814,'Amelie Karoline Dorothea Luise',NULL,NULL,488,1);
+INSERT INTO `title` VALUES (815,'Prince Edward, Duke of York',NULL,NULL,489,1);
+INSERT INTO `title` VALUES (816,'Princess Elizabeth',NULL,NULL,490,1);
+INSERT INTO `title` VALUES (817,'Prince William Henry, Duke of Gloucester',NULL,NULL,491,1);
+INSERT INTO `title` VALUES (818,'Princess Sophia of Gloucester',NULL,NULL,492,1);
+INSERT INTO `title` VALUES (819,'Princess Caroline of Gloucester',NULL,NULL,493,1);
+INSERT INTO `title` VALUES (820,'Prince William Frederick, Duke of Gloucester and Edinburgh',NULL,NULL,494,1);
+INSERT INTO `title` VALUES (821,'Prince Henry, Duke of Cumberland',NULL,NULL,495,1);
+INSERT INTO `title` VALUES (822,'Princess Louisa',NULL,NULL,496,1);
+INSERT INTO `title` VALUES (823,'Prince Frederick',NULL,NULL,497,1);
+INSERT INTO `title` VALUES (824,'Caroline Matilda, Queen-consort of Denmark and Norway',NULL,NULL,498,1);
+INSERT INTO `title` VALUES (825,'Frederick VI of Denmark',NULL,NULL,499,1);
+INSERT INTO `title` VALUES (826,'Princess Caroline of Denmark',NULL,NULL,500,1);
+INSERT INTO `title` VALUES (827,'Princess Vilhelmine Marie of Denmark',NULL,NULL,501,1);
+INSERT INTO `title` VALUES (828,'Princess Louise Auguste of Denmark',NULL,NULL,502,1);
+INSERT INTO `title` VALUES (829,'Caroline Amalie of Augustenburg',NULL,NULL,503,1);
+INSERT INTO `title` VALUES (830,'Christian August II, Duke of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,504,1);
+INSERT INTO `title` VALUES (831,'Prince Frederick of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,505,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1188,4 +1254,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-14 10:18:25
+-- Dump completed on 2018-04-14 10:26:28
