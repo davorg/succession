@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. bin/func_defs
+dir=`dirname $0`
+. $dir/func_defs
 
 check_vars
 
