@@ -209,13 +209,13 @@ sub get_prev_change_date {
 
       my $cmp = ($include_curr ? '<=' : '<');
 
-      my ($prev_date) = $self->change_date_rs->search({
+      my ($date) = $self->change_date_rs->search({
         change_date => { $cmp, $search_date },
       },{
         order_by => { -desc => 'change_date' },
       });
 
-      return $prev_date;
+      return $date;
     });
 
   return $prev_date;
@@ -234,13 +234,13 @@ sub get_next_change_date {
 
       my $cmp = ($include_curr ? '>=' : '>');
 
-      my ($next_date) = $self->change_date_rs->search({
+      my ($date) = $self->change_date_rs->search({
         change_date => { $cmp, $search_date },
       },{
         order_by => { -asc => 'change_date' },
       });
 
-      return $next_date;
+      return $date;
     });
 
     return $next_date;
