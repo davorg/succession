@@ -4,4 +4,4 @@
 
 check_vars
 
-mysql -h$SUCC_DB_HOST -u$SUCC_DB_USER -p$SUCC_DB_PASS $SUCC_DB_NAME
+mysql -h"$SUCC_DB_HOST" -u"$SUCC_DB_USER" -p"$SUCC_DB_PASS" "$SUCC_DB_NAME"

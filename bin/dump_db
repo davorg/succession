@@ -6,5 +6,5 @@ check_vars
 
 echo Dumping database
 mysqldump --skip-extended-insert \
-  -h$SUCC_DB_HOST -u$SUCC_DB_USER -p$SUCC_DB_PASS \
-  $SUCC_DB_NAME > data/succession.dump
+  -h"$SUCC_DB_HOST" -u"$SUCC_DB_USER" -p"$SUCC_DB_PASS" \
+  "$SUCC_DB_NAME" > data/succession.dump
