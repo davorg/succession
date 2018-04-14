@@ -3,10 +3,10 @@
 use warnings;
 use strict;
 use Daemon::Control;
- 
+
 use Cwd qw(abs_path);
 use File::Basename;
- 
+
 my $abs_path = abs_path($0);
 my $abs_dir  = dirname($0);
 
@@ -24,10 +24,10 @@ Daemon::Control->new({
 
   user  => 'succession',
   group => 'psacln',
- 
+
   pid_file    => '/var/run/succession.pid',
   stderr_file => '/var/log/succession/error.log',
   stdout_file => '/var/log/succession/output.log',
- 
+
   fork => 2,
 })->run;
