@@ -622,7 +622,7 @@ INSERT INTO `person` VALUES (455,'1845-09-21','1923-11-14',454,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (456,'1848-01-09','1926-10-16',454,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (457,'1849-12-03','1904-06-04',454,3,'f',NULL,NULL);
 INSERT INTO `person` VALUES (458,'1773-01-27','1843-04-21',442,6,'m',NULL,NULL);
-INSERT INTO `person` VALUES (459,'1774-02-24','1850-07-08',442,0,'m',NULL,NULL);
+INSERT INTO `person` VALUES (459,'1774-02-24','1850-07-08',442,7,'m',NULL,NULL);
 INSERT INTO `person` VALUES (460,'1819-03-28','1904-03-17',459,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (461,'1822-07-19','1916-12-05',459,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (462,'1848-07-22','1914-06-11',461,1,'m',NULL,NULL);
@@ -634,8 +634,8 @@ INSERT INTO `person` VALUES (467,'1874-04-14','1957-01-16',463,3,'m',NULL,NULL);
 INSERT INTO `person` VALUES (468,'1776-04-25','1857-04-30',442,13,'f',NULL,NULL);
 INSERT INTO `person` VALUES (469,'1777-11-03','1848-05-27',442,14,'f',NULL,NULL);
 INSERT INTO `person` VALUES (470,'1779-02-23','1783-05-03',442,8,'m',NULL,NULL);
-INSERT INTO `person` VALUES (471,'1780-09-22','1782-08-02',442,0,'m',NULL,NULL);
-INSERT INTO `person` VALUES (472,'1783-08-07','1810-11-02',442,115,'f',NULL,NULL);
+INSERT INTO `person` VALUES (471,'1780-09-22','1782-08-02',442,9,'m',NULL,NULL);
+INSERT INTO `person` VALUES (472,'1783-08-07','1810-11-02',442,15,'f',NULL,NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -698,7 +698,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=793 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=799 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1139,11 +1139,11 @@ INSERT INTO `title` VALUES (757,'Tallulah Lascelles',NULL,NULL,441,1);
 INSERT INTO `title` VALUES (758,'Alexander Lascelles, Viscount Lascelles','2011-07-01',NULL,432,1);
 INSERT INTO `title` VALUES (760,'Sophie Lascelles',NULL,'2011-07-01',434,0);
 INSERT INTO `title` VALUES (761,'Lady Emily Lascelles',NULL,'2008-06-30',431,0);
-INSERT INTO `title` VALUES (762,'King George III',NULL,NULL,442,1);
-INSERT INTO `title` VALUES (763,'King George IV',NULL,NULL,443,1);
+INSERT INTO `title` VALUES (762,'King George III','1760-10-25',NULL,442,1);
+INSERT INTO `title` VALUES (763,'King George IV','1820-01-29',NULL,443,1);
 INSERT INTO `title` VALUES (764,'Princess Charlotte Augusta of Wales',NULL,NULL,444,1);
 INSERT INTO `title` VALUES (765,'Prince Frederick, Duke of York',NULL,NULL,445,1);
-INSERT INTO `title` VALUES (766,'King William IV',NULL,NULL,446,1);
+INSERT INTO `title` VALUES (766,'King William IV','1830-06-26',NULL,446,1);
 INSERT INTO `title` VALUES (767,'Princess Charlotte Augusta Louise of Clarence',NULL,NULL,447,1);
 INSERT INTO `title` VALUES (768,'Princess Elizabeth Georgiana Adelaide of Clarence',NULL,NULL,448,1);
 INSERT INTO `title` VALUES (769,'Charlotte, Princess Royal',NULL,NULL,449,1);
@@ -1170,6 +1170,12 @@ INSERT INTO `title` VALUES (789,'Princess Sophia',NULL,NULL,469,1);
 INSERT INTO `title` VALUES (790,'Prince Octavius',NULL,NULL,470,1);
 INSERT INTO `title` VALUES (791,'Prince Alfred',NULL,NULL,471,1);
 INSERT INTO `title` VALUES (792,'Princess Amelia',NULL,NULL,472,1);
+INSERT INTO `title` VALUES (793,'Prince George','1738-06-04','1751-03-31',442,0);
+INSERT INTO `title` VALUES (794,'Prince George, The Duke of Edinburgh','1751-03-31','1751-04-20',442,0);
+INSERT INTO `title` VALUES (795,'Prince George, The Prince of Wales','1751-03-31','1760-10-25',442,0);
+INSERT INTO `title` VALUES (796,'Prince George, The Prince of Wales','1762-08-12','1820-01-29',443,0);
+INSERT INTO `title` VALUES (797,'The Prince William Henry','1765-08-21','1789-05-16',446,0);
+INSERT INTO `title` VALUES (798,'The Prince William, Duke of Clarence and St Andrews','1789-05-16','1830-06-26',446,0);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1182,4 +1188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-13 21:49:32
+-- Dump completed on 2018-04-14 10:18:25
