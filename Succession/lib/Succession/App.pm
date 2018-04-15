@@ -8,6 +8,8 @@ use Moose::Util::TypeConstraints;
 use DateTime;
 use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
+use XML::Feed;
+use URI;
 
 use Succession::Model;
 with 'MooX::Role::JSON_LD';
@@ -115,6 +117,16 @@ sub _build_succession {
   }
 
   return \@short_succ;
+}
+
+has feed => (
+  is => 'ro',
+  isa => 'XML::Feed',
+  lazy_build => 1,
+);
+
+sub _build_feed {
+  return XML::Feed->parse(URI->new('https://blog.lineofsuccession.co.uk/feed'));
 }
 
 around BUILDARGS => sub {
