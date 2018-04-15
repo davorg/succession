@@ -5,12 +5,20 @@ use warnings;
 use 5.010;
 
 use DateTime;
-
+use DateTime::Format::Strptime;
 use Succession::App;
 
 my $app = Succession::App->new;
+my $rs  = $app->model->schema->resultset('ChangeDate');
 
-my $date = $app->earliest;
+my $date;
+
+if (@ARGV) {
+  $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
+    ->parse_datetime($ARGV[0]);
+} else {
+  $date = $app->earliest;
+}
 
 my $prev_succ_str = '';
 my $prev_year = 0;
@@ -26,10 +34,13 @@ while ($date <= $app->today) {
 
   $#succ = $app->list_size - 1 if @succ > $app->list_size;
 
-  my $succ_str = join ':', map { $_->id } @succ;
+  my $succ_str = join ':', map {
+    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
+  } @succ;
 
   if ($succ_str ne $prev_succ_str) {
     say $date->ymd;
+    $rs->create({ change_date => $date});
     $prev_succ_str = $succ_str;
   }
 
