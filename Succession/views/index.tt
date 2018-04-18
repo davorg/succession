@@ -20,13 +20,19 @@
     <% END -%>
     <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
-    <div><h2>Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
+    <div>
+     <h2>
+<% IF app.sovereign.image -%>
+     <img src="/images/<% app.sovereign.image %>"
+          style="float:left; padding: 0 10px 10px 0">
+<% END -%>
+     Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
      (born <% link_date(app.sovereign.person.born) %>)<br>
      Sovereign since <% link_date(app.sovereign.start) %></p></div>
 <% SET prev_dt = app.prev_change_date;
    SET next_dt = app.next_change_date -%>
-    <p><%IF prev_dt -%>
+    <p style="clear:both"><%IF prev_dt -%>
       Previous change: <% link_date(prev_dt) %>
     <% END %> |
     <%IF next_dt -%>

@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.2.14-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.30-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.2.14-MariaDB
+-- Server version	10.1.30-MariaDB-0ubuntu0.17.10.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -318,7 +318,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text DEFAULT NULL,
+  `wikipedia` text,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -782,6 +782,7 @@ CREATE TABLE `sovereign` (
   `start` date NOT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
+  `image` char(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `sovereign_start` (`start`),
@@ -796,15 +797,15 @@ CREATE TABLE `sovereign` (
 
 LOCK TABLES `sovereign` WRITE;
 /*!40000 ALTER TABLE `sovereign` DISABLE KEYS */;
-INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1);
-INSERT INTO `sovereign` VALUES (2,'1952-02-06',NULL,2);
-INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22);
-INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21);
-INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65);
-INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180);
-INSERT INTO `sovereign` VALUES (7,'1803-06-26','1837-06-20',446);
-INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443);
-INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442);
+INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg');
+INSERT INTO `sovereign` VALUES (2,'1952-02-06',NULL,2,'elizabeth-ii.jpg');
+INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg');
+INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg');
+INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg');
+INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg');
+INSERT INTO `sovereign` VALUES (7,'1803-06-26','1837-06-20',446,NULL);
+INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,NULL);
+INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -821,7 +822,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT 0,
+  `is_default` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `title_start` (`start`),
@@ -1352,4 +1353,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-17  5:13:16
+-- Dump completed on 2018-04-18 13:00:00
