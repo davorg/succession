@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use LWP::Simple;
+
+my $base   = 'https://lineofsuccession.co.uk';
+my $sm_url = "$base/sitemap.xml";
+
+my $sitemap = get $sm_url;
+
+my @sm_urls = $sitemap =~ m[<loc>\s*(\S+)\s*</loc>]gs;
+
+my %sm = map { $_ => 1 } @sm_urls;
+
+while (<>) {
+  chomp;
+
+  if (not exists $sm{$_}) {
+    warn "$_ not in sitemap\n";
+  }
+}
