@@ -2,9 +2,12 @@
 
 use strict;
 use warnings;
-use diagnostics;
 
-chomp (my @dates = <>);
+use Succession::Schema;
+
+my $rs = Succession::Schema->get_schema->resultset('ChangeDate');
+
+my @dates = $rs->search(undef, { order_by => 'change_date' })->all;
 
 pop @dates;
 
@@ -14,11 +17,18 @@ print <<EOXML;
 EOXML
 
 for (@dates, '') {
+  next unless $_;
+  my $date = $_->change_date->ymd;
   print <<EOXML;
    <url>
-      <loc>https://lineofsuccession.co.uk/$_</loc>
+      <loc>https://lineofsuccession.co.uk/$date</loc>
    </url>
 EOXML
 }
 
-print "</urlset>\n";
+print <<EOXML;
+   <url>
+     <loc>https://lineofsuccession.co.uk/</loc>
+   </url>
+</urlset>
+EOXML
