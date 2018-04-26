@@ -24,7 +24,9 @@
      <h2>
 <% IF app.sovereign.image -%>
      <img src="/images/<% app.sovereign.image %>"
-          style="float:left; padding: 0 10px 10px 0">
+          class="sovpic"
+          alt="<% app.sovereign.person.name_on_date(app.date) %>"
+          title="<% app.sovereign.person.name_on_date(app.date) %>">
 <% END -%>
      Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
