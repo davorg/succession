@@ -1343,7 +1343,7 @@ INSERT INTO `title` VALUES (828,'Princess Louise Auguste of Denmark',NULL,NULL,5
 INSERT INTO `title` VALUES (829,'Caroline Amalie of Augustenburg',NULL,NULL,503,1);
 INSERT INTO `title` VALUES (830,'Christian August II, Duke of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,504,1);
 INSERT INTO `title` VALUES (831,'Prince Frederick of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,505,1);
-INSERT INTO `title` VALUES (832,'Prince TBC of Cambridge',NULL,NULL,506,1);
+INSERT INTO `title` VALUES (832,'Prince Louis of Cambridge',NULL,NULL,506,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1356,4 +1356,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-24  6:24:57
+-- Dump completed on 2018-04-29  8:39:10
