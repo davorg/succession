@@ -84,6 +84,7 @@
               <a class="dropdown-item<% active_date(app.today.strftime('%Y-%m-%d')) %>" href="/">Today</a>
             </div>
           </li>
+<% IF feed -%>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="https://blog.lineofsuccession.co.uk/" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog Posts</a>
             <div class="dropdown-menu">
@@ -92,6 +93,7 @@
 <% END -%>
             </div>
           </li>
+<% END -%>
         </ul>
         <form class="form-inline my-2 my-lg-0" method="get" action="/">
           <input class="form-control mr-sm-2" type="date" placeholder="YYYY-MM-DD" name="date" id="date"

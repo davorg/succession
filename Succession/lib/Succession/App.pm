@@ -121,7 +121,7 @@ sub _build_succession {
 
 has feed => (
   is => 'ro',
-  isa => 'XML::Feed',
+  isa => 'Maybe[XML::Feed]',
   lazy_build => 1,
 );
 
