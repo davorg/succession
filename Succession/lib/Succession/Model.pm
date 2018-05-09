@@ -38,6 +38,19 @@ sub _build_change_date_rs {
   return $_[0]->schema->resultset('ChangeDate');
 }
 
+has cache_servers => (
+  is => 'ro',
+  isa => 'ArrayRef',
+  lazy_build => 1,
+);
+
+sub _build_cache_servers => (
+  my $server = $ENV{SUCC_CACHE_SERVER} // 'localhost';
+  my $port   = $ENV{SUCC_CACHE_PORT}   // 11211;
+  
+  return [ "$server:$port" ];
+);
+
 has cache => (
   is => 'ro',
   isa => 'CHI::Driver::Memcached',
