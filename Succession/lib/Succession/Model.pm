@@ -44,12 +44,12 @@ has cache_servers => (
   lazy_build => 1,
 );
 
-sub _build_cache_servers => (
+sub _build_cache_servers {
   my $server = $ENV{SUCC_CACHE_SERVER} // 'localhost';
   my $port   = $ENV{SUCC_CACHE_PORT}   // 11211;
   
   return [ "$server:$port" ];
-);
+}
 
 has cache => (
   is => 'ro',
