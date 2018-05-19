@@ -837,7 +837,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=836 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=837 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -932,7 +932,7 @@ INSERT INTO `title` VALUES (337,'Prince William of Wales',NULL,'2011-04-29',9,0)
 INSERT INTO `title` VALUES (338,'Prince William, Duke of Cambridge','2011-04-29',NULL,9,1);
 INSERT INTO `title` VALUES (339,'Prince George of Cambridge',NULL,NULL,17,1);
 INSERT INTO `title` VALUES (340,'Princess Charlotte of Cambridge',NULL,NULL,19,1);
-INSERT INTO `title` VALUES (341,'Prince Henry of Wales',NULL,NULL,10,1);
+INSERT INTO `title` VALUES (341,'Prince Henry of Wales',NULL,'2018-05-19',10,0);
 INSERT INTO `title` VALUES (342,'Princess Anne of Edinburgh',NULL,'1952-02-06',4,0);
 INSERT INTO `title` VALUES (343,'The Princess Anne','1952-02-06','1987-06-13',4,0);
 INSERT INTO `title` VALUES (344,'The Princess Anne, Princess Royal','1987-06-13',NULL,4,1);
@@ -1352,6 +1352,7 @@ INSERT INTO `title` VALUES (832,'Prince Louis of Cambridge',NULL,NULL,506,1);
 INSERT INTO `title` VALUES (833,'Edward Windsor, Lord Downpatrick',NULL,NULL,507,1);
 INSERT INTO `title` VALUES (834,'Lady Marina Charlotte Windsor',NULL,NULL,508,1);
 INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
+INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1364,4 +1365,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-29  8:52:49
+-- Dump completed on 2018-05-19  8:32:48
