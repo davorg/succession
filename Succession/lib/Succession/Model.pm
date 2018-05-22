@@ -46,8 +46,8 @@ has cache_servers => (
 
 sub _build_cache_servers {
   my $server = $ENV{SUCC_CACHE_SERVER} // 'localhost';
-  my $port   = $ENV{SUCC_CACHE_PORT}   // 11211;
-  
+  my $port   = $ENV{SUCC_CACHE_PORT}   // 11_211;
+
   return [ "$server:$port" ];
 }
 
