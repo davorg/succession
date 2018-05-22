@@ -51,6 +51,13 @@
       gtag('js', new Date());
       gtag('config', 'UA-56332-63');
     </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3663319204757145",
+          enable_page_level_ads: true
+       });
+    </script>
   </head>
   <body>
     <script type="application/ld+json">
