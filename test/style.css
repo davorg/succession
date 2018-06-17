@@ -38,13 +38,9 @@ ol>li {
 }
 
 ol>li.disable {
-  opacity: .5;
+  color: #999;
 }
 
-ol>li:mot(.disable) {
-  opacity: 1;
-}
-
-ol>li.enable {
-  opacity: 1 !important;
+ol>li:not(.disable) {
+  color: #000;
 }
