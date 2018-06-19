@@ -27,7 +27,7 @@ CREATE TABLE `change_date` (
   `change_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `change_date_change_date` (`change_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=621 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=622 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,6 +264,7 @@ INSERT INTO `change_date` VALUES (617,'2013-07-22');
 INSERT INTO `change_date` VALUES (618,'2014-01-17');
 INSERT INTO `change_date` VALUES (619,'2015-05-02');
 INSERT INTO `change_date` VALUES (620,'2018-04-23');
+INSERT INTO `change_date` VALUES (621,'2018-06-18');
 /*!40000 ALTER TABLE `change_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1367,4 +1368,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-19 17:15:55
+-- Dump completed on 2018-06-19 17:19:29
