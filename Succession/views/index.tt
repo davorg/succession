@@ -31,7 +31,9 @@
      Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
      (born <% link_date(app.sovereign.person.born) %>)<br>
-     Sovereign since <% link_date(app.sovereign.start) %></p></div>
+     Sovereign since <% link_date(app.sovereign.start) %>
+     (<% app.sovereign_duration.years %> years,
+      <% app.sovereign_duration.months %> months)</p></div>
 <% SET prev_dt = app.prev_change_date;
    SET next_dt = app.next_change_date -%>
     <p style="clear:both"><%IF prev_dt -%>

@@ -97,6 +97,17 @@ sub _build_sovereign {
   return $self->model->sovereign_on_date($self->date);
 }
 
+has sovereign_duration => (
+  is => 'ro',
+  isa => 'DateTime::Duration',
+  lazy_build => 1,
+);
+
+sub _build_sovereign_duration {
+  my $self = shift;
+  return $self->date - $self->sovereign->start;
+}
+
 has succession => (
   is => 'ro',
   isa => 'ArrayRef',
