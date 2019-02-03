@@ -75,53 +75,66 @@ has interesting_dates => (
 
 sub _build_interesting_dates {
   return [{
-    date => DateTime->new(year => 1837, month =>  6, day => 20),
-    desc => "Start of Victoria's reign",
-  }, {
-    date => DateTime->new(year => 1862, month =>  6, day => 20),
-    desc => "Silver Jubilee of Victoria",
-  }, {
-    date => DateTime->new(year => 1877, month =>  6, day => 20),
-    desc => "Ruby Jubilee of Victoria",
-  }, {
-    date => DateTime->new(year => 1887, month =>  6, day => 20),
-    desc => "Golden Jubilee of Victoria",
-  }, {
-    date => DateTime->new(year => 1897, month =>  6, day => 20),
-    desc => "Diamond Jubilee of Victoria",
-  }, {
-    date => DateTime->new(year => 1901, month =>  1, day => 22),
-    desc => "Start of Edward VII's reign",
-  }, {
-    date => DateTime->new(year => 1910, month =>  5, day =>  6),
-    desc => "Start of George V's reign",
-  }, {
-    date => DateTime->new(year => 1935, month =>  5, day =>  6),
-    desc => "Silver Jubilee of George V",
-  }, {
-    date => DateTime->new(year => 1936, month =>  1, day => 20),
-    desc => "Start of Edward VIII's reign",
-  }, {
-    date => DateTime->new(year => 1936, month => 12, day => 11),
-    desc => "Start of George VI's reign",
-  }, {
-    date => DateTime->new(year => 1952, month =>  2, day =>  6),
-    desc => "Start of Elizabeth II's reign",
-  }, {
-    date => DateTime->new(year => 1977, month =>  2, day =>  6),
-    desc => "Silver Jubilee of Elizabeth II",
-  }, {
-    date => DateTime->new(year => 1992, month =>  2, day =>  6),
-    desc => "Ruby Jubilee of Elizabeth II",
-  }, {
-    date => DateTime->new(year => 2002, month =>  2, day =>  6),
-    desc => "Golden Jubilee of Elizabeth II",
-  }, {
-    date => DateTime->new(year => 2012, month =>  2, day =>  6),
-    desc => "Diamond Jubilee of Elizabeth II",
-  }, {
-    date => DateTime->new(year => 2017, month =>  2, day =>  6),
-    desc => "Sapphire Jubilee of Elizabeth II",
+    monarch => 'Victoria',
+    dates => [{
+      date => DateTime->new(year => 1837, month =>  6, day => 20),
+      desc => "Start of reign",
+    }, {
+      date => DateTime->new(year => 1862, month =>  6, day => 20),
+      desc => "Silver Jubilee",
+    }, {
+      date => DateTime->new(year => 1877, month =>  6, day => 20),
+      desc => "Ruby Jubilee",
+    }, {
+      date => DateTime->new(year => 1887, month =>  6, day => 20),
+      desc => "Golden Jubilee",
+    }, {
+      date => DateTime->new(year => 1897, month =>  6, day => 20),
+      desc => "Diamond Jubilee",
+    }]}, {
+    monarch => 'Edward VII',
+    dates => [{
+      date => DateTime->new(year => 1901, month =>  1, day => 22),
+      desc => "Start of reign",
+    }]}, {
+    monarch => 'George V',
+    dates => [{
+      date => DateTime->new(year => 1910, month =>  5, day =>  6),
+      desc => "Start of reign",
+    }, {
+      date => DateTime->new(year => 1935, month =>  5, day =>  6),
+      desc => "Silver Jubilee",
+    }]}, {
+    monarch => 'Edward VIII',
+    dates => [{
+      date => DateTime->new(year => 1936, month =>  1, day => 20),
+      desc => "Start of reign",
+    }]}, {
+    monarch => 'George VI',
+    dates => [{
+      date => DateTime->new(year => 1936, month => 12, day => 11),
+      desc => "Start of reign",
+    }]}, {
+    monarch => 'Elizabeth II',
+    dates => [{
+      date => DateTime->new(year => 1952, month =>  2, day =>  6),
+      desc => "Start of reign",
+    }, {
+      date => DateTime->new(year => 1977, month =>  2, day =>  6),
+      desc => "Silver Jubilee",
+    }, {
+      date => DateTime->new(year => 1992, month =>  2, day =>  6),
+      desc => "Ruby Jubilee",
+    }, {
+      date => DateTime->new(year => 2002, month =>  2, day =>  6),
+      desc => "Golden Jubilee",
+    }, {
+      date => DateTime->new(year => 2012, month =>  2, day =>  6),
+      desc => "Diamond Jubilee",
+    }, {
+      date => DateTime->new(year => 2017, month =>  2, day =>  6),
+      desc => "Sapphire Jubilee",
+    }]
   }];
 }
 

@@ -80,16 +80,8 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
           </li -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="https://lineofsuccession.co.uk/" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse Interesting Dates</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
-<% FOREACH date IN app.interesting_dates;
-     NEXT IF date.date < app.earliest -%>
-              <a class="dropdown-item<% active_date(date.date.ymd) %>" href="/<% date.date.ymd %>"><% date.date.strftime('%e %B %Y') %><br><span class="small"><% date.desc %></span></a>
-<% END -%>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item<% active_date(app.today.strftime('%Y-%m-%d')) %>" href="/">Today</a>
-            </div>
+          <li class="nav-item">
+            <a class="nav-link" href="/dates">Browse Interesting Dates</a>
           </li>
 <% IF feed -%>
           <li class="nav-item dropdown">

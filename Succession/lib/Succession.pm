@@ -5,6 +5,15 @@ use Succession::App;
 
 our $VERSION = '0.1';
 
+get '/dates' => sub {
+  my $app = Succession::App->new;
+
+  template 'dates', {
+    app => $app,
+    feed    => $app->feed,
+  };
+};
+
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   my ($date) = splat;
 

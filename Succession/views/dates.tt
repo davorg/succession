@@ -1,0 +1,14 @@
+<h1>Browse Interesting Dates</h1>
+<p>Choose an interesting date from the list below to see the line of
+succession on that date.</p>
+<p>Alternatively, you can use the date-picker above or see
+<a href="/">today's line of succession</a>.</p>
+<% FOREACH monarch IN app.interesting_dates -%>
+<h2><% monarch.monarch %></h2>
+<ul>
+<%   FOREACH date IN monarch.dates -%>
+<%   NEXT IF date.date < app.earliest -%>
+  <li><a href="/<% date.date.ymd %>"><% date.desc %> - <% date.date.strftime('%e %B %Y') %></a></li>
+<%   END -%>
+</ul>
+<% END -%>
