@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.2.15-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.38-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.2.15-MariaDB
+-- Server version	10.1.38-MariaDB-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -322,13 +322,13 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text DEFAULT NULL,
+  `wikipedia` text,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=511 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=512 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -776,6 +776,7 @@ INSERT INTO `person` VALUES (507,'1988-12-02',NULL,43,1,'m',NULL,NULL);
 INSERT INTO `person` VALUES (508,'1992-09-30',NULL,43,2,'f',NULL,NULL);
 INSERT INTO `person` VALUES (509,'1995-08-24',NULL,43,3,'f',NULL,NULL);
 INSERT INTO `person` VALUES (510,'2018-06-18',NULL,8,2,'f',NULL,NULL);
+INSERT INTO `person` VALUES (511,'2019-05-06',NULL,10,1,'m',NULL,NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -831,7 +832,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT 0,
+  `is_default` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `title_start` (`start`),
@@ -839,7 +840,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1356,6 +1357,7 @@ INSERT INTO `title` VALUES (834,'Lady Marina Charlotte Windsor',NULL,NULL,508,1)
 INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
+INSERT INTO `title` VALUES (838,'Prince [Unknown] of Sussex',NULL,NULL,511,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1368,4 +1370,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-28  9:04:41
+-- Dump completed on 2019-05-07  8:42:32
