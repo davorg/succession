@@ -1357,7 +1357,7 @@ INSERT INTO `title` VALUES (834,'Lady Marina Charlotte Windsor',NULL,NULL,508,1)
 INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
-INSERT INTO `title` VALUES (838,'Prince [Unknown] of Sussex',NULL,NULL,511,1);
+INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windor',NULL,NULL,511,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
