@@ -20,6 +20,7 @@ requires 'Moose';
 requires 'Moose::Util::TypeConstraints';
 requires 'MooseX::MarkAsMethods';
 requires 'MooseX::NonMoose';
+requires 'MooX::Role::JSON_LD';
 requires 'Plack::Handler::FCGI';
 requires 'Plack::Runner';
 requires 'Plack::Test';

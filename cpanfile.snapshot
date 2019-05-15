@@ -2189,6 +2189,21 @@ DISTRIBUTIONS
       Sub::Defer 2.003001
       Sub::Quote 2.003001
       perl 5.006
+  MooX-Role-JSON_LD-0.0.16
+    pathname: D/DA/DAVECROSS/MooX-Role-JSON_LD-0.0.16.tar.gz
+    provides:
+      MooX::JSON_LD 0.000015
+      MooX::Role::JSON_LD 0.000016
+    requirements:
+      ExtUtils::MakeMaker 0
+      JSON::MaybeXS 0
+      Moo 0
+      Moose 0
+      Sub::Quote 0
+      Test::More 0
+      Types::Standard 0
+      namespace::autoclean 0
+      perl 5.006000
   MooX-Types-MooseLike-0.29
     pathname: M/MA/MATEU/MooX-Types-MooseLike-0.29.tar.gz
     provides:
