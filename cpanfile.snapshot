@@ -3674,6 +3674,21 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  XML-Parser-2.44
+    pathname: T/TO/TODDR/XML-Parser-2.44.tar.gz
+    provides:
+      XML::Parser 2.44
+      XML::Parser::Expat 2.44
+      XML::Parser::Style::Debug undef
+      XML::Parser::Style::Objects undef
+      XML::Parser::Style::Stream undef
+      XML::Parser::Style::Subs undef
+      XML::Parser::Style::Tree undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      LWP::UserAgent 0
+      Test::More 0
+      perl 5.00405
   XML-RSS-1.60
     pathname: S/SH/SHLOMIF/XML-RSS-1.60.tar.gz
     provides:
