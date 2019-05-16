@@ -1,3 +1,4 @@
+requires 'Cache::Memcached';
 requires 'CHI';
 requires 'CHI::Driver::Memcached';
 requires 'Cwd';

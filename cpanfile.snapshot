@@ -150,6 +150,17 @@ DISTRIBUTIONS
       CHI 0.33
       ExtUtils::MakeMaker 0
       Moose 0.66
+  Cache-Memcached-1.30
+    pathname: D/DO/DORMANDO/Cache-Memcached-1.30.tar.gz
+    provides:
+      Cache::Memcached 1.30
+      Cache::Memcached::GetParser undef
+    requirements:
+      Encode 0
+      ExtUtils::MakeMaker 0
+      Storable 0
+      String::CRC32 0
+      Time::HiRes 0
   Capture-Tiny-0.48
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.48.tar.gz
     provides:
@@ -2984,6 +2995,12 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.30
       IO::File 1.14
+  String-CRC32-1.7
+    pathname: L/LE/LEEJO/String-CRC32-1.7.tar.gz
+    provides:
+      String::CRC32 1.7
+    requirements:
+      ExtUtils::MakeMaker 0
   String-RewritePrefix-0.007
     pathname: R/RJ/RJBS/String-RewritePrefix-0.007.tar.gz
     provides:
