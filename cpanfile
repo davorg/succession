@@ -1,4 +1,5 @@
 requires 'CHI';
+requires 'CHI::Driver::Memcached';
 requires 'Cwd';
 requires 'Daemon::Control';
 requires 'Dancer2';
