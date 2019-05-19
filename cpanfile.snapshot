@@ -409,6 +409,21 @@ DISTRIBUTIONS
       Test::More 0.47
       Tie::Hash 0
       perl 5.006
+  DBD-mysql-4.050
+    pathname: D/DV/DVEEDEN/DBD-mysql-4.050.tar.gz
+    provides:
+      Bundle::DBD::mysql 4.050
+      DBD::mysql 4.050
+      DBD::mysql::GetInfo undef
+      DBD::mysql::db 4.050
+      DBD::mysql::dr 4.050
+      DBD::mysql::st 4.050
+    requirements:
+      DBI 1.609
+      Data::Dumper 0
+      Devel::CheckLib 1.09
+      ExtUtils::MakeMaker 0
+      perl 5.008001
   DBI-1.642
     pathname: T/TI/TIMB/DBI-1.642.tar.gz
     provides:
@@ -1340,6 +1355,16 @@ DISTRIBUTIONS
       perl 5.008004
       strict 0
       warnings 0
+  Devel-CheckLib-1.13
+    pathname: M/MA/MATTN/Devel-CheckLib-1.13.tar.gz
+    provides:
+      Devel::CheckLib 1.13
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      File::Temp 0.16
+      perl 5.00405
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
