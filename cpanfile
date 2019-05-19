@@ -6,6 +6,7 @@ requires 'Daemon::Control';
 requires 'Dancer2';
 requires 'Data::Dumper';
 requires 'DateTime';
+requires 'DateTime::Format::MySQL';
 requires 'DateTime::Format::Strptime';
 requires 'DBIx::Class';
 requires 'ExtUtils::MakeMaker';

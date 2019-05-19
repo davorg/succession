@@ -847,6 +847,27 @@ DISTRIBUTIONS
       strict 0
       warnings 0
       warnings::register 0
+  DateTime-Format-Builder-0.82
+    pathname: D/DR/DROLSKY/DateTime-Format-Builder-0.82.tar.gz
+    provides:
+      DateTime::Format::Builder 0.82
+      DateTime::Format::Builder::Parser 0.82
+      DateTime::Format::Builder::Parser::Dispatch 0.82
+      DateTime::Format::Builder::Parser::Quick 0.82
+      DateTime::Format::Builder::Parser::Regex 0.82
+      DateTime::Format::Builder::Parser::Strptime 0.82
+      DateTime::Format::Builder::Parser::generic 0.82
+    requirements:
+      Carp 0
+      DateTime 1.00
+      DateTime::Format::Strptime 1.04
+      ExtUtils::MakeMaker 0
+      Params::Validate 0.72
+      Scalar::Util 0
+      parent 0
+      strict 0
+      vars 0
+      warnings 0
   DateTime-Format-Mail-0.403
     pathname: B/BO/BOOK/DateTime-Format-Mail-0.403.tar.gz
     provides:
@@ -859,6 +880,14 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       vars 0
+  DateTime-Format-MySQL-0.06
+    pathname: X/XM/XMIKEW/DateTime-Format-MySQL-0.06.tar.gz
+    provides:
+      DateTime::Format::MySQL 0.06
+    requirements:
+      DateTime 0
+      DateTime::Format::Builder 0.6
+      Module::Build 0
   DateTime-Format-Strptime-1.75
     pathname: D/DR/DROLSKY/DateTime-Format-Strptime-1.75.tar.gz
     provides:
