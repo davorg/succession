@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run --name succession \
+  --network="host" \
+  -e SUCC_DB_HOST \
+  -e SUCC_DB_NAME \
+  -e SUCC_DB_USER \
+  -e SUCC_DB_PASS \
+  -p 1701:1701 -d succession
