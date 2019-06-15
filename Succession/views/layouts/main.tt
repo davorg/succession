@@ -107,7 +107,7 @@
           <p>Welcome to the site.</p>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
           <hr>
-<% INSERT google-ads.tt -%>
+<% INSERT 'google-ads.tt' -%>
           <hr>
 <a class="twitter-timeline" href="https://twitter.com/linesuccession?ref_src=twsrc%5Etfw">Tweets by linesuccession</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
