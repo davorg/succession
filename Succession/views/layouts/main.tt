@@ -51,13 +51,6 @@
       gtag('js', new Date());
       gtag('config', 'UA-56332-63');
     </script>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-       (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-3663319204757145",
-          enable_page_level_ads: true
-       });
-    </script>
   </head>
   <body>
     <script type="application/ld+json">
@@ -113,6 +106,8 @@
         <div class="col-sm-3">
           <p>Welcome to the site.</p>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
+          <hr>
+<% INSERT google-ads.tt -%>
           <hr>
 <a class="twitter-timeline" href="https://twitter.com/linesuccession?ref_src=twsrc%5Etfw">Tweets by linesuccession</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
