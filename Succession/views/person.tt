@@ -1,1 +1,14 @@
+<% PROCESS util.tt -%>
 <h2><% person.name %></h2>
+<p>Born: <% link_date(person.born) %>
+<% IF person.died -%>
+<br>Died: <% link_date(person.died) %>
+<% END -%>
+</p>
+
+<h3>Names &amp; titles</h3>
+<ul>
+<% FOR title IN person.titles.sort('start') -%>
+<li><% title.title %></li>
+<% END -%>
+</ul>

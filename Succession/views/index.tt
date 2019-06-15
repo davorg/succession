@@ -1,10 +1,4 @@
-<% MACRO link_date(the_date) BLOCK;
-   IF the_date < app.earliest;
-     the_date.strftime('%e %b %Y');
-   ELSE;
-     '<a title="Line of Succession on '; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '</a>';
-   END;
-   END;
+<% PROCESS util.tt;
    exclusions = {
      c  => 'Catholic',
      mc => 'Married to a Catholic',
