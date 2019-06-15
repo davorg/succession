@@ -28,7 +28,7 @@
           alt="<% app.sovereign.person.name_on_date(app.date) %>"
           title="<% app.sovereign.person.name_on_date(app.date) %>">
 <% END -%>
-     Sovereign: <% app.sovereign.person.name_on_date(app.date) %></h2>
+     Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
      (born <% link_date(app.sovereign.person.born) %>)<br>
      Sovereign since <% link_date(app.sovereign.start) %>
@@ -46,7 +46,7 @@
 <% count = 0;
    FOR person IN app.succession;
      exc = person.excluded_on_date(app.date) -%>
-      <li<% IF exc %> class="disable" <% END %>><% person.name_on_date(app.date) %>
+      <li<% IF exc %> class="disable" <% END %>><a href="/p/<% person.slug %>"><% person.name_on_date(app.date) %></a>
         <% IF person.name_on_date(app.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
