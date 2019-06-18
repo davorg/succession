@@ -5,3 +5,12 @@
      '<a title="Line of Succession on '; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%e&nbsp;%B&nbsp;%Y'); '</a>';
    END;
    END; -%>
+
+<% MACRO link_person(the_person, the_date) BLOCK;
+   IF the_date;
+     the_name = the_person.name_on_date(the_date);
+   ELSE;
+     the_name = the_person.name;
+   END;
+   '<a href="/p/'; the_person.slug; '">'; the_name; '</a>';
+   END; -%>

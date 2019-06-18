@@ -1,3 +1,4 @@
+<% USE Dumper -%>
 <% PROCESS util.tt -%>
 <h2><% person.name %></h2>
 <p>Born: <% link_date(person.born) %>
@@ -6,9 +7,34 @@
 <% END -%>
 </p>
 
+<% IF person.titles.size -%>
 <h3>Names &amp; titles</h3>
 <ul>
 <% FOR title IN person.titles.sort('start') -%>
-<li><% title.title %></li>
+<li><% title.title %> (<% link_date(title.start or person.born) %>
+- <% IF title.end;
+    link_date(title.end);
+     ELSIF person.died;
+    link_date(person.died);
+     ELSE;
+    'Current';
+     END %>)</li>
 <% END -%>
 </ul>
+<% END -%>
+
+<h3>Relations</h3>
+<% IF person.parent -%>
+<h4>Parent</h4>
+<ul>
+<li><% link_person(person.parent) %></li>
+</ul>
+<% END -%>
+<% IF person.people.size -%>
+<h4>Children</h4>
+<ul>
+<% FOREACH child IN person.people.sort('born') -%>
+<li><% link_person(child) %></li>
+<% END -%>
+</ul>
+<% END -%>
