@@ -61,7 +61,6 @@ get qr{/p/(.*)} => sub {
   my ($slug) = splat;
 
   my $app    = Succession::App->new;
-warn "calling get_person_from_slug: $slug\n";
   my $person = $app->model->get_person_from_slug($slug);
 
   template 'person', {

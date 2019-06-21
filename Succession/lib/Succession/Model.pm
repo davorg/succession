@@ -332,8 +332,6 @@ sub get_person_from_slug {
   my $self = shift;
   my ($slug) = @_;
 
-warn "get_person_from_slug: $slug\n";
-
   return $self->schema->resultset('Person')->find_by_slug($slug);
 }
 
