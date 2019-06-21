@@ -24,7 +24,7 @@
 <% END -%>
      Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
      <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
-     (born <% link_date(app.sovereign.person.born) %>)<br>
+     (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
      Sovereign since <% link_date(app.sovereign.start) %>
      (<% app.sovereign_duration.years %> years,
       <% app.sovereign_duration.months %> months)</p></div>
@@ -45,7 +45,7 @@
         <span class="small">(<% person.name %>)</span>
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(app.date) %>
-        (born <% link_date(person.born) %>),
+        (born <% link_date(person.born) %><% IF person.died %>, will die on <% link_date(person.died); END %>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
 <% IF NOT exc;
