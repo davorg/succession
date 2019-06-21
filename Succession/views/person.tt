@@ -33,7 +33,7 @@
 <% IF person.people.size -%>
 <h4>Children</h4>
 <ul>
-<% FOREACH child IN person.people.sort('born') -%>
+<% FOREACH child IN person.people_rs.order_by_age -%>
 <li><% link_person(child) %></li>
 <% END -%>
 </ul>
