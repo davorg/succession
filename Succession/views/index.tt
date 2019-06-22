@@ -1,9 +1,4 @@
-<% PROCESS util.tt;
-   exclusions = {
-     c  => 'Catholic',
-     mc => 'Married to a Catholic',
-     i  => 'Illegitimate',
-   } -%>
+<% PROCESS util.tt -%>
     <% IF error -%>
     <div class="alert alert-danger alert-dismissable fade show">
     <% error %>

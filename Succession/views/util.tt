@@ -14,3 +14,10 @@
    END;
    '<a href="/p/'; the_person.slug; '">'; the_name; '</a>';
    END; -%>
+
+<%
+   exclusions = {
+     c  => 'Catholic',
+     mc => 'Married to a Catholic',
+     i  => 'Illegitimate',
+   } -%>

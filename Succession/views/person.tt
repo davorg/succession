@@ -7,17 +7,17 @@
 <% END -%>
 </p>
 
-<% IF person.titles.size -%>
+<% IF person.titles_rs.count > 1 -%>
 <h3>Names &amp; titles</h3>
 <ul>
-<% FOR title IN person.titles.sort('start') -%>
-<li><% title.title %> (<% link_date(title.start or person.born) %>
+<% FOR title IN person.titles_rs.order_by_date -%>
+<li><% title.title %> (<% IF title.start; link_date(title.start); ELSE; 'birth'; END %>
 - <% IF title.end;
     link_date(title.end);
      ELSIF person.died;
-    link_date(person.died);
+    'death';
      ELSE;
-    'Current';
+    'current';
      END %>)</li>
 <% END -%>
 </ul>
@@ -30,11 +30,27 @@
 <li><% link_person(person.parent) %></li>
 </ul>
 <% END -%>
-<% IF person.people.size -%>
+<% IF person.people_rs.count -%>
 <h4>Children</h4>
 <ul>
 <% FOREACH child IN person.people_rs.order_by_age -%>
 <li><% link_person(child) %></li>
+<% END -%>
+</ul>
+<% END -%>
+
+<% IF person.exclusions_rs.count -%>
+<h4>Exclusions</h4>
+<ul>
+<% FOREACH excl IN person.exclusions_rs.order_by_date -%>
+<li><% exclusions.${excl.reason} %> (<% IF excl.start; link_date(excl.start); ELSE; 'birth'; END %>
+- <% IF excl.end;
+    link_date(excl.end);
+     ELSIF person.died;
+    'death';
+     ELSE;
+    'current';
+     END %>)</li>
 <% END -%>
 </ul>
 <% END -%>
