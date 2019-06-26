@@ -64,7 +64,8 @@ drop table if exists change_date;
 
 create table change_date (
   id integer primary key  auto_increment,
-  change_date date
+  change_date date,
+  succession varchar(255)
 );
 
 create index change_date_change_date on change_date (change_date);

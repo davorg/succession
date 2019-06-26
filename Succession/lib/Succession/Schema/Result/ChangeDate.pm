@@ -50,6 +50,12 @@ __PACKAGE__->table("change_date");
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
+=head2 succession
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -57,6 +63,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "change_date",
   { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  "succession",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
 );
 
 =head1 PRIMARY KEY
@@ -72,8 +80,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07047 @ 2018-01-20 14:23:40
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eFEMYjznsQ6i9ofITwxB7Q
+# Created by DBIx::Class::Schema::Loader v0.07048 @ 2019-06-26 15:19:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PFW4WtUK/ZlMsys4wV6dVQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
