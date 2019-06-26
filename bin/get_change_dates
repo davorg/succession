@@ -40,7 +40,10 @@ while ($date <= $app->today) {
 
   if ($succ_str ne $prev_succ_str) {
     say $date->ymd;
-    $rs->create({ change_date => $date});
+    $rs->create({
+      change_date => $date,
+      succession  => $succ_str,
+    });
     $prev_succ_str = $succ_str;
   }
 
