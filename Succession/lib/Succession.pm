@@ -15,14 +15,9 @@ get '/dates' => sub {
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
-  my ($date) = splat;
+  my ($date) = splat or query_parameters->get('date');
 
   my $date_err;
-
-  unless ($date) {
-    my $p = query_parameters;
-    $date = $p->get('date');
-  }
 
   if (defined $date and $date !~ /^\d{4}-\d\d-\d\d$/) {
     $date_err = 'Date must be in the format YYYY-MM-DD';
