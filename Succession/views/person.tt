@@ -30,10 +30,10 @@
 <li><% link_person(person.parent) %></li>
 </ul>
 <% END -%>
-<% IF person.people_rs.count -%>
+<% IF person.children_rs.count -%>
 <h4>Children</h4>
 <ul>
-<% FOREACH child IN person.people_rs.order_by_age -%>
+<% FOREACH child IN person.children_rs.order_by_age -%>
 <li><% link_person(child) %></li>
 <% END -%>
 </ul>

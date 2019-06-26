@@ -10,4 +10,7 @@ schema_class Succession::Schema
   dump_directory	./Succession/lib
   components    InflateColumn::DateTime
   use_moose	1
+  <rel_name_map Person>
+    people children
+  </rel_name_map>
 </loader_options>

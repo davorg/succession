@@ -125,6 +125,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 children
+
+Type: has_many
+
+Related object: L<Succession::Schema::Result::Person>
+
+=cut
+
+__PACKAGE__->has_many(
+  "children",
+  "Succession::Schema::Result::Person",
+  { "foreign.parent" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 exclusions
 
 Type: has_many
@@ -160,21 +175,6 @@ __PACKAGE__->belongs_to(
   },
 );
 
-=head2 people
-
-Type: has_many
-
-Related object: L<Succession::Schema::Result::Person>
-
-=cut
-
-__PACKAGE__->has_many(
-  "people",
-  "Succession::Schema::Result::Person",
-  { "foreign.parent" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 sovereigns
 
 Type: has_many
@@ -206,8 +206,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2018-01-25 09:04:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ddaCctoH4K+ljm7VE6jMCg
+# Created by DBIx::Class::Schema::Loader v0.07048 @ 2019-06-26 15:57:08
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lWRueJeBLEj02KQUPCOjFQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
