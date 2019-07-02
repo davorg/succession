@@ -238,7 +238,8 @@ sub json_ld_fields {
     'name',
     {
       birthDate => sub { $_[0]->born->ymd },
-      url => sub { 'https://lineofsuccession.co.uk/' },
+      deathDate => sub { defined $_[0]->died ? $_[0]->died->ymd : undef },
+      url => sub { 'https://lineofsuccession.co.uk/p/' . $_[0]->slug },
     }
   ];
 }
