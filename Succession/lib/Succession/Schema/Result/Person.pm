@@ -325,7 +325,7 @@ sub is_alive_on_date {
 sub sorted_children {
   my $self = shift;
 
-  return $self->people({}, {
+  return $self->children({}, {
     order_by => 'family_order',
   });
 }
