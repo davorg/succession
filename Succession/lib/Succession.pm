@@ -57,6 +57,7 @@ get qr{/p/(.*)} => sub {
 
   my $app    = Succession::App->new;
   my $person = $app->model->get_person_from_slug($slug);
+  $app->person($person);
 
   template 'person', {
     app    => $app,

@@ -130,6 +130,11 @@ sub _build_succession {
   return \@short_succ;
 }
 
+has person => (
+  is => 'rw',
+  isa => 'Maybe[Succession::Schema::Result::Person]',
+);
+
 has feed => (
   is => 'ro',
   isa => 'Maybe[XML::Feed]',
@@ -209,21 +214,25 @@ around json_ld_data => sub {
 
   my $data = $self->$orig(@_);
 
-  my $pos = 1;
+  if ($self->person) {
+    $data = $self->person->json_ld_data;
+  } else {
+    my $pos = 1;
 
-  my $people;
-  for ($self->sovereign->person, @{$self->succession}) {
-    my $d = $_->json_ld_data;
-    delete $d->{'@context'};
+    my $people;
+    for ($self->sovereign->person, @{$self->succession}) {
+      my $d = $_->json_ld_data;
+      delete $d->{'@context'};
 
-    push @$people, {
-      '@type'  => 'ListItem',
-      position => $pos++,
-      item     => $d,
-    };
+      push @$people, {
+        '@type'  => 'ListItem',
+        position => $pos++,
+        item     => $d,
+      };
+    }
+
+    $data->{itemListElement} = $people;
   }
-
-  $data->{itemListElement} = $people;
 
   return $data;
 };
