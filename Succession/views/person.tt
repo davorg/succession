@@ -1,6 +1,6 @@
 <% USE Dumper -%>
 <% PROCESS util.tt -%>
-<h2><% person.name %></h2>
+<h1><% person.name %></h1>
 <p>Born: <% link_date(person.born) %>
 <% IF person.died -%>
 <br>Died: <% link_date(person.died) %>
@@ -8,7 +8,7 @@
 </p>
 
 <% IF person.titles_rs.count > 1 -%>
-<h3>Names &amp; titles</h3>
+<h2>Names &amp; titles</h2>
 <ul>
 <% FOR title IN person.titles_rs.order_by_date -%>
 <li><% title.title %> (<% IF title.start; link_date(title.start); ELSE; 'birth'; END %>
@@ -23,15 +23,15 @@
 </ul>
 <% END -%>
 
-<h3>Relations</h3>
+<h2>Relations</h2>
 <% IF person.parent -%>
-<h4>Parent</h4>
+<h3>Parent</h3>
 <ul>
 <li><% link_person(person.parent) %></li>
 </ul>
 <% END -%>
 <% IF person.children_rs.count -%>
-<h4>Children</h4>
+<h3>Children</h3>
 <ul>
 <% FOREACH child IN person.children_rs.order_by_age -%>
 <li><% link_person(child) %></li>
@@ -40,7 +40,7 @@
 <% END -%>
 
 <% IF person.exclusions_rs.count -%>
-<h4>Exclusions</h4>
+<h2>Exclusions</h2>
 <ul>
 <% FOREACH excl IN person.exclusions_rs.order_by_date -%>
 <li><% exclusions.${excl.reason} %> (<% IF excl.start; link_date(excl.start); ELSE; 'birth'; END %>
