@@ -25,6 +25,12 @@ via {
   DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
+has request => (
+  is => 'ro',
+  isa => 'Dancer2::Core::Request',
+  required => 1,
+);
+
 has model => (
   is => 'ro',
   isa => 'Succession::Model',
@@ -65,6 +71,12 @@ has earliest => (
   default => sub { DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
   )->parse_datetime('1837-06-20') },
+);
+
+has is_date_page => (
+  is => 'ro',
+  isa => 'Bool',
+  required => 1,
 );
 
 has list_size => (
@@ -176,8 +188,28 @@ sub is_valid_date {
   )->parse_datetime($_[0]);
 }
 
+sub canonical {
+  my $self = shift;
+
+  if ($self->is_date_page) {
+    return '/' . $self->canonical_date;
+  } else {
+    return $self->request->path;
+  }
+}
+
 sub canonical_date {
   return $_[0]->model->get_canonical_date($_[0]->date);
+}
+
+sub alternate {
+  my $self = shift;
+
+  if ($self->is_date_page) {
+    return '/' . $self->page_date;
+  } else {
+    return $self->request->path;
+  }
 }
 
 sub page_date {

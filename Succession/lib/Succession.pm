@@ -6,7 +6,10 @@ use Succession::App;
 our $VERSION = '0.1';
 
 get '/dates' => sub {
-  my $app = Succession::App->new;
+  my $app = Succession::App->new({
+    request => request,
+    is_date_page => 0,
+  });
 
   template 'dates', {
     app => $app,
@@ -29,7 +32,13 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
     $date = undef;
   }
 
-  my $app = Succession::App->new($date // ());
+  my $args = {
+    request => request,
+    is_date_page => 1,
+  };
+  $args->{date} = $date if defined $date;
+
+  my $app = Succession::App->new($args);
 
   if ($app->too_early) {
     $date_err = 'Date cannot be before ' .
@@ -55,7 +64,10 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 get qr{/p/(.*)} => sub {
   my ($slug) = splat;
 
-  my $app    = Succession::App->new;
+  my $app    = Succession::App->new({
+    request => request,
+    is_date_page => 0,
+  });
   my $person = $app->model->get_person_from_slug($slug);
   $app->person($person);
 

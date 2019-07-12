@@ -33,8 +33,8 @@
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Faustina" rel="stylesheet">
-    <link rel="alternate" href="https://lineofsuccession.co.uk/<% app.page_date %>" hreflang="en-gb" />
-    <link rel="canonical" href="https://lineofsuccession.co.uk/<% app.canonical_date %>" />
+    <link rel="alternate" href="https://lineofsuccession.co.uk<% app.alternate %>" hreflang="en-gb" />
+    <link rel="canonical" href="https://lineofsuccession.co.uk<% app.canonical %>" />
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
