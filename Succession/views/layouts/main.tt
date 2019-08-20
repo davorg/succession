@@ -7,12 +7,18 @@
    END -%>
 <% title = 'British Line of Succession';
    desc  = 'See the Line of Succession to the British Throne';
-   IF app.date == app.today;
-     title = title _ ' on any date in the last 180 years.';
-     desc  = desc  _ ' on any date in the last 180 years.';
+   IF app.is_date_page;
+     IF app.date == app.today;
+       title = title _ ' on any date in the last 180 years.';
+       desc  = desc  _ ' on any date in the last 180 years.';
+     ELSE;
+       title = title _ ' on ' _ app.date.strftime('%e %B %Y');
+       desc  = desc  _ ' on ' _ app.date.strftime('%e %B %Y') _ '.';
+     END;
    ELSE;
-     title = title _ ' on ' _ app.date.strftime('%e %B %Y');
-     desc  = desc  _ ' on ' _ app.date.strftime('%e %B %Y') _ '.';
+     title = person.name _ ' - ' _ title;
+     desc  = 'Details of ' _ person.name _ ' in the Line of Succession ' _
+             'to the British throne';
    END -%>
 <!doctype html>
 <!-- You'd never believe I'm a republican, would you! -->
