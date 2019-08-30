@@ -3,6 +3,7 @@
 docker run --name succession \
   --network="host" \
   -e SUCC_DB_HOST \
+  -e SUCC_DB_PORT \
   -e SUCC_DB_NAME \
   -e SUCC_DB_USER \
   -e SUCC_DB_PASS \

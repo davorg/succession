@@ -1,6 +1,7 @@
 #!/bin/bash
 
 check_vars() {
+  # No need to check for SUCC_DB_PORT
   declare -a vars=(SUCC_DB_HOST SUCC_DB_NAME SUCC_DB_USER SUCC_DB_PASS)
 
   for var_name in "${vars[@]}"
