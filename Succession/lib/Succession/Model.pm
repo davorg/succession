@@ -63,7 +63,7 @@ sub _build_cache {
   return CHI->new(
     driver => 'Memcached',
     namespace => 'succession',
-    servers => [ $self->cache_servers ],
+    servers => $self->cache_servers,
     debug => 0,
     compress_threshold => 10_000,
   );
