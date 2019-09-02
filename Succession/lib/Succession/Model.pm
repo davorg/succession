@@ -58,10 +58,12 @@ has cache => (
 );
 
 sub _build_cache {
+  my $self = shift;
+
   return CHI->new(
     driver => 'Memcached',
     namespace => 'succession',
-    servers => [ 'localhost:11211' ],
+    servers => [ $self->cache_servers ],
     debug => 0,
     compress_threshold => 10_000,
   );

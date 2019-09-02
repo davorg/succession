@@ -11,6 +11,11 @@ services:
       - MARIADB_DATABASE=$SUCC_DB_NAME
       - MARIADB_USER=$SUCC_DB_USER
       - MARIADB_PASSWORD=$SUCC_DB_PASS
+    ports:
+      - "13306:3306"
+
+  cache:
+    image: memcached:1.5
 
   app:
     build: .
@@ -19,7 +24,9 @@ services:
       - database
     depends_on:
       - database
+      - cache
     environment:
+      - SUCC_CACHE_SERVER=cache
       - SUCC_DB_HOST=database
       - SUCC_DB_PORT
       - SUCC_DB_NAME
