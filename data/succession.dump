@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.40-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.14  Distrib 5.5.60-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.1.40-MariaDB-0ubuntu0.18.04.1
+-- Server version	5.5.60-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -845,7 +845,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=840 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -953,7 +953,7 @@ INSERT INTO `title` VALUES (350,'Mia Tindall',NULL,NULL,18,1);
 INSERT INTO `title` VALUES (351,'The Prince Andrew',NULL,'1986-07-23',5,0);
 INSERT INTO `title` VALUES (352,'The Prince Andrew, Duke of York','1986-07-23',NULL,5,1);
 INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,NULL,11,1);
-INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,NULL,12,1);
+INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,1);
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19',NULL,6,1);
 INSERT INTO `title` VALUES (357,'Lady Louise Windsor',NULL,NULL,13,1);
@@ -1363,6 +1363,7 @@ INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
 INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,NULL,511,1);
+INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,0);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1375,4 +1376,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-28 11:23:39
+-- Dump completed on 2019-09-12 15:32:53
