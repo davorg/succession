@@ -232,6 +232,28 @@ sub next_change_date {
   return $date ? $date->change_date : '';
 }
 
+sub prev_day {
+  my $self = shift;
+  my $date = $self->date;
+
+  if ($date > $self->earliest) {
+    return $date->clone->subtract(days => 1);
+  }
+
+  return;
+}
+
+sub next_day {
+  my $self = shift;
+  my $date = $self->date;
+
+  if ($date < $self->today) {
+    return $date->clone->add(days => 1);
+  }
+
+  return;
+}
+
 sub get_changes {
   my $self = shift;
   return $self->model->get_changes_on_date($self->date);

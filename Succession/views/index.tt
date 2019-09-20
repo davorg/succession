@@ -24,12 +24,20 @@
      (<% app.sovereign_duration.years %> years,
       <% app.sovereign_duration.months %> months)</p></div>
 <% SET prev_dt = app.prev_change_date;
-   SET next_dt = app.next_change_date -%>
+   SET next_dt = app.next_change_date;
+   SET yester  = app.prev_day;
+   SET tomorr  = app.next_day; -%>
     <p style="clear:both"><%IF prev_dt -%>
       Previous change: <% link_date(prev_dt) %>
     <% END %> |
     <%IF next_dt -%>
       Next change: <% link_date(next_dt) %>
+    <% END -%><br>
+    <% IF yester -%>
+      Previous day: <% link_date(yester) %>
+    <% END -%> |
+    <% IF tomorr -%>
+      Next day: <% link_date(tomorr) %>
     <% END -%></p>
     <ol>
 <% count = 0;
