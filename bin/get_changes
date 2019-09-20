@@ -31,7 +31,36 @@ for (1 .. $#changes) {
   my @new = @{$changes[$_]->{succ}};
   my @old = @{$changes[$_-1]->{succ}};
 
+  my $new_i = my $old_i = 0;
 
+  while ($new_i <= $#new and $old_i <= $#old) {
+    if ($new[$new_i] eq $old[$old_i]) {
+      $old_i++; $new_i++;
+      next;
+    }
+
+    if ($new[$new_i+1] eq $old[$old_i]) {
+      say $changes[$_]{date}->ymd . " - $new[$new_i] added";
+      $new_i += 2; $old_i++;
+      next;
+    } elsif ($new[$new_i] eq "$old[$old_i]x") {
+      say $changes[$_]{date}->ymd . " $old[$old_i] was excluded";
+      $old_i++; $new_i++;
+      next;
+    } elsif ("$new[$new_i]x" eq $old[$old_i]) {
+      say $changes[$_]{date}->ymd . " $new[$new_i] was unexcluded";
+      $old_i++; $new_i++;
+      next;
+    } elsif ($new[$new_i] eq $old[$old_i+1]) {
+      say $changes[$_]{date}->ymd . " - $old[$old_i] deleted";
+      $old_i += 2; $new_i++;
+      next;
+    } else {
+      say $changes[$_]{date}->ymd . " Weirdness: $old[$old_i]/$new[$new_i] and $old[$old_i+1]/$new[$new_i+1]";
+      $old_i++; $new_i++;
+      next;
+    }
+  }
 }	
 
-say Dumper \@changes;
+# say Dumper \@changes;
