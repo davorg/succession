@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use feature 'say';
+use feature qw[say state];
 
 use Data::Dumper;
 use Dancer2::Core::Request;
@@ -22,6 +22,7 @@ my @changes = {
 
 while (my $cd = $ch_rs->next) {
   push @changes, {
+    cd   => $cd,
     date => $cd->change_date,
     succ => [ split /:/, $cd->succession ],
   };
@@ -35,27 +36,58 @@ for (1 .. $#changes) {
 
   while ($new_i <= $#new and $old_i <= $#old) {
     if ($new[$new_i] eq $old[$old_i]) {
+      # No changes here.
       $old_i++; $new_i++;
       next;
     }
 
-    if ($new[$new_i+1] eq $old[$old_i]) {
-      say $changes[$_]{date}->ymd . " - $new[$new_i] added";
+    my $old_p = get_person($old[$old_i]);
+    my $new_p = get_person($new[$new_i]);
+
+    if ($old_p->sovereigns->first and
+      $old_p->sovereigns->first->start == $changes[$_]{date}) {
+      $changes[$_]{cd}->add_to_changes({
+        person_id => $old[$old_i],
+        description => 'became sovereign',
+      });
+      $old_i++;
+      next;
+    } elsif ($new_p->born == $changes[$_]{date}) {
+      $changes[$_]{cd}->add_to_changes({
+        person_id => $new_p->id,
+        description => 'was born',
+      });
       $new_i += 2; $old_i++;
       next;
     } elsif ($new[$new_i] eq "$old[$old_i]x") {
-      say $changes[$_]{date}->ymd . " $old[$old_i] was excluded";
+      # Same number, but an x has been added
+      $changes[$_]{cd}->add_to_changes({
+        person_id => $old[$old_i],
+        description => 'was excluded',
+      });
       $old_i++; $new_i++;
       next;
     } elsif ("$new[$new_i]x" eq $old[$old_i]) {
-      say $changes[$_]{date}->ymd . " $new[$new_i] was unexcluded";
+      # Same number, but the x has been removed
+      $changes[$_]{cd}->add_to_changes({
+        person_id => $new[$new_i],
+        description => 'was unexcluded',
+      });
       $old_i++; $new_i++;
       next;
-    } elsif ($new[$new_i] eq $old[$old_i+1]) {
-      say $changes[$_]{date}->ymd . " - $old[$old_i] deleted";
+    } elsif ($old_p->died->clone->add(days => 1) == $changes[$_]{date}) {
+      $changes[$_]{cd}->add_to_changes({
+        person_id => $old_p->id,
+        description => 'died',
+      });
       $old_i += 2; $new_i++;
       next;
     } else {
+
+      say 'Date: ', $changes[$_]{date};
+      say 'Old: ', $old_p->born, ' - ', $old_p->died;
+      say 'New: ', $new_p->born, ' - ', $new_p->died;
+
       say $changes[$_]{date}->ymd . " Weirdness: $old[$old_i]/$new[$new_i] and $old[$old_i+1]/$new[$new_i+1]";
       $old_i++; $new_i++;
       next;
@@ -64,3 +96,13 @@ for (1 .. $#changes) {
 }	
 
 # say Dumper \@changes;
+
+sub get_person {
+  state $people;
+
+  my $id = shift;
+
+  $people->{$id} or ($people->{$id}) = $pe_rs->find($id);
+
+  return $people->{$id};
+}

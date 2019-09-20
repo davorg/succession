@@ -35,7 +35,7 @@ sub get_schema {
 
   my $sch = __PACKAGE__->connect(
     $dsn, $ENV{SUCC_DB_USER}, $ENV{SUCC_DB_PASS},
-    { mysql_enable_utf8 => 1 },
+    { mysql_enable_utf8 => 1, quote_char => '`' },
   );
 
   # For caching.
