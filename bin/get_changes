@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Data::Dumper;
+use Dancer2::Core::Request;
+
+use Succession::App;
+
+my $app = Succession::App->new({ is_date_page => 1, request => bless {}, 'Dancer2::Core::Request' });
+
+my $sch = $app->model->schema;
+my $ch_rs = $sch->resultset('ChangeDate');
+my $pe_rs = $sch->resultset('Person');
+
+my @changes = {
+  date => $app->earliest,
+  succ => [ map { $_->id } @{ $app->model->succession_on_date($app->earliest) } ],
+};
+
+while (my $cd = $ch_rs->next) {
+  push @changes, {
+    date => $cd->change_date,
+    succ => [ split /:/, $cd->succession ],
+  };
+}
+
+for (1 .. $#changes) {
+  my @new = @{$changes[$_]->{succ}};
+  my @old = @{$changes[$_-1]->{succ}};
+
+
+}	
+
+say Dumper \@changes;
