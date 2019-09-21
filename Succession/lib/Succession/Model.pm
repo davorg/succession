@@ -334,7 +334,25 @@ sub get_person_from_slug {
   my $self = shift;
   my ($slug) = @_;
 
-  return $self->schema->resultset('Person')->find_by_slug($slug);
+  my $person = $self->cache->compute(
+    'person|' . $slug, undef,
+    sub {
+      return $self->schema->resultset('Person')->find_by_slug($slug);
+    }
+  );
+
+  return $person;
+}
+
+sub get_all_changes {
+  my $self = shift;
+
+  return $self->cache->compute(
+    'changes', undef,
+    sub {
+      return [ $self->schema->resultset('ChangeDate')->all ],
+    }
+  );
 }
 
 no Moose;

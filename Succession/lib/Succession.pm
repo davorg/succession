@@ -77,4 +77,18 @@ get qr{/p/(.*)} => sub {
   };
 };
 
+get '/changes' => sub {
+  my $app = Succession::App->new({
+    request => request,
+    is_date_page => 0,
+  });
+
+  my $changes = $app->model->get_all_changes;
+
+  template 'changes', {
+    app => $app,
+    changes => $changes,
+  }
+};
+
 true;

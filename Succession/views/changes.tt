@@ -1,0 +1,15 @@
+<% PROCESS util.tt -%>
+<h1>Changes to the Succession</h1>
+<p>This page lists all of the changes in the line of succession.</p>
+
+<ul>
+<% FOREACH change_date IN changes -%>
+<li><% link_date(change_date.change_date) %><br>
+<ul>
+<%  FOREACH change IN change_date.changes -%>
+<li><a href="/p/<% change.person.slug %>"><% change.person.name %></a> <% change.description %></li>
+<%  END -%>
+</ul>
+</li>
+<% END -%>
+</ul>
