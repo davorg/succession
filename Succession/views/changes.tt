@@ -2,8 +2,18 @@
 <h1>Changes to the Succession</h1>
 <p>This page lists all of the changes in the line of succession.</p>
 
-<ul>
+<% SET curr_decade = '0000' -%>
+
 <% FOREACH change_date IN changes -%>
+<%   this_decade = change_date.change_date.year.substr(0, 3) _ '0';
+     IF this_decade != curr_decade;
+       IF !loop.first -%>
+</ul>
+<%     END -%>
+<h2><% this_decade %>s</h2>
+<ul>
+<%     SET curr_decade = this_decade;
+     END -%>
 <li><% link_date(change_date.change_date) %><br>
 <ul>
 <%  FOREACH change IN change_date.changes -%>
