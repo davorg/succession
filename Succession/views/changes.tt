@@ -1,5 +1,5 @@
 <% PROCESS util.tt -%>
-<h1>Changes to the Succession</h1>
+<h1>Timeline of Changes to the Succession</h1>
 <p>This page lists all of the changes in the line of succession.</p>
 
 <% SET curr_decade = '0000' -%>
