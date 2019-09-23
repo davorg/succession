@@ -26,9 +26,26 @@ for (@dates, '') {
 EOXML
 }
 
+$rs = Succession::Schema->get_schema->resultset('Person');
+for ($rs->all) {
+  my $slug = $_->slug;
+  print <<EOXML;
+   <url>
+      <loc>https://lineofsuccession.co.uk/p/$slug</loc>
+   </url>
+EOXML
+
+}
+
 print <<EOXML;
    <url>
      <loc>https://lineofsuccession.co.uk/</loc>
+   </url>
+   <url>
+     <loc>https://lineofsuccession.co.uk/changes</loc>
+   </url>
+   <url>
+     <loc>https://lineofsuccession.co.uk/dates</loc>
    </url>
 </urlset>
 EOXML
