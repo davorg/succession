@@ -157,6 +157,67 @@ sub _build_feed {
   return XML::Feed->parse(URI->new('https://blog.lineofsuccession.co.uk/feed'));
 }
 
+has title => (
+  is => 'ro',
+  isa => 'Str',
+  lazy_build => 1,
+);
+
+sub _build_title {
+  my $self = shift;
+
+  my $path = $self->request->path;
+
+  my $title = 'British Line of Succession';
+
+  if ($path eq '/') {
+    return $title . ' on any date in the last 180 years.';
+  }
+
+  if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
+    return $title . ' on ' . $self->date->strftime('%e %B %Y');
+  }
+
+  if ($path =~ m[^/p/]) {
+    return $self->person->name . " - $title";
+  }
+
+  ## TODO static pages
+
+  return $title;
+}
+
+has description => (
+  is => 'ro',
+  isa => 'Str',
+  lazy_build => 1,
+);
+
+sub _build_description {
+  my $self = shift;
+
+  my $path = $self->request->path;
+
+  my $desc = 'See the Line of Succession to the British Throne';
+
+  if ($path eq '/') {
+    return $desc . ' on any date in the last 180 years.';
+  }
+
+  if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
+    return $desc . ' on ' . $self->date->strftime('%e %B %Y') . '.';
+  }
+
+  if ($path =~ m[^/p/]) {
+    return 'Details of ', $self->person->name .
+           ' in the Line of Succession to the British Throne.';
+  }
+
+  ## TODO static pages
+
+  return $desc;
+}
+
 around BUILDARGS => sub {
   my $orig  = shift;
   my $class = shift;
