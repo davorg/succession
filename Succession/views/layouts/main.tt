@@ -18,7 +18,7 @@
     <meta name="twitter:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png"/>
     <meta property="og:title" content="<% app.title %>" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lineofsuccession.co.uk/<% app.page_date %>" />
+    <meta property="og:url" content="https://lineofsuccession.co.uk<% app.request.path %>" />
     <meta property="og:description" content="<% app.desc %>" />
     <meta property="og:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png" />
 
