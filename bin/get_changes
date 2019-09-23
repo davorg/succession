@@ -9,7 +9,7 @@ use Dancer2::Core::Request;
 
 use Succession::App;
 
-my $app = Succession::App->new({ is_date_page => 1, request => bless {}, 'Dancer2::Core::Request' });
+my $app = Succession::App->new({ request => bless {}, 'Dancer2::Core::Request' });
 
 my $sch = $app->model->schema;
 my $ch_rs = $sch->resultset('ChangeDate');

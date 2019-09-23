@@ -73,12 +73,6 @@ has earliest => (
   )->parse_datetime('1837-06-20') },
 );
 
-has is_date_page => (
-  is => 'ro',
-  isa => 'Bool',
-  required => 1,
-);
-
 has list_size => (
   is => 'ro',
   isa => 'Int',
@@ -216,6 +210,12 @@ sub _build_description {
   ## TODO static pages
 
   return $desc;
+}
+
+sub is_date_page {
+  my $self = shift;
+
+  return $self->path =~ m[^/\d\d\d\d-\d\d-\d\d];
 }
 
 around BUILDARGS => sub {

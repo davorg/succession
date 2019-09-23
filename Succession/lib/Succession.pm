@@ -8,7 +8,6 @@ our $VERSION = '0.1';
 get '/dates' => sub {
   my $app = Succession::App->new({
     request => request,
-    is_date_page => 0,
   });
 
   template 'dates', {
@@ -34,7 +33,6 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 
   my $args = {
     request => request,
-    is_date_page => 1,
   };
   $args->{date} = $date if defined $date;
 
@@ -66,7 +64,6 @@ get qr{/p/(.*)} => sub {
 
   my $app    = Succession::App->new({
     request => request,
-    is_date_page => 0,
   });
   my $person = $app->model->get_person_from_slug($slug);
   $app->person($person);
@@ -80,7 +77,6 @@ get qr{/p/(.*)} => sub {
 get '/changes' => sub {
   my $app = Succession::App->new({
     request => request,
-    is_date_page => 0,
   });
 
   my $changes = $app->model->get_all_changes;
