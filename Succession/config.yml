@@ -26,6 +26,11 @@ engines:
     template_toolkit:
       start_tag: '<%'
       end_tag:   '%>'
+  logger:
+    File:
+      log_format: "[%T] <%L> %m"
+    Console:
+      log_format: "[%T] <%L> %m"
 
 # session engine
 #
