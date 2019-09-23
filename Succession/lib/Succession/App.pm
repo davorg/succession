@@ -176,7 +176,11 @@ sub _build_title {
     return $self->person->name . " - $title";
   }
 
-  ## TODO static pages
+  for (keys %{ $self->static_titles }) {
+    if ($path =~ m[^/$_\b]) {
+      return $self->static_titles->{$_}{title};
+    }
+  }
 
   return $title;
 }
@@ -207,9 +211,32 @@ sub _build_description {
            ' in the Line of Succession to the British Throne.';
   }
 
-  ## TODO static pages
+  for (keys %{ $self->static_titles }) {
+    if ($path =~ m[^/$_\b]) {
+      return $self->static_titles->{$_}{desc};
+    }
+  }
 
   return $desc;
+}
+
+has static_titles => (
+  is => 'ro',
+  isa => 'HashRef',
+  lazy_build => 1,
+);
+
+sub _build_static_titles {
+  return {
+    changes => {
+      title => 'Timeline of Changes to the British Line of Succession',
+      desc  => 'Timeline of Changes to the British Line of Succession',
+    },
+    dates   => {
+      title => 'Browse interesting dates for the British Line of Succession',
+      desc  => 'Browse interesting dates for the British Line of Succession',
+    },
+  };
 }
 
 sub is_date_page {
