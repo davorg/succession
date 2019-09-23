@@ -215,7 +215,7 @@ sub _build_description {
 sub is_date_page {
   my $self = shift;
 
-  return $self->path =~ m[^/\d\d\d\d-\d\d-\d\d];
+  return $self->request->path =~ m[^/\d\d\d\d-\d\d-\d\d];
 }
 
 around BUILDARGS => sub {
