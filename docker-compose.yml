@@ -2,9 +2,7 @@ version: '3'
 
 services:
   database:
-    build:
-      context: .
-      dockerfile: Dockerfile-db
+    image: mariadb/server:10.3
     container_name: succession-db
     environment:
       - MARIADB_ROOT_PASSWORD=sekrit
@@ -13,6 +11,8 @@ services:
       - MARIADB_PASSWORD=$SUCC_DB_PASS
     ports:
       - "13306:3306"
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
 
   cache:
     image: memcached:1.5
