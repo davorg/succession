@@ -1,8 +1,8 @@
--- MySQL dump 10.17  Distrib 10.3.12-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.41-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: succession
+-- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.3.16-MariaDB
+-- Server version	10.1.41-MariaDB-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,268 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `change`
---
-
-DROP TABLE IF EXISTS `change`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `change` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `person_id` int(11) NOT NULL,
-  `change_date_id` int(11) NOT NULL,
-  `description` text DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `person_id` (`person_id`),
-  KEY `change_date_id` (`change_date_id`),
-  CONSTRAINT `change_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
-  CONSTRAINT `change_ibfk_2` FOREIGN KEY (`change_date_id`) REFERENCES `change_date` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=581 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `change`
---
-
-LOCK TABLES `change` WRITE;
-/*!40000 ALTER TABLE `change` DISABLE KEYS */;
-INSERT INTO `change` VALUES (348,180,623,'became sovereign');
-INSERT INTO `change` VALUES (349,499,624,'died');
-INSERT INTO `change` VALUES (350,452,625,'died');
-INSERT INTO `change` VALUES (351,451,626,'died');
-INSERT INTO `change` VALUES (352,181,627,'was born');
-INSERT INTO `change` VALUES (353,65,628,'was born');
-INSERT INTO `change` VALUES (354,502,629,'died');
-INSERT INTO `change` VALUES (355,458,630,'died');
-INSERT INTO `change` VALUES (356,250,631,'was born');
-INSERT INTO `change` VALUES (357,282,632,'was born');
-INSERT INTO `change` VALUES (358,492,633,'died');
-INSERT INTO `change` VALUES (359,455,634,'was born');
-INSERT INTO `change` VALUES (360,343,635,'was born');
-INSERT INTO `change` VALUES (361,456,636,'was born');
-INSERT INTO `change` VALUES (362,349,637,'was born');
-INSERT INTO `change` VALUES (363,469,638,'died');
-INSERT INTO `change` VALUES (364,462,639,'was born');
-INSERT INTO `change` VALUES (365,457,640,'was born');
-INSERT INTO `change` VALUES (366,350,641,'was born');
-INSERT INTO `change` VALUES (367,459,642,'died');
-INSERT INTO `change` VALUES (368,453,643,'died');
-INSERT INTO `change` VALUES (369,479,644,'died');
-INSERT INTO `change` VALUES (370,373,645,'was born');
-INSERT INTO `change` VALUES (371,400,646,'was born');
-INSERT INTO `change` VALUES (372,468,647,'died');
-INSERT INTO `change` VALUES (373,182,648,'was born');
-INSERT INTO `change` VALUES (374,209,649,'was born');
-INSERT INTO `change` VALUES (375,211,650,'was born');
-INSERT INTO `change` VALUES (376,251,651,'was born');
-INSERT INTO `change` VALUES (377,66,652,'was born');
-INSERT INTO `change` VALUES (378,476,653,'died');
-INSERT INTO `change` VALUES (379,217,654,'was born');
-INSERT INTO `change` VALUES (380,265,655,'was born');
-INSERT INTO `change` VALUES (381,21,656,'was born');
-INSERT INTO `change` VALUES (382,218,657,'was born');
-INSERT INTO `change` VALUES (383,217,658,'died');
-INSERT INTO `change` VALUES (384,266,659,'was born');
-INSERT INTO `change` VALUES (385,68,660,'was born');
-INSERT INTO `change` VALUES (386,344,661,'was born');
-INSERT INTO `change` VALUES (387,464,662,'was born');
-INSERT INTO `change` VALUES (388,219,663,'was born');
-INSERT INTO `change` VALUES (389,69,664,'was born');
-INSERT INTO `change` VALUES (390,267,665,'was born');
-INSERT INTO `change` VALUES (391,345,666,'was born');
-INSERT INTO `change` VALUES (392,70,667,'was born');
-INSERT INTO `change` VALUES (393,346,668,'was born');
-INSERT INTO `change` VALUES (394,220,669,'was born');
-INSERT INTO `change` VALUES (395,274,670,'was born');
-INSERT INTO `change` VALUES (396,67,671,'was born');
-INSERT INTO `change` VALUES (397,67,672,'died');
-INSERT INTO `change` VALUES (398,234,673,'was born');
-INSERT INTO `change` VALUES (399,275,674,'was born');
-INSERT INTO `change` VALUES (400,347,675,'was born');
-INSERT INTO `change` VALUES (401,274,676,'died');
-INSERT INTO `change` VALUES (402,281,677,'was born');
-INSERT INTO `change` VALUES (403,283,678,'was born');
-INSERT INTO `change` VALUES (404,284,679,'was born');
-INSERT INTO `change` VALUES (405,348,680,'was born');
-INSERT INTO `change` VALUES (406,348,681,'died');
-INSERT INTO `change` VALUES (407,301,682,'was born');
-INSERT INTO `change` VALUES (408,320,683,'was born');
-INSERT INTO `change` VALUES (409,281,684,'died');
-INSERT INTO `change` VALUES (410,250,685,'died');
-INSERT INTO `change` VALUES (411,219,686,'died');
-INSERT INTO `change` VALUES (412,210,687,'was born');
-INSERT INTO `change` VALUES (413,351,688,'was born');
-INSERT INTO `change` VALUES (414,183,689,'was born');
-INSERT INTO `change` VALUES (415,366,690,'was born');
-INSERT INTO `change` VALUES (416,374,691,'was born');
-INSERT INTO `change` VALUES (417,190,692,'was born');
-INSERT INTO `change` VALUES (418,373,693,'died');
-INSERT INTO `change` VALUES (419,335,694,'was born');
-INSERT INTO `change` VALUES (420,191,695,'was born');
-INSERT INTO `change` VALUES (421,381,696,'was born');
-INSERT INTO `change` VALUES (422,368,697,'was born');
-INSERT INTO `change` VALUES (423,194,698,'was born');
-INSERT INTO `change` VALUES (424,196,699,'was born');
-INSERT INTO `change` VALUES (425,212,700,'was born');
-INSERT INTO `change` VALUES (426,141,701,'was born');
-INSERT INTO `change` VALUES (427,141,702,'died');
-INSERT INTO `change` VALUES (428,201,703,'was born');
-INSERT INTO `change` VALUES (429,142,704,'was born');
-INSERT INTO `change` VALUES (430,66,705,'died');
-INSERT INTO `change` VALUES (431,203,706,'was born');
-INSERT INTO `change` VALUES (432,144,707,'was born');
-INSERT INTO `change` VALUES (433,285,708,'was born');
-INSERT INTO `change` VALUES (434,22,709,'was born');
-INSERT INTO `change` VALUES (435,287,710,'was born');
-INSERT INTO `change` VALUES (436,1,711,'was born');
-INSERT INTO `change` VALUES (437,26,712,'was born');
-INSERT INTO `change` VALUES (438,321,713,'was born');
-INSERT INTO `change` VALUES (439,327,714,'was born');
-INSERT INTO `change` VALUES (440,283,715,'died');
-INSERT INTO `change` VALUES (441,288,716,'was born');
-INSERT INTO `change` VALUES (442,23,717,'was born');
-INSERT INTO `change` VALUES (443,282,718,'died');
-INSERT INTO `change` VALUES (444,65,719,'became sovereign');
-INSERT INTO `change` VALUES (445,332,720,'was born');
-INSERT INTO `change` VALUES (446,181,721,'died');
-INSERT INTO `change` VALUES (447,333,722,'was born');
-INSERT INTO `change` VALUES (448,24,723,'was born');
-INSERT INTO `change` VALUES (449,152,724,'was born');
-INSERT INTO `change` VALUES (450,292,725,'was born');
-INSERT INTO `change` VALUES (451,25,726,'was born');
-INSERT INTO `change` VALUES (452,352,727,'was born');
-INSERT INTO `change` VALUES (453,302,728,'was born');
-INSERT INTO `change` VALUES (454,293,729,'was born');
-INSERT INTO `change` VALUES (455,310,730,'was born');
-INSERT INTO `change` VALUES (456,336,731,'was born');
-INSERT INTO `change` VALUES (457,21,732,'became sovereign');
-INSERT INTO `change` VALUES (458,334,733,'was born');
-INSERT INTO `change` VALUES (459,334,734,'died');
-INSERT INTO `change` VALUES (460,341,735,'was born');
-INSERT INTO `change` VALUES (461,300,736,'was born');
-INSERT INTO `change` VALUES (462,143,737,'was born');
-INSERT INTO `change` VALUES (463,300,738,'died');
-INSERT INTO `change` VALUES (464,328,739,'was born');
-INSERT INTO `change` VALUES (465,318,740,'was born');
-INSERT INTO `change` VALUES (466,25,741,'died');
-INSERT INTO `change` VALUES (467,329,742,'was born');
-INSERT INTO `change` VALUES (468,286,743,'was born');
-INSERT INTO `change` VALUES (469,225,744,'was born');
-INSERT INTO `change` VALUES (470,330,745,'was born');
-INSERT INTO `change` VALUES (471,33,746,'was born');
-INSERT INTO `change` VALUES (472,289,747,'was born');
-INSERT INTO `change` VALUES (473,176,748,'was born');
-INSERT INTO `change` VALUES (474,2,749,'was born');
-INSERT INTO `change` VALUES (475,303,750,'was born');
-INSERT INTO `change` VALUES (476,304,751,'was born');
-INSERT INTO `change` VALUES (477,290,752,'was born');
-INSERT INTO `change` VALUES (478,291,753,'was born');
-INSERT INTO `change` VALUES (479,145,754,'was born');
-INSERT INTO `change` VALUES (480,153,755,'was born');
-INSERT INTO `change` VALUES (481,20,756,'was born');
-INSERT INTO `change` VALUES (482,68,757,'died');
-INSERT INTO `change` VALUES (483,157,758,'was born');
-INSERT INTO `change` VALUES (484,294,759,'was born');
-INSERT INTO `change` VALUES (485,40,760,'was born');
-INSERT INTO `change` VALUES (486,69,761,'died');
-INSERT INTO `change` VALUES (487,22,762,'became sovereign');
-INSERT INTO `change` VALUES (488,1,763,'became sovereign');
-INSERT INTO `change` VALUES (489,41,764,'was born');
-INSERT INTO `change` VALUES (490,168,765,'was born');
-INSERT INTO `change` VALUES (491,284,766,'died');
-INSERT INTO `change` VALUES (492,70,767,'died');
-INSERT INTO `change` VALUES (493,37,768,'was born');
-INSERT INTO `change` VALUES (494,42,769,'was born');
-INSERT INTO `change` VALUES (495,24,770,'died');
-INSERT INTO `change` VALUES (496,143,771,'died');
-INSERT INTO `change` VALUES (497,38,772,'was born');
-INSERT INTO `change` VALUES (498,144,773,'died');
-INSERT INTO `change` VALUES (499,3,774,'was born');
-INSERT INTO `change` VALUES (500,4,775,'was born');
-INSERT INTO `change` VALUES (501,34,776,'was born');
-INSERT INTO `change` VALUES (502,2,777,'became sovereign');
-INSERT INTO `change` VALUES (503,285,778,'died');
-INSERT INTO `change` VALUES (504,177,779,'was born');
-INSERT INTO `change` VALUES (505,35,780,'was born');
-INSERT INTO `change` VALUES (506,154,781,'was born');
-INSERT INTO `change` VALUES (507,36,782,'was born');
-INSERT INTO `change` VALUES (508,287,783,'died');
-INSERT INTO `change` VALUES (509,155,784,'was born');
-INSERT INTO `change` VALUES (510,142,785,'died');
-INSERT INTO `change` VALUES (511,146,786,'was born');
-INSERT INTO `change` VALUES (512,5,787,'was born');
-INSERT INTO `change` VALUES (513,148,788,'was born');
-INSERT INTO `change` VALUES (514,288,789,'died');
-INSERT INTO `change` VALUES (515,27,790,'was born');
-INSERT INTO `change` VALUES (516,43,791,'was born');
-INSERT INTO `change` VALUES (517,158,792,'was born');
-INSERT INTO `change` VALUES (518,161,793,'was born');
-INSERT INTO `change` VALUES (519,46,794,'was born');
-INSERT INTO `change` VALUES (520,6,795,'was born');
-INSERT INTO `change` VALUES (521,44,796,'was born');
-INSERT INTO `change` VALUES (522,28,797,'was born');
-INSERT INTO `change` VALUES (523,179,798,'was born');
-INSERT INTO `change` VALUES (524,26,799,'died');
-INSERT INTO `change` VALUES (525,47,800,'was born');
-INSERT INTO `change` VALUES (526,45,801,'was born');
-INSERT INTO `change` VALUES (527,37,802,'died');
-INSERT INTO `change` VALUES (528,173,803,'was born');
-INSERT INTO `change` VALUES (529,434,804,'was born');
-INSERT INTO `change` VALUES (530,23,805,'died');
-INSERT INTO `change` VALUES (531,50,806,'was born');
-INSERT INTO `change` VALUES (532,431,807,'was born');
-INSERT INTO `change` VALUES (533,435,808,'was born');
-INSERT INTO `change` VALUES (534,7,809,'was born');
-INSERT INTO `change` VALUES (535,51,810,'was born');
-INSERT INTO `change` VALUES (536,42,811,'was excluded');
-INSERT INTO `change` VALUES (537,430,812,'was born');
-INSERT INTO `change` VALUES (538,48,813,'was born');
-INSERT INTO `change` VALUES (539,52,814,'was born');
-INSERT INTO `change` VALUES (540,432,815,'was born');
-INSERT INTO `change` VALUES (541,49,816,'was born');
-INSERT INTO `change` VALUES (542,8,817,'was born');
-INSERT INTO `change` VALUES (543,9,818,'was born');
-INSERT INTO `change` VALUES (544,433,819,'was born');
-INSERT INTO `change` VALUES (545,10,820,'was born');
-INSERT INTO `change` VALUES (546,43,821,'was excluded');
-INSERT INTO `change` VALUES (547,11,822,'was born');
-INSERT INTO `change` VALUES (548,507,823,'was born');
-INSERT INTO `change` VALUES (549,12,824,'was born');
-INSERT INTO `change` VALUES (550,428,825,'was born');
-INSERT INTO `change` VALUES (551,508,826,'was born');
-INSERT INTO `change` VALUES (552,429,827,'was born');
-INSERT INTO `change` VALUES (553,59,828,'was born');
-INSERT INTO `change` VALUES (554,426,829,'was born');
-INSERT INTO `change` VALUES (555,509,830,'was born');
-INSERT INTO `change` VALUES (556,31,831,'was born');
-INSERT INTO `change` VALUES (557,60,832,'was born');
-INSERT INTO `change` VALUES (558,32,833,'was born');
-INSERT INTO `change` VALUES (559,29,834,'was born');
-INSERT INTO `change` VALUES (560,20,835,'died');
-INSERT INTO `change` VALUES (561,30,836,'was born');
-INSERT INTO `change` VALUES (562,507,837,'was excluded');
-INSERT INTO `change` VALUES (563,61,838,'was born');
-INSERT INTO `change` VALUES (564,13,839,'was born');
-INSERT INTO `change` VALUES (565,53,840,'was born');
-INSERT INTO `change` VALUES (566,14,841,'was born');
-INSERT INTO `change` VALUES (567,508,842,'was excluded');
-INSERT INTO `change` VALUES (568,54,843,'was born');
-INSERT INTO `change` VALUES (569,57,844,'was born');
-INSERT INTO `change` VALUES (570,55,845,'was born');
-INSERT INTO `change` VALUES (571,15,846,'was born');
-INSERT INTO `change` VALUES (572,16,847,'was born');
-INSERT INTO `change` VALUES (573,56,848,'was born');
-INSERT INTO `change` VALUES (574,58,849,'was born');
-INSERT INTO `change` VALUES (575,17,850,'was born');
-INSERT INTO `change` VALUES (576,18,851,'was born');
-INSERT INTO `change` VALUES (577,19,852,'was born');
-INSERT INTO `change` VALUES (578,506,853,'was born');
-INSERT INTO `change` VALUES (579,510,854,'was born');
-INSERT INTO `change` VALUES (580,511,855,'was born');
-/*!40000 ALTER TABLE `change` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `change_date`
@@ -589,7 +327,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text DEFAULT NULL,
+  `wikipedia` text,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -1099,7 +837,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT 0,
+  `is_default` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `title_start` (`start`),
@@ -1107,7 +845,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=840 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1215,7 +953,7 @@ INSERT INTO `title` VALUES (350,'Mia Tindall',NULL,NULL,18,1);
 INSERT INTO `title` VALUES (351,'The Prince Andrew',NULL,'1986-07-23',5,0);
 INSERT INTO `title` VALUES (352,'The Prince Andrew, Duke of York','1986-07-23',NULL,5,1);
 INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,NULL,11,1);
-INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,1);
+INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,NULL,12,1);
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19',NULL,6,1);
 INSERT INTO `title` VALUES (357,'Lady Louise Windsor',NULL,NULL,13,1);
@@ -1625,7 +1363,6 @@ INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
 INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,NULL,511,1);
-INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,0);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1638,4 +1375,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-20 22:20:33
+-- Dump completed on 2019-09-24 12:09:26
