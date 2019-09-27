@@ -20,7 +20,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://lineofsuccession.co.uk<% app.request.path %>" />
     <meta property="og:description" content="<% app.description %>" />
-    <meta property="og:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png" />
+    <meta property="og:image" content="https://lineofsuccession.co.uk/images/<% app.image %>" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Faustina" rel="stylesheet">

@@ -239,10 +239,26 @@ sub _build_static_titles {
   };
 }
 
+sub image {
+  my $self = shift;
+
+  if ($self->is_home_page or $self->is_date_page) {
+    return $self->sovereign->image;
+  } else {
+    return 'Imperial_State_Crown.png';
+  }
+}
+
 sub is_date_page {
   my $self = shift;
 
   return $self->request->path =~ m[^/\d\d\d\d-\d\d-\d\d];
+}
+
+sub is_home_page {
+  my $self = shift;
+
+  return $self->request->path eq '/';
 }
 
 around BUILDARGS => sub {
