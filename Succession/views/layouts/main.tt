@@ -1,3 +1,4 @@
+<% PROCESS util.tt -%>
 <% MACRO active_date(the_date) BLOCK;
    IF app.date.strftime('%Y-%m-%d') == the_date;
      ' active';
@@ -100,6 +101,22 @@
         <div class="col-sm-3">
           <p>Welcome to the site.</p>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
+          <hr>
+<% IF app.is_date_page OR app.is_home_page;
+     changes = app.get_changes;
+     IF changes.size -%>
+          <h3>Changes</h3>
+<%     FOR change IN changes -%>
+          <h4><% link_date(change.change_date) %></h4>
+          <ul>
+<%       FOR item IN change.changes -%>
+            <li><a href="/p/<% item.person.slug %>"><% item.person.name %></a> <% item.description %></li>
+<%       END -%>
+          </ul>
+<%     END -%>
+          <hr>
+<%   END;
+   END -%>
           <hr>
 <% INSERT 'google-ads.tt' -%>
           <hr>

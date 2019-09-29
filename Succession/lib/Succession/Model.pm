@@ -284,36 +284,24 @@ sub get_changes_on_date {
   my $self = shift;
   my ($date) = @_;
 
-  my $date_changes = $self->cache->compute(
-    'changes|' . $date->ymd, undef,
-    sub {
-      my $search_date =
-        $self->schema->storage->datetime_parser->format_datetime($date);
+  my @changes;
 
-      my $changes = { count => 0 };
+  foreach ($date->clone->subtract(days => 1),
+           $date,
+           $date->clone->add(days => 1)) {
+    my $date_changes = $self->cache->compute(
+        'changes|' . $date->ymd, undef,
+        sub {
+          my $search_date =
+            $self->schema->storage->datetime_parser->format_datetime($_);
 
-      return $changes
-        unless $self->schema->resultset('ChangeDate')->search({
-          change_date => $search_date,
-        });
+          push @changes, $self->schema->resultset('ChangeDate')->search({
+            change_date => $search_date,
+          });
+      });
+    }
 
-      my $person_rs    = $self->schema->resultset('Person');
-      my $exclusion_rs = $self->schema->resultset('Exclusion');
-
-      for (qw[born died]) {
-        $changes->{person}{$_} = [ $person_rs->search({$_ => $search_date}) ];
-        $changes->{count} += @{$changes->{person}{$_}};
-      }
-
-      for (qw[start end]) {
-        $changes->{exclusion}{$_} = [ $exclusion_rs->search({$_ => $search_date}) ];
-        $changes->{count} += @{$changes->{exclusion}{$_}};
-      }
-
-      return $changes;
-    });
-
-  return $date_changes;
+  return \@changes;
 }
 
 sub get_relationship_between_people {
