@@ -289,16 +289,18 @@ sub get_changes_on_date {
   foreach ($date->clone->subtract(days => 1),
            $date,
            $date->clone->add(days => 1)) {
-    my $date_changes = $self->cache->compute(
+    my @date_changes = $self->cache->compute(
         'changes|' . $_->ymd, undef,
         sub {
           my $search_date =
             $self->schema->storage->datetime_parser->format_datetime($_);
 
-          push @changes, $self->schema->resultset('ChangeDate')->search({
+          return $self->schema->resultset('ChangeDate')->search({
             change_date => $search_date,
-          });
+          })->all;
       });
+
+      push @changes, @date_changes;
     }
 
   return \@changes;
