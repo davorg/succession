@@ -290,7 +290,7 @@ sub get_changes_on_date {
            $date,
            $date->clone->add(days => 1)) {
     my $date_changes = $self->cache->compute(
-        'changes|' . $date->ymd, undef,
+        'changes|' . $_->ymd, undef,
         sub {
           my $search_date =
             $self->schema->storage->datetime_parser->format_datetime($_);
