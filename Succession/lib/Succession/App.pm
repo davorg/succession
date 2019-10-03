@@ -28,8 +28,13 @@ via {
 has request => (
   is => 'ro',
   isa => 'Dancer2::Core::Request',
-  required => 1,
+  lazy_build => 1,
 );
+
+
+sub _build_request {
+  die "No request attribute given to " . __PACKAGE__;
+}
 
 has model => (
   is => 'ro',
