@@ -190,6 +190,21 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 positions
+
+Type: has_many
+
+Related object: L<Succession::Schema::Result::Position>
+
+=cut
+
+__PACKAGE__->has_many(
+  "positions",
+  "Succession::Schema::Result::Position",
+  { "foreign.person_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 sovereigns
 
 Type: has_many
@@ -221,8 +236,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-09-20 21:54:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M6t+VF+CM2kYSJIRiqkbTw
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-10-03 17:36:04
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1lQryAoN0oH2trk8J7Rmxw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
@@ -465,6 +480,30 @@ sub anc_string {
   my $self = shift;
 
   return join ' / ', map { $_->name } $self->ancestors;
+}
+
+sub position_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $dtf      = $self->result_source->storage->datetime_parser;
+  my $fmt_date = $dtf->format_datetime($date);
+
+  my $pos = $self->positions([{
+    start => undef,
+    end   => undef,
+  },{
+    start => undef,
+    end   => { '>'  => $fmt_date },
+  },{
+    start => { '<=' => $fmt_date },
+    end   => undef,
+  },{
+    start => { '<=' => $fmt_date },
+    end   => { '>'  => $fmt_date },
+  }])->first;
+
+  return $pos // 0;
 }
 
 __PACKAGE__->meta->make_immutable;

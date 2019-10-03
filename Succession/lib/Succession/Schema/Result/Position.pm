@@ -1,12 +1,12 @@
 use utf8;
-package Succession::Schema::Result::ChangeDate;
+package Succession::Schema::Result::Position;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Succession::Schema::Result::ChangeDate
+Succession::Schema::Result::Position
 
 =cut
 
@@ -30,11 +30,11 @@ extends 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<change_date>
+=head1 TABLE: C<position>
 
 =cut
 
-__PACKAGE__->table("change_date");
+__PACKAGE__->table("position");
 
 =head1 ACCESSORS
 
@@ -44,27 +44,42 @@ __PACKAGE__->table("change_date");
   is_auto_increment: 1
   is_nullable: 0
 
-=head2 change_date
+=head2 person_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 position
+
+  data_type: 'integer'
+  is_nullable: 0
+
+=head2 start
 
   data_type: 'date'
   datetime_undef_if_invalid: 1
   is_nullable: 1
 
-=head2 succession
+=head2 end
 
-  data_type: 'varchar'
+  data_type: 'date'
+  datetime_undef_if_invalid: 1
   is_nullable: 1
-  size: 255
 
 =cut
 
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-  "change_date",
+  "person_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "position",
+  { data_type => "integer", is_nullable => 0 },
+  "start",
   { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
-  "succession",
-  { data_type => "varchar", is_nullable => 1, size => 255 },
+  "end",
+  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -81,24 +96,24 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 changes
+=head2 person
 
-Type: has_many
+Type: belongs_to
 
-Related object: L<Succession::Schema::Result::Change>
+Related object: L<Succession::Schema::Result::Person>
 
 =cut
 
-__PACKAGE__->has_many(
-  "changes",
-  "Succession::Schema::Result::Change",
-  { "foreign.change_date_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+__PACKAGE__->belongs_to(
+  "person",
+  "Succession::Schema::Result::Person",
+  { id => "person_id" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-10-03 17:46:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EzdoaCniBN3+pzEQUjTYnw
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/GOLEbLXgxY8kKEdZKV5IQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
