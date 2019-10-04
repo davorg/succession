@@ -23,6 +23,22 @@
 </ul>
 <% END -%>
 
+<% IF person.positions_rs.count -%>
+<h2>Positions</h2>
+<ul>
+<% FOR pos IN person.positions_rs.order_by_date -%>
+<li><% pos.position %> (<% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
+- <% IF pos.end;
+    link_date(pos.end);
+     ELSIF person.died;
+    'death';
+     ELSE;
+    'current';
+     END %>)</li>
+<% END -%>
+</ul>
+<% END -%>
+
 <h2>Relations</h2>
 <% IF person.parent -%>
 <h3>Parent</h3>
