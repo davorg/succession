@@ -345,6 +345,8 @@ sub prev_day {
   my $self = shift;
   my $date = $self->date;
 
+  return unless $self->is_home_page or $self->is_date_page;
+
   if ($date > $self->earliest) {
     return $date->clone->subtract(days => 1);
   }
@@ -355,6 +357,8 @@ sub prev_day {
 sub next_day {
   my $self = shift;
   my $date = $self->date;
+
+  return unless $self->is_home_page or $self->is_date_page;
 
   if ($date < $self->today) {
     return $date->clone->add(days => 1);

@@ -27,6 +27,12 @@
     <link href="https://fonts.googleapis.com/css?family=Faustina" rel="stylesheet">
     <link rel="alternate" href="https://lineofsuccession.co.uk<% app.alternate %>" hreflang="en-gb" />
     <link rel="canonical" href="https://lineofsuccession.co.uk<% app.canonical %>" />
+<% IF app.prev_day -%>
+    <link rel="prev" href="https://lineofsuccession.co.uk/<% app.prev_day.strftime('%Y-%m-%d') %>" />
+<% END -%>
+<% IF app.next_day -%>
+    <link rel="next" href="https://lineofsuccession.co.uk/<% app.next_day.strftime('%Y-%m-%d') %>" />
+<% END -%>
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
