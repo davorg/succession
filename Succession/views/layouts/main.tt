@@ -13,7 +13,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="<% app.desc %>">
+    <meta name="description" content="<% app.description %>">
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png"/>

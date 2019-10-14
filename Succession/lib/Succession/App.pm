@@ -212,7 +212,7 @@ sub _build_description {
   }
 
   if ($path =~ m[^/p/]) {
-    return 'Details of ', $self->person->name .
+    return 'Details of ' . $self->person->name .
            ' in the Line of Succession to the British Throne.';
   }
 
