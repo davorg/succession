@@ -17,7 +17,8 @@ get '/dates' => sub {
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
-  my ($date) = splat or query_parameters->get('date');
+  my ($date) = splat;
+  $date //= query_parameters->get('date');
 
   my $date_err;
 
