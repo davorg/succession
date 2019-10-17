@@ -1,4 +1,0 @@
-FROM mariadb/server:10.3
-LABEL maintainer="dave@perlhacks.org"
-
-COPY data/succession-dump.sql /docker-entrypoint-initdb.d/
