@@ -29,9 +29,11 @@ foreach ($sch->resultset('ChangeDate')->search(undef, { order_by => 'change_date
         });
       }
     } else {
+      my $start = $_->change_date;
+      $start = undef if $start == $p->born;
       $p->add_to_positions({
         position => $x,
-	      start => $_->change_date,
+        start => $start,
       });
     }
     ++$x;
