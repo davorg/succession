@@ -506,5 +506,14 @@ sub position_on_date {
   return $pos // 0;
 }
 
+sub years {
+  my $self = shift;
+
+  my $years = $self->born->year . ' - ';
+  $years .= $self->died->year if $self->died;
+
+  return $years;
+}
+
 __PACKAGE__->meta->make_immutable;
 1;

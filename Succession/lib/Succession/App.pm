@@ -178,7 +178,7 @@ sub _build_title {
   }
 
   if ($path =~ m[^/p/]) {
-    return $self->person->name . " - $title";
+    return $self->person->name . ' (' . $self->person->years . ") - $title";
   }
 
   for (keys %{ $self->static_titles }) {
@@ -213,6 +213,7 @@ sub _build_description {
 
   if ($path =~ m[^/p/]) {
     return 'Details of ' . $self->person->name .
+           ' (' . $self->person->years . ')' .
            ' in the Line of Succession to the British Throne.';
   }
 
