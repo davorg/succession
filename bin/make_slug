@@ -5,8 +5,6 @@ use warnings;
 use feature 'say';
 
 use Data::Dumper;
-use Digest::SHA;
-use Text::Unidecode;
 
 use Succession::Schema;
 
@@ -17,14 +15,5 @@ if (@ARGV and $ARGV[0] eq '--new') {
 }
 
 while (my $p = $person_rs->next) {
-  my $sha = Digest::SHA->new;
-
-  my $slugname = lc unidecode($p->name =~ s/\W+/-/gr);
-  $sha->add($slugname);
-  $sha->add($p->born);
-  my $slug = substr($sha->hexdigest, 0, 6) . '-' . $slugname;
-
-  warn $p->name, ' / ', "$slug\n";
-
-  $p->update({ slug => $slug });
+  $p->make_slug;
 }

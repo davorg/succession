@@ -248,6 +248,8 @@ use DateTime;
 use List::Util qw[first];
 use List::MoreUtils qw[firstidx];
 use Genealogy::Relationship;
+use Digest::SHA;
+use Text::Unidecode;
 
 sub gender { $_[0]->sex; }
 
@@ -513,6 +515,21 @@ sub years {
   $years .= $self->died->year if $self->died;
 
   return $years;
+}
+
+sub make_slug {
+  my $self = shift;
+
+  my $sha = Digest::SHA->new;
+
+  my $slugname = lc unidecode($self->name =~ s/\W+/-/gr);
+  $sha->add($slugname);
+  $sha->add($self->born);
+  my $slug = substr($sha->hexdigest, 0, 6) . '-' . $slugname;
+
+  warn $self->name, ' / ', "$slug\n";
+
+  $self->update({ slug => $slug });
 }
 
 __PACKAGE__->meta->make_immutable;
