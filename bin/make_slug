@@ -12,6 +12,10 @@ use Succession::Schema;
 
 my $person_rs = Succession::Schema->get_schema->resultset('Person');
 
+if (@ARGV and $ARGV[0] eq '--new') {
+  $person_rs = $person_rs->search({ slug => undef });
+}
+
 while (my $p = $person_rs->next) {
   my $sha = Digest::SHA->new;
 
