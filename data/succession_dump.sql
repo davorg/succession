@@ -1044,11 +1044,11 @@ INSERT INTO `person` VALUES (508,'1992-09-30',NULL,43,2,'f',NULL,'a69de3-lady-ma
 INSERT INTO `person` VALUES (509,'1995-08-24',NULL,43,3,'f',NULL,'761acd-lady-amelia-windsor');
 INSERT INTO `person` VALUES (510,'2018-06-18',NULL,8,2,'f',NULL,'e6dd32-lena-tindall');
 INSERT INTO `person` VALUES (511,'2019-05-06',NULL,10,1,'m',NULL,'68ed1b-archie-harrison-mountbatten-windsor');
-INSERT INTO `person` VALUES (512,'1816-10-30','1887-01-04',476,1,'f',NULL,NULL);
-INSERT INTO `person` VALUES (513,'1818-06-17','1877-06-03',476,2,'f',NULL,NULL);
-INSERT INTO `person` VALUES (514,'1840-09-04',NULL,513,0,'',NULL,NULL);
-INSERT INTO `person` VALUES (515,'1843-09-15','1850-06-06',513,2,'m',NULL,NULL);
-INSERT INTO `person` VALUES (516,'1851-08-25','1884-06-21',513,3,'m',NULL,NULL);
+INSERT INTO `person` VALUES (512,'1816-10-30','1887-01-04',476,1,'f',NULL,'06b566-princess-marie-friederike-charlotte-of-wurttemberg');
+INSERT INTO `person` VALUES (513,'1818-06-17','1877-06-03',476,2,'f',NULL,'14b02d-princess-sophie-of-wurttemberg');
+INSERT INTO `person` VALUES (514,'1840-09-04',NULL,513,0,'',NULL,'620667-william-prince-of-orange');
+INSERT INTO `person` VALUES (515,'1843-09-15','1850-06-06',513,2,'m',NULL,'ac3fd8-prince-maurice-of-the-netherlands');
+INSERT INTO `person` VALUES (516,'1851-08-25','1884-06-21',513,3,'m',NULL,'fe0a9a-alexander-prince-of-orange');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5564,4 +5564,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-10  8:50:05
+-- Dump completed on 2019-12-10 13:39:58
