@@ -39,4 +39,5 @@ while (<>) {
     }
   }
   $people{$rec{name}} = $person_rs->create(\%rec);
+  $people{$rec{name}}->make_slug;
 }
