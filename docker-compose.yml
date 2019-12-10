@@ -15,6 +15,7 @@ services:
       - ./data:/docker-entrypoint-initdb.d
 
   cache:
+    container_name: succession-cache
     image: memcached:1.5
 
   app:
