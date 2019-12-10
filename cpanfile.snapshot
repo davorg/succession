@@ -3551,6 +3551,13 @@ DISTRIBUTIONS
       Exporter 0
       Test::More 0
       perl 5.005
+  Text-Unidecode-1.30
+    pathname: S/SB/SBURKE/Text-Unidecode-1.30.tar.gz
+    provides:
+      Text::Unidecode 1.30
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008
   Time-Duration-1.20
     pathname: N/NE/NEILB/Time-Duration-1.20.tar.gz
     provides:
