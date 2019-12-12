@@ -547,14 +547,14 @@ CREATE TABLE `exclusion` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `reason` enum('i','c','mc') NOT NULL,
+  `reason` enum('i','c','mc','di') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `exclusion_start` (`start`),
   KEY `exclusion_end` (`end`),
   KEY `exclusion_person_id` (`person_id`),
   CONSTRAINT `exclusion_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -572,6 +572,8 @@ INSERT INTO `exclusion` VALUES (6,NULL,NULL,179,'i');
 INSERT INTO `exclusion` VALUES (7,NULL,NULL,431,'i');
 INSERT INTO `exclusion` VALUES (9,'2003-01-01',NULL,507,'c');
 INSERT INTO `exclusion` VALUES (10,'2008-01-01',NULL,508,'c');
+INSERT INTO `exclusion` VALUES (11,NULL,NULL,484,'di');
+INSERT INTO `exclusion` VALUES (12,NULL,NULL,483,'di');
 /*!40000 ALTER TABLE `exclusion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5001,7 +5003,7 @@ INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg'
 INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg');
 INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg');
 INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg');
-INSERT INTO `sovereign` VALUES (7,'1803-06-26','1837-06-20',446,NULL);
+INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,NULL);
 INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,NULL);
 INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
@@ -5564,4 +5566,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-10 13:39:58
+-- Dump completed on 2019-12-12 13:36:51

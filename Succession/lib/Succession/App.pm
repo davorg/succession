@@ -75,7 +75,7 @@ has earliest => (
   required => 1,
   default => sub { DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
-  )->parse_datetime('1837-06-20') },
+  )->parse_datetime('1820-01-29') },
 );
 
 has list_size => (

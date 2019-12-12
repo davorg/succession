@@ -20,4 +20,5 @@
      c  => 'Catholic',
      mc => 'Married to a Catholic',
      i  => 'Illegitimate',
+     di => 'Declared invalid',
    } -%>
