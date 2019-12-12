@@ -267,19 +267,6 @@ sub is_home_page {
   return $self->request->path eq '/';
 }
 
-around BUILDARGS => sub {
-  my $orig  = shift;
-  my $class = shift;
-
-  if ( @_ == 1 && !ref $_[0] ) {
-    return $class->$orig({ date => $_[0] });
-  } elsif (not @_ or (@_ == 1 and not defined $_[0])) {
-    return $class->$orig({ date => DateTime->today });
-  } else {
-    return $class->$orig(@_);
-  }
-};
-
 sub too_early {
   my $self = shift;
   return $self->date < $self->earliest;
@@ -403,6 +390,19 @@ around json_ld_data => sub {
   }
 
   return $data;
+};
+
+around BUILDARGS => sub {
+  my $orig  = shift;
+  my $class = shift;
+
+  if ( @_ == 1 && !ref $_[0] ) {
+    return $class->$orig({ date => $_[0] });
+  } elsif (not @_ or (@_ == 1 and not defined $_[0])) {
+    return $class->$orig({ date => DateTime->today });
+  } else {
+    return $class->$orig(@_);
+  }
 };
 
 no Moose;
