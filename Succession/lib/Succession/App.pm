@@ -360,8 +360,13 @@ sub get_changes {
   return $self->model->get_changes_on_date($self->date);
 }
 
-sub json_ld_type { 'ItemList' }
-sub json_ld_fields { [] }
+sub json_ld_type {
+  return 'ItemList';
+}
+
+sub json_ld_fields {
+  return [];
+}
 
 around json_ld_data => sub {
   my $orig = shift;
