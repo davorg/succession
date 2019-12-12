@@ -29,6 +29,12 @@ while (my $cd = $ch_rs->next) {
 }
 
 for (1 .. $#changes) {
+  process_change($_);
+}
+
+sub process_change {
+  $_ = shift;
+
   my @new = @{$changes[$_]->{succ}};
   my @old = @{$changes[$_-1]->{succ}};
 
@@ -41,66 +47,71 @@ for (1 .. $#changes) {
       next;
     }
 
-    my $old_p = get_person($old[$old_i]);
-    my $new_p = get_person($new[$new_i]);
+    my ($old_incr, $new_incr) = process_position(
+      $old[$old_i], $new[$new_i], $changes[$_],
+    );
 
-    if ($old_p->sovereigns->first and
-      $old_p->sovereigns->first->start == $changes[$_]{date}) {
-      $changes[$_]{cd}->add_to_changes({
-        person_id => $old[$old_i],
-        description => 'became sovereign',
-      });
-      $old_i++;
-      next;
-    }
+    $old_i += $old_incr;
+    $new_i += $new_incr;
+  }
+}
 
-    if ($new_p->born == $changes[$_]{date}) {
-      $changes[$_]{cd}->add_to_changes({
+sub process_position {
+  my ($old, $new, $change) = @_;
+
+  my $old_p = get_person($old);
+  my $new_p = get_person($new);
+
+  if ($old_p->sovereigns->first and
+    $old_p->sovereigns->first->start == $change->{date}) {
+    $change->{cd}->add_to_changes({
+      person_id => $old,
+      description => 'became sovereign',
+    });
+    return (1, 0);
+  }
+
+  if ($new_p->born == $change->{date}) {
+      $change->{cd}->add_to_changes({
         person_id => $new_p->id,
         description => 'was born',
       });
-      $new_i += 2; $old_i++;
-      next;
-    }
-
-    if ($new[$new_i] eq "$old[$old_i]x") {
-      # Same number, but an x has been added
-      $changes[$_]{cd}->add_to_changes({
-        person_id => $old[$old_i],
-        description => 'was excluded',
-      });
-      $old_i++; $new_i++;
-      next;
-    }
-
-    if ("$new[$new_i]x" eq $old[$old_i]) {
-      # Same number, but the x has been removed
-      $changes[$_]{cd}->add_to_changes({
-        person_id => $new[$new_i],
-        description => 'was unexcluded',
-      });
-      $old_i++; $new_i++;
-      next;
-    }
-
-    if ($old_p->died->clone->add(days => 1) == $changes[$_]{date}) {
-      $changes[$_]{cd}->add_to_changes({
-        person_id => $old_p->id,
-        description => 'died',
-      });
-      $old_i += 2; $new_i++;
-      next;
-    }
-
-    say 'Date: ', $changes[$_]{date};
-    say 'Old: ', $old_p->born, ' - ', $old_p->died;
-    say 'New: ', $new_p->born, ' - ', $new_p->died;
-
-    say $changes[$_]{date}->ymd .
-        " Weirdness: $old[$old_i]/$new[$new_i]" .
-        " and $old[$old_i+1]/$new[$new_i+1]";
-    $old_i++; $new_i++;
+    return (2, 1);
   }
+
+  if ($new eq "${old}x") {
+    # Same number, but an x has been added
+    $change->{cd}->add_to_changes({
+      person_id => $old,
+      description => 'was excluded',
+    });
+    return (1, 1);
+  }
+
+  if ("${new}x" eq $old) {
+    # Same number, but the x has been removed
+    $change->{cd}->add_to_changes({
+      person_id => $new,
+      description => 'was unexcluded',
+    });
+    return (1, 1);
+  }
+
+  if ($old_p->died->clone->add(days => 1) == $change->{date}) {
+    $change->{cd}->add_to_changes({
+      person_id => $old_p->id,
+      description => 'died',
+    });
+    return (2, 1);
+  }
+
+  say 'Date: ', $change->{date};
+  say 'Old: ', $old_p->born, ' - ', $old_p->died;
+  say 'New: ', $new_p->born, ' - ', $new_p->died;
+
+  say $change->{date}->ymd .
+    " Weirdness: $old/$new";
+  return(1, 1);
 }
 
 # say Dumper \@changes;
@@ -110,7 +121,9 @@ sub get_person {
 
   my $id = shift;
 
-  $people->{$id} or ($people->{$id}) = $pe_rs->find($id);
+  $id =~ s/x$//;
+
+  $people->{$id} //= $pe_rs->find($id);
 
   return $people->{$id};
 }
