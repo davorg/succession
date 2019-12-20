@@ -1,0 +1,33 @@
+#!/usr/bin/perl -CS
+
+use strict;
+use warnings;
+use feature 'say';
+
+use DateTime;
+use Succession::App;
+
+my $davina = Succession::App->new->model->schema->resultset('Person')->find(51);
+
+say "Today";
+for ($davina->children->order_by_succession) {
+  say $_->name;
+}
+
+my $then = DateTime->new(year => 2013, month => 1, day => 1);
+say $then;
+for ($davina->children->order_by_succession($then)) {
+  say $_->name;
+}
+
+my $before = DateTime->new(year => 2015, month => 3, day => 25);
+say $before;
+for ($davina->children->order_by_succession($before)) {
+  say $_->name;
+}
+
+my $after = DateTime->new(year => 2015, month => 3, day => 27);
+say $after;
+for ($davina->children->order_by_succession($after)) {
+  say $_->name;
+}
