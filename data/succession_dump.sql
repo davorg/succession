@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.1.43-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.17  Distrib 10.3.20-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.1.43-MariaDB-0ubuntu0.18.04.1
+-- Server version	10.3.20-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `change` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
   `change_date_id` int(11) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `change_date_id` (`change_date_id`),
@@ -591,7 +591,7 @@ CREATE TABLE `person` (
   `parent` int(11) DEFAULT NULL,
   `family_order` int(11) DEFAULT NULL,
   `sex` enum('m','f') NOT NULL DEFAULT 'm',
-  `wikipedia` text,
+  `wikipedia` text DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
@@ -5003,8 +5003,8 @@ INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg'
 INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg');
 INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg');
 INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg');
-INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,NULL);
-INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,NULL);
+INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg');
+INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg');
 INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -5022,7 +5022,7 @@ CREATE TABLE `title` (
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
-  `is_default` smallint(6) NOT NULL DEFAULT '0',
+  `is_default` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `title_start` (`start`),
@@ -5566,4 +5566,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-12 13:36:51
+-- Dump completed on 2019-12-28 12:10:36
