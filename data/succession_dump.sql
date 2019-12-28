@@ -597,7 +597,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=517 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1051,6 +1051,14 @@ INSERT INTO `person` VALUES (513,'1818-06-17','1877-06-03',476,2,'f',NULL,'14b02
 INSERT INTO `person` VALUES (514,'1840-09-04',NULL,513,0,'',NULL,'620667-william-prince-of-orange');
 INSERT INTO `person` VALUES (515,'1843-09-15','1850-06-06',513,2,'m',NULL,'ac3fd8-prince-maurice-of-the-netherlands');
 INSERT INTO `person` VALUES (516,'1851-08-25','1884-06-21',513,3,'m',NULL,'fe0a9a-alexander-prince-of-orange');
+INSERT INTO `person` VALUES (517,'1807-01-09','1873-02-02',479,4,'f',NULL,'b3ddd7-xxx');
+INSERT INTO `person` VALUES (518,'1808-02-21','1870-05-09',479,1,'m',NULL,'353090-xxx');
+INSERT INTO `person` VALUES (519,'1809-03-07','1810-05-28',479,2,'m',NULL,'9eb534-xxx');
+INSERT INTO `person` VALUES (520,'1810-02-25','1856-07-07',479,5,'f',NULL,'b2a180-xxx');
+INSERT INTO `person` VALUES (521,'1813-01-24','1885-01-12',479,3,'m',NULL,'d624d9-xxx');
+INSERT INTO `person` VALUES (522,'1814-08-24','1847-05-12',477,1,'m',NULL,'880119-xxx');
+INSERT INTO `person` VALUES (523,'1820-05-27','1904-01-02',477,3,'f',NULL,'53959a-xxx');
+INSERT INTO `person` VALUES (524,'1822-09-09','1891-03-17',477,2,'m',NULL,'77b06a-xxx');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5030,7 +5038,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=845 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=853 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5516,7 +5524,7 @@ INSERT INTO `title` VALUES (803,'Catharina of Württemberg',NULL,NULL,477,1);
 INSERT INTO `title` VALUES (804,'Princess Sophia Dorothea of Württemberg',NULL,NULL,478,1);
 INSERT INTO `title` VALUES (805,'Prince Paul of Württemberg',NULL,NULL,479,1);
 INSERT INTO `title` VALUES (806,'Karl Georg August',NULL,NULL,480,1);
-INSERT INTO `title` VALUES (807,'Caroline Amalie Elisabeth',NULL,NULL,481,1);
+INSERT INTO `title` VALUES (807,'Princess Caroline, Duchess of Brunswick-Wolfenbüttel',NULL,NULL,481,1);
 INSERT INTO `title` VALUES (808,'Princess Charlotte of Wales',NULL,NULL,482,1);
 INSERT INTO `title` VALUES (809,'Georg Wilhelm Christian',NULL,NULL,483,1);
 INSERT INTO `title` VALUES (810,'August',NULL,NULL,484,1);
@@ -5554,6 +5562,14 @@ INSERT INTO `title` VALUES (841,'Princess Sophie of Württemberg',NULL,NULL,513,
 INSERT INTO `title` VALUES (842,'William, Prince of Orange',NULL,NULL,514,1);
 INSERT INTO `title` VALUES (843,'Prince Maurice of the Netherlands',NULL,NULL,515,1);
 INSERT INTO `title` VALUES (844,'Alexander, Prince of Orange',NULL,NULL,516,1);
+INSERT INTO `title` VALUES (845,'Friederike Charlotte Marie',NULL,NULL,517,1);
+INSERT INTO `title` VALUES (846,'Frederick Karl August',NULL,NULL,518,1);
+INSERT INTO `title` VALUES (847,'Paul Friedrich',NULL,NULL,519,1);
+INSERT INTO `title` VALUES (848,'Pauline Friederike Marie',NULL,NULL,520,1);
+INSERT INTO `title` VALUES (849,'August',NULL,NULL,521,1);
+INSERT INTO `title` VALUES (850,'Jérôme Napoléon Charles Bonaparte',NULL,NULL,522,1);
+INSERT INTO `title` VALUES (851,'Mathilde Bonaparte',NULL,NULL,523,1);
+INSERT INTO `title` VALUES (852,'Napoléon Joseph Charles Paul Bonaparte',NULL,NULL,524,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -5566,4 +5582,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-28 12:10:36
+-- Dump completed on 2019-12-28 13:49:02
