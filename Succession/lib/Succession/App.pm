@@ -170,7 +170,7 @@ sub _build_title {
   my $title = 'British Line of Succession';
 
   if ($path eq '/') {
-    return $title . ' on any date in the last 180 years.';
+    return $title . ' on any date in the last 200 years.';
   }
 
   if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
@@ -204,7 +204,7 @@ sub _build_description {
   my $desc = 'See the Line of Succession to the British Throne';
 
   if ($path eq '/') {
-    return $desc . ' on any date in the last 180 years.';
+    return $desc . ' on any date in the last 200 years.';
   }
 
   if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
