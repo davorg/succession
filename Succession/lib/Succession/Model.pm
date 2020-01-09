@@ -77,6 +77,16 @@ has interesting_dates => (
 
 sub _build_interesting_dates {
   return [{
+    monarch => 'George IV',
+    dates => [{
+      date => DateTime->new(year => 1820, month =>  1, day => 29),
+      desc => "Start of reign",
+    }]}, {
+    monarch => 'William IV',
+    dates => [{
+      date => DateTime->new(year => 1830, month =>  6, day => 26),
+      desc => "Start of reign",
+    }]}, {
     monarch => 'Victoria',
     dates => [{
       date => DateTime->new(year => 1837, month =>  6, day => 20),
