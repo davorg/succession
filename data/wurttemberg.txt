@@ -1,16 +1,25 @@
 (476)William I of Württemberg:1781-09-27:1864-06-25:m:1
-* Princess Marie Friederike Charlotte of Württemberg:1816-10-30:1887-01-04:f:2
-* Princess Sophie of Württemberg:1818-06-17:1877-06-03:f:3
-** William, Prince of Orange:1840-09-04:1879:06-11:m:1
-** Prince Maurice of the Netherlands:1843-09-15:1850-06-06:m:2
-** Alexander, Prince of Orange:1851-08-25:1884-06-21:m:3
+(512)* Princess Marie Friederike Charlotte of Württemberg:1816-10-30:1887-01-04:f:2
+(513)* Princess Sophie of Württemberg:1818-06-17:1877-06-03:f:3
+(514)** William, Prince of Orange:1840-09-04:1879:06-11:m:1
+(515)** Prince Maurice of the Netherlands:1843-09-15:1850-06-06:m:2
+(516)** Alexander, Prince of Orange:1851-08-25:1884-06-21:m:3
 * Princess Catherine of Württemberg:1821-08-24:1898-12-06:f:4
 ** William II of Württemberg:1848-02-25:1921-10-02:m:1
 *** Princess Pauline of Württemberg:1877-12-19:1965-05-07:f:1
 **** Prince Hermann of Wied:1899-08-18:1941-11-05:m:1
-**** Prince Dietrich of Wied:1
+**** Prince Dietrich of Wied:1901-10-30:1976-06-08:m:2
 *** Prince Ulrich of Württemberg:1880-07-28:1880-12-28:m:2
 * Charles I of Württemberg:1823-03-06:1891-10-06:m:1
 * Princess Augusta of Württemberg:1826-01-04:1898-12-03:f:5
 ** Princess Pauline of Saxe-Weimar-Eisenach:1852-07-25:1904-05-17:f:5
-
+*** William Ernest, Grand Duke of Saxe-Weimar-Eisenach:1876-06-10:1923-04-24:m:1
+**** Princess Sophia of Saxe-Weimar-Eisenach:1911-03-20:1988-11-21:f:4
+**** Karl August, Hereditary Grand Duke of Saxe-Weimar-Eisenach:1912-07-28:1988-10-14:m:1
+**** Prince Bernhard of Saxe-Weimar-Eisenach:1917-03-03:1986-03-23:m:2
+**** Prince Georg of Saxe-Weimar-Eisenach:1921-11-24:2011-03-11:m:3
+*** Prince Bernhard of Saxe-Weimar-Eisenach:1878-04-18:1900-10-01:m:2
+** Prince Wilhelm of Saxe-Weimar-Eisenach:1852-12-21:1924-12-15:m:1
+*** Prince Hermann of Saxe-Weimar-Eisenach:1886-02-14:1964-06-06:m:1
+*** Prince Albrecht Wilhelm of Sachsen-Weimar-Eisenac:1886-12-23:1918-09-09:m:2
+*** Princess Sophie of Saxe-Weimar-Eisenach:1888-07-25:1913-09-18:f:3

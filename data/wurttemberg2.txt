@@ -1,10 +1,18 @@
 (479)Prince Paul of Württemberg:1785-01-19:1852-04-16:m:2
-* Friederike Charlotte Marie:1807-01-9:1873-02-02:f:4
-* Frederick Karl August:1808-02-21:1870-05-09:m:1
-* Paul Friedrich:1809-03-07:1810-05-28:m:2
-* Pauline Friederike Marie:1810-02-25:1856-07-07:f:5
-* August:1813-01-24:1885-01-12:m:3
+(517)* Friederike Charlotte Marie:1807-01-9:1873-02-02:f:4
+** Grand Duchess Maria Mikhailovna:1825-03-09:1846-11-19:f:1
+** Grand Duchess Elizabeth Mikhailovna:1826-05-26:1845-01-28:f:2
+** Grand Duchess Catherine Mikhailovna:1827-08-28:1894-05-12:f:3
+** Grand Duchess Alexandra Mikhailovna:1831-01-28:1832-03-27:f:4
+** Grand Duchess Anna Mikhailovna:1834-10-27:1836-03-22:f:5
+(518)* Frederick Karl August:1808-02-21:1870-05-09:m:1
+(519)* Paul Friedrich:1809-03-07:1810-05-28:m:2
+(520)* Pauline Friederike Marie:1810-02-25:1856-07-07:f:5
+** Princess Helene Wilhelmine Henriette Pauline Marianne of Nassau:1831-04-12:1888-10-27:f:2
+** Prince Nikolaus Wilhelm of Nassau:1832-09-20:1905-09-17:m:1
+** Princess Sophia Wilhelmine Marianne Henriette of Nassau:1836-07-09:1913-12-30:f:3
+(521)* August:1813-01-24:1885-01-12:m:3
 (477)Catharina of Württemberg:1783-02-21:1835-11-29:f:3
-* Jérôme Napoléon Charles Bonaparte:1814-08-24:1847-05-12:m:1
-* Mathilde Bonaparte:1820-05-27:1904-01-02:f:3
-* Napoléon Joseph Charles Paul Bonaparte:1822-09-09:1891-03-17:m:2
+(522)* Jérôme Napoléon Charles Bonaparte:1814-08-24:1847-05-12:m:1
+(523)* Mathilde Bonaparte:1820-05-27:1904-01-02:f:3
+(524)* Napoléon Joseph Charles Paul Bonaparte:1822-09-09:1891-03-17:m:2
