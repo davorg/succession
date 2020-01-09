@@ -60,11 +60,11 @@ while (<>) {
       family_order => $order,
       sex => $sex,
     });
-    $person[$level]->make_slug;
     $person[$level]->add_to_titles({
       title => $name,
       is_default => 1,
     });
+    $person[$level]->make_slug;
   }
 
   say "[$person_id] $level: $name";
