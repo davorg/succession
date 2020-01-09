@@ -9,7 +9,7 @@ use Dancer2::Core::Request;
 
 use Succession::App;
 
-my $app = Succession::App->new({ request => bless {}, 'Dancer2::Core::Request' });
+my $app = Succession::App->new();
 
 my $sch = $app->model->schema;
 my $ch_rs = $sch->resultset('ChangeDate');
@@ -62,6 +62,7 @@ sub process_position {
   my $old_p = get_person($old);
   my $new_p = get_person($new);
 
+  # Someone became sovereign and popped off the top of the list
   if ($old_p->sovereigns->first and
     $old_p->sovereigns->first->start == $change->{date}) {
     $change->{cd}->add_to_changes({
@@ -71,6 +72,7 @@ sub process_position {
     return (1, 0);
   }
 
+  # Someone was born and moved below them moved down a place
   if ($new_p->born == $change->{date}) {
       $change->{cd}->add_to_changes({
         person_id => $new_p->id,
@@ -79,6 +81,7 @@ sub process_position {
     return (2, 1);
   }
 
+  # Someone was excluded and  everyone below them moved up a place
   if ($new eq "${old}x") {
     # Same number, but an x has been added
     $change->{cd}->add_to_changes({
@@ -88,6 +91,7 @@ sub process_position {
     return (1, 1);
   }
 
+  # Someone was included and everyone below them moved down a place
   if ("${new}x" eq $old) {
     # Same number, but the x has been removed
     $change->{cd}->add_to_changes({
@@ -97,6 +101,7 @@ sub process_position {
     return (1, 1);
   }
 
+  # Someone died and everyone below them moved up a place
   if ($old_p->died->clone->add(days => 1) == $change->{date}) {
     $change->{cd}->add_to_changes({
       person_id => $old_p->id,
@@ -105,12 +110,15 @@ sub process_position {
     return (2, 1);
   }
 
+  # Shouldn't get here :-(
   say 'Date: ', $change->{date};
-  say 'Old: ', $old_p->born, ' - ', $old_p->died;
-  say 'New: ', $new_p->born, ' - ', $new_p->died;
+  say 'Old: ', $old_p->name, ', ', $old_p->born, ' - ', $old_p->died;
+  say 'New: ', $new_p->name, ', ', $new_p->born, ' - ', $new_p->died;
 
   say $change->{date}->ymd .
     " Weirdness: $old/$new";
+  say $change->{cd}->succession;
+  exit;
   return(1, 1);
 }
 
