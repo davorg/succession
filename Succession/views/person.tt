@@ -27,7 +27,7 @@
 <h2>Positions</h2>
 <ul>
 <% FOR pos IN person.positions_rs.order_by_date -%>
-<li><% pos.position %> (<% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
+<li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %> (<% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
     link_date(pos.end);
      ELSIF person.died;
