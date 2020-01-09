@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Succession::App;
+
+my $app = Succession::App->new;
+my $sch = $app->model->schema;
+
+# This is going to leave us with open last positions for all of the
+# sovereigns. Let's fix those.
+
+my $pos_rs = $sch->resultset('Position');
+foreach ($sch->resultset('Sovereign')->all) {
+  my ($pos) = $pos_rs->find({
+    person_id => $_->person_id,
+    end       => undef,
+  });
+
+  next unless $pos;
+
+  $pos->update({
+    end => $_->start,
+  });
+}
