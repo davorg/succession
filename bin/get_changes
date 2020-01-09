@@ -9,6 +9,8 @@ use Dancer2::Core::Request;
 
 use Succession::App;
 
+my $debug = $ENV{SUCC_DEBUG} // 0;
+
 my $app = Succession::App->new();
 
 my $sch = $app->model->schema;
@@ -20,13 +22,11 @@ my @changes = {
   succ => [ map { $_->id } @{ $app->model->succession_on_date($app->earliest) } ],
 };
 
-while (my $cd = $ch_rs->next) {
-  push @changes, {
-    cd   => $cd,
-    date => $cd->change_date,
-    succ => [ split /:/, $cd->succession ],
-  };
-}
+push @changes, map { {
+  cd   => $_,
+  date => $_->change_date,
+  succ => [ split /:/, $_->succession ],
+} } $ch_rs->all;
 
 for (1 .. $#changes) {
   process_change($_);
@@ -69,6 +69,7 @@ sub process_position {
       person_id => $old,
       description => 'became sovereign',
     });
+    debug($old_p->name, " became sovereign");
     return (1, 0);
   }
 
@@ -78,7 +79,8 @@ sub process_position {
         person_id => $new_p->id,
         description => 'was born',
       });
-    return (2, 1);
+    debug($new_p->name, ' was born');
+    return (0, 1);
   }
 
   # Someone was excluded and  everyone below them moved up a place
@@ -88,6 +90,7 @@ sub process_position {
       person_id => $old,
       description => 'was excluded',
     });
+    debug($old_p->name, ' was excluded');
     return (1, 1);
   }
 
@@ -98,6 +101,7 @@ sub process_position {
       person_id => $new,
       description => 'was unexcluded',
     });
+    debug($new_p->name, ' was unexcluded');
     return (1, 1);
   }
 
@@ -107,7 +111,8 @@ sub process_position {
       person_id => $old_p->id,
       description => 'died',
     });
-    return (2, 1);
+    debug($old_p->name, ' died');
+    return (1, 0);
   }
 
   # Shouldn't get here :-(
@@ -134,4 +139,10 @@ sub get_person {
   $people->{$id} //= $pe_rs->find($id);
 
   return $people->{$id};
+}
+
+sub debug {
+  return unless $debug;
+
+  say @_;
 }
