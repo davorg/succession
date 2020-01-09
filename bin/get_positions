@@ -17,14 +17,16 @@ foreach ($sch->resultset('ChangeDate')->search(undef, { order_by => 'change_date
 
   my $x = 1;
   foreach my $p (@$succ) {
-    say $x;
+    my $pos = $x;
+    say $pos;
+    $pos = -1 if $p->excluded_on_date($_->change_date);
     my $prev_pos = $p->position_on_date($_->change_date);
 
     if ($prev_pos) {
-      if ($prev_pos->position != $x) {
+      if ($prev_pos->position != $pos) {
         $prev_pos->update({ end => $_->change_date });
         $p->add_to_positions({
-          position => $x,
+          position => $pos,
           start => $_->change_date,
         });
       }
@@ -32,10 +34,10 @@ foreach ($sch->resultset('ChangeDate')->search(undef, { order_by => 'change_date
       my $start = $_->change_date;
       $start = undef if $start == $p->born;
       $p->add_to_positions({
-        position => $x,
+        position => $pos,
         start => $start,
       });
     }
-    ++$x;
+    ++$x if $pos != -1;
   }
 }
