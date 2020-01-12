@@ -1055,7 +1055,7 @@ INSERT INTO `person` VALUES (450,'1767-11-02','1820-01-23',442,4,'m',NULL,'73266
 INSERT INTO `person` VALUES (451,'1768-11-08','1840-09-22',442,11,'f',NULL,'088edf-princess-augusta-sophia');
 INSERT INTO `person` VALUES (452,'1770-05-22','1840-01-10',442,12,'f',NULL,'72b60b-princess-elizabeth');
 INSERT INTO `person` VALUES (453,'1771-06-05','1851-11-18',442,5,'m',NULL,'410146-ernest-augustus-i-of-hanover');
-INSERT INTO `person` VALUES (454,'1819-05-02','1878-06-12',453,1,'m',NULL,'303be9-george-v-of-hanover');
+INSERT INTO `person` VALUES (454,'1819-05-27','1878-06-12',453,1,'m',NULL,'303be9-george-v-of-hanover');
 INSERT INTO `person` VALUES (455,'1845-09-21','1923-11-14',454,1,'m',NULL,'e6ec74-ernest-augustus-crown-prince-of-hanover');
 INSERT INTO `person` VALUES (456,'1848-01-09','1926-10-16',454,2,'f',NULL,'c0d9f3-princess-frederica-of-hanover');
 INSERT INTO `person` VALUES (457,'1849-12-03','1904-06-04',454,3,'f',NULL,'4533ff-princess-marie-of-hanover');
@@ -6192,4 +6192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-12 14:21:21
+-- Dump completed on 2020-01-12 14:33:23
