@@ -116,15 +116,11 @@ sub process_position {
   }
 
   # Shouldn't get here :-(
-  say 'Date: ', $change->{date};
-  say 'Old: ', $old_p->name, ', ', $old_p->born, ' - ', $old_p->died;
-  say 'New: ', $new_p->name, ', ', $new_p->born, ' - ', $new_p->died;
-
-  say $change->{date}->ymd .
-    " Weirdness: $old/$new";
-  say $change->{cd}->succession;
-  exit;
-  return(1, 1);
+  warn 'Date: ', $change->{date}, "\n",
+       'Old: ', $old_p->name, ', ', $old_p->born, ' - ', $old_p->died, "\n",
+       'New: ', $new_p->name, ', ', $new_p->born, ' - ', $new_p->died, "\n",
+       $change->{date}->ymd . " Weirdness: $old/$new\n";
+  die  $change->{cd}->succession;
 }
 
 # say Dumper \@changes;
