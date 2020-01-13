@@ -1157,8 +1157,8 @@ INSERT INTO `person` VALUES (552,'1843-08-24','1907-09-02',460,1,'m',NULL,'3575f
 INSERT INTO `person` VALUES (553,'1846-01-30','1922-12-17',460,2,'m',NULL,'0837c7-adolphus-fitzgeorge');
 INSERT INTO `person` VALUES (554,'1847-06-12','1933-10-30',460,3,'m',NULL,'6beb2e-augustus-fitzgeorge');
 INSERT INTO `person` VALUES (555,'1895-03-11','1903-11-16',301,2,'f',NULL,'9a2b2a-princess-elisabeth-of-hesse-and-by-rhine');
-INSERT INTO `person` VALUES (556,'1948-08-13',NULL,286,1,'m',NULL,NULL);
-INSERT INTO `person` VALUES (557,'1961-09-01',NULL,286,2,'m',NULL,NULL);
+INSERT INTO `person` VALUES (556,'1948-08-13',NULL,286,1,'m',NULL,'cf9743-paul-philippe-hohenzollern');
+INSERT INTO `person` VALUES (557,'1961-09-01',NULL,286,2,'m',NULL,'6e3503-ion-george-nicholas-alexander-lambrino');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6192,4 +6192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-12 14:33:23
+-- Dump completed on 2020-01-13 14:27:41
