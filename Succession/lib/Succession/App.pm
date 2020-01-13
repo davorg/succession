@@ -25,6 +25,15 @@ via {
   DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
+sub BUILD {
+  my $self = shift;
+
+  die 'Date cannot be before ' . $self->earliest->strftime('%d %B %Y')
+    if $self->too_early;
+
+  die 'Date cannot be after today' if $self->too_late;
+}
+
 has request => (
   is => 'ro',
   isa => 'Dancer2::Core::Request',
@@ -40,7 +49,7 @@ has model => (
   is => 'ro',
   isa => 'Succession::Model',
   lazy_build => 1,
-  handles => [ qw(get_succession get_succession_json interesting_dates ) ],
+  handles => [ qw(get_succession get_succession_data interesting_dates ) ],
 );
 
 sub _build_model {

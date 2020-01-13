@@ -192,11 +192,12 @@ sub get_succession {
   return $succ;
 }
 
-sub get_succession_json {
+sub get_succession_data {
   my $self = shift;
+  my ($date, $count) = @_;
 
   my $succ = {
-    sovereign => $self->sovereign->name,
+    sovereign => $self->sovereign_on_date($date)->name,
   };
 
   my $i = 1;
@@ -205,11 +206,13 @@ sub get_succession_json {
     name   => $_->name,
     born   => $_->born->ymd,
     age    => $_->age_on_date,
-  }} @{ $self->succession };
+  }} @{ $self->succession_on_date($date) };
+
+  $#succ = $count - 1 if $#succ >= $count;
 
   $succ->{successors} = \@succ;
 
-  return encode_json($succ);
+  return $succ;
 }
 
 sub get_canonical_date {

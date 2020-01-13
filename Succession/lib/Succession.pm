@@ -1,5 +1,6 @@
 package Succession;
 use Dancer2;
+use Try::Tiny;
 
 use Succession::App;
 
@@ -19,42 +20,21 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   my ($date) = splat;
   $date //= query_parameters->get('date');
 
-  my $date_err;
-
-  if (defined $date and $date !~ /^\d{4}-\d\d-\d\d$/) {
-    $date_err = 'Date must be in the format YYYY-MM-DD';
-    $date = undef;
-  }
-
-  if (defined $date and not Succession::App->is_valid_date($date)) {
-    $date_err = "$date is not a valid date";
-    $date = undef;
-  }
-
-  my $args = {
+  my ($app, $date_err) = make_app({
+    date => $date,
     request => request,
-  };
-  $args->{date} = $date if defined $date;
-
-  my $app = Succession::App->new($args);
-
-  if ($app->too_early) {
-    $date_err = 'Date cannot be before ' .
-      $app->earliest->strftime('%d %B %Y');
-  }
-  if ($app->too_late) {
-    $date_err = 'Date cannot be after today';
-  }
+  });
 
   if ($date_err) {
+    if ($date_err =~ /before/) {
+      $date_err .= Succession::App->new->earliest->strftime('%d %B %Y');
+    }
     var date_err => $date_err;
     send_error $date_err, 404;
   }
 
   template 'index', {
     app     => $app,
-    # changes => $app->get_changes,
-    error   => $date_err,
   };
 };
 
@@ -85,5 +65,51 @@ get '/changes' => sub {
     changes => $changes,
   }
 };
+
+get '/api' => sub {
+  set layout => '';
+  set serializer => 'JSON';
+
+  my $date  = query_parameters->get('date');
+  my $count = query_parameters->get('count');
+
+  my ($app, $date_err) = make_app({
+    date => $date,
+    list_size => $count,
+    request => request,
+  });
+
+  my $succ = $app->get_succession_data($app->date, $app->list_size);
+
+  return $succ;
+};
+
+sub make_app {
+  my ($params) = @_;
+
+  my $args = {
+    request => $params->{request},
+  };
+
+  for (qw[date list_size]) {
+    $args->{$_} = $params->{$_} if defined $params->{$_};
+  }
+
+  my $date_err;
+
+  my $app = try {
+    Succession::App->new($args)
+  } catch {
+    if (/Validation failed/) {
+      $date_err = 'Dates must be in the format: YYYY-MM-DD';
+    } elsif (/Date cannot be before/) {
+      $date_err = 'Date cannot be before ';
+    } elsif (/Date cannot be after today/) {
+      $date_err = 'Date cannot be after today';
+    }
+  };
+
+  return ($app, $date_err);
+}
 
 true;
