@@ -77,11 +77,11 @@
           <li class="nav-item">
             <a class="nav-link" href="/changes">Timeline of Changes</a>
           </li>
-<% IF feed -%>
+<% IF app.feed -%>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="https://blog.lineofsuccession.co.uk/" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog Posts</a>
             <div class="dropdown-menu">
-<% FOREACH entry IN feed.entries -%>
+<% FOREACH entry IN app.feed.entries -%>
               <a class="dropdown-item" href="<% entry.link %>"><% entry.title %></a>
 <% END -%>
             </div>

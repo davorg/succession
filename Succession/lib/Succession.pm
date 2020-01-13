@@ -12,7 +12,6 @@ get '/dates' => sub {
 
   template 'dates', {
     app => $app,
-    feed    => $app->feed,
   };
 };
 
@@ -54,7 +53,6 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 
   template 'index', {
     app     => $app,
-    feed    => $app->feed,
     # changes => $app->get_changes,
     error   => $date_err,
   };
