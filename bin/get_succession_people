@@ -1,0 +1,22 @@
+#!/usr/bin/perl -CS
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Succession::App;
+
+my $sch = Succession::App->new->model->schema;
+
+my %seen;
+my @people;
+
+for my $d ($sch->resultset('ChangeDate')->all) {
+  for my $p_id (split /:/, $d->succession) {
+    next if $p_id =~ /x$/;
+    next if $seen{$p_id}++;
+
+    my $p = $sch->resultset('Person')->find($p_id);
+    say join '|', $p->name, $p->slug;
+  }
+}
