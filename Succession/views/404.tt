@@ -2,6 +2,8 @@
 <p>We can't find <% request.path %> anywhere.</p>
 <p>We've even looked down the back of the sofa.</p>
 <% IF vars.date_err -%>
-<p><% vars.date_err %></p>
+<div class="alert alert-danger" role="alert">
+<% vars.date_err %>
+</div>
 <% end -%>
 <p>See the <a href="/">Line of Succession for today</a>.</p>
