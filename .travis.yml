@@ -30,7 +30,7 @@ before_script:
   - mysql -e 'flush privileges;'
   - mysql -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
   - mysql -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-  - bin/load_db
+  - mysql -D $SUCC_DB_NAME < data/succession_dump.sql
 
 before_install:
   cpanm -n Devel::Cover::Report::Coveralls
