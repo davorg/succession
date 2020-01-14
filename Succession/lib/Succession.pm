@@ -1,7 +1,6 @@
 package Succession;
 use Dancer2;
 use Try::Tiny;
-use JSON;
 
 use Succession::App;
 
@@ -69,7 +68,7 @@ get '/changes' => sub {
 
 get '/api' => sub {
   set layout => '';
-  set serializer => '';
+  # set serializer => '';
 
   my $date  = query_parameters->get('date');
   my $count = query_parameters->get('count');
