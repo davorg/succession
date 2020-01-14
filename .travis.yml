@@ -22,4 +22,4 @@ matrix:
 before_install:
   cpanm -n Devel::Cover::Report::Coveralls
 script:
-  perl Makefile.PL && make && cover -test -report coveralls
+  cd Succession && perl Makefile.PL && make && cover -test -report coveralls
