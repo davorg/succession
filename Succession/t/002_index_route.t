@@ -20,4 +20,10 @@ my $now = DateTime->now->strftime('%d&nbsp;%B&nbsp;%Y');
 like($res->decoded_content, qr/British Line of Succession on $now/,
      'Response looks sane');
 
+# static pages
+for (qw[dates changes]) {
+  $res = $test->request( GET "/$_" );
+  ok( $res->is_success, "[GET /$_] successful");
+}
+
 done_testing();

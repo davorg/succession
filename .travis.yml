@@ -17,10 +17,6 @@ matrix:
     dist: trusty
   - perl: "5.14"
     dist: trusty
-  - perl: "5.12"
-    dist: trusty
-  - perl: "5.10"
-    dist: trusty
 
 env: SUCC_DB_HOST=127.0.0.1 SUCC_DB_NAME=succession SUCC_DB_USER=test_user SUCC_DB_PASS=a_sekrit
 
