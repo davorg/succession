@@ -22,7 +22,7 @@ matrix:
   - perl: "5.10"
     dist: trusty
 
-env: SUCC_DB_HOST=127.0.0.1 SUCC_DB_NAME=succession SUCC_DB_USER=test_user LYSTYNG_DB_PASS=a_sekrit
+env: SUCC_DB_HOST=127.0.0.1 SUCC_DB_NAME=succession SUCC_DB_USER=test_user SUCC_DB_PASS=a_sekrit
 
 before_script:
   - mysql -e "create database $SUCC_DB_NAME;"
