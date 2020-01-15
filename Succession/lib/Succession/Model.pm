@@ -196,8 +196,15 @@ sub get_succession_data {
   my $self = shift;
   my ($date, $count) = @_;
 
+  my $sov = $self->sovereign_on_date($date);
+
   my $succ = {
-    sovereign => $self->sovereign_on_date($date)->name,
+    date      => $date->ymd,
+    sovereign => {
+      name => $sov->name,
+      age  => $sov->age_on_date,
+      slug => $sov->slug,
+    },
   };
 
   my $i = 1;
@@ -206,6 +213,7 @@ sub get_succession_data {
     name   => $_->name,
     born   => $_->born->ymd,
     age    => $_->age_on_date,
+    slug   => $_->slug,
   }} @{ $self->succession_on_date($date) };
 
   $#succ = $count - 1 if $#succ >= $count;
