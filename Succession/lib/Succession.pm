@@ -7,6 +7,8 @@ use Succession::App;
 our $VERSION = '0.1';
 
 get '/dates' => sub {
+  set layout => 'main';
+
   my $app = Succession::App->new({
     request => request,
   });
@@ -17,6 +19,8 @@ get '/dates' => sub {
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
+  set layout => 'main';
+
   my ($date) = splat;
   $date //= query_parameters->get('date');
 
@@ -39,6 +43,8 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 };
 
 get qr{/p/(.*)} => sub {
+  set layout => 'main';
+
   my ($slug) = splat;
 
   my $app    = Succession::App->new({
@@ -54,6 +60,8 @@ get qr{/p/(.*)} => sub {
 };
 
 get '/changes' => sub {
+  set layout => 'main';
+
   my $app = Succession::App->new({
     request => request,
   });
