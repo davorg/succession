@@ -196,12 +196,13 @@ sub get_succession_data {
   my $self = shift;
   my ($date, $count) = @_;
 
-  my $sov = $self->sovereign_on_date($date);
+  my $sov = $self->sovereign_on_date($date)->person;
 
   my $succ = {
     date      => $date->ymd,
     sovereign => {
       name => $sov->name,
+      born => $sov->born->ymd,
       age  => $sov->age_on_date,
       slug => $sov->slug,
     },
