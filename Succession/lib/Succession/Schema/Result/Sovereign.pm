@@ -68,6 +68,12 @@ __PACKAGE__->table("sovereign");
   is_nullable: 1
   size: 40
 
+=head2 image_attr
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 1000
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -81,6 +87,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "image",
   { data_type => "char", is_nullable => 1, size => 40 },
+  "image_attr",
+  { data_type => "varchar", is_nullable => 1, size => 1000 },
 );
 
 =head1 PRIMARY KEY
@@ -113,8 +121,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2018-04-18 12:17:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FMENg32xo4EFY6RwEQcniw
+# Created by DBIx::Class::Schema::Loader v0.07049 @ 2020-01-20 10:56:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KaPzuOAqZnLBKCDUQMP38g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

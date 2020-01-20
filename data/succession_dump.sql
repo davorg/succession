@@ -1,8 +1,8 @@
 -- MySQL dump 10.17  Distrib 10.3.20-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: succession
+-- Host: 127.0.0.1    Database: succession
 -- ------------------------------------------------------
--- Server version	10.3.20-MariaDB
+-- Server version	10.3.16-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -5568,6 +5568,7 @@ CREATE TABLE `sovereign` (
   `end` date DEFAULT NULL,
   `person_id` int(11) NOT NULL,
   `image` char(40) DEFAULT NULL,
+  `image_attr` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   KEY `sovereign_start` (`start`),
@@ -5582,15 +5583,15 @@ CREATE TABLE `sovereign` (
 
 LOCK TABLES `sovereign` WRITE;
 /*!40000 ALTER TABLE `sovereign` DISABLE KEYS */;
-INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg');
-INSERT INTO `sovereign` VALUES (2,'1952-02-06',NULL,2,'elizabeth-ii.jpg');
-INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg');
-INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg');
-INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg');
-INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg');
-INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg');
-INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg');
-INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL);
+INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg',NULL);
+INSERT INTO `sovereign` VALUES (2,'1952-02-06',NULL,2,'elizabeth-ii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_in_March_2015.jpg\" title=\"via Wikimedia Commons\">Joel Rouse (Ministry of Defence), and nagualdesign</a> [<a href=\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3\">OGL 3</a>]');
+INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg',NULL);
+INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Kinggeorgev1923.jpg\" title=\"via Wikimedia Commons\">Bain News Service, publisher</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:King-Edward-VII_(crp_ret).jpg\" title=\"via Wikimedia Commons\">W. &amp; D. Downey</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Victoria_by_Bassano.jpg\" title=\"via Wikimedia Commons\">Alexander Bassano</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:William_IV_crop.jpg\" title=\"via Wikimedia Commons\">Martin Archer Shee</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_IV_1821_color.jpg\" title=\"via Wikimedia Commons\">Thomas Lawrence</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL,NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6192,4 +6193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-13 14:27:41
+-- Dump completed on 2020-01-20 13:56:54

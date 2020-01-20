@@ -9,20 +9,29 @@
     <% END -%>
     <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
-    <div>
-     <h2>
+    <div class="row">
 <% IF app.sovereign.image -%>
-     <img src="/images/<% app.sovereign.image %>"
-          class="sovpic"
-          alt="<% app.sovereign.person.name_on_date(app.date) %>"
-          title="<% app.sovereign.person.name_on_date(app.date) %>">
+      <div class="col-3 sovimage">
+        <figure class="figure">
+          <img src="/images/<% app.sovereign.image %>"
+               class="figure-img img-fluid-rounded"
+               alt="<% app.sovereign.person.name_on_date(app.date) %>"
+               title="<% app.sovereign.person.name_on_date(app.date) %>">
+<%   IF app.sovereign.image_attr -%>
+          <figcaption class="figure-caption text-left"><small><% app.sovereign.image_attr %></small></figcaption>
+<% END %>
+        </figure>
+      </div>
 <% END -%>
-     Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
-     <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
-     (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
-     Sovereign since <% link_date(app.sovereign.start) %>
-     (<% app.sovereign_duration.years %> years,
-      <% app.sovereign_duration.months %> months)</p></div>
+      <div class="col">
+        <h2>Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
+        <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
+        (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
+        Sovereign since <% link_date(app.sovereign.start) %>
+        (<% app.sovereign_duration.years %> years,
+        <% app.sovereign_duration.months %> months)</p>
+      </div>
+    </div>
 <% SET prev_dt = app.prev_change_date;
    SET next_dt = app.next_change_date;
    SET yester  = app.prev_day;
