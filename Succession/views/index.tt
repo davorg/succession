@@ -18,7 +18,7 @@
                alt="<% app.sovereign.person.name_on_date(app.date) %>"
                title="<% app.sovereign.person.name_on_date(app.date) %>">
 <%   IF app.sovereign.image_attr -%>
-          <figcaption class="figure-caption text-left"><small><% app.sovereign.image_attr %></small></figcaption>
+          <figcaption class="figure-caption text-left"><small>Image: <% app.sovereign.image_attr %></small></figcaption>
 <% END %>
         </figure>
       </div>

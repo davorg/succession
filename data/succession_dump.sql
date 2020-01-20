@@ -5583,11 +5583,11 @@ CREATE TABLE `sovereign` (
 
 LOCK TABLES `sovereign` WRITE;
 /*!40000 ALTER TABLE `sovereign` DISABLE KEYS */;
-INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg',NULL);
+INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:King_George_VI_of_England,_formal_photo_portrait,_circa_1940-1946.jpg\" title=\"via Wikimedia Commons\">Matson Photo Service</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (2,'1952-02-06',NULL,2,'elizabeth-ii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_in_March_2015.jpg\" title=\"via Wikimedia Commons\">Joel Rouse (Ministry of Defence), and nagualdesign</a> [<a href=\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3\">OGL 3</a>]');
-INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg',NULL);
-INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Kinggeorgev1923.jpg\" title=\"via Wikimedia Commons\">Bain News Service, publisher</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:King-Edward-VII_(crp_ret).jpg\" title=\"via Wikimedia Commons\">W. &amp; D. Downey</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:HRH_The_Prince_of_Wales_No_4_(HS85-10-36416).jpg\" title=\"via Wikimedia Commons\">British Library</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_V_of_the_united_Kingdom.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Edward_VII_in_coronation_robes.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Victoria_by_Bassano.jpg\" title=\"via Wikimedia Commons\">Alexander Bassano</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:William_IV_crop.jpg\" title=\"via Wikimedia Commons\">Martin Archer Shee</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_IV_1821_color.jpg\" title=\"via Wikimedia Commons\">Thomas Lawrence</a> [Public domain]');
@@ -6193,4 +6193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-20 13:56:54
+-- Dump completed on 2020-01-20 14:57:45
