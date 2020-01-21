@@ -3,12 +3,6 @@
 // Localize jQuery variable
 var jQuery;
 
-var mustache_tag = document.createElement('script');
-mustache_tag.setAttribute("type","text/javascript");
-mustache_tag.setAttribute("src",
-  "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js");
-(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(mustache_tag);
-
 /******** Load jQuery if not present *********/
 if (window.jQuery === undefined || window.jQuery.fn.jquery !== '3.4.1') {
     var script_tag = document.createElement('script');
@@ -47,9 +41,18 @@ function main() {
         // We can use jQuery here
         var data_url = "https://lineofsuccession.co.uk/api?callback=?";
         $.getJSON(data_url, function(json) {
-          var succ = $('div');
-          succ.append = $('<h1>Line of Succession on ' + json.date + '</h1>');
-          alert(json.sovereign.name);
+	  var p_url = 'https://lineofsuccession.co.uk/p/';
+	  var succ = $('<div />');
+	  succ.append($('<h1>Line of Succession on ' + json.date + '</h1>'));
+	  succ.append($('<h2>Sovereign:' + json.sovereign.name + '</h2>'));
+	  var list = $('<ol />');
+	  $.each(json.successors, function(index, value) {
+	    var a = $('<a />');
+	    a.attr({ href : p_url + value.slug});
+	    a.append(value.name);
+	    list.append($('<li />').append($(a)));
+	  });
+	  succ.append(list);
           $('#line-of-succession-widget-container').append(succ);
         });
     });
