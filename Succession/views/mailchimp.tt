@@ -8,18 +8,16 @@ span.asterisk {
 <form action="https://mag-sol.us4.list-manage.com/subscribe/post?u=eb715bd284fdc5631d2145c61&amp;id=a77633401b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
     <div id="mc_embed_signup_scroll">
 	<h2>Newsletter</h2>
-        <p>Sign up below to receive our occasional newsletter.</p>
-        <p>Or use the <a href="http://eepurl.com/gQUco5">full sign-up form</a>.</p>
-<div class="indicates-required"><small><span class="asterisk">*</span> indicates required</small></div>
-<div class="mc-field-group">
-	<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
-</label>
-	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+        <p><small>Sign up below to receive our occasional newsletter.</small></p>
+        <p><small>Or use the <a href="http://eepurl.com/gQUco5">full sign-up form</a>.</small></p>
+<div class="mc-field-group form-group">
+	<label for="mce-EMAIL"><small>Email Address</small></label>
+	<input type="email" value="" name="EMAIL" class="form-control-sm email" id="mce-EMAIL">
 </div>
 <div id="mergeRow-gdpr" class="mergeRow gdpr-mergeRow content__gdprBlock mc-field-group">
 	<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
     <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_eb715bd284fdc5631d2145c61_a77633401b" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn-sm btn-primary"></div>
     </div>
 </form>
 </div>
