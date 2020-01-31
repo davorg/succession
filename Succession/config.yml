@@ -32,6 +32,8 @@ engines:
     Console:
       log_format: "[%T] <%L> %m"
 
+auto_page: 1
+
 # session engine
 #
 # Simple: in-memory session store - Dancer2::Session::Simple

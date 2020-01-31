@@ -86,6 +86,9 @@
             </div>
           </li>
 <% END -%>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop">Shop</a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" method="get" action="/">
           <input class="form-control mr-sm-2" type="date" placeholder="YYYY-MM-DD" name="date" id="date"
