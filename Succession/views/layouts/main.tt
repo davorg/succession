@@ -104,12 +104,12 @@
       <div class="starter-template row">
         <div class="col-sm-9">
 <% content %>
-          <!-- Go to www.addthis.com/dashboard to customize your tools -->
-          <div class="addthis_native_toolbox"></div>
         </div>
         <div class="col-sm-3">
           <p>Welcome to the site.</p>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+          <div class="addthis_native_toolbox"></div>
           <hr>
 <% IF app.is_date_page OR app.is_home_page;
      changes = app.get_changes;
