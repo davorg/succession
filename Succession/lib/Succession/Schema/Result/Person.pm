@@ -388,7 +388,7 @@ sub age_on_date {
   $date //= DateTime->now;
 
   my $age = $date - $self->born;
-  return $age->years;
+  return $age->years || ($age->months . ' months');
 }
 
 sub name {
