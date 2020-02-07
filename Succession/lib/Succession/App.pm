@@ -251,6 +251,10 @@ sub _build_static_titles {
       title => 'Browse interesting dates for the British Line of Succession',
       desc  => 'Browse interesting dates for the British Line of Succession',
     },
+    shop   => {
+      title => 'British Line of Succession Shop',
+      desc  => 'British Line of Succession Shop',
+    },
   };
 }
 
