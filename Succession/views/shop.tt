@@ -11,3 +11,184 @@
 <p><img src="/images/cover-sm.jpg"></p>
 
 <p>Sign up to our newsletter to know when these items are available.</p>
+
+<h2>Amazon</h2>
+
+<p>We recommend these items from Amazon.</p>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="books-tab" data-toggle="tab" href="#books" role="tab" aria-controls="books" aria-selected="true">Books</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="dvds-tab" data-toggle="tab" href="#dvds" role="tab" aria-controls="dvds" aria-selected="false">DVDs &amp; Blurays</a>
+  </li>
+  <!-- li class="nav-item">
+    <a class="nav-link" id="others-tab" data-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Other</a>
+  </li -->
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="books" role="tabpanel" aria-labelledby="books-tab">
+<div class="card-group">
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/5106E-uesAL._SX327_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">Britain's Royal Families</h3>
+      <h4 class="card-subtitle">Alison Weir</h4>
+      <p class="card-text">Fascinating and authoritative of Britain's royal families from Henry VIII to Elizabeth I to Queen Victoria, by leading popular historian Alison Weir.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/009953973X/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/009953973X/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/51XW1VZ3BTL._SX335_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Royal Line of Succession</h3>
+      <h4 class="card-subtitle">Dulcie Ashdown</h4>
+      <p class="card-text">The best-selling illustrated guide to the British Monarchy and the succession process, updated and redesigned for 2018.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/0853729387/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/0853729387/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/51H9Taa9rhL._SX418_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">Queen Elizabeth II &amp; the Royal Family</h3>
+      <h4 class="card-subtitle">DK</h4>
+      <p class="card-text">A tribute to Queen Elizabeth II, this book celebrates her life and reign. It profiles key royals, such as Princess Diana and Prince Harry, and features celebrations including Prince William and Kate Middleton's wedding, the births of Prince George and Princess Charlotte, and the Queen's 90th birthday.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/0241270367/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/0241270367/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="tab-pane fade" id="dvds" role="tabpanel" aria-labelledby="dvds-tab"><div class="card-group">
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71biOe%2BQP8L._AC_SX342_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Season 1</h4>
+      <p class="card-text">The Crown focuses on Queen Elizabeth II as a 25-year-old newlywed faced with the daunting prospect of eading the world's most famous monarchy while forging a relationship with legendary Prime Minister, Sir Winston Churchill. The British Empire is in decline, the political world is in disarray, and a young woman takes the throne....a new era is dawning. Peter Morgan's masterfully researched scripts reveal the Queen's private journey behind the public facade with daring frankness. Prepare to be welcomed into the coveted world of power and privilege and behind locked doors in Westminster and Buckingham Palace....the leaders of an empire await.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B071Z24LPH/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B071Z24LPH/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71MoMoAlu5L._AC_SX385_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Season 2</h4>
+      <p class="card-text">The Crown, created by Peter Morgan, follows Queen Elizabeth through the late 1950s and early ‘60s as she struggles to navigate a world that’s changing around her. She must face the challenges of a new era, from the Suez Canal crisis to the assassination of John F. Kennedy, while preserving both the monarchy and her marriage.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B07GJD714Y/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B07GJD714Y/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71foLY7a5bL._AC_SY445_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Seasons 1 &amp; 2</h4>
+      <p class="card-text">Seasons 1 and 2 together in a single boxed-set.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B07GDS9SVF/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B07GDS9SVF/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+</div>
+
+<div class="card-group">
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/91y4kOB4i4L._AC_SY445_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Victoria</h5>
+      <h4 class="card-subtitle">Season 1</h4>
+      <p class="card-text">Victoria is the landmark account of the early years on the throne of one of Britain’s greatest queens.</p>
+
+      <p class="card-text">Jenna Coleman (Doctor Who) plays Victoria, taking her first faltering steps from capricious, hormonal teenager to respected monarch.</p>
+
+      <p class="card-text">Central to the drama is the scandalous friendship between Victoria and her first Prime Minister Lord Melbourne (BAFTA nominated Rufus Sewell; The Man in the High Castle), and the romance with her cousin Prince Albert (Tom Hughes; The Game).</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B01KTJYF6G/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B01KTJYF6G/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/81tiEUC14HL._AC_SY445_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Victoria</h5>
+      <h4 class="card-subtitle">Season 2</h4>
+      <p class="card-text">Following critical acclaim, Victoria (Jenna Coleman) resumes her role as queen establishing herself as a working mother, learning to balance her responsibilities as both parent and Sovereign. However, Prince Albert (Tom Hughes) is still struggling to find a role for himself alongside his powerful wife as she returns to her duties, intent on proving that she can be mother, dutiful wife and Queen. Victoria’s challenges during her reign, both home and abroad, leave her with a modern dilemma, can she really have it all?</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B075331Q62/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B075331Q62/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/91dcQfwrHzL._AC_SY445_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Victoria</h5>
+      <h4 class="card-subtitle">Season 3</h4>
+      <p class="card-text">Starting in 1848, the third instalment of the lavish drama will depict a turbulent and uncertain time for both Europe and the monarchy. With revolutions on the continent and the Chartist movement reaching its peak in London, Victoria is under pressure from the government to leave London for her own safety.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B07KWG9BC7/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B07KWG9BC7/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="tab-pane fade" id="dvds" role="tabpanel" aria-labelledby="dvds-tab"><div class="card-group">
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71biOe%2BQP8L._AC_SX342_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Season 1</h4>
+      <p class="card-text">The Crown focuses on Queen Elizabeth II as a 25-year-old newlywed faced with the daunting prospect of eading the world's most famous monarchy while forging a relationship with legendary Prime Minister, Sir Winston Churchill. The British Empire is in decline, the political world is in disarray, and a young woman takes the throne....a new era is dawning. Peter Morgan's masterfully researched scripts reveal the Queen's private journey behind the public facade with daring frankness. Prepare to be welcomed into the coveted world of power and privilege and behind locked doors in Westminster and Buckingham Palace....the leaders of an empire await.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B071Z24LPH/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B071Z24LPH/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71MoMoAlu5L._AC_SX385_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Season 2</h4>
+      <p class="card-text">The Crown, created by Peter Morgan, follows Queen Elizabeth through the late 1950s and early ‘60s as she struggles to navigate a world that’s changing around her. She must face the challenges of a new era, from the Suez Canal crisis to the assassination of John F. Kennedy, while preserving both the monarchy and her marriage.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B07GJD714Y/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B07GJD714Y/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://images-na.ssl-images-amazon.com/images/I/71foLY7a5bL._AC_SY445_.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h3 class="card-title">The Crown</h3>
+      <h4 class="card-subtitle">Seasons 1 &amp; 2</h4>
+      <p class="card-text">Seasons 1 and 2 together in a single boxed-set.</p>
+    </div>
+    <div class="card-footer">
+      <p><a href="http://www.amazon.com/dp/B07GDS9SVF/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+      <p><a href="http://www.amazon.co.uk/dp/B07GDS9SVF/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+    </div>
+  </div>
+</div>
+
+</div>
+  <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">Other stuff</div>
+</div>
