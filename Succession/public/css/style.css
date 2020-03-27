@@ -68,5 +68,26 @@ ol>li.disable {
 }
 
 .sovimage figure {
-  padding: 0 10px 10px 0;
+  position: relative;
+  border-width: 0 10px 10px 0;
+}
+
+.sovimage figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 3px 3px 3px;
+  background: rgb(0, 0, 0); /* Fallback color */
+  background: rgba(0, 0, 0, 0.75); /* Black background with 0.5 opacity */
+  display: none;
+  color: white;
+}
+
+.sovimage figcaption a:link {
+  color: #bbf;
+}
+
+figure:hover figcaption {
+  display: block;
 }
