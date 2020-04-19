@@ -32,7 +32,7 @@ engines:
     Console:
       log_format: "[%T] <%L> %m"
 
-auto_page: 1
+auto_page: 0
 
 # session engine
 #
