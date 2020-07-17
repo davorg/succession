@@ -1,8 +1,8 @@
--- MySQL dump 10.17  Distrib 10.3.20-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.17  Distrib 10.4.13-MariaDB, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: succession
+-- Host: localhost    Database: succession
 -- ------------------------------------------------------
--- Server version	10.3.16-MariaDB
+-- Server version	10.4.13-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -5616,7 +5616,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=886 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=887 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5723,7 +5723,7 @@ INSERT INTO `title` VALUES (349,'Zara Tindall','2011-07-30',NULL,8,1);
 INSERT INTO `title` VALUES (350,'Mia Tindall',NULL,NULL,18,1);
 INSERT INTO `title` VALUES (351,'The Prince Andrew',NULL,'1986-07-23',5,0);
 INSERT INTO `title` VALUES (352,'The Prince Andrew, Duke of York','1986-07-23',NULL,5,1);
-INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,NULL,11,1);
+INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,'2020-07-17',11,0);
 INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,1);
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19',NULL,6,1);
@@ -6181,6 +6181,7 @@ INSERT INTO `title` VALUES (882,'Augustus FitzGeorge',NULL,NULL,554,1);
 INSERT INTO `title` VALUES (883,'Princess Elisabeth of Hesse and by Rhine',NULL,NULL,555,1);
 INSERT INTO `title` VALUES (884,'Paul-Philippe Hohenzollern',NULL,NULL,556,1);
 INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NULL,557,1);
+INSERT INTO `title` VALUES (886,'Princess Beatrice','2020-07-17',NULL,11,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6193,4 +6194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-20 14:57:45
+-- Dump completed on 2020-07-17 13:11:49
