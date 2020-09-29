@@ -1,0 +1,34 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+<% FOR type IN types -%>
+  <li class="nav-item">
+    <a class="nav-link<% IF loop.first %> active<% END %>" id="<% type.id %>-tab" data-toggle="tab" href="#<% type.id %>" role="tab" aria-controls="<% type.id %>" aria-selected="<% IF loop.first %>true<% ELSE %>false<% END %>"><% type.text | html %></a>
+  </li>
+<% END -%>
+</ul>
+<div class="tab-content" id="myTabContent">
+<% FOR type IN types -%>
+  <div class="tab-pane fade<% IF loop.first %> show active<% END %>" id="<% type.id %>" role="tabpanel" aria-labelledby="<% type.id %>-tab">
+<%   products = type.products;
+     WHILE products.size;
+       three_products = products.splice(0, 3) %>
+    <div class="card-group">
+      <p><% three_products.size %></p>
+<%     FOR product IN three_products -%>
+      <div class="card">
+        <img src="<% product.image %>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h3 class="card-title"><% product.title %></h3>
+<%       IF product.subtitle %><h4 class="card-subtitle"><% product.subtitle %></h4><% END -%>
+          <p class="card-text"><% product.desc %></p>
+        </div> <!-- card-body -->
+        <div class="card-footer">
+          <p><a href="http://www.amazon.com/dp/<% product.asin %>/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+          <p><a href="http://www.amazon.co.uk/dp/<% product.asin %>/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+        </div> <!-- card-footer -->
+      </div> <! -- card -->
+<%     END -%>
+    </div> <!-- card-group -->
+<%   END -%>
+  </div> <!-- tab-pane -->
+<% END -%>
+</div> <!-- tab-content -->

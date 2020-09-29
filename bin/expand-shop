@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use FindBin '$Bin';
+use Template;
+
+my @types = ({
+  id => 'books',
+  text => 'Books',
+}, {
+  id => 'dvds',
+  text => 'DVDs & Blurays',
+}); 
+
+my @cols = qw[type asin title subtitle image desc];
+
+my %products;
+
+while (<DATA>) {
+  chomp;
+  my %product;
+  @product{@cols} = split /\|/;
+  push @{$products{$product{type}}}, \%product;
+}
+
+for (@types) {
+  $_->{products} = $products{$_->{id}};
+}
+
+my $tt = Template->new(
+  INCLUDE_PATH => "$Bin/../Succession/views",
+  OUTPUT_PATH  => "$Bin/../Succession/views",
+  TAG_STYLE    => 'asp',
+);
+
+my $widget = 'amazon-widget';
+
+$tt->process("$widget.in", {
+  types => \@types,
+}, $widget) or die $tt->error;
+
+__DATA__
+books|009953973X|Britain's Royal Families|Alison Weir|https://images-na.ssl-images-amazon.com/images/I/5106E-uesAL._SX327_BO1,204,203,200_.jpg|Fascinating and authoritative of Britain's royal families from Henry VIII to Elizabeth I to Queen Victoria, by leading popular historian Alison Weir.
+books|0853729387|The Royal Line of Succession|Dulcie Ashdown|https://images-na.ssl-images-amazon.com/images/I/51XW1VZ3BTL._SX335_BO1,204,203,200_.jpg|The best-selling illustrated guide to the British Monarchy and the succession process, updated and redesigned for 2018.
+books|0853729387|Queen Elizabeth II & the Royal Family|DK|https://images-na.ssl-images-amazon.com/images/I/51H9Taa9rhL._SX418_BO1,204,203,200_.jpg|A tribute to Queen Elizabeth II, this book celebrates her life and reign. It profiles key royals, such as Princess Diana and Prince Harry, and features celebrations including Prince William and Kate Middleton's wedding, the births of Prince George and Princess Charlotte, and the Queen's 90th birthday.
+dvds|B071Z24LPH|The Crown|Season 1|https://images-na.ssl-images-amazon.com/images/I/71biOe%2BQP8L._AC_SX342_.jpg|The Crown focuses on Queen Elizabeth II as a 25-year-old newlywed faced with the daunting prospect of eading the world's most famous monarchy while forging a relationship with legendary Prime Minister, Sir Winston Churchill. The British Empire is in decline, the political world is in disarray, and a young woman takes the throne....a new era is dawning. Peter Morgan's masterfully researched scripts reveal the Queen's private journey behind the public facade with daring frankness. Prepare to be welcomed into the coveted world of power and privilege and behind locked doors in Westminster and Buckingham Palace....the leaders of an empire await.
+dvds|B07GJD714Y|The Crown|Season 2|https://images-na.ssl-images-amazon.com/images/I/71MoMoAlu5L._AC_SX385_.jpg|The Crown, created by Peter Morgan, follows Queen Elizabeth through the late 1950s and early ‘60s as she struggles to navigate a world that’s changing around her. She must face the challenges of a new era, from the Suez Canal crisis to the assassination of John F. Kennedy, while preserving both the monarchy and her marriage.
+dvds|B088RXJF8Q|The Crown|Season 3|https://images-na.ssl-images-amazon.com/images/I/81TMUYI9gjL._AC_SL1500_.jpg|The Crown traces the life of Queen Elizabeth II from her wedding in 1947 through to the early part of the twenty-first century. Season Three covers the time period between 1964 and 1977 and introduces an outstanding new ensemble cast led by Olivia Colman and Tobias Menzies. Beginning with Harold Wilson’s election as the Queen’s first Labour prime minister and ending with the Silver Jubilee of Elizabeth II, it follows pivotal moments such as the death and state funeral of Winston Churchill, the Aberfan disaster, the Apollo 11 moon landing and the Investiture of Prince Charles as the Prince of Wales.
+dvds|B07NJKNLBQ|Victoria|Season 1|https://images-na.ssl-images-amazon.com/images/I/91y4kOB4i4L._AC_SY445_.jpg|Victoria is the landmark account of the early years on the throne of one of Britain’s greatest queens. Jenna Coleman (Doctor Who) plays Victoria, taking her first faltering steps from capricious, hormonal teenager to respected monarch. Central to the drama is the scandalous friendship between Victoria and her first Prime Minister Lord Melbourne (BAFTA nominated Rufus Sewell; The Man in the High Castle), and the romance with her cousin Prince Albert (Tom Hughes; The Game).
+dvds|B075331Q62|Victoria|Season 2|https://images-na.ssl-images-amazon.com/images/I/81tiEUC14HL._AC_SY445_.jpg|Following critical acclaim, Victoria (Jenna Coleman) resumes her role as queen establishing herself as a working mother, learning to balance her responsibilities as both parent and Sovereign. However, Prince Albert (Tom Hughes) is still struggling to find a role for himself alongside his powerful wife as she returns to her duties, intent on proving that she can be mother, dutiful wife and Queen. Victoria’s challenges during her reign, both home and abroad, leave her with a modern dilemma, can she really have it all?
+dvds|B07KWG9BC7|Victoria|Season 3|https://images-na.ssl-images-amazon.com/images/I/91dcQfwrHzL._AC_SY445_.jpg|Starting in 1848, the third instalment of the lavish drama will depict a turbulent and uncertain time for both Europe and the monarchy. With revolutions on the continent and the Chartist movement reaching its peak in London, Victoria is under pressure from the government to leave London for her own safety.
+dvds|B076HDDMRT|Victoria|Christmas Special|https://images-na.ssl-images-amazon.com/images/I/71rPcux3ssL._AC_SL1500_.jpg|Victoria and Albert have very different expectations for a family Christmas, and the arrival of a young African orphan at the Palace puts them at loggerheads. Victoria is uncharacteristically melancholy in the festive season. Albert, on the other hand, is gripped by an obsession with staging the perfect family Christmas, and ruffles feathers as he transforms the Palace into a magical festive wonderland. But Victoria is furious to find that, in fact, Albert has invited two very unwelcome house guests. ‘Tis the season for historic enmities to finally climax, new romances to blossom and sacrifices to be made… but a terrifying accident calls the couple’s priorities into question, and Victoria and Albert finally realise that they must leave behind the pain of their upbringings if they are to give their own children the Christmas that they never had.
+dvds|B001UQ5T4U|Young Victoria||https://images-na.ssl-images-amazon.com/images/I/81DIgOiaRHL._AC_SL1500_.jpg|Emily Blunt takes the titular role in Jean-Marc Vallee's dramatisation of the early years of Queen Victoria's rule, which began when she was just 18 years old, and her enduring romance and marriage to Prince Albert (Rupert Friend). Jim Broadbent and Miranda Richardson co-star as King William (Victoria's uncle) and the Duchess of Kent respectively. The film won the awards for Best Costume Design and Best Make Up/Hair at the 2010 BAFTAs as well as picking up the Oscar for Best Costume Design at the Academy Awards.
+dvds|B07LBHC4LG|The Favourite||https://images-na.ssl-images-amazon.com/images/I/81d%2BsbLTuZL._AC_SL1500_.jpg|Early 18th century. England is at war with the French. Nevertheless, duck racing and pineapple eating are thriving. A frail Queen Anne (Olivia Colman) occupies the throne and her close friend Lady Sarah (Rachel Weisz) governs the country while tending to Anne’s ill health and mercurial temper. When a new servant Abigail (Emma Stone) arrives, her charm endears her to Sarah. Sarah takes Abigail under her wing and Abigail sees a chance at a return to her aristocratic roots.
