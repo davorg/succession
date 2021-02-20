@@ -1,6 +1,6 @@
 -- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Linux (x86_64)
 --
--- Host: 172.22.192.1    Database: succession
+-- Host: 172.17.128.1    Database: succession
 -- ------------------------------------------------------
 -- Server version	10.5.5-MariaDB
 
@@ -6186,7 +6186,7 @@ INSERT INTO `title` VALUES (883,'Princess Elisabeth of Hesse and by Rhine',NULL,
 INSERT INTO `title` VALUES (884,'Paul-Philippe Hohenzollern',NULL,NULL,556,1);
 INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NULL,557,1);
 INSERT INTO `title` VALUES (886,'Princess Beatrice','2020-07-17',NULL,11,1);
-INSERT INTO `title` VALUES (887,'Brooksbank Son',NULL,NULL,558,1);
+INSERT INTO `title` VALUES (887,'August Brooksbank',NULL,NULL,558,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6199,4 +6199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-09 18:39:21
+-- Dump completed on 2021-02-20 15:30:22
