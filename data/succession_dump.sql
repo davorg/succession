@@ -5727,7 +5727,7 @@ INSERT INTO `title` VALUES (349,'Zara Tindall','2011-07-30',NULL,8,1);
 INSERT INTO `title` VALUES (350,'Mia Tindall',NULL,NULL,18,1);
 INSERT INTO `title` VALUES (351,'The Prince Andrew',NULL,'1986-07-23',5,0);
 INSERT INTO `title` VALUES (352,'The Prince Andrew, Duke of York','1986-07-23',NULL,5,1);
-INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,'2020-07-17',11,0);
+INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,'2020-07-17',11,1);
 INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,1);
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19',NULL,6,1);
@@ -6185,7 +6185,7 @@ INSERT INTO `title` VALUES (882,'Augustus FitzGeorge',NULL,NULL,554,1);
 INSERT INTO `title` VALUES (883,'Princess Elisabeth of Hesse and by Rhine',NULL,NULL,555,1);
 INSERT INTO `title` VALUES (884,'Paul-Philippe Hohenzollern',NULL,NULL,556,1);
 INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NULL,557,1);
-INSERT INTO `title` VALUES (886,'Princess Beatrice','2020-07-17',NULL,11,1);
+INSERT INTO `title` VALUES (886,'Princess Beatrice, Mrs Edoardo Mapelli Mozzi','2020-07-17',NULL,11,0);
 INSERT INTO `title` VALUES (887,'August Brooksbank',NULL,NULL,558,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -6199,4 +6199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-20 15:30:22
+-- Dump completed on 2021-02-20 16:28:42
