@@ -63,6 +63,12 @@ get qr{/p/(.*)} => sub {
     request => request,
   });
   my $person = $app->model->get_person_from_slug($slug);
+
+  unless ($person) {
+    send_error "'$slug' is not a valid person identifier", 404;
+    return;
+  }
+
   $app->person($person);
 
   template 'person', {
