@@ -76,7 +76,6 @@
             <div class="dropdown-menu">
               <a class="dropdown-item" href="/dates">Browse Interesting Dates</a>
               <a class="dropdown-item" href="/changes">Timeline of Changes</a>
-              <a class="dropdown-item" href="<% entry.link %>"><% entry.title %></a>
             </div>
           </li>
 <% IF app.feed -%>
