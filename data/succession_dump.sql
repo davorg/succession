@@ -1,6 +1,6 @@
--- MariaDB dump 10.18  Distrib 10.4.17-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.4.18-MariaDB, for Linux (x86_64)
 --
--- Host: 172.17.128.1    Database: succession
+-- Host: 172.20.64.1    Database: succession
 -- ------------------------------------------------------
 -- Server version	10.5.5-MariaDB
 
@@ -32,7 +32,7 @@ CREATE TABLE `change` (
   KEY `change_date_id` (`change_date_id`),
   CONSTRAINT `change_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   CONSTRAINT `change_ibfk_2` FOREIGN KEY (`change_date_id`) REFERENCES `change_date` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1063 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1331 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,6 +307,7 @@ INSERT INTO `change` VALUES (1059,506,263,'was born');
 INSERT INTO `change` VALUES (1060,510,264,'was born');
 INSERT INTO `change` VALUES (1061,511,265,'was born');
 INSERT INTO `change` VALUES (1062,558,266,'was born');
+INSERT INTO `change` VALUES (1063,559,268,'was born');
 /*!40000 ALTER TABLE `change` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +324,7 @@ CREATE TABLE `change_date` (
   `succession` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `change_date_change_date` (`change_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -598,6 +599,7 @@ INSERT INTO `change_date` VALUES (263,'2018-04-23','3:9:17:19:506:10:5:11:12:6:1
 INSERT INTO `change_date` VALUES (264,'2018-06-18','3:9:17:19:506:10:5:11:12:6:14:13:4:7:15:16:8:18:510:27:29:30:28:31:32:38:50:53:54:51');
 INSERT INTO `change_date` VALUES (265,'2019-05-06','3:9:17:19:506:10:511:5:11:12:6:14:13:4:7:15:16:8:18:510:27:29:30:28:31:32:38:50:53:54');
 INSERT INTO `change_date` VALUES (266,'2021-02-09','3:9:17:19:506:10:511:5:11:12:558:6:14:13:4:7:15:16:8:18:510:27:29:30:28:31:32:38:50:53');
+INSERT INTO `change_date` VALUES (268,'2021-03-21','3:9:17:19:506:10:511:5:11:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32:38:50');
 /*!40000 ALTER TABLE `change_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -666,7 +668,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=559 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=560 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1161,7 +1163,8 @@ INSERT INTO `person` VALUES (554,'1847-06-12','1933-10-30',460,3,'m',NULL,'6beb2
 INSERT INTO `person` VALUES (555,'1895-03-11','1903-11-16',301,2,'f',NULL,'9a2b2a-princess-elisabeth-of-hesse-and-by-rhine');
 INSERT INTO `person` VALUES (556,'1948-08-13',NULL,286,1,'m',NULL,'cf9743-paul-philippe-hohenzollern');
 INSERT INTO `person` VALUES (557,'1961-09-01',NULL,286,2,'m',NULL,'6e3503-ion-george-nicholas-alexander-lambrino');
-INSERT INTO `person` VALUES (558,'2021-02-09',NULL,12,1,'m',NULL,'a0985e-brooksbank-son');
+INSERT INTO `person` VALUES (558,'2021-02-09',NULL,12,1,'m',NULL,'c010be-august-brooksbank');
+INSERT INTO `person` VALUES (559,'2021-03-21',NULL,8,3,'m',NULL,'97c5ee-unnamed-tindall-son');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5620,7 +5623,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=888 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=889 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6187,6 +6190,7 @@ INSERT INTO `title` VALUES (884,'Paul-Philippe Hohenzollern',NULL,NULL,556,1);
 INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NULL,557,1);
 INSERT INTO `title` VALUES (886,'Princess Beatrice, Mrs Edoardo Mapelli Mozzi','2020-07-17',NULL,11,0);
 INSERT INTO `title` VALUES (887,'August Brooksbank',NULL,NULL,558,1);
+INSERT INTO `title` VALUES (888,'Unnamed Tindall Son',NULL,NULL,559,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6199,4 +6203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-20 16:28:42
+-- Dump completed on 2021-03-24 15:40:24
