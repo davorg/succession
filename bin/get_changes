@@ -23,20 +23,24 @@ my $date;
 if (@ARGV) {
   $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
     ->parse_datetime($ARGV[0]);
+  $date->subtract( days => 1 );
 } else {
   $date = $app->earliest;
 }
 
 my @changes = {
   date => $date,
-  succ => [ map { $_->id } @{ $app->model->succession_on_date($app->earliest) } ],
+  succ => [ map { $_->id } @{ $app->model->succession_on_date($date) } ],
 };
+
+my $dtf = $sch->storage->datetime_parser;
+my $search_date = $dtf->format_datetime($date);
 
 push @changes, map { {
   cd   => $_,
   date => $_->change_date,
   succ => [ split /:/, $_->succession ],
-} } $ch_rs->all;
+} } $ch_rs->search({ change_date => { '>=' => $search_date } })->all;
 
 for (1 .. $#changes) {
   process_change($_);
@@ -116,7 +120,7 @@ sub process_position {
   }
 
   # Someone died and everyone below them moved up a place
-  if ($old_p->died->clone->add(days => 1) == $change->{date}) {
+  if (defined $old_p->died and $old_p->died->clone->add(days => 1) == $change->{date}) {
     $change->{cd}->add_to_changes({
       person_id => $old_p->id,
       description => 'died',

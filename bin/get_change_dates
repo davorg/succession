@@ -13,30 +13,23 @@ my $rs  = $app->model->schema->resultset('ChangeDate');
 
 my $date;
 
+my $prev_succ_str = '';
+my $prev_year = 0;
+
 if (@ARGV) {
   $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
     ->parse_datetime($ARGV[0]);
+  $prev_succ_str = make_succ_str_for_date($date->clone->subtract( days => 1 ));
 } else {
   $date = $app->earliest;
 }
-
-my $prev_succ_str = '';
-my $prev_year = 0;
 
 while ($date <= $app->today) {
   if ($date->year != $prev_year) {
     warn DateTime->now->time, ' - Starting ', $date->year, "\n";
     $prev_year = $date->year;
   }
-  $app = Succession::App->new( date => $date );
-
-  my @succ = @{ $app->succession };
-
-  $#succ = $app->list_size - 1 if @succ > $app->list_size;
-
-  my $succ_str = join ':', map {
-    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
-  } @succ;
+  my $succ_str = make_succ_str_for_date($date);
 
   if ($succ_str ne $prev_succ_str) {
     say $date->ymd;
@@ -48,4 +41,18 @@ while ($date <= $app->today) {
   }
 
   $date->add( days => 1 );
+}
+
+sub make_succ_str_for_date {
+  my ($date) = @_;
+
+  $app = Succession::App->new( date => $date );
+
+  my @succ = @{ $app->succession };
+
+  $#succ = $app->list_size - 1 if @succ > $app->list_size;
+
+  return join ':', map {
+    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
+  } @succ;
 }
