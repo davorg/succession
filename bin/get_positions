@@ -4,12 +4,28 @@ use strict;
 use warnings;
 use feature 'say';
 
+use DateTime::Format::Strptime;
 use Succession::App;
 
 my $app = Succession::App->new;
 my $sch = $app->model->schema;
 
-foreach ($sch->resultset('ChangeDate')->search(undef, { order_by => 'change_date' })) {
+my $start;
+if (@ARGV) {
+  my $dtp = DateTime::Format::Strptime->new(
+    pattern => '%Y-%m-%d',
+    on_error => 'croak',
+  );
+  $start = $dtp->parse_datetime($ARGV[0]);
+} else {
+  $start = $app->earliest;
+}
+
+foreach ($sch->resultset('ChangeDate')->search({
+    change_date => { '>=' => $start },
+  }, {
+    order_by => 'change_date',
+  })) {
   say $_->change_date;
   $app = Succession::App->new(date => $_->change_date);
   my $succ = $app->succession;
