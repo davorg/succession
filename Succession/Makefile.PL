@@ -9,9 +9,9 @@ $eumm_version =~ s/_//;
 
 WriteMakefile(
     NAME                => 'Succession',
-    AUTHOR              => q{YOUR NAME <youremail@example.com>},
+    AUTHOR              => q{Dave Cross <dave@lineofsuccession.co.uk>},
     VERSION_FROM        => 'lib/Succession.pm',
-    ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
+    ABSTRACT            => 'Dancer2 application that drives the Line of Succession web site',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
