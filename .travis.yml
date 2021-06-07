@@ -30,6 +30,6 @@ before_script:
 
 before_install:
   - cpanm -n Devel::Cover::Report::Coveralls
-  - cpanm --installdeps .
+  - cpanm --notest --installdeps .
 script:
   cd Succession && perl Makefile.PL && make && cover -test -report coveralls
