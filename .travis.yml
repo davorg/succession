@@ -29,6 +29,7 @@ before_script:
   - mysql -D $SUCC_DB_NAME < data/succession_dump.sql
 
 before_install:
-  cpanm -n Devel::Cover::Report::Coveralls
+  - cpanm -n Devel::Cover::Report::Coveralls
+  - cpanm --installdeps .
 script:
   cd Succession && perl Makefile.PL && make && cover -test -report coveralls
