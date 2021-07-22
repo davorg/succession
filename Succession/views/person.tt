@@ -25,8 +25,42 @@
 
 <% IF person.positions_rs.count -%>
 <h2>Positions</h2>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Date', 'Position'],
+<% positions = person.positions_rs.order_by_date;
+   FOR pos IN positions;
+     date = pos.start OR person.born -%>
+      ['<% date.ymd %>', <% pos.position %>],
+<% END;
+   date = positions.-1.end OR (person.died ? person.died : app.today ) -%>
+      ['<% date.ymd %>', <% pos.position %>]
+    ]);
+
+    var options = {
+      legend: { position: 'none' },
+      areaOpacity: 0.0,
+      vAxis: {
+        direction: -1,
+        minValue: 1,
+        title: 'Position'
+      }
+    };
+
+    var chart = new google.visualization.SteppedAreaChart(document.getElementById('chartContainer'));
+    chart.draw(data, options);
+  }
+</script>
+<div id="chartContainer" style="height: 300px; width: 75%;"></div>
+
 <ul>
-<% FOR pos IN person.positions_rs.order_by_date -%>
+<% FOR pos IN positions -%>
 <li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %> (<% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
     link_date(pos.end);
