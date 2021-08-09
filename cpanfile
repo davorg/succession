@@ -34,7 +34,7 @@ requires 'Plack::Runner';
 requires 'Plack::Test';
 requires 'String::CRC32';
 requires 'Template';
-requires 'Template::Plugin::Lingua::EN::Inflexion
+requires 'Template::Plugin::Lingua::EN::Inflexion'
 requires 'Test::More';
 requires 'Text::ParseWords';
 requires 'Text::Unidecode';
