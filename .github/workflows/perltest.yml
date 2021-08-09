@@ -37,8 +37,6 @@ jobs:
         run: perl -V
       - name: Start database server
         run: sudo /etc/init.d/mysql start
-      - name: Install modules
-        run: cpanm --installdeps .
       - name: Setup database
         run: |
           mysql -u root -e "create database $SUCC_DB_NAME;"
@@ -47,5 +45,7 @@ jobs:
           mysql -u root -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
           mysql -u root -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
           mysql -uroot -D $SUCC_DB_NAME < data/succession_dump.sql
+      - name: Install modules
+        run: cpanm --installdeps .
       - name: Run tests
         run: prove -ISuccession/lib -v Succession/t
