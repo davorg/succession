@@ -15,7 +15,7 @@ on:
 jobs:
   build:
     env:
-      SUCC_DB_USER: melody
+      SUCC_DB_USER: succession
       SUCC_DB_HOST: localhost
       SUCC_DB_NAME: melody
       SUCC_DB_PASS: strongpassword
@@ -41,11 +41,11 @@ jobs:
         run: cpanm --installdeps .
       - name: Setup database
         run: |
-          mysql -e "create database $SUCC_DB_NAME;"
-          mysql -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -e 'flush privileges;'
-          mysql -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
-          mysql -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -D $SUCC_DB_NAME < data/succession_dump.sql
+          mysql -u root -e "create database $SUCC_DB_NAME;"
+          mysql -u root -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          mysql -u root -e 'flush privileges;'
+          mysql -u root -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
+          mysql -u root -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          mysql -uroot -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Run tests
         run: prove -ISuccession/lib -v Succession/t
