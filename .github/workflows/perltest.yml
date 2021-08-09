@@ -21,6 +21,15 @@ jobs:
       SUCC_DB_PASS: strongpassword
       PERL5LIB: Succession/lib:$PERL5LIB
     runs-on: ${{ matrix.os }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: sekrit
+          MYSQL_DATABASE: test
+        ports:
+            - '8888:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       matrix:
         os: [ 'ubuntu-latest' ]
@@ -39,12 +48,12 @@ jobs:
         run: sudo /etc/init.d/mysql start
       - name: Setup database
         run: |
-          mysql -u root -e "create database $SUCC_DB_NAME;"
-          mysql -u root -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -u root -e 'flush privileges;'
-          mysql -u root -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
-          mysql -u root -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -uroot -D $SUCC_DB_NAME < data/succession_dump.sql
+          mysql -u root -psekrit -e "create database $SUCC_DB_NAME;"
+          mysql -u root -psekrit -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          mysql -u root -psekrit -e 'flush privileges;'
+          mysql -u root -psekrit -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
+          mysql -u root -psekrit -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          mysql -u root -psekrit -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Install modules
         run: cpanm --installdeps .
       - name: Run tests
