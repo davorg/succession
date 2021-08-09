@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    env:
+      SUCC_DB_USER: melody
+      SUCC_DB_HOST: localhost
+      SUCC_DB_NAME: melody
+      SUCC_DB_PASS: strongpassword
+      PERL5LIB: Succession/lib:$PERL5LIB
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ 'ubuntu-latest' ]
+        perl: [ 'latest' ]
+    name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl }}
+      - name: Perl version
+        run: perl -V
+      - name: Start database server
+        run: sudo /etc/init.d/mysql start
+      - name: Install modules
+        run: cpanm --installdeps .
+      - name: Setup database
+        run: |
+          - mysql -e "create database $SUCC_DB_NAME;"
+          - mysql -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          - mysql -e 'flush privileges;'
+          - mysql -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
+          - mysql -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
+          - mysql -D $SUCC_DB_NAME < data/succession_dump.sql
+      - name: Run tests
+        run: prove -ISuccession/lib -v Succession/t
