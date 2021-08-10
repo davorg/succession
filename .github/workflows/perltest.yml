@@ -50,7 +50,7 @@ jobs:
         run: perl -V
       - name: Setup database
         env:
-          PORT: PORT: ${{ job.services.mariadb.ports[3306] }}
+          PORT: ${{ job.services.mariadb.ports[3306] }}
         run: mysql -u root -psekrit -h 127.0.0.1 -P"$PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Install modules
         run: cpanm --installdeps .
