@@ -16,7 +16,7 @@ jobs:
   build:
     env:
       SUCC_DB_USER: succession
-      SUCC_DB_HOST: localhost
+      SUCC_DB_HOST: 127.0.0.1
       SUCC_DB_NAME: succession
       SUCC_DB_PASS: strongpassword
       PERL5LIB: Succession/lib:$PERL5LIB
