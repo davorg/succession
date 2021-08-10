@@ -17,16 +17,20 @@ jobs:
     env:
       SUCC_DB_USER: succession
       SUCC_DB_HOST: localhost
-      SUCC_DB_NAME: melody
+      SUCC_DB_NAME: succession
       SUCC_DB_PASS: strongpassword
       PERL5LIB: Succession/lib:$PERL5LIB
     runs-on: ${{ matrix.os }}
     services:
-      mysql:
-        image: mysql:8.0
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
         env:
+          MYSQL_USER: succession
+          MYSQL_PASSWORD: strongpassword
           MYSQL_ROOT_PASSWORD: sekrit
-          MYSQL_DATABASE: test
+          MYSQL_DATABASE: succession
         ports:
             - '8888:3306'
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -45,13 +49,10 @@ jobs:
       - name: Perl version
         run: perl -V
       - name: Setup database
+        env:
+          PORT: PORT: ${{ job.services.mariadb.ports[3306] }}
         run: |
-          mysql -u root -psekrit -h 127.0.0.1 -e "create database $SUCC_DB_NAME;"
-          mysql -u root -psekrit -h 127.0.0.1 -e "drop user if exists '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -u root -psekrit -h 127.0.0.1 -e 'flush privileges;'
-          mysql -u root -psekrit -h 127.0.0.1 -e "create user '$SUCC_DB_USER'@'$SUCC_DB_HOST' identified by '$SUCC_DB_PASS';"
-          mysql -u root -psekrit -h 127.0.0.1 -e "grant all on $SUCC_DB_NAME.* to '$SUCC_DB_USER'@'$SUCC_DB_HOST';"
-          mysql -u root -psekrit -h 127.0.0.1 -D $SUCC_DB_NAME < data/succession_dump.sql
+          mysql -u root -psekrit -h 127.0.0.1 -P"$PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Install modules
         run: cpanm --installdeps .
       - name: Run tests
