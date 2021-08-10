@@ -44,8 +44,6 @@ jobs:
           perl-version: ${{ matrix.perl }}
       - name: Perl version
         run: perl -V
-      - name: Start database server
-        run: sudo /etc/init.d/mysql start
       - name: Setup database
         run: |
           mysql -u root -psekrit -h 127.0.0.1 -e "create database $SUCC_DB_NAME;"
