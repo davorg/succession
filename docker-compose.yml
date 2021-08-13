@@ -19,7 +19,7 @@ services:
     image: memcached:1.5
 
   app:
-    build: .
+    image: davorg/succession:latest
     container_name: succession
     links:
       - database
