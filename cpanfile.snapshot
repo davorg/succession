@@ -107,16 +107,8 @@ DISTRIBUTIONS
       Alien::Build::MM 1.60
       Alien::Build::Plugin::Build::SearchDep 0.35
       Alien::Build::Plugin::Prefer::BadVersion 1.05
-      Archive::Tar 0
-      Config 0
       ExtUtils::CBuilder 0
       ExtUtils::MakeMaker 6.52
-      HTML::LinkExtor 0
-      HTTP::Tiny 0.044
-      IO::Zlib 0
-      Sort::Versions 0
-      URI 0
-      URI::Escape 0
       perl 5.006
   Apache-LogFormat-Compiler-0.35
     pathname: K/KA/KAZEBURO/Apache-LogFormat-Compiler-0.35.tar.gz
@@ -511,21 +503,6 @@ DISTRIBUTIONS
       Test::More 0.47
       Tie::Hash 0
       perl 5.006
-  DBD-mysql-4.050
-    pathname: D/DV/DVEEDEN/DBD-mysql-4.050.tar.gz
-    provides:
-      Bundle::DBD::mysql 4.050
-      DBD::mysql 4.050
-      DBD::mysql::GetInfo undef
-      DBD::mysql::db 4.050
-      DBD::mysql::dr 4.050
-      DBD::mysql::st 4.050
-    requirements:
-      DBI 1.609
-      Data::Dumper 0
-      Devel::CheckLib 1.09
-      ExtUtils::MakeMaker 0
-      perl 5.008001
   DBI-1.642
     pathname: T/TI/TIMB/DBI-1.642.tar.gz
     provides:
@@ -985,6 +962,14 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  DateTime-Format-HTTP-0.42
+    pathname: C/CK/CKRAS/DateTime-Format-HTTP-0.42.tar.gz
+    provides:
+      DateTime::Format::HTTP 0.42
+    requirements:
+      DateTime 0.17
+      HTTP::Date 1.44
+      Test::More 0.47
   DateTime-Format-Mail-0.403
     pathname: B/BO/BOOK/DateTime-Format-Mail-0.403.tar.gz
     provides:
@@ -1466,7 +1451,7 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       File::Spec 0
       File::Temp 0.16
-      perl 5.00405
+      perl 5.004050
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
@@ -2024,6 +2009,24 @@ DISTRIBUTIONS
       Mozilla::CA 20110101
       Net::HTTPS 6
       perl 5.008001
+  Lingua-EN-Inflexion-0.002000
+    pathname: D/DC/DCONWAY/Lingua-EN-Inflexion-0.002000.tar.gz
+    provides:
+      Lingua::EN::Inflexion 0.002000
+      Lingua::EN::Inflexion::Adjective undef
+      Lingua::EN::Inflexion::Indefinite undef
+      Lingua::EN::Inflexion::Noun undef
+      Lingua::EN::Inflexion::Noun::Classical undef
+      Lingua::EN::Inflexion::Nouns 20190427.201137
+      Lingua::EN::Inflexion::Term undef
+      Lingua::EN::Inflexion::Verb undef
+      Lingua::EN::Inflexion::Verbs 20190312.121005
+    requirements:
+      ExtUtils::MakeMaker 0
+      Lingua::EN::Nums2Words 1.16
+      Lingua::EN::Words2Nums 0
+      Test::More 0
+      perl 5.010
   Lingua-EN-Numbers-2.03
     pathname: N/NE/NEILB/Lingua-EN-Numbers-2.03.tar.gz
     provides:
@@ -2035,6 +2038,18 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Lingua-EN-Nums2Words-1.16
+    pathname: H/HI/HIGHTOWE/Lingua-EN-Nums2Words-1.16.zip
+    provides:
+      Lingua::EN::Nums2Words 1.16
+    requirements:
+      ExtUtils::MakeMaker 0
+  Lingua-EN-Words2Nums-0.18
+    pathname: J/JO/JOEY/Lingua-EN-Words2Nums-0.18.tar.gz
+    provides:
+      Lingua::EN::Words2Nums undef
+    requirements:
+      ExtUtils::MakeMaker 0
   List-MoreUtils-0.428
     pathname: R/RE/REHSACK/List-MoreUtils-0.428.tar.gz
     provides:
@@ -2212,7 +2227,7 @@ DISTRIBUTIONS
       File::Spec 3.00
       File::Spec::Functions 0
       if 0
-      perl 5.00503
+      perl 5.005030
       strict 0
   Module-Runtime-0.016
     pathname: Z/ZE/ZEFRAM/Module-Runtime-0.016.tar.gz
@@ -2738,15 +2753,6 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  Net-SSLeay-1.88
-    pathname: C/CH/CHRISN/Net-SSLeay-1.88.tar.gz
-    provides:
-      Net::SSLeay 1.88
-      Net::SSLeay::Handle 1.88
-    requirements:
-      ExtUtils::MakeMaker 0
-      MIME::Base64 0
-      perl 5.008001
   POSIX-strftime-Compiler-0.42
     pathname: K/KA/KAZEBURO/POSIX-strftime-Compiler-0.42.tar.gz
     provides:
@@ -2812,7 +2818,7 @@ DISTRIBUTIONS
       File::Spec 0.80
       Scalar::Util 1.18
       Test::More 0.42
-      perl 5.00503
+      perl 5.005030
   Params-Validate-1.29
     pathname: D/DR/DROLSKY/Params-Validate-1.29.tar.gz
     provides:
@@ -3100,16 +3106,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
-  Sort-Versions-1.62
-    pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
-    provides:
-      Sort::Versions 1.62
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      perl 5.006
-      strict 0
-      warnings 0
   Specio-0.42
     pathname: D/DR/DROLSKY/Specio-0.42.tar.gz
     provides:
@@ -3284,6 +3280,15 @@ DISTRIBUTIONS
       Scalar::Util 1.14
       perl 5.006
       strict 0
+  Template-Plugin-Lingua-EN-Inflexion-0.01
+    pathname: H/HO/HOUSTON/Template-Plugin-Lingua-EN-Inflexion-0.01.tar.gz
+    provides:
+      Template::Plugin::Lingua::EN::Inflexion 0.01
+    requirements:
+      ExtUtils::MakeMaker 0
+      Lingua::EN::Inflexion 0.001008
+      Template 2.24
+      perl 5.010000
   Template-Tiny-1.12
     pathname: A/AD/ADAMK/Template-Tiny-1.12.tar.gz
     provides:
@@ -3291,7 +3296,7 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0.47
-      perl 5.00503
+      perl 5.005030
   Template-Toolkit-2.27
     pathname: A/AB/ABW/Template-Toolkit-2.27.tar.gz
     provides:
@@ -3698,23 +3703,6 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  URI-Fetch-0.13
-    pathname: N/NE/NEILB/URI-Fetch-0.13.tar.gz
-    provides:
-      URI::Fetch 0.13
-      URI::Fetch::Response 0.13
-    requirements:
-      Carp 0
-      Class::ErrorHandler 0
-      ExtUtils::MakeMaker 0
-      LWP::UserAgent 0
-      Storable 0
-      URI 0
-      base 0
-      constant 0
-      perl 5.008_001
-      strict 0
-      warnings 0
   Variable-Magic-0.62
     pathname: V/VP/VPIT/Variable-Magic-0.62.tar.gz
     provides:
@@ -3829,68 +3817,6 @@ DISTRIBUTIONS
       XML::Atom 0.38
       XML::LibXML 1.66
       XML::RSS 1.47
-  XML-LibXML-2.0200
-    pathname: S/SH/SHLOMIF/XML-LibXML-2.0200.tar.gz
-    provides:
-      XML::LibXML 2.0200
-      XML::LibXML::Attr 2.0200
-      XML::LibXML::AttributeHash 2.0200
-      XML::LibXML::Boolean 2.0200
-      XML::LibXML::CDATASection 2.0200
-      XML::LibXML::Comment 2.0200
-      XML::LibXML::Common 2.0200
-      XML::LibXML::Devel 2.0200
-      XML::LibXML::Document 2.0200
-      XML::LibXML::DocumentFragment 2.0200
-      XML::LibXML::Dtd 2.0200
-      XML::LibXML::Element 2.0200
-      XML::LibXML::ErrNo 2.0200
-      XML::LibXML::Error 2.0200
-      XML::LibXML::InputCallback 2.0200
-      XML::LibXML::Literal 2.0200
-      XML::LibXML::NamedNodeMap 2.0200
-      XML::LibXML::Namespace 2.0200
-      XML::LibXML::Node 2.0200
-      XML::LibXML::NodeList 2.0200
-      XML::LibXML::Number 2.0200
-      XML::LibXML::PI 2.0200
-      XML::LibXML::Pattern 2.0200
-      XML::LibXML::Reader 2.0200
-      XML::LibXML::RegExp 2.0200
-      XML::LibXML::RelaxNG 2.0200
-      XML::LibXML::SAX 2.0200
-      XML::LibXML::SAX::AttributeNode 2.0200
-      XML::LibXML::SAX::Builder 2.0200
-      XML::LibXML::SAX::Generator 2.0200
-      XML::LibXML::SAX::Parser 2.0200
-      XML::LibXML::Schema 2.0200
-      XML::LibXML::Text 2.0200
-      XML::LibXML::XPathContext 2.0200
-      XML::LibXML::XPathExpression 2.0200
-      XML::LibXML::_SAXParser 2.0200
-    requirements:
-      Alien::Libxml2 0
-      Carp 0
-      Config 0
-      DynaLoader 0
-      Encode 0
-      Exporter 5.57
-      ExtUtils::MakeMaker 0
-      IO::Handle 0
-      Scalar::Util 0
-      Tie::Hash 0
-      XML::NamespaceSupport 1.07
-      XML::SAX 0.11
-      XML::SAX::Base 0
-      XML::SAX::DocumentLocator 0
-      XML::SAX::Exception 0
-      base 0
-      constant 0
-      overload 0
-      parent 0
-      strict 0
-      vars 0
-      warnings 0
   XML-NamespaceSupport-1.12
     pathname: P/PE/PERIGRIN/XML-NamespaceSupport-1.12.tar.gz
     provides:
@@ -3902,21 +3828,6 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  XML-Parser-2.44
-    pathname: T/TO/TODDR/XML-Parser-2.44.tar.gz
-    provides:
-      XML::Parser 2.44
-      XML::Parser::Expat 2.44
-      XML::Parser::Style::Debug undef
-      XML::Parser::Style::Objects undef
-      XML::Parser::Style::Stream undef
-      XML::Parser::Style::Subs undef
-      XML::Parser::Style::Tree undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      LWP::UserAgent 0
-      Test::More 0
-      perl 5.00405
   XML-RSS-1.60
     pathname: S/SH/SHLOMIF/XML-RSS-1.60.tar.gz
     provides:
