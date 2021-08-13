@@ -31,6 +31,7 @@ requires 'MooseX::NonMoose';
 requires 'MooX::Role::JSON_LD';
 requires 'Params::Validate';
 requires 'Plack::Handler::FCGI';
+requires 'Plack::Middleware::Headers';
 requires 'Plack::Runner';
 requires 'Plack::Test';
 requires 'String::CRC32';

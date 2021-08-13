@@ -3128,6 +3128,13 @@ DISTRIBUTIONS
       parent 0
       strict 0
       warnings 0
+  Plack-Middleware-Headers-0.11
+    pathname: V/VO/VOJ/Plack-Middleware-Headers-0.11.tar.gz
+    provides:
+      Plack::Middleware::Headers 0.11
+    requirements:
+      ExtUtils::MakeMaker 6.30
+      Plack::Middleware 0
   Plack-Middleware-RemoveRedundantBody-0.09
     pathname: S/SW/SWEETKID/Plack-Middleware-RemoveRedundantBody-0.09.tar.gz
     provides:
