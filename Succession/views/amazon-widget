@@ -10,7 +10,6 @@
   <div class="tab-pane fade show active" id="books" role="tabpanel" aria-labelledby="books-tab">
 
     <div class="card-group">
-      <p>3</p>
       <div class="card">
         <img src="https://images-na.ssl-images-amazon.com/images/I/5106E-uesAL._SX327_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -49,7 +48,6 @@
   <div class="tab-pane fade" id="dvds" role="tabpanel" aria-labelledby="dvds-tab">
 
     <div class="card-group">
-      <p>3</p>
       <div class="card">
         <img src="https://images-na.ssl-images-amazon.com/images/I/71biOe%2BQP8L._AC_SX342_.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -86,7 +84,6 @@
     </div> <!-- card-group -->
 
     <div class="card-group">
-      <p>3</p>
       <div class="card">
         <img src="https://images-na.ssl-images-amazon.com/images/I/91y4kOB4i4L._AC_SY445_.jpg" class="card-img-top" alt="...">
         <div class="card-body">
@@ -123,7 +120,6 @@
     </div> <!-- card-group -->
 
     <div class="card-group">
-      <p>3</p>
       <div class="card">
         <img src="https://images-na.ssl-images-amazon.com/images/I/71rPcux3ssL._AC_SL1500_.jpg" class="card-img-top" alt="...">
         <div class="card-body">

@@ -12,7 +12,6 @@
      WHILE products.size;
        three_products = products.splice(0, 3) %>
     <div class="card-group">
-      <p><% three_products.size %></p>
 <%     FOR product IN three_products -%>
       <div class="card">
         <img src="<% product.image %>" class="card-img-top" alt="...">
