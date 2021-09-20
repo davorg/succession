@@ -1,0 +1,4 @@
+1. Run bin/add_person 'name' parent_id sex [birth_date]
+2. Run bin/get_change_dates '2021-09-01' (start of current month)
+3. Run bin/get_changes 2021-09-01
+4. Run bin/get_positions 2021-09-01
