@@ -36,7 +36,7 @@ foreach ($sch->resultset('ChangeDate')->search({
     my $pos = $x;
     say $pos;
     $pos = -1 if $p->excluded_on_date($_->change_date);
-    my $prev_pos = $p->position_on_date($_->change_date);
+    my $prev_pos = $p->position_obj_on_date($_->change_date);
 
     if ($prev_pos) {
       if ($prev_pos->position != $pos) {

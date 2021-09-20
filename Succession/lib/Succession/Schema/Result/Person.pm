@@ -484,9 +484,11 @@ sub anc_string {
   return join ' / ', map { $_->name } $self->ancestors;
 }
 
-sub position_on_date {
+sub position_obj_on_date {
   my $self = shift;
   my ($date) = @_;
+
+  return 0 if $self->is_sovereign_on_date($date);
 
   my $dtf      = $self->result_source->storage->datetime_parser;
   my $fmt_date = $dtf->format_datetime($date);
@@ -505,7 +507,17 @@ sub position_on_date {
     end   => { '>'  => $fmt_date },
   }])->first;
 
-  return $pos // 0;
+  return $pos;
+}
+
+sub position_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $pos = $self->position_obj_on_date($date);
+
+  return unless $pos;
+  return $pos->position;
 }
 
 sub years {
@@ -530,6 +542,17 @@ sub make_slug {
   warn $self->name, ' / ', "$slug\n";
 
   $self->update({ slug => $slug });
+}
+
+sub is_sovereign_on_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  my $sch = $self->result_source->schema;
+
+  my $sov = $sch->resultset('Sovereign')->sovereign_on_date($date);
+
+  return $sov->person->id == $self->id;
 }
 
 __PACKAGE__->meta->make_immutable;
