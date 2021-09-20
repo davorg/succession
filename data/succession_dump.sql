@@ -1,6 +1,6 @@
--- MariaDB dump 10.19  Distrib 10.5.10-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.5.12-MariaDB, for Linux (x86_64)
 --
--- Host: 172.25.128.1    Database: succession
+-- Host: 172.25.192.1    Database: succession
 -- ------------------------------------------------------
 -- Server version	10.5.5-MariaDB
 
@@ -32,7 +32,7 @@ CREATE TABLE `change` (
   KEY `change_date_id` (`change_date_id`),
   CONSTRAINT `change_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   CONSTRAINT `change_ibfk_2` FOREIGN KEY (`change_date_id`) REFERENCES `change_date` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1332 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1333 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,6 +309,7 @@ INSERT INTO `change` VALUES (1061,511,265,'was born');
 INSERT INTO `change` VALUES (1062,558,266,'was born');
 INSERT INTO `change` VALUES (1063,559,268,'was born');
 INSERT INTO `change` VALUES (1331,560,269,'was born');
+INSERT INTO `change` VALUES (1332,561,270,'was born');
 /*!40000 ALTER TABLE `change` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,7 +326,7 @@ CREATE TABLE `change_date` (
   `succession` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `change_date_change_date` (`change_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=270 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -602,6 +603,7 @@ INSERT INTO `change_date` VALUES (265,'2019-05-06','3:9:17:19:506:10:511:5:11:12
 INSERT INTO `change_date` VALUES (266,'2021-02-09','3:9:17:19:506:10:511:5:11:12:558:6:14:13:4:7:15:16:8:18:510:27:29:30:28:31:32:38:50:53');
 INSERT INTO `change_date` VALUES (268,'2021-03-21','3:9:17:19:506:10:511:5:11:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32:38:50');
 INSERT INTO `change_date` VALUES (269,'2021-06-04','3:9:17:19:506:10:511:560:5:11:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32:38');
+INSERT INTO `change_date` VALUES (270,'2021-09-18','3:9:17:19:506:10:511:560:5:11:561:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32');
 /*!40000 ALTER TABLE `change_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,7 +672,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=561 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=562 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1168,6 +1170,7 @@ INSERT INTO `person` VALUES (557,'1961-09-01',NULL,286,2,'m',NULL,'6e3503-ion-ge
 INSERT INTO `person` VALUES (558,'2021-02-09',NULL,12,1,'m',NULL,'c010be-august-brooksbank');
 INSERT INTO `person` VALUES (559,'2021-03-21',NULL,8,3,'m',NULL,'97c5ee-unnamed-tindall-son');
 INSERT INTO `person` VALUES (560,'2021-06-04',NULL,10,2,'f',NULL,'6c843c-lilibet-mountbatten-windsor');
+INSERT INTO `person` VALUES (561,'2021-09-18',NULL,11,1,'f',NULL,'6cfd11-baby-mapelli-mozzi');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1187,7 +1190,7 @@ CREATE TABLE `position` (
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `position_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4421 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4441 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5595,27 +5598,47 @@ INSERT INTO `position` VALUES (4396,53,31,'2021-03-21',NULL);
 INSERT INTO `position` VALUES (4397,560,8,NULL,NULL);
 INSERT INTO `position` VALUES (4398,5,9,'2021-06-04',NULL);
 INSERT INTO `position` VALUES (4399,11,10,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4400,12,11,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4401,558,12,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4402,6,13,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4403,14,14,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4404,13,15,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4405,4,16,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4406,7,17,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4407,15,18,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4408,16,19,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4409,8,20,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4410,18,21,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4411,510,22,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4412,559,23,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4413,27,24,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4414,29,25,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4415,30,26,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4416,28,27,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4417,31,28,'2021-06-04',NULL);
-INSERT INTO `position` VALUES (4418,32,29,'2021-06-04',NULL);
+INSERT INTO `position` VALUES (4400,12,11,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4401,558,12,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4402,6,13,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4403,14,14,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4404,13,15,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4405,4,16,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4406,7,17,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4407,15,18,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4408,16,19,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4409,8,20,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4410,18,21,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4411,510,22,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4412,559,23,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4413,27,24,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4414,29,25,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4415,30,26,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4416,28,27,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4417,31,28,'2021-06-04','2021-09-18');
+INSERT INTO `position` VALUES (4418,32,29,'2021-06-04','2021-09-18');
 INSERT INTO `position` VALUES (4419,38,30,'2021-06-04',NULL);
 INSERT INTO `position` VALUES (4420,50,31,'2021-06-04',NULL);
+INSERT INTO `position` VALUES (4421,561,11,NULL,NULL);
+INSERT INTO `position` VALUES (4422,12,12,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4423,558,13,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4424,6,14,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4425,14,15,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4426,13,16,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4427,4,17,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4428,7,18,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4429,15,19,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4430,16,20,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4431,8,21,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4432,18,22,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4433,510,23,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4434,559,24,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4435,27,25,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4436,29,26,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4437,30,27,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4438,28,28,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4439,31,29,'2021-09-18',NULL);
+INSERT INTO `position` VALUES (4440,32,30,'2021-09-18',NULL);
 /*!40000 ALTER TABLE `position` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5680,7 +5703,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=890 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=891 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5787,8 +5810,8 @@ INSERT INTO `title` VALUES (349,'Zara Tindall','2011-07-30',NULL,8,1);
 INSERT INTO `title` VALUES (350,'Mia Tindall',NULL,NULL,18,1);
 INSERT INTO `title` VALUES (351,'The Prince Andrew',NULL,'1986-07-23',5,0);
 INSERT INTO `title` VALUES (352,'The Prince Andrew, Duke of York','1986-07-23',NULL,5,1);
-INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,'2020-07-17',11,1);
-INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,1);
+INSERT INTO `title` VALUES (353,'Princess Beatrice of York',NULL,'2020-07-17',11,0);
+INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,0);
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19',NULL,6,1);
 INSERT INTO `title` VALUES (357,'Lady Louise Windsor',NULL,NULL,13,1);
@@ -6198,7 +6221,7 @@ INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
 INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,NULL,511,1);
-INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,0);
+INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,1);
 INSERT INTO `title` VALUES (840,'Princess Marie Friederike Charlotte of Württemberg',NULL,NULL,512,1);
 INSERT INTO `title` VALUES (841,'Princess Sophie of Württemberg',NULL,NULL,513,1);
 INSERT INTO `title` VALUES (842,'William, Prince of Orange',NULL,NULL,514,1);
@@ -6245,10 +6268,11 @@ INSERT INTO `title` VALUES (882,'Augustus FitzGeorge',NULL,NULL,554,1);
 INSERT INTO `title` VALUES (883,'Princess Elisabeth of Hesse and by Rhine',NULL,NULL,555,1);
 INSERT INTO `title` VALUES (884,'Paul-Philippe Hohenzollern',NULL,NULL,556,1);
 INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NULL,557,1);
-INSERT INTO `title` VALUES (886,'Princess Beatrice, Mrs Edoardo Mapelli Mozzi','2020-07-17',NULL,11,0);
+INSERT INTO `title` VALUES (886,'Princess Beatrice, Mrs Edoardo Mapelli Mozzi','2020-07-17',NULL,11,1);
 INSERT INTO `title` VALUES (887,'August Brooksbank',NULL,NULL,558,1);
 INSERT INTO `title` VALUES (888,'Lucas Tindall',NULL,NULL,559,1);
 INSERT INTO `title` VALUES (889,'Lilibet Mountbatten-Windsor',NULL,NULL,560,1);
+INSERT INTO `title` VALUES (890,'Baby Mapelli Mozzi',NULL,NULL,561,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6261,4 +6285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-06 19:05:40
+-- Dump completed on 2021-09-20 14:20:46
