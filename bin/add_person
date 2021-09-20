@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use DateTime::Format::Strptime;
+
+use Succession::App;
+
+my $app = Succession::App->new;
+
+my ($name, $parent_id, $sex, $birth_date) = @ARGV;
+
+die "Usage: $0 name parent_id sex [birth_date]\n"
+  unless $name and $parent_id and $sex;
+
+my $birth_date_dt;
+if ($birth_date) {
+  my $parser = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d');
+  $birth_date_dt = $parser->parse_datetime($birth_date);
+
+  unless ($birth_date_dt) {
+    die "$birth_date isn't a valid date\n";
+  }
+} else {
+  $birth_date_dt = $app->today;
+}
+
+my $sch = $app->model->schema;
+my $rs  = $sch->resultset('Person');
+
+my $parent = $rs->find($parent_id);
+if ($parent) {
+  say 'Adding child to ', $parent->name;
+} else {
+  die "$parent_id is not a valid person ID\n";
+}
+
+my $count = $parent->children->count;
+++$count;
+
+my $child = $parent->add_to_children({
+  born => $birth_date_dt,
+  family_order => $count,
+  sex => $sex,
+});
+
+$child->add_to_titles({ title => $name, is_default => 1 });
+$child->make_slug;
+
