@@ -138,14 +138,11 @@ sub _build_succession {
   my $self = shift;
   my $succ = $self->model->succession_on_date($self->date);
 
-  my ($i, $count) = (0, 0);
+  my @short_succ = grep {
+    ! $_->excluded_on_date($self->date);
+  } @$succ;
 
-  my @short_succ;
-
-  while ($count <= $self->list_size and $succ->[$i]) {
-    $count++ if ! $succ->[$i]->excluded_on_date($self->date);
-    push @short_succ, $succ->[$i++];
-  }
+  $#short_succ = $self->list_size - 1 if $#short_succ >= $self->list_size;
 
   return \@short_succ;
 }
