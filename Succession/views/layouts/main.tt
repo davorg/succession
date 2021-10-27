@@ -128,7 +128,7 @@
           <hr>
 <%   END;
    END -%>
-<% INSERT 'mailchimp.tt' -%>
+<% INSERT 'moosend.tt' -%>
           <hr>
 <% INSERT 'google-ads.tt' -%>
           <hr>
