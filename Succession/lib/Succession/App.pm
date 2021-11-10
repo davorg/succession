@@ -159,7 +159,11 @@ has feed => (
 );
 
 sub _build_feed {
-  return XML::Feed->parse(URI->new('https://blog.lineofsuccession.co.uk/feed/'));
+  my $uri = URI->new('https://blog.lineofsuccession.co.uk/feed/');
+  warn "$uri\n";
+  my $feed = XML::Feed->parse($uri);
+  warn "$feed\n";
+  return $feed;
 }
 
 has title => (
