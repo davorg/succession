@@ -87,11 +87,11 @@
               <a class="nav-link" href="/shop">Shop</a>
             </li>
           </ul>
-          <form class="d-flex me-auto" method="get" action="/">
-            <input class="form-control me-2" type="date" placeholder="YYYY-MM-DD" name="date" id="date"
+          <form class="d-flex ms-auto">
+            <input class="form-control" type="date" placeholder="YYYY-MM-DD" name="date" id="date"
               min="<% app.earliest.strftime('%Y-%m-%d') %>"
               max="<% app.today.strftime('%Y-%m-%d') %>" aria-label="Date">
-            <button class="btn btn-outline-light" type="submit">Change Date</button>
+            <button class="btn btn-outline-light ms-2" type="submit">Change&nbsp;date</button>
           </form>
         </div>
       </div>
