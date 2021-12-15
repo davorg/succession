@@ -21,4 +21,5 @@
      mc => 'Married to a Catholic',
      i  => 'Illegitimate',
      di => 'Declared invalid',
+     rm => 'Royal Marriages Act',
    } -%>
