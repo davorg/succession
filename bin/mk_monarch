@@ -1,0 +1,87 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use DateTime;
+use DateTime::Format::Strptime;
+
+use Succession::App;
+
+my $app = Succession::App->new;
+
+my $regnal_name = shift or die "I need the new regnal name\n";
+my $date;
+if (@ARGV) {
+  $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
+    ->parse_datetime(shift);
+} else {
+  $date = $app->date;
+}
+
+# Work out who is next in line
+my $top_of_list = $app->succession->[0];
+
+# And who is the previous monarch
+my $prev = $app->sovereign;
+
+say $prev->name;
+say $top_of_list->name;
+say $date;
+
+# End the previous reign
+$prev->update({ end => $date });
+
+# Create a new sovereign starting today
+my $sov_rs = $app->model->schema->resultset('Sovereign');
+
+$sov_rs->create({
+  start => $date,
+  person_id => $top_of_list->id,
+});
+
+# Find the new sovereign's current title,
+# give it an end-date and make it not the default
+$top_of_list->titles->search({
+  end => undef,
+})->update({ end => $date, is_default => 0, });
+
+# Insert the new title
+$top_of_list->add_to_titles({
+  start => $date,
+  title => $regnal_name,
+  is_default => 1,
+});
+
+# Add a change_date record.
+my $ch_rs = $app->model->schema->resultset('ChangeDate');
+my $ch = $ch_rs->create({
+  change_date => $date,
+  succession  => $app->make_succ_str_for_date($date),
+});
+
+# And describe the change on that date
+$ch->add_to_changes({
+  person_id => $top_of_list->id,
+  description => 'became sovereign',
+});
+
+# Close off the new sovereign's previous position
+$top_of_list->positions->search({
+  end => undef,
+})->update({ end => $date });
+
+# And for all unclosed positions, close then and insert a
+# new one with a position one place higher.
+my $pos_rs = $app->model->schema->resultset('Position');
+
+for ($pos_rs->search({ end => undef })) {
+  next if $_->person->died;
+  $_->update({ end => $date });
+  $pos_rs->create({
+    person_id => $_->person_id,
+    position => $_->position - 1,
+    start => $date,
+  });
+}

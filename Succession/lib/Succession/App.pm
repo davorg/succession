@@ -49,7 +49,7 @@ has model => (
   is => 'ro',
   isa => 'Succession::Model',
   lazy_build => 1,
-  handles => [ qw(get_succession get_succession_data interesting_dates ) ],
+  handles => [ qw( get_succession get_succession_data interesting_dates ) ],
 );
 
 sub _build_model {
@@ -408,6 +408,21 @@ around json_ld_data => sub {
 
   return $data;
 };
+
+sub make_succ_str_for_date {
+  my $self = shift;
+  my ($date) = @_;
+
+  $date //= $self->date;
+
+  my @succ = @{ $self->succession };
+
+  $#succ = $self->list_size - 1 if @succ > $self->list_size;
+
+  return join ':', map {
+    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
+  } @succ;
+}
 
 around BUILDARGS => sub {
   my $orig  = shift;

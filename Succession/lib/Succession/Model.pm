@@ -154,6 +154,8 @@ sub sovereign_on_date {
   my $self = shift;
   my ($date) = @_;
 
+  $date //= $self->date;
+
   my $sovereign = $self->cache->compute(
     'sov|' . $date->ymd, undef,
     sub {
@@ -167,6 +169,8 @@ sub sovereign_on_date {
 sub succession_on_date {
   my $self = shift;
   my ($date) = @_;
+
+  $date //= $self->date;
 
   my $succession = $self->cache->compute(
     'succ|' . $date->ymd, undef,

@@ -29,7 +29,7 @@ while ($date <= $app->today) {
     warn DateTime->now->time, ' - Starting ', $date->year, "\n";
     $prev_year = $date->year;
   }
-  my $succ_str = make_succ_str_for_date($date);
+  my $succ_str = $app->make_succ_str_for_date($date);
 
   if ($succ_str ne $prev_succ_str) {
     say $date->ymd;
@@ -41,18 +41,4 @@ while ($date <= $app->today) {
   }
 
   $date->add( days => 1 );
-}
-
-sub make_succ_str_for_date {
-  my ($date) = @_;
-
-  $app = Succession::App->new( date => $date );
-
-  my @succ = @{ $app->succession };
-
-  $#succ = $app->list_size - 1 if @succ > $app->list_size;
-
-  return join ':', map {
-    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
-  } @succ;
 }
