@@ -12,4 +12,4 @@ $args->{date} = shift if @ARGV;
 
 my $app = Succession::App->new( $args );
 
-say $app->get_succession_json;
+say $app->json_ld;
