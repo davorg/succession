@@ -12,7 +12,7 @@
 
     <div class="row">
 <% IF app.sovereign.image -%>
-      <div class="col-3 sovimage">
+      <div class="col-md-3 sovimage">
         <figure class="figure">
           <img src="/images/<% app.sovereign.image %>"
                class="figure-img img-fluid-rounded"
@@ -24,7 +24,7 @@
         </figure>
       </div>
 <% END -%>
-      <div class="col">
+      <div class="col-md">
         <h2>Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
         <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
         (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
