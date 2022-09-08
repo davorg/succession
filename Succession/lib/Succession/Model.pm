@@ -146,7 +146,12 @@ sub _build_interesting_dates {
     }, {
       date => DateTime->new(year => 2017, month =>  2, day =>  6),
       desc => "Sapphire Jubilee",
-    }]
+    }]}, {
+    monarch => 'Charles III',
+    dates => [{
+      date => DateTime->new(year => 2022, month => 9, day => 8),
+      desc => 'Start of reign',
+    }],
   }];
 }
 
