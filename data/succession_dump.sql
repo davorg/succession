@@ -5745,7 +5745,7 @@ INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg','
 INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:William_IV_crop.jpg\" title=\"via Wikimedia Commons\">Martin Archer Shee</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_IV_1821_color.jpg\" title=\"via Wikimedia Commons\">Thomas Lawrence</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL,NULL);
-INSERT INTO `sovereign` VALUES (10,'2022-09-08',NULL,3,NULL,NULL);
+INSERT INTO `sovereign` VALUES (10,'2022-09-08',NULL,3,'charles-iii.jpg',NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6353,4 +6353,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-08 18:41:40
+-- Dump completed on 2022-09-08 18:51:09
