@@ -5770,7 +5770,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=892 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=897 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5862,9 +5862,9 @@ INSERT INTO `title` VALUES (334,'Prince Charles of Edinburgh',NULL,'1952-02-06',
 INSERT INTO `title` VALUES (335,'The Prince Charles, Duke of Cornwall','1952-02-06','1958-07-26',3,0);
 INSERT INTO `title` VALUES (336,'The Prince Charles, Prince of Wales','1958-07-26','2022-09-08',3,0);
 INSERT INTO `title` VALUES (337,'Prince William of Wales',NULL,'2011-04-29',9,0);
-INSERT INTO `title` VALUES (338,'Prince William, Duke of Cambridge','2011-04-29',NULL,9,1);
-INSERT INTO `title` VALUES (339,'Prince George of Cambridge',NULL,NULL,17,1);
-INSERT INTO `title` VALUES (340,'Princess Charlotte of Cambridge',NULL,NULL,19,1);
+INSERT INTO `title` VALUES (338,'Prince William, Duke of Cambridge','2011-04-29','2022-09-08',9,0);
+INSERT INTO `title` VALUES (339,'Prince George of Cambridge',NULL,'2022-09-08',17,0);
+INSERT INTO `title` VALUES (340,'Princess Charlotte of Cambridge',NULL,'2022-09-08',19,0);
 INSERT INTO `title` VALUES (341,'Prince Henry of Wales',NULL,'2018-05-19',10,0);
 INSERT INTO `title` VALUES (342,'Princess Anne of Edinburgh',NULL,'1952-02-06',4,0);
 INSERT INTO `title` VALUES (343,'The Princess Anne','1952-02-06','1987-06-13',4,0);
@@ -6281,11 +6281,11 @@ INSERT INTO `title` VALUES (828,'Princess Louise Auguste of Denmark',NULL,NULL,5
 INSERT INTO `title` VALUES (829,'Caroline Amalie of Augustenburg',NULL,NULL,503,1);
 INSERT INTO `title` VALUES (830,'Christian August II, Duke of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,504,1);
 INSERT INTO `title` VALUES (831,'Prince Frederick of Schleswig-Holstein-Sonderburg-Augustenburg',NULL,NULL,505,1);
-INSERT INTO `title` VALUES (832,'Prince Louis of Cambridge',NULL,NULL,506,1);
+INSERT INTO `title` VALUES (832,'Prince Louis of Cambridge',NULL,'2022-09-08',506,0);
 INSERT INTO `title` VALUES (833,'Edward Windsor, Lord Downpatrick',NULL,NULL,507,1);
 INSERT INTO `title` VALUES (834,'Lady Marina Charlotte Windsor',NULL,NULL,508,1);
 INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
-INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19',NULL,10,1);
+INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19','2022-09-08',10,0);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
 INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,NULL,511,1);
 INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,1);
@@ -6341,6 +6341,11 @@ INSERT INTO `title` VALUES (888,'Lucas Tindall',NULL,NULL,559,1);
 INSERT INTO `title` VALUES (889,'Lilibet Mountbatten-Windsor',NULL,NULL,560,1);
 INSERT INTO `title` VALUES (890,'Sienna Mapelli Mozzi',NULL,NULL,561,1);
 INSERT INTO `title` VALUES (891,'Charles III','2022-09-08',NULL,3,1);
+INSERT INTO `title` VALUES (892,'The Prince William, Duke of Cornwall and Cambridge','2022-09-08',NULL,9,1);
+INSERT INTO `title` VALUES (893,'The Prince Henry, Duke of Sussex','2022-09-08',NULL,10,1);
+INSERT INTO `title` VALUES (894,'Prince George of Cornwall and Cambridge','2022-09-08',NULL,17,1);
+INSERT INTO `title` VALUES (895,'Princess Charlotte of Cornwall and Cambridge','2022-09-08',NULL,19,1);
+INSERT INTO `title` VALUES (896,'Prince Louis of Cornwall and Cambridge','2022-09-08',NULL,506,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6353,4 +6358,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-08 18:51:09
+-- Dump completed on 2022-09-09 10:38:12

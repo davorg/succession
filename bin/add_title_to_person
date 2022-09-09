@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Time::Piece;
+
+use Succession::Model;
+
+die "Gimme a person id and a title\n" unless @ARGV >= 2;
+
+my ($person_id, $title, $start, $end) = @ARGV;
+
+my $model = Succession::Model->new;
+my $sch = $model->schema;
+
+$start //= localtime->ymd;
+
+my $person = $sch->resultset('Person')->find({ id => $person_id });
+
+die "Cannot find person with id $person_id\n" unless $person;
+
+$person->titles->update({
+  is_default => 0,
+});
+
+$person->titles->search({
+  end => undef,
+})->update({ end => $start });
+
+my $new_title = {
+  title => $title,
+  start => $start,
+  is_default => 1,
+};
+
+$new_title->{end} = $end if $end;
+
+$person->add_to_titles($new_title);
