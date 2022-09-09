@@ -5770,7 +5770,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=897 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=901 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6341,11 +6341,15 @@ INSERT INTO `title` VALUES (888,'Lucas Tindall',NULL,NULL,559,1);
 INSERT INTO `title` VALUES (889,'Lilibet Mountbatten-Windsor',NULL,NULL,560,1);
 INSERT INTO `title` VALUES (890,'Sienna Mapelli Mozzi',NULL,NULL,561,1);
 INSERT INTO `title` VALUES (891,'Charles III','2022-09-08',NULL,3,1);
-INSERT INTO `title` VALUES (892,'The Prince William, Duke of Cornwall and Cambridge','2022-09-08',NULL,9,1);
+INSERT INTO `title` VALUES (892,'The Prince William, Duke of Cornwall and Cambridge','2022-09-08','2022-09-09',9,0);
 INSERT INTO `title` VALUES (893,'The Prince Henry, Duke of Sussex','2022-09-08',NULL,10,1);
-INSERT INTO `title` VALUES (894,'Prince George of Cornwall and Cambridge','2022-09-08',NULL,17,1);
-INSERT INTO `title` VALUES (895,'Princess Charlotte of Cornwall and Cambridge','2022-09-08',NULL,19,1);
-INSERT INTO `title` VALUES (896,'Prince Louis of Cornwall and Cambridge','2022-09-08',NULL,506,1);
+INSERT INTO `title` VALUES (894,'Prince George of Cornwall and Cambridge','2022-09-08','2022-09-09',17,0);
+INSERT INTO `title` VALUES (895,'Princess Charlotte of Cornwall and Cambridge','2022-09-08','2022-09-09',19,0);
+INSERT INTO `title` VALUES (896,'Prince Louis of Cornwall and Cambridge','2022-09-08','2022-09-09',506,0);
+INSERT INTO `title` VALUES (897,'The Prince William, Prince of Wales','2022-09-09',NULL,9,1);
+INSERT INTO `title` VALUES (898,'Prince George of Wales','2022-09-09',NULL,17,1);
+INSERT INTO `title` VALUES (899,'Princess Charlotte of Wales','2022-09-09',NULL,19,1);
+INSERT INTO `title` VALUES (900,'Prince Louis of Wales','2022-09-09',NULL,506,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6358,4 +6362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-09 10:38:12
+-- Dump completed on 2022-09-09 18:18:21
