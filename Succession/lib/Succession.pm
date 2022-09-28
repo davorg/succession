@@ -6,6 +6,18 @@ use Succession::App;
 
 our $VERSION = '0.1';
 
+get '/lp' => sub {
+  set layout => 'main';
+
+  my $app = Succession::App->new({
+    request => request,
+  });
+
+  template 'lp', {
+    app => $app,
+  };
+};
+
 get '/shop' => sub {
   set layout => 'main';
 
