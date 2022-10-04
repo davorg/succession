@@ -58,8 +58,12 @@ jobs:
             sleep 1
           done
       - name: Check database
+        env:
+          SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: bin/db "select count(*) from sovereign"
       - name: Install modules
         run: cpanm --installdeps .
       - name: Run tests
+        env:
+          SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: prove -ISuccession/lib -v Succession/t
