@@ -48,7 +48,7 @@ jobs:
       - name: Perl version
         run: perl -V
       - name: Setup database
-        run: mysql -u root -psekrit -h 127.0.0.1 -P"SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
+        run: mysql -u root -psekrit -h 127.0.0.1 -P"$SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Wait for database
         run: |
           while ! mysqladmin ping -h"127.0.0.1" -P"$SUCC_DB_PORT" --silent; do
