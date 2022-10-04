@@ -50,6 +50,13 @@ jobs:
         env:
           PORT: ${{ job.services.mariadb.ports[3306] }}
         run: mysql -u root -psekrit -h 127.0.0.1 -P"$PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
+      - name: Wait for database
+        env:
+          PORT: ${{ job.services.mariadb.ports[3306] }}
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
+            sleep 1
+          done
       - name: Check database
         run: bin/db "select count(*) from sovereign"
       - name: Install modules
