@@ -14,13 +14,6 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    env:
-      SUCC_DB_USER: succession
-      SUCC_DB_HOST: 127.0.0.1
-      SUCC_DB_NAME: succession
-      SUCC_DB_PASS: strongpassword
-      PERL5LIB: Succession/lib:$PERL5LIB
-    runs-on: ${{ matrix.os }}
     services:
       mariadb:
         image: mariadb:latest
@@ -32,14 +25,20 @@ jobs:
           MYSQL_ROOT_PASSWORD: sekrit
           MYSQL_DATABASE: succession
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    env:
+      SUCC_DB_USER: succession
+      SUCC_DB_HOST: 127.0.0.1
+      SUCC_DB_NAME: succession
+      SUCC_DB_PASS: strongpassword
+      SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+      PERL5LIB: Succession/lib:$PERL5LIB
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ 'ubuntu-latest' ]
         perl: [ 'latest' ]
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
-      env:
-        SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       - name: Check out code
         uses: actions/checkout@v2
       - name: Set up perl
