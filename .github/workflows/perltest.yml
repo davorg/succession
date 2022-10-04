@@ -19,7 +19,6 @@ jobs:
       SUCC_DB_HOST: 127.0.0.1
       SUCC_DB_NAME: succession
       SUCC_DB_PASS: strongpassword
-      SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       PERL5LIB: Succession/lib:$PERL5LIB
     runs-on: ${{ matrix.os }}
     services:
@@ -39,6 +38,8 @@ jobs:
         perl: [ 'latest' ]
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
+      env:
+        SUCC_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       - name: Check out code
         uses: actions/checkout@v2
       - name: Set up perl
