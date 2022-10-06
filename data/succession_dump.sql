@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.5.16-MariaDB, for Linux (x86_64)
 --
--- Host: 172.27.240.1    Database: succession
+-- Host: 172.26.192.1    Database: succession
 -- ------------------------------------------------------
 -- Server version	10.5.5-MariaDB
 
@@ -685,7 +685,7 @@ CREATE TABLE `person` (
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
 INSERT INTO `person` VALUES (1,'1895-12-14','1952-02-06',21,2,'m',NULL,'3b1b86-king-george-vi');
-INSERT INTO `person` VALUES (2,'1926-04-21',NULL,1,1,'f',NULL,'a56c08-queen-elizabeth-ii');
+INSERT INTO `person` VALUES (2,'1926-04-21','2022-09-08',1,1,'f',NULL,'a56c08-queen-elizabeth-ii');
 INSERT INTO `person` VALUES (3,'1948-11-14',NULL,2,1,'m',NULL,'27d228-the-prince-charles-prince-of-wales');
 INSERT INTO `person` VALUES (4,'1950-08-15',NULL,2,4,'f',NULL,'b3fcb1-the-princess-anne-princess-royal');
 INSERT INTO `person` VALUES (5,'1960-02-19',NULL,2,2,'m',NULL,'b87f8e-the-prince-andrew-duke-of-york');
@@ -6362,4 +6362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-09 18:18:21
+-- Dump completed on 2022-10-06  7:17:46
