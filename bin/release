@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd /opt/succession
+. ~succession/.bashrc
+git pull
+bin/load_db
+bin/succession_service restart
+service memcached restart
