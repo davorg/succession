@@ -57,7 +57,7 @@ jobs:
       - name: Check database
         run: bin/db "select count(*) from sovereign"
       - name: Install modules
-        run: cpanm --installdeps .
+        run: cpanm -n --installdeps .
       - name: Run tests
         run: prove -ISuccession/lib -v Succession/t
 
@@ -73,4 +73,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HARNESS_PERL_SWITCHES: -MDevel::Cover
-        run: prove -lv t && cover -report Coveralls -ignore t/*
+        run: prove -ISuccession/lib -v Succession/t && cover -report Coveralls -ignore t/*
