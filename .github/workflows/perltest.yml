@@ -40,7 +40,7 @@ jobs:
     name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up perl
         uses: shogo82148/actions-setup-perl@v1
         with:
@@ -60,3 +60,17 @@ jobs:
         run: cpanm --installdeps .
       - name: Run tests
         run: prove -ISuccession/lib -v Succession/t
+
+  coverage:
+    runs-on: ubuntu-latest
+    container: davorg/perl-coveralls:latest
+    name: Test coverage
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install modules
+        run: cpanm -n --installdeps .
+      - name: Coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HARNESS_PERL_SWITCHES: -MDevel::Cover
+        run: prove -lv t && cover -report Coveralls -ignore t/*
