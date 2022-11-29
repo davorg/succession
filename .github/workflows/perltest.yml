@@ -84,7 +84,7 @@ jobs:
     name: Test coverage
     steps:
       - name: Install MariaDB client
-        run: apt update && sudo apt install -y mariadb-client
+        run: apt update && apt install -y mariadb-client
       - uses: actions/checkout@v3
       - name: Setup database
         run: mysql -u root -psekrit -h 127.0.0.1 -P"$SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
