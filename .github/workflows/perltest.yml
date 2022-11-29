@@ -73,4 +73,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HARNESS_PERL_SWITCHES: -MDevel::Cover
+          SUCC_DB_USER: succession
+          SUCC_DB_HOST: 127.0.0.1
+          SUCC_DB_NAME: succession
+          SUCC_DB_PASS: strongpassword
+          SUCC_DB_PORT: 13306
         run: prove -ISuccession/lib -v Succession/t && cover -report Coveralls -ignore t/*
