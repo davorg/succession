@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  unit_tests:
     services:
       mariadb:
         image: mariadb:latest
@@ -58,8 +58,17 @@ jobs:
         run: bin/db "select count(*) from sovereign"
       - name: Install modules
         run: cpanm -n --installdeps .
-      - name: Run tests
+      - name: Install coverage modules
+        run: cpanm -m Devel::Cover Devel::Cover:Report::Coveralls
+      - name: Run standard tests
+        if: matrix.os != 'ubuntu-latest'
         run: prove -ISuccession/lib -v Succession/t
+      - name: Run coverage tests
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HARNESS_PERL_SWITCHES: -MDevel::Cover
+        run: prove -ISuccession/lib -v Succession/t && cover -report Coveralls -ignore t/*
 
   coverage:
     services:
@@ -85,7 +94,8 @@ jobs:
     steps:
       - name: Install MariaDB client
         run: apt update && apt install -y mariadb-client
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
       - name: Setup database
         run: mysql -u root -psekrit -h 127.0.0.1 -P"$SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
       - name: Install modules
