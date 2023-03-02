@@ -29,8 +29,8 @@
         <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
         (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
         Sovereign since <% link_date(app.sovereign.start) %>
-        (<% years = app.sovereign_duration.years; "<#:${years}> <N:year>" | inflect %>,
-        <% months = app.sovereign_duration.months; "<#:${months}> <N:month>" | inflect %>)</p>
+        (<% years = app.sovereign_duration.years; IF years; "<#:${years}> <N:year>" | inflect; ', '; END -%>
+        <%- months = app.sovereign_duration.months; "<#:${months}> <N:month>" | inflect %>)</p>
       </div>
     </div>
 <% SET prev_dt = app.prev_change_date;
