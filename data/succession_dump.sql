@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.16-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.5.18-MariaDB, for Linux (x86_64)
 --
--- Host: 172.26.192.1    Database: succession
+-- Host: 172.28.224.1    Database: succession
 -- ------------------------------------------------------
--- Server version	10.5.5-MariaDB
+-- Server version	10.6.11-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +32,7 @@ CREATE TABLE `change` (
   KEY `change_date_id` (`change_date_id`),
   CONSTRAINT `change_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   CONSTRAINT `change_ibfk_2` FOREIGN KEY (`change_date_id`) REFERENCES `change_date` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1334 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +327,7 @@ CREATE TABLE `change_date` (
   `succession` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `change_date_change_date` (`change_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=272 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=272 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -628,7 +628,7 @@ CREATE TABLE `exclusion` (
   KEY `exclusion_end` (`end`),
   KEY `exclusion_person_id` (`person_id`),
   CONSTRAINT `exclusion_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -675,7 +675,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=562 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=562 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1193,7 +1193,7 @@ CREATE TABLE `position` (
   PRIMARY KEY (`id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `position_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4531 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4531 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5727,7 +5727,7 @@ CREATE TABLE `sovereign` (
   KEY `sovereign_start` (`start`),
   KEY `sovereign_end` (`end`),
   CONSTRAINT `sovereign_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5770,7 +5770,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=901 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=903 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6287,7 +6287,7 @@ INSERT INTO `title` VALUES (834,'Lady Marina Charlotte Windsor',NULL,NULL,508,1)
 INSERT INTO `title` VALUES (835,'Lady Amelia Windsor',NULL,NULL,509,1);
 INSERT INTO `title` VALUES (836,'Prince Henry, Duke of Sussex','2018-05-19','2022-09-08',10,0);
 INSERT INTO `title` VALUES (837,'Lena Tindall',NULL,NULL,510,1);
-INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,NULL,511,1);
+INSERT INTO `title` VALUES (838,'Archie Harrison Mountbatten-Windsor',NULL,'2023-03-08',511,0);
 INSERT INTO `title` VALUES (839,'Princess Eugenie, Mrs Jack Brooksbank','2018-10-12',NULL,12,1);
 INSERT INTO `title` VALUES (840,'Princess Marie Friederike Charlotte of Württemberg',NULL,NULL,512,1);
 INSERT INTO `title` VALUES (841,'Princess Sophie of Württemberg',NULL,NULL,513,1);
@@ -6338,7 +6338,7 @@ INSERT INTO `title` VALUES (885,'Ion George Nicholas Alexander Lambrino',NULL,NU
 INSERT INTO `title` VALUES (886,'Princess Beatrice, Mrs Edoardo Mapelli Mozzi','2020-07-17',NULL,11,1);
 INSERT INTO `title` VALUES (887,'August Brooksbank',NULL,NULL,558,1);
 INSERT INTO `title` VALUES (888,'Lucas Tindall',NULL,NULL,559,1);
-INSERT INTO `title` VALUES (889,'Lilibet Mountbatten-Windsor',NULL,NULL,560,1);
+INSERT INTO `title` VALUES (889,'Lilibet Mountbatten-Windsor',NULL,'2023-03-08',560,0);
 INSERT INTO `title` VALUES (890,'Sienna Mapelli Mozzi',NULL,NULL,561,1);
 INSERT INTO `title` VALUES (891,'Charles III','2022-09-08',NULL,3,1);
 INSERT INTO `title` VALUES (892,'The Prince William, Duke of Cornwall and Cambridge','2022-09-08','2022-09-09',9,0);
@@ -6350,6 +6350,8 @@ INSERT INTO `title` VALUES (897,'The Prince William, Prince of Wales','2022-09-0
 INSERT INTO `title` VALUES (898,'Prince George of Wales','2022-09-09',NULL,17,1);
 INSERT INTO `title` VALUES (899,'Princess Charlotte of Wales','2022-09-09',NULL,19,1);
 INSERT INTO `title` VALUES (900,'Prince Louis of Wales','2022-09-09',NULL,506,1);
+INSERT INTO `title` VALUES (901,'Prince Archie of Sussex','2023-03-08',NULL,511,1);
+INSERT INTO `title` VALUES (902,'Princess Lilibet of Sussex','2023-03-08',NULL,560,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6362,4 +6364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-06  7:17:46
+-- Dump completed on 2023-03-09 12:48:09
