@@ -5770,7 +5770,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=904 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=905 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5882,7 +5882,7 @@ INSERT INTO `title` VALUES (354,'Princess Eugenie of York',NULL,'2018-10-12',12,
 INSERT INTO `title` VALUES (355,'The Prince Edward',NULL,'1999-06-19',6,0);
 INSERT INTO `title` VALUES (356,'The Prince Edward, Earl of Wessex','1999-06-19','2023-03-10',6,0);
 INSERT INTO `title` VALUES (357,'Lady Louise Windsor',NULL,NULL,13,1);
-INSERT INTO `title` VALUES (358,'James, Viscount Severn',NULL,NULL,14,1);
+INSERT INTO `title` VALUES (358,'James, Viscount Severn',NULL,'2023-03-10',14,0);
 INSERT INTO `title` VALUES (359,'Princess Margaret of York',NULL,'1936-12-11',20,0);
 INSERT INTO `title` VALUES (360,'The Princess Margaret','1936-12-11','1961-10-06',20,0);
 INSERT INTO `title` VALUES (361,'The Princess Margaret, Countess of Snowdon','1961-10-06',NULL,20,1);
@@ -6353,6 +6353,7 @@ INSERT INTO `title` VALUES (900,'Prince Louis of Wales','2022-09-09',NULL,506,1)
 INSERT INTO `title` VALUES (901,'Prince Archie of Sussex','2023-03-08',NULL,511,1);
 INSERT INTO `title` VALUES (902,'Princess Lilibet of Sussex','2023-03-08',NULL,560,1);
 INSERT INTO `title` VALUES (903,'The Prince Edward, Duke of Edinburgh','2023-03-10',NULL,6,1);
+INSERT INTO `title` VALUES (904,'James, Earl of Wessex','2023-03-10',NULL,14,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6365,4 +6366,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-10  9:47:32
+-- Dump completed on 2023-03-11 14:11:56
