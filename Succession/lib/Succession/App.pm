@@ -415,7 +415,7 @@ sub make_succ_str_for_date {
 
   $date //= $self->date;
 
-  my @succ = @{ $self->succession };
+  my @succ = @{ $self->model->succession_on_date($date) };
 
   $#succ = $self->list_size - 1 if @succ > $self->list_size;
 

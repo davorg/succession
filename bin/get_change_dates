@@ -19,7 +19,7 @@ my $prev_year = 0;
 if (@ARGV) {
   $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
     ->parse_datetime($ARGV[0]);
-  $prev_succ_str = make_succ_str_for_date($date->clone->subtract( days => 1 ));
+  $prev_succ_str = $app->make_succ_str_for_date($date->clone->subtract( days => 1 ));
 } else {
   $date = $app->earliest;
 }
@@ -29,10 +29,12 @@ while ($date <= $app->today) {
     warn DateTime->now->time, ' - Starting ', $date->year, "\n";
     $prev_year = $date->year;
   }
+  warn "$date\n";
   my $succ_str = $app->make_succ_str_for_date($date);
+  warn "$succ_str\n";
 
   if ($succ_str ne $prev_succ_str) {
-    say $date->ymd;
+    say $date->ymd, " - change\n";
     $rs->create({
       change_date => $date,
       succession  => $succ_str,
