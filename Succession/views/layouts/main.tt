@@ -131,7 +131,7 @@
           <hr>
 <% INSERT 'google-ads.tt' -%>
           <hr>
-<a class="twitter-timeline" href="https://twitter.com/linesuccession?ref_src=twsrc%5Etfw">Tweets by linesuccession</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<% INSERT 'twitter.tt' -%>
         </div>
       </div>
     </main>
