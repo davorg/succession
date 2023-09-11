@@ -59,7 +59,7 @@ jobs:
       - name: Install modules
         run: cpanm -n --installdeps .
       - name: Install coverage modules
-        run: cpanm -m Devel::Cover Devel::Cover::Report::Coveralls
+        run: cpanm -n Devel::Cover Devel::Cover::Report::Coveralls
       - name: Run standard tests
         if: matrix.os != 'ubuntu-latest'
         run: prove -ISuccession/lib -v Succession/t
