@@ -24,7 +24,7 @@ jobs:
           MYSQL_PASSWORD: strongpassword
           MYSQL_ROOT_PASSWORD: sekrit
           MYSQL_DATABASE: succession
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
       SUCC_DB_USER: succession
       SUCC_DB_HOST: 127.0.0.1
