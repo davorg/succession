@@ -135,6 +135,7 @@
    END -%>
 <% INSERT 'moosend.tt' -%>
           <hr>
+<% INSERT 'my-ads.tt' -%>
 <% INSERT 'google-ads.tt' -%>
           <hr>
 <% INSERT 'twitter.tt' -%>
