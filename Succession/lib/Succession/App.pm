@@ -10,6 +10,7 @@ use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
 use XML::Feed;
 use URI;
+use Sys::Hostname;
 
 use Succession::Model;
 with 'MooX::Role::JSON_LD';
@@ -43,6 +44,16 @@ has request => (
 
 sub _build_request {
   die "No request attribute given to " . __PACKAGE__;
+}
+
+has host => (
+  is => 'ro',
+  isa => 'Str',
+  lazy_build => 1,
+);
+
+sub _build_host {
+  return hostname;
 }
 
 has model => (
