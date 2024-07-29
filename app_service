@@ -26,7 +26,7 @@ Daemon::Control->new({
   path      => $abs_path,
 
   program      => '/usr/bin/starman',
-  program_args => [ '--workers', 10, '-l', ':2222',
+  program_args => [ '--workers', ($ENV{SUCC_WORKER_COUNT} // 10), '-l', ":$ENV{SUCC_APP_PORT}",
                     "$abs_dir/Succession/bin/app.psgi" ],
 
   user  => $ENV{SUCC_OWNER},
