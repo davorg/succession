@@ -47,5 +47,14 @@ print <<EOXML;
    <url>
      <loc>https://lineofsuccession.co.uk/dates</loc>
    </url>
+   <url>
+     <loc>https://lineofsuccession.co.uk/lp</loc>
+   </url>
+   <url>
+     <loc>https://lineofsuccession.co.uk/shop</loc>
+   </url>
+   <url>
+     <loc>https://rels.lineofsuccession.co.uk/</loc>
+   </url>
 </urlset>
 EOXML
