@@ -17,5 +17,8 @@ builder {
   enable 'Headers',
     when => ['Content-Type' => qr{^text/css}],
     set  => ['Expires' => $thirty_days, 'Cache-Control' => 'max-age=2592000'];
+  enable 'Static', 
+    path => qr{^/(images|css)/},
+    root => './public/';
   Succession->to_app;
 }
