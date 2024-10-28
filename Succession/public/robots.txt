@@ -2,6 +2,6 @@ User-agent: *
 Disallow:
 Sitemap: https://lineofsuccession.co.uk/sitemap.xml
 
-UserAgent: SeekportBot
+User-agent: SeekportBot
 Disallow: /
 
