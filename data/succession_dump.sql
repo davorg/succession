@@ -1,4 +1,3 @@
-/*!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19  Distrib 10.5.25-MariaDB, for Linux (x86_64)
 --
 -- Host: 172.24.192.1    Database: succession
@@ -1178,7 +1177,7 @@ INSERT INTO `person` VALUES (559,'2021-03-21',NULL,8,3,'m',NULL,'97c5ee-unnamed-
 INSERT INTO `person` VALUES (560,'2021-06-04',NULL,10,2,'f',NULL,'6c843c-lilibet-mountbatten-windsor');
 INSERT INTO `person` VALUES (561,'2021-09-18',NULL,11,1,'f',NULL,'0fba2a-sienna-mapelli-mozzi');
 INSERT INTO `person` VALUES (562,'2023-05-30',NULL,12,2,'m',NULL,'665f6d-ernest-brooksbank');
-INSERT INTO `person` VALUES (563,'2025-01-22',NULL,11,2,'f',NULL,NULL);
+INSERT INTO `person` VALUES (563,'2025-01-22',NULL,11,2,'f',NULL,'539552-athena-mapelli-mozzi');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6391,4 +6390,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-29 14:17:29
+-- Dump completed on 2025-01-29 14:21:08
