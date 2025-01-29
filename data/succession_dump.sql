@@ -1,8 +1,9 @@
--- MariaDB dump 10.19  Distrib 10.5.18-MariaDB, for Linux (x86_64)
+/*!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.5.25-MariaDB, for Linux (x86_64)
 --
--- Host: 172.28.224.1    Database: succession
+-- Host: 172.24.192.1    Database: succession
 -- ------------------------------------------------------
--- Server version	10.6.11-MariaDB
+-- Server version	11.5.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -677,7 +678,7 @@ CREATE TABLE `person` (
   KEY `parent` (`parent`),
   KEY `person_parent` (`parent`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=563 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=564 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1177,6 +1178,7 @@ INSERT INTO `person` VALUES (559,'2021-03-21',NULL,8,3,'m',NULL,'97c5ee-unnamed-
 INSERT INTO `person` VALUES (560,'2021-06-04',NULL,10,2,'f',NULL,'6c843c-lilibet-mountbatten-windsor');
 INSERT INTO `person` VALUES (561,'2021-09-18',NULL,11,1,'f',NULL,'0fba2a-sienna-mapelli-mozzi');
 INSERT INTO `person` VALUES (562,'2023-05-30',NULL,12,2,'m',NULL,'665f6d-ernest-brooksbank');
+INSERT INTO `person` VALUES (563,'2025-01-22',NULL,11,2,'f',NULL,NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5791,7 +5793,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=906 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=907 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6376,6 +6378,7 @@ INSERT INTO `title` VALUES (902,'Princess Lilibet of Sussex','2023-03-08',NULL,5
 INSERT INTO `title` VALUES (903,'The Prince Edward, Duke of Edinburgh','2023-03-10',NULL,6,1);
 INSERT INTO `title` VALUES (904,'James, Earl of Wessex','2023-03-10',NULL,14,1);
 INSERT INTO `title` VALUES (905,'Ernest Brooksbank',NULL,NULL,562,1);
+INSERT INTO `title` VALUES (906,'Athena Mapelli Mozzi',NULL,NULL,563,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6388,4 +6391,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-05 18:45:12
+-- Dump completed on 2025-01-29 14:17:29
