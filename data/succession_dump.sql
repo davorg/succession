@@ -1,4 +1,5 @@
--- MariaDB dump 10.19  Distrib 10.5.25-MariaDB, for Linux (x86_64)
+/*M!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.11.10-MariaDB, for Linux (x86_64)
 --
 -- Host: 172.24.192.1    Database: succession
 -- ------------------------------------------------------
@@ -32,7 +33,7 @@ CREATE TABLE `change` (
   KEY `change_date_id` (`change_date_id`),
   CONSTRAINT `change_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
   CONSTRAINT `change_ibfk_2` FOREIGN KEY (`change_date_id`) REFERENCES `change_date` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1335 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1337 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,6 +313,7 @@ INSERT INTO `change` VALUES (1331,560,269,'was born');
 INSERT INTO `change` VALUES (1332,561,270,'was born');
 INSERT INTO `change` VALUES (1333,3,271,'became sovereign');
 INSERT INTO `change` VALUES (1334,562,272,'was born');
+INSERT INTO `change` VALUES (1336,563,274,'was born');
 /*!40000 ALTER TABLE `change` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +330,7 @@ CREATE TABLE `change_date` (
   `succession` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `change_date_change_date` (`change_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=273 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=275 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -608,6 +610,7 @@ INSERT INTO `change_date` VALUES (269,'2021-06-04','3:9:17:19:506:10:511:560:5:1
 INSERT INTO `change_date` VALUES (270,'2021-09-18','3:9:17:19:506:10:511:560:5:11:561:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32');
 INSERT INTO `change_date` VALUES (271,'2022-09-08','3:9:17:19:506:10:511:560:5:11:561:12:558:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32');
 INSERT INTO `change_date` VALUES (272,'2023-05-30','9:17:19:506:10:511:560:5:11:561:12:558:562:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31:32');
+INSERT INTO `change_date` VALUES (274,'2025-01-22','9:17:19:506:10:511:560:5:11:561:563:12:558:562:6:14:13:4:7:15:16:8:18:510:559:27:29:30:28:31');
 /*!40000 ALTER TABLE `change_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6390,4 +6393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-29 14:21:08
+-- Dump completed on 2025-02-07 14:40:07
