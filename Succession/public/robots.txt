@@ -5,3 +5,6 @@ Sitemap: https://lineofsuccession.co.uk/sitemap.xml
 User-agent: SeekportBot
 Disallow: /
 
+User-agent: TurnitinBot
+Disallow: /
+
