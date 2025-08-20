@@ -11,7 +11,19 @@
   <div class="tab-pane fade show active" id="books" role="tabpanel" aria-labelledby="books-tab">
     <div class="card-group">
       <div class="card">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/5106E-uesAL._SX327_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/612-E06qFsL._SL1500_.jpg" class="card-img-top" alt="Reimagining Diana">
+        <div class="card-body">
+          <h3 class="card-title">Reimagining Diana</h3>
+          <h4 class="card-subtitle">Alice Sowman</h4>
+          <p class="card-text">An alternative history that looks at what might have happened if Diana had survived that night in Paris.</p>
+        </div> <!-- card-body -->
+        <div class="card-footer">
+          <p><a href="http://www.amazon.com/dp/B0FMJZ83GF/ref=nosim?tag=davblog20-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.com</button></small></a></p>
+          <p><a href="http://www.amazon.co.uk/dp/B0FMJZ83GF/ref=nosim?tag=davblog-21"><small class="text-muted"><button type="button" class="btn btn-secondary">Amazon.co.uk</button></small></a></p>
+        </div> <!-- card-footer -->
+      </div> <! -- card -->
+      <div class="card">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/5106E-uesAL._SX327_BO1,204,203,200_.jpg" class="card-img-top" alt="Britain's Royal Families">
         <div class="card-body">
           <h3 class="card-title">Britain's Royal Families</h3>
           <h4 class="card-subtitle">Alison Weir</h4>
@@ -23,7 +35,7 @@
         </div> <!-- card-footer -->
       </div> <! -- card -->
       <div class="card">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/51XW1VZ3BTL._SX335_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51XW1VZ3BTL._SX335_BO1,204,203,200_.jpg" class="card-img-top" alt="The Royal Line of Succession">
         <div class="card-body">
           <h3 class="card-title">The Royal Line of Succession</h3>
           <h4 class="card-subtitle">Dulcie Ashdown</h4>
@@ -35,9 +47,9 @@
         </div> <!-- card-footer -->
       </div> <! -- card -->
       <div class="card">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/51H9Taa9rhL._SX418_BO1,204,203,200_.jpg" class="card-img-top" alt="...">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51H9Taa9rhL._SX418_BO1,204,203,200_.jpg" class="card-img-top" alt="Queen Elizabeth II &amp; the Royal Family">
         <div class="card-body">
-          <h3 class="card-title">Queen Elizabeth II & the Royal Family</h3>
+          <h3 class="card-title">Queen Elizabeth II &amp; the Royal Family</h3>
           <h4 class="card-subtitle">DK</h4>
           <p class="card-text">A tribute to Queen Elizabeth II, this book celebrates her life and reign. It profiles key royals, such as Princess Diana and Prince Harry, and features celebrations including Prince William and Kate Middleton's wedding, the births of Prince George and Princess Charlotte, and the Queen's 90th birthday.</p>
         </div> <!-- card-body -->
