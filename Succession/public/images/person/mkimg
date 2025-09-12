@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Canonical thumbnail box (matches your template width/height)
+W=160
+H=200
+WEBP_Q=85
+
+has_avifenc() { command -v avifenc >/dev/null 2>&1; }
+
+shopt -s nullglob nocaseglob
+for f in *.jpg *.jpeg *.png; do
+  base="${f%.*}"
+  tmp="${base}.thumb.png"
+
+  # 1) Standardise to exactly 160x200 without stretching:
+  #    - resize to height 200px (only shrink)
+  #    - pad/canvas to 160x200, centered
+  magick "$f" \
+    -resize "x${H}>" \
+    -gravity center -background none -extent "${W}x${H}" \
+    -strip -depth 8 "png32:${tmp}"
+
+  # 2) WebP (idempotent: only create/overwrite if src newer)
+  if [[ ! -e "${base}.webp" || "$tmp" -nt "${base}.webp" ]]; then
+    magick "${tmp}" -quality ${WEBP_Q} "${base}.webp"
+    echo "→ wrote ${base}.webp"
+  fi
+
+  # 3) Optional AVIF if avifenc is available
+  if has_avifenc; then
+    if [[ ! -e "${base}.avif" || "$tmp" -nt "${base}.avif" ]]; then
+      avifenc --min 20 --max 28 --speed 6 "${tmp}" "${base}.avif" >/dev/null
+      echo "→ wrote ${base}.avif"
+    fi
+  fi
+
+  # 4) Clean up temp
+  rm -f "${tmp}"
+done
+echo "Done."
+

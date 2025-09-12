@@ -6,6 +6,10 @@ use warnings;
 use Moose;
 use DateTime;
 use CHI;
+use Path::Tiny;
+use JSON::MaybeXS qw(decode_json);
+use Digest::SHA qw(sha1_hex);
+use Time::Piece;
 use Succession::Schema;
 
 has schema => (
@@ -146,6 +150,9 @@ sub _build_interesting_dates {
     }, {
       date => DateTime->new(year => 2017, month =>  2, day =>  6),
       desc => "Sapphire Jubilee",
+    }, {
+      date => DateTime->new(year => 2022, month =>  2, day =>  6),
+      desc => "Platinum Jubilee",
     }]}, {
     monarch => 'Charles III',
     dates => [{
@@ -374,6 +381,39 @@ sub get_all_changes {
       return [ $self->schema->resultset('ChangeDate')->all ],
     }
   );
+}
+
+sub http_date {
+  return gmtime(shift || time)->strftime('%a, %d %b %Y %H:%M:%S GMT');
+}
+
+# Load + cache shop.json (Memcached) with mtime-based invalidation
+sub get_shop_data {
+  my $self = shift;
+
+  my $json_path = path('Succession', 'public', 'var', 'shop.json');
+  my $mtime     = $json_path->stat ? $json_path->stat->mtime : 0;
+
+  # cache key includes mtime — if file changes, cache miss
+  my $key = "shopjson:$mtime";
+
+  my $cached = $self->cache->get($key);
+  return ($cached->{data}, $cached->{etag}, $cached->{last_mod})
+    if $cached;
+
+  # Read + parse JSON
+  my $raw = $json_path->slurp_raw;
+  my $shop = decode_json($raw);
+
+  # Compute ETag from content
+  my $etag = qq{"} . sha1_hex($raw) . qq{"};
+  my $last_mod = http_date($mtime);
+
+  # If you want to append amazon_tag centrally to links later, you can,
+  # but you said you’ll use an Amazon button helper from ASIN — so no need.
+
+  $self->cache->set($key, { data => $shop, etag => $etag, last_mod => $last_mod }, 60 * 10);
+  return ($shop, $etag, $last_mod);
 }
 
 no Moose;

@@ -1,13 +1,16 @@
 <% USE Dumper -%>
 <% PROCESS util.tt -%>
+<div class="card-soft">
 <h1><% person.name %></h1>
 <p>Born: <% link_date(person.born) %>
 <% IF person.died -%>
 <br>Died: <% link_date(person.died) %>
 <% END -%>
 </p>
+</div>
 
 <% IF person.titles_rs.count > 1 -%>
+<div class="card-soft">
 <h2>Names &amp; titles</h2>
 <ul>
 <% FOR title IN person.titles_rs.order_by_date -%>
@@ -21,45 +24,108 @@
      END %>)</li>
 <% END -%>
 </ul>
+</div>
 <% END -%>
 
 <% IF person.positions_rs.count -%>
+<div class="card-soft">
 <h2>Positions</h2>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
 
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['Date', 'Position'],
-<% positions = person.positions_rs.order_by_date;
-   FOR pos IN positions;
-     date = pos.start OR person.born -%>
-      ['<% date.ymd %>', <% pos.position %>],
-<% END;
-   date = positions.-1.end OR (person.died ? person.died : app.today ) -%>
-      ['<% date.ymd %>', <% pos.position %>]
-    ]);
-
-    var options = {
-      legend: { position: 'none' },
-      areaOpacity: 0.0,
-      vAxis: {
-        direction: -1,
-        minValue: 1,
-        title: 'Position'
-      }
-    };
-
-    var chart = new google.visualization.SteppedAreaChart(document.getElementById('chartContainer'));
-    chart.draw(data, options);
+<style>
+  /* Optional: nicer container */
+  #positionChartWrap {
+    background: #fff; border-radius: 12px; box-shadow: 0 6px 14px rgba(0,0,0,.08);
+    padding: 12px; max-width: 720px;
   }
-</script>
-<div id="chartContainer" style="height: 300px; width: 75%;"></div>
+</style>
 
-<ul>
+<div id="positionChartWrap">
+  <canvas id="positionChart" height="200" role="img"
+     aria-label="Succession position over time for <% person.name %>"
+     aria-describedby="positions-list"></canvas>
+</div>
+
+<script>
+  Chart.defaults.font.family = "'Merriweather', Georgia, serif"; // or whatever you use
+  Chart.defaults.font.size = 16;  // default is 12
+  Chart.defaults.font.weight = '600'; // semi-bold
+  (function () {
+    // Build labels (dates) + values (positions) from your template data
+    var labels = [
+<%  positions = person.positions_rs.order_by_date;
+    FOR pos IN positions;
+      date = pos.start OR person.born -%>
+      '<% date.ymd %>',
+<%  END;
+    date = positions.-1.end OR (person.died ? person.died : app.today ) -%>
+      '<% date.ymd %>'
+    ];
+
+    var values = [
+<%  FOR pos IN positions -%>
+      <% pos.position %>,
+<%  END -%>
+      <% pos.position %>  // final value repeated for the end date
+    ];
+
+    // Compute y-axis max (min is 1; axis reversed so "1" appears at top)
+    var yMax = Math.max.apply(null, values);
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var ctx = document.getElementById('positionChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,           // using category scale with date strings
+        datasets: [{
+          label: 'Position',
+          data: values,
+          stepped: 'before',      // crisp step changes at each date
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        }]
+      },
+      options: {
+        animation: prefersReduced ? false : { duration: 400 },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => 'Position: ' + ctx.parsed.y
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(0,0,0,.06)' },
+            ticks: { maxRotation: 0, autoSkip: true }
+          },
+          y: {
+            reverse: true,
+            min: 1,
+            max: yMax,
+            title: { display: true, text: 'Position' },
+            grid: { color: 'rgba(0,0,0,.06)' },
+            ticks: { precision: 0, stepSize: 1 }
+          }
+        },
+        elements: {
+          line: { tension: 0 }    // no curve; looks authoritative
+        }
+      }
+    });
+  })();
+</script>
+
+
+<ul id="positions-list">
 <% FOR pos IN positions -%>
 <li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %> (<% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
@@ -71,8 +137,10 @@
      END %>)</li>
 <% END -%>
 </ul>
+</div>
 <% END -%>
 
+<div class="card-soft">
 <h2>Relations</h2>
 <% IF person.parent -%>
 <h3>Parent</h3>
@@ -88,8 +156,10 @@
 <% END -%>
 </ul>
 <% END -%>
+</div>
 
 <% IF person.exclusions_rs.count -%>
+<div class="card-soft">
 <h2>Exclusions</h2>
 <ul>
 <% FOREACH excl IN person.exclusions_rs.order_by_date -%>
@@ -103,4 +173,5 @@
      END %>)</li>
 <% END -%>
 </ul>
+</div>
 <% END -%>

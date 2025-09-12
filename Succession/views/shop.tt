@@ -1,19 +1,106 @@
-<h1><span class="text-danger">Coming soon:</span> Shop</h1>
+<div class="card-soft">
+  <h1 class="mb-3">Shop</h1>
 
-<p>We will soon have various pieces of merchandise on sale from this page.</p>
-<p>Currently, our plans include:</p>
-<ul>
-  <li>A book about the line of succession</li>
-  <li>Posters of the line of succession</li>
-  <li>Mugs with (some of) the line of succession on them</li>
-</ul>
+  <p>This shop currently features our hand-picked Amazon recommendations about the
+    British monarchy and royal history.</p>
+  <p>In the future, we may add our own merchandise (prints, posters, or other
+    items). Stay tuned!</p>
 
-<p><img src="/images/cover-sm.jpg" alt="The Line of Succession - 200 years of the British Royal Family"></p>
+  <p>Follow our <a href="https://www.facebook.com/linesuccession">Facebook page</a>
+    to keep up to date.</p>
+</div>
 
-<p>Sign up to our newsletter to know when these items are available.</p>
+<div class="card-soft">
+  <h2 class="section-title">Amazon</h2>
+  <% IF shop.intro_html %>
+    <div class="mb-3"><% shop.intro_html %></div>
+  <% END %>
 
-<h2>Amazon</h2>
+  <% IF shop.categories && shop.categories.size %>
 
-<p>We recommend these items from Amazon.</p>
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+      <% FOREACH c IN shop.categories %>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <% loop.first ? 'active' : '' %>"
+                  id="tab-<% c.id %>" data-bs-toggle="tab"
+                  data-bs-target="#pane-<% c.id %>" type="button" role="tab"
+                  aria-controls="pane-<% c.id %>" aria-selected="<% loop.first ? 'true' : 'false' %>">
+            <% c.label %>
+          </button>
+        </li>
+      <% END %>
+    </ul>
 
-<% INCLUDE 'amazon-widget' -%>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <% FOREACH c IN shop.categories %>
+        <div class="tab-pane fade <% loop.first ? 'show active' : '' %>"
+             id="pane-<% c.id %>" role="tabpanel" aria-labelledby="tab-<% c.id %>">
+
+          <% IF c.items && c.items.size %>
+            <!-- Responsive grid; cards have a consistent width and height -->
+            <div class="shop-grid">
+              <% FOREACH it IN c.items %>
+                <article class="card card-shop">
+                  <% IF it.image %>
+                  <a class="shop-cover-wrap"
+                     data-amazon-asin="<% it.asin %>"
+                     data-amazon-mode="link"
+                     href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
+                     target="_blank" rel="sponsored noopener">
+                    <img src="<% it.image %>" class="shop-cover" alt="<% it.title %>"
+                      loading="lazy" decoding="async">
+                  </a>
+                  <% END %>
+
+                  <div class="card-body p-3">
+                    <h3 class="h6 card-title mb-1 clamp-2"><% it.title %></h3>
+                    <% IF it.by %>
+                      <div class="text-muted small mb-2"><% it.by %></div>
+                    <% END %>
+                    <% IF it.subtitle %>
+                      <div class="small text-muted mb-2"><% it.subtitle %></div>
+                    <% END %>
+                    <% IF it.blurb %>
+                      <p class="card-text small clamp-4"><% it.blurb %></p>
+                    <% END %>
+                  </div>
+
+                  <div class="card-footer bg-white border-0 pt-0 pb-3">
+                    <% IF it.asin %>
+                    <a class="btn btn-sm btn-primary w-100"
+                       data-amazon-asin="<% it.asin %>"
+                       data-amazon-text="View on Amazon"
+                       href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
+                       target="_blank" rel="sponsored noopener"></a>
+                    <% ELSE %>
+                      <span class="text-muted small">ASIN missing</span>
+                    <% END %>
+                  </div>
+                </article>
+              <% END %>
+            </div>
+
+            <p class="mt-2 small text-muted">As an Amazon Associate I earn from qualifying purchases.</p>
+          <% ELSE %>
+            <p class="text-muted">No items yet.</p>
+          <% END %>
+        </div>
+      <% END %>
+    </div>
+
+  <% ELSE %>
+    <p class="text-muted">No categories configured.</p>
+  <% END %>
+</div>
+<script src="https://cdn.davecross.co.uk/js/amazon-store/v1/amazon-store.min.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    AmazonStore.enhanceAll({
+      tag: 'davblog-21',        // TODO: replace with your tag (or pass from config)
+      defaultRegion: 'UK'       // sensible fallback if detection fails
+    });
+    AmazonStore.renderStoreGridAll({ tag: 'davblog-21' });
+  });
+</script>

@@ -25,8 +25,18 @@ get '/shop' => sub {
     request => request,
   });
 
-  template 'shop', {
-    app => $app,
+  my ($shop, $etag, $last_mod) = $app->model->get_shop_data;
+
+  return '' if handle_conditional_get($etag, $last_mod);
+
+  response_header 'ETag'          => $etag;
+  response_header 'Last-Modified' => $last_mod;
+  response_header 'Cache-Control' => 'public, max-age=300';
+
+  template 'shop' => {
+    title => 'Shop',
+    shop  => $shop,
+    amazon_tag => setting('amazon_tag') // 'davblog-21',
   };
 };
 
@@ -149,6 +159,31 @@ sub make_app {
   };
 
   return ($app, $date_err);
+}
+
+sub handle_conditional_get {
+  my ($etag, $last_mod) = @_;
+
+  my $if_none_match = request->header('If-None-Match');
+  my $if_modified   = request->header('If-Modified-Since');
+
+  if (defined $if_none_match && $if_none_match eq $etag) {
+    status 304;
+    response_header 'ETag'          => $etag;
+    response_header 'Last-Modified' => $last_mod;
+    response_header 'Cache-Control' => 'public, max-age=300';
+    return 1;
+  }
+
+  if (defined $if_modified && $if_modified eq $last_mod) {
+    status 304;
+    response_header 'ETag'          => $etag;
+    response_header 'Last-Modified' => $last_mod;
+    response_header 'Cache-Control' => 'public, max-age=300';
+    return 1;
+  }
+
+  return 0;
 }
 
 true;

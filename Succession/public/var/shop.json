@@ -1,0 +1,118 @@
+{
+  "intro_html": "<p>We recommend these items from Amazon.</p>",
+  "categories": [
+    {
+      "id": "books",
+      "label": "Books",
+      "items": [
+        {
+          "title": "Reimagining Diana",
+          "by": "Alice Sowman",
+          "blurb": "An alternative history imagining what might have happened if Diana had survived that night in Paris.",
+          "asin": "B0FMJZ83GF",
+          "image": "/images/shop/reimagining-diana-alice-sowman.jpg"
+        },
+        {
+          "title": "Britain's Royal Families",
+          "by": "Alison Weir",
+          "blurb": "A fascinating and authoritative history of Britain’s royal families from the Tudors to the Windsors.",
+          "asin": "009953973X",
+          "image": "/images/shop/britains-royal-families-alison-weir.jpg"
+        },
+        {
+          "title": "The Royal Line of Succession",
+          "by": "Dulcie Ashdown",
+          "blurb": "The best-selling illustrated guide to the British Monarchy and the succession process, updated for 2018.",
+          "asin": "0853729387",
+          "image": "/images/shop/the-royal-line-of-succession-dulcie-ashdown.jpg"
+        },
+        {
+          "title": "Queen Elizabeth II & the Royal Family",
+          "by": "DK",
+          "blurb": "A tribute to Queen Elizabeth II, celebrating her life and reign, with profiles of key royals and landmark events.",
+          "asin": "0241296205",
+          "image": "/images/shop/queen-elizabeth-ii-the-royal-family-dk.jpg"
+        }
+      ]
+    },
+    {
+      "id": "dvds",
+      "label": "DVDs & Blurays",
+      "items": [
+        {
+          "title": "The Crown – Season 1",
+          "blurb": "Focuses on Queen Elizabeth II as a 25-year-old newlywed facing the prospect of leading the monarchy.",
+          "asin": "B01N5QOD7V",
+          "image": "/images/shop/the-crown-season-1.jpg"
+        },
+        {
+          "title": "The Crown – Season 2",
+          "blurb": "Continues the story of Queen Elizabeth in the late 1950s and early 1960s.",
+          "asin": "B07GJD714Y",
+          "image": "/images/shop/the-crown-season-2.jpg"
+        },
+        {
+          "title": "The Crown – Season 3",
+          "blurb": "Covers 1964–1977, from Harold Wilson’s election to the Silver Jubilee, starring Olivia Colman.",
+          "asin": "B0814G7P7H",
+          "image": "/images/shop/the-crown-season-3.jpg"
+        },
+        {
+          "title": "The Crown – Season 4",
+          "blurb": "Depicts 1979–1990 under Margaret Thatcher and introduces Lady Diana Spencer.",
+          "asin": "B08NZ9GB6M",
+          "image": "/images/shop/the-crown-season-4.jpg"
+        },
+        {
+          "title": "The Crown – Season 5",
+          "blurb": "Diana and Charles wage a media war as the monarchy faces questions of relevance.",
+          "asin": "B0BMGKCMV2",
+          "image": "/images/shop/the-crown-season-5.jpg"
+        },
+        {
+          "title": "The Crown – Seasons 1–4 box set",
+          "blurb": "A collection of the first four seasons of The Crown.",
+          "asin": "B08NZK2H3M",
+          "image": "/images/shop/the-crown-seasons-1-4.jpg"
+        },
+        {
+          "title": "Victoria – Season 1",
+          "blurb": "The early years of Queen Victoria’s reign starring Jenna Coleman.",
+          "asin": "B01N0NWGQ5",
+          "image": "/images/shop/victoria-season-1.jpg"
+        },
+        {
+          "title": "Victoria – Season 2",
+          "blurb": "Victoria resumes her role as queen while balancing motherhood and marriage.",
+          "asin": "B0772KFYQW",
+          "image": "/images/shop/victoria-season-2.jpg"
+        },
+        {
+          "title": "Victoria – Season 3",
+          "blurb": "Depicts the turbulent period starting in 1848 amid revolutions in Europe and Chartism in London.",
+          "asin": "B07S5GQKMW",
+          "image": "/images/shop/victoria-season-3.jpg"
+        },
+        {
+          "title": "Victoria – Christmas Special",
+          "blurb": "Victoria and Albert face different expectations at Christmas in a festive special.",
+          "asin": "B0775Z8Y7R",
+          "image": "/images/shop/victoria-christmas-special.jpg"
+        },
+        {
+          "title": "The Young Victoria",
+          "blurb": "Emily Blunt stars in a dramatisation of the young queen’s early years and marriage to Prince Albert.",
+          "asin": "B0025PKKBA",
+          "image": "/images/shop/young-victoria.jpg"
+        },
+        {
+          "title": "The Favourite",
+          "blurb": "Yorgos Lanthimos’s acclaimed drama about Queen Anne, Lady Sarah and Abigail.",
+          "asin": "B07JH9Z6KJ",
+          "image": "/images/shop/the-favourite.jpg"
+        }
+      ]
+    }
+  ]
+}
+

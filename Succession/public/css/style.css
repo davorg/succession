@@ -1,93 +1,317 @@
+/* =========================================================
+   Theme variables
+   ========================================================= */
+:root {
+  --brand-bg: #072a46;
+  --brand-bg-hover: #051e32;
+  --brand-fg: #ffffff;
+
+  --surface: #ffffff;
+  --surface-2: #f6f7fb;
+
+  --text: #222;
+  --muted: #6b7280;
+
+  --link: #0a58ca;
+
+  --border: #e2e8f0;         /* subtle divider / card borders */
+  --field-border: #cfd8e3;    /* inputs on light backgrounds */
+  --cover-bg: #f5f6fa;        /* image letterbox bg */
+
+  --radius: 16px;
+  --shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   Base
+   ========================================================= */
+html, body { height: 100%; }
+
 body {
+  /* offset for fixed-top navbar */
   padding-top: 5rem;
-  font-family: 'Faustina', serif;
-}
-.starter-template {
-  padding: 3rem 1.5rem;
+
+  font-family: "Merriweather", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+
+  background: var(--surface-2);
+  color: var(--text);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  flex-direction: column;
 }
 
-span.small {
-  font-size: 75%;
+main { flex: 1 0 auto; }
+
+span.small { font-size: 75%; }
+p.large    { font-size: 120%; }
+
+/* Containers */
+.container, main, .content, .wrapper { max-width: 980px; margin-inline: auto; }
+
+/* =========================================================
+   Typography
+   ========================================================= */
+h1, .page-title { font-weight: 800; letter-spacing: .2px; line-height: 1.15; }
+h2, h3          { font-weight: 700; }
+h1, h2, h3      { margin-top: 0; margin-bottom: .75rem; }
+
+/* Links */
+a { color: var(--link); }
+a:hover { text-decoration: underline; }
+
+/* Focus rings */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
-p.large {
-  font-size: 120%;
+/* Screen-reader only */
+.visually-hidden{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
+/* =========================================================
+   Navbar / Header
+   ========================================================= */
+.navbar, header.site-header {
+  background: var(--brand-bg) !important;
+  color: var(--brand-fg) !important;
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
+.navbar .navbar-brand,
+.navbar .navbar-nav > .nav-item > .nav-link {
+  color: rgba(255,255,255,.85);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar .navbar-brand:hover,
+.navbar .navbar-nav > .nav-item > .nav-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Dropdown menu (light) inside dark navbar */
+.navbar-dark .dropdown-menu {
+  background-color: var(--surface);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.navbar-dark .dropdown-item { color: var(--text); }
+.navbar-dark .dropdown-item:hover,
+.navbar-dark .dropdown-item:focus {
+  background-color: var(--surface-2);
+  color: var(--link);
+}
+
+/* Date input inside navbar */
+.navbar-dark .form-control {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--field-border);
+}
+.navbar-dark .form-control::placeholder { color: var(--muted); }
+.navbar-dark .form-control:focus {
+  border-color: var(--link);
+  box-shadow: 0 0 0 0.2rem rgba(10,88,202,.25);
+}
+
+/* Buttons (general shape) */
+.btn, button { border-radius: 10px; }
+
+/* =========================================================
+   Cards / Surfaces
+   ========================================================= */
+.starter-template,
+article, section, .card, .panel, .box,
+.succession, .person, .timeline, .relations,
+.main-card, .person-header, .content > .panel, .content > .box,
+.card-soft {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin: 1.25rem 0;
+}
+
+/* Section dividers */
+.section-title {
+  font-weight: 700;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: .25rem;
+  margin-bottom: 1rem;
+}
+
+/* =========================================================
+   Lists / Ordered sequences
+   ========================================================= */
 ol {
   list-style: none;
   counter-reset: list;
   padding: 0;
 }
+ol > li { position: relative; padding-left: 25px; }
+ol > li:before { position: absolute; left: 0; }
+ol > li:not(.disable):before { counter-increment: list; content: counter(list) ". "; }
+ol > li.disable:before { content: "X. "; }
+ol > li.disable { opacity: .5; }
 
-ol>li:before {
-  position: absolute;
-  left: 0;
+ol, .succession-list { padding-left: 1.4rem; }
+ol li, .succession-list li { margin: .4rem 0; font-size: 1.05rem; }
+
+/* Positions list accent */
+#positions-list li::marker { color: var(--link); font-weight: bold; }
+#positions-list li strong  { color: var(--link); }
+
+/* =========================================================
+   Portraits / Sovereign image
+   ========================================================= */
+img { max-width: 100%; height: auto; }
+
+.sovimage { max-width: 170px !important; margin-right: 1rem; margin-bottom: 1rem; flex-shrink: 0; display: block; }
+.sovimage figure { position: relative; border-width: 0 10px 10px 0; }
+.sovimage figcaption{
+  position:absolute;bottom:0;left:0;right:0;padding:0 3px 3px;
+  background: rgba(0,0,0,.75);color: var(--brand-fg);display:none;
+}
+.sovimage figcaption a { color: var(--brand-fg); text-decoration: underline; }
+figure:hover figcaption { display:block; }
+
+img.portrait, .portrait img, .person img {
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
 }
 
-ol>li:not(.disable):before {
-  counter-increment: list;
-  content: counter(list) ". ";
+/* Align title + image rows on small screens */
+.d-flex.align-items-center { flex-wrap: wrap; }
+.d-flex.align-items-center > * { flex: 1 1 auto; min-width: 200px; }
+
+/* =========================================================
+   Charts
+   ========================================================= */
+#positionChartWrap, #positionSvgWrap {
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 1rem 0 1.5rem;
 }
 
-ol>li.disable:before {
-  content: "X. ";
+/* =========================================================
+   Sidebar
+   ========================================================= */
+aside, .sidebar {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+@media (min-width: 992px){ aside, .sidebar { position: sticky; top: 1rem; } }
+
+/* =========================================================
+   Shop
+   ========================================================= */
+/* Grid */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
 }
 
-ol>li {
-  position: relative;
-  padding-left: 25px;
+/* Card */
+.card-shop {
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-ol>li.disable {
-  opacity: .5;
+/* Cover (full image visible) */
+.shop-cover-wrap {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: var(--cover-bg);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
+.shop-cover-wrap:hover { outline: 3px solid rgba(10,88,202,.15); outline-offset: 2px; }
 
-.sovimage {
-  max-width: 170px !important;
-}
-
-.sovimage figure {
-  position: relative;
-  border-width: 0 10px 10px 0;
-}
-
-.sovimage figcaption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 3px 3px 3px;
-  background: rgb(0, 0, 0); /* Fallback color */
-  background: rgba(0, 0, 0, 0.75); /* Black background with 0.5 opacity */
-  display: none;
-  color: white;
-}
-
-.sovimage figcaption a:link {
-  color: #bbf;
-}
-
-figure:hover figcaption {
+.shop-cover {
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain;
   display: block;
 }
+
+/* Keep buttons aligned */
+.card-shop .card-footer { margin-top: auto; }
+
+/* Text clamping */
+.card-shop .card-title { line-height: 1.25; }
+.clamp-2, .clamp-3, .clamp-4 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-2 { -webkit-line-clamp: 2; }
+.clamp-3 { -webkit-line-clamp: 3; }
+.clamp-4 { -webkit-line-clamp: 4; }
+
+/* Tabs */
+.nav-tabs .nav-link.active { color: var(--link); font-weight: 600; }
+
+/* Small screens */
+@media (max-width: 576px){
+  .shop-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+/* Amazon buttons – branded */
+.btn-amazon,
+a[data-amazon-asin].btn {
+  background-color: var(--brand-bg) !important;
+  border-color: var(--brand-bg) !important;
+  color: #fff !important;
+}
+a[data-amazon-asin].btn:hover,
+a[data-amazon-asin].btn:focus {
+  background-color: var(--brand-bg-hover) !important;
+  border-color: var(--brand-bg-hover) !important;
+  color: #fff !important;
+}
+
+/* =========================================================
+   Footer (themed, non-floating)
+   ========================================================= */
+.footer {
+  position: static;
+  width: 100%;
+  flex-shrink: 0;
+
+  background: var(--brand-bg);
+  color: rgba(255,255,255,.85);
+  padding: .75rem 0;
+  box-shadow: 0 -1px 0 rgba(255,255,255,.08) inset;
+}
+.footer .text-muted { color: rgba(255,255,255,.85) !important; }
+.footer a { color: #fff; text-decoration: underline; }
+
+/* =========================================================
+   Misc
+   ========================================================= */
+.sovimage img,
+img.portrait { max-width: 160px; height: auto; }
+@media (max-width: 576px){
+  .portrait, .person-header img { max-width: 120px; margin-bottom: 1rem; }
+}
+ul, ol { padding-left: 1.2rem; }
+.succession-list li, #positions-list li { margin-bottom: .4rem; }

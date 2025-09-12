@@ -53,6 +53,23 @@
       gtag('js', new Date());
 
       gtag('config', 'G-X7R7RVTMQJ');
+
+      // Track date-picker usage
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('date-form');
+        const dateInput = document.getElementById('date');
+        if (form && dateInput) {
+          if (window.gtag) {
+            form.addEventListener('submit', function () {
+              gtag('event', 'change_date', {
+                event_category: 'interaction',
+                event_label: dateInput.value,
+                page_path: window.location.pathname
+              });
+            });
+          }
+        }
+      });
     </script>
   </head>
   <body>
@@ -98,11 +115,13 @@
               <a class="nav-link" href="/shop">Shop</a>
             </li>
           </ul>
-          <form class="d-flex ms-auto">
-            <input class="form-control" type="date" placeholder="YYYY-MM-DD" name="date" id="date"
+          <form id="date-form" class="d-flex ms-auto">
+            <label for="date" class="visually-hidden">Choose date</label>
+            <input class="form-control" type="date" placeholder="YYYY-MM-DD" id="date" name="date" id="date"
               min="<% app.earliest.strftime('%Y-%m-%d') %>"
               max="<% app.today.strftime('%Y-%m-%d') %>" aria-label="Date">
-            <button class="btn btn-outline-light ms-2" type="submit">Change&nbsp;date</button>
+            <button class="btn btn-outline-light ms-2"
+              type="submit" aria-label="Change to selected date">Change&nbsp;date</button>
           </form>
         </div>
       </div>
@@ -131,16 +150,14 @@
             <li><a href="/p/<% item.person.slug %>"><% item.person.name %></a> <% item.description %></li>
 <%       END -%>
           </ul>
-<%     END -%>
           <hr>
+<%     END -%>
 <%   END;
    END -%>
 <% INSERT 'moosend.tt' -%>
-          <hr>
 <% INSERT 'my-ads.tt' -%>
 <% INSERT 'google-ads.tt' -%>
           <hr>
-<% INSERT 'twitter.tt' -%>
         </div>
       </div>
     </main>

@@ -1,5 +1,8 @@
-<% USE Lingua::EN::Inflexion -%>
-<% PROCESS util.tt -%>
+<% USE Lingua::EN::Inflexion;
+   PROCESS util.tt;
+   sovereign = app.sovereign;
+   sov_person = sovereign.person;
+   sov_duration = app.sovereign_duration -%>
     <% IF error -%>
     <div class="alert alert-danger alert-dismissable fade show">
     <% error %>
@@ -8,29 +11,42 @@
      </button>
     </div>
     <% END -%>
+    <div class="card-soft">
     <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
     <div class="row">
 <% IF app.sovereign.image -%>
-      <div class="col-md-3 sovimage">
-        <figure class="figure">
-          <img src="/images/<% app.sovereign.image %>"
-               class="figure-img img-fluid-rounded"
-               alt="<% app.sovereign.person.name_on_date(app.date) %>"
-               title="<% app.sovereign.person.name_on_date(app.date) %>">
-<%   IF app.sovereign.image_attr -%>
-          <figcaption class="figure-caption text-left"><small>Image: <% app.sovereign.image_attr %></small></figcaption>
-<% END %>
-        </figure>
-      </div>
+  <div class="col-md-3 sovimage">
+    <figure class="figure">
+      <picture>
+        <!-- Prefer modern formats -->
+        <source srcset="/images/person/<% sovereign.image %>.avif" type="image/avif">
+        <source srcset="/images/person/<% sovereign.image %>.webp" type="image/webp">
+        <!-- Fallback to JPG (same basename) -->
+        <img
+          src="/images/person/<% sovereign.image %>.jpg"
+          class="figure-img img-fluid-rounded"
+          alt="<% sov_person.name_on_date(app.date) %>"
+          title="<% sov_person.name_on_date(app.date) %>"
+          width="160" height="200"
+          loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+
+<%   IF sovereign.image_attr -%>
+      <figcaption class="figure-caption text-left">
+        <small>Image: <% sovereign.image_attr %></small>
+      </figcaption>
+<%   END %>
+    </figure>
+  </div>
 <% END -%>
       <div class="col-md">
-        <h2>Sovereign: <a href="/p/<% app.sovereign.person.slug %>"><% app.sovereign.person.name_on_date(app.date) %></a></h2>
-        <p class="large">Age <% app.sovereign.person.age_on_date(app.date) %>
-        (born <% link_date(app.sovereign.person.born) %><% IF app.sovereign.person.died %>, will die on <% link_date(app.sovereign.person.died); END %>)<br>
-        Sovereign since <% link_date(app.sovereign.start) %>
-        (<% years = app.sovereign_duration.years; IF years; "<#:${years}> <N:year>" | inflect; ', '; END -%>
-        <%- months = app.sovereign_duration.months; "<#:${months}> <N:month>" | inflect %>)</p>
+        <h2>Sovereign: <a href="/p/<% sov_person.slug %>"><% sov_person.name_on_date(app.date) %></a></h2>
+        <p class="large">Age <% sov_person.age_on_date(app.date) %>
+        (born <% link_date(sov_person.born) %><% IF sov_person.died %>, will die on <% link_date(sov_person.died); END %>)<br>
+        Sovereign since <% link_date(sovereign.start) %>
+        (<% years = sov_duration.years; IF years; "<#:${years}> <N:year>" | inflect; ', '; END -%>
+        <%- months = sov_duration.months; "<#:${months}> <N:month>" | inflect %>)</p>
       </div>
     </div>
 <% SET prev_dt = app.prev_change_date;
@@ -77,3 +93,4 @@
      </button>
     </div>
     <% END -%>
+    </div> <!-- div.card-soft -->

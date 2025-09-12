@@ -34,6 +34,19 @@ engines:
 
 auto_page: 0
 
+# Add these if not already present
+amazon_tag: yourtag-21
+
+# CHI cache using Memcached; falls back to memory if you prefer another driver
+plugins:
+  CHI:
+    default:
+      driver: Memcached
+      servers:
+        - 127.0.0.1:11211
+      namespace: los
+      expires_in: 600
+
 # session engine
 #
 # Simple: in-memory session store - Dancer2::Session::Simple
