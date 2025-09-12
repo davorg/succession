@@ -1,5 +1,5 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.11.10-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.11.11-MariaDB, for Linux (x86_64)
 --
 -- Host: 172.24.192.1    Database: succession
 -- ------------------------------------------------------
@@ -22,7 +22,7 @@
 
 DROP TABLE IF EXISTS `change`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `change` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
@@ -323,7 +323,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `change_date`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `change_date` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `change_date` date DEFAULT NULL,
@@ -620,7 +620,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `exclusion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `exclusion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `start` date DEFAULT NULL,
@@ -666,7 +666,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `person`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `person` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `born` date NOT NULL,
@@ -1190,7 +1190,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `position`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
@@ -5759,7 +5759,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `sovereign`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sovereign` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `start` date NOT NULL,
@@ -5781,16 +5781,16 @@ CREATE TABLE `sovereign` (
 
 LOCK TABLES `sovereign` WRITE;
 /*!40000 ALTER TABLE `sovereign` DISABLE KEYS */;
-INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:King_George_VI_of_England,_formal_photo_portrait,_circa_1940-1946.jpg\" title=\"via Wikimedia Commons\">Matson Photo Service</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (2,'1952-02-06','2022-09-08',2,'elizabeth-ii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_in_March_2015.jpg\" title=\"via Wikimedia Commons\">Joel Rouse (Ministry of Defence), and nagualdesign</a> [<a href=\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3\">OGL 3</a>]');
-INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:HRH_The_Prince_of_Wales_No_4_(HS85-10-36416).jpg\" title=\"via Wikimedia Commons\">British Library</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_V_of_the_united_Kingdom.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Edward_VII_in_coronation_robes.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Victoria_by_Bassano.jpg\" title=\"via Wikimedia Commons\">Alexander Bassano</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:William_IV_crop.jpg\" title=\"via Wikimedia Commons\">Martin Archer Shee</a> [Public domain]');
-INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV.jpg','<a href=\"https://commons.wikimedia.org/wiki/File:George_IV_1821_color.jpg\" title=\"via Wikimedia Commons\">Thomas Lawrence</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (1,'1936-12-11','1952-02-06',1,'george-vi','<a href=\"https://commons.wikimedia.org/wiki/File:King_George_VI_of_England,_formal_photo_portrait,_circa_1940-1946.jpg\" title=\"via Wikimedia Commons\">Matson Photo Service</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (2,'1952-02-06','2022-09-08',2,'elizabeth-ii','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_in_March_2015.jpg\" title=\"via Wikimedia Commons\">Joel Rouse (Ministry of Defence), and nagualdesign</a> [<a href=\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3\">OGL 3</a>]');
+INSERT INTO `sovereign` VALUES (3,'1936-01-20','1936-12-11',22,'edward-viii','<a href=\"https://commons.wikimedia.org/wiki/File:HRH_The_Prince_of_Wales_No_4_(HS85-10-36416).jpg\" title=\"via Wikimedia Commons\">British Library</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (4,'1910-05-06','1936-01-20',21,'george-v','<a href=\"https://commons.wikimedia.org/wiki/File:George_V_of_the_united_Kingdom.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (5,'1901-01-22','1910-05-06',65,'edward-vii','<a href=\"https://commons.wikimedia.org/wiki/File:Edward_VII_in_coronation_robes.jpg\" title=\"via Wikimedia Commons\">Luke Fildes</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (6,'1837-06-20','1901-01-22',180,'victoria','<a href=\"https://commons.wikimedia.org/wiki/File:Queen_Victoria_by_Bassano.jpg\" title=\"via Wikimedia Commons\">Alexander Bassano</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (7,'1830-06-26','1837-06-20',446,'William_IV','<a href=\"https://commons.wikimedia.org/wiki/File:William_IV_crop.jpg\" title=\"via Wikimedia Commons\">Martin Archer Shee</a> [Public domain]');
+INSERT INTO `sovereign` VALUES (8,'1820-01-29','1830-06-26',443,'George_IV','<a href=\"https://commons.wikimedia.org/wiki/File:George_IV_1821_color.jpg\" title=\"via Wikimedia Commons\">Thomas Lawrence</a> [Public domain]');
 INSERT INTO `sovereign` VALUES (9,'1760-10-25','1820-01-29',442,NULL,NULL);
-INSERT INTO `sovereign` VALUES (10,'2022-09-08',NULL,3,'charles-iii.jpg',NULL);
+INSERT INTO `sovereign` VALUES (10,'2022-09-08',NULL,3,'charles-iii',NULL);
 /*!40000 ALTER TABLE `sovereign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5800,7 +5800,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `title`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `title` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -6413,4 +6413,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-07 14:44:09
+-- Dump completed on 2025-09-12 14:08:21
