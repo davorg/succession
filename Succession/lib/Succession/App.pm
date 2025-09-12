@@ -272,7 +272,7 @@ sub image {
   my $self = shift;
 
   if ($self->is_home_page or $self->is_date_page) {
-    return $self->sovereign->image;
+    return $self->sovereign->image . '.jpg';
   } else {
     return 'Imperial_State_Crown.png';
   }
