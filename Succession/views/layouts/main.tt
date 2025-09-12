@@ -49,26 +49,34 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-X7R7RVTMQJ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(){ dataLayer.push(arguments); }
       gtag('js', new Date());
-
       gtag('config', 'G-X7R7RVTMQJ');
 
-      // Track date-picker usage
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', () => {
+        // Track date-picker usage
         const form = document.getElementById('date-form');
         const dateInput = document.getElementById('date');
         if (form && dateInput) {
-          if (window.gtag) {
-            form.addEventListener('submit', function () {
-              gtag('event', 'change_date', {
-                event_category: 'interaction',
-                event_label: dateInput.value,
-                page_path: window.location.pathname
-              });
+          form.addEventListener('submit', () => {
+            gtag('event', 'change_date', {
+              event_category: 'interaction',
+              event_label: dateInput.value,
+              page_path: window.location.pathname
             });
-          }
+          });
         }
+
+        // Track Amazon clicks
+        document.querySelectorAll('a[data-amazon-asin]').forEach(link => {
+          link.addEventListener('click', () => {
+            gtag('event', 'amazon_click', {
+              event_category: 'outbound',
+              event_label: link.dataset.amazonAsin,
+              page_path: window.location.pathname
+            });
+          });
+        });
       });
     </script>
   </head>
