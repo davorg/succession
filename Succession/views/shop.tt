@@ -46,6 +46,8 @@
                   <% IF it.image %>
                   <a class="shop-cover-wrap"
                      data-amazon-asin="<% it.asin %>"
+                     data-amazon-title="<% it.title %>"
+                     data-amazon-category="<% c.label || c.id %>"
                      data-amazon-mode="link"
                      href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
                      target="_blank" rel="sponsored noopener">
@@ -71,6 +73,8 @@
                     <% IF it.asin %>
                     <a class="btn btn-sm btn-primary w-100"
                        data-amazon-asin="<% it.asin %>"
+                       data-amazon-title="<% it.title %>"
+                       data-amazon-category="<% c.label || c.id %>"
                        data-amazon-text="View on Amazon"
                        href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
                        target="_blank" rel="sponsored noopener"></a>

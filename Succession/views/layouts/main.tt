@@ -73,6 +73,8 @@
             gtag('event', 'amazon_click', {
               event_category: 'outbound',
               event_label: link.dataset.amazonAsin,
+              item_name: link.dataset.amazonTitle || '',
+              item_category: link.dataset.amazonCategory || '',
               page_path: window.location.pathname
             });
           });
