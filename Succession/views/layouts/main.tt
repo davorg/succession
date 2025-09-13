@@ -81,6 +81,7 @@
         });
       });
     </script>
+<% INSERT 'google-ads.tt' -%>
   </head>
   <body>
 <% json_ld = app.json_ld;
@@ -166,7 +167,6 @@
    END -%>
 <% INSERT 'moosend.tt' -%>
 <% INSERT 'my-ads.tt' -%>
-<% INSERT 'google-ads.tt' -%>
           <hr>
         </div>
       </div>
