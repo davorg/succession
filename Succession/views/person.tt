@@ -2,12 +2,26 @@
 <% PROCESS util.tt -%>
 <div class="card-soft">
 <h1><% person.name %></h1>
+
 <p>Born: <% link_date(person.born) %>
 <% IF person.died -%>
 <br>Died: <% link_date(person.died) %>
 <% END -%>
 </p>
 </div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1486883079150066"
+     crossorigin="anonymous"></script>
+<!-- person_top_responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1486883079150066"
+     data-ad-slot="3486040475"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 <% IF person.titles_rs.count > 1 -%>
 <div class="card-soft">
