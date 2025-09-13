@@ -35,7 +35,7 @@ engines:
 auto_page: 0
 
 # Add these if not already present
-amazon_tag: yourtag-21
+amazon_tag: davblog-21
 
 # CHI cache using Memcached; falls back to memory if you prefer another driver
 plugins:
