@@ -171,7 +171,7 @@ has feed => (
 
 sub _build_feed {
   return XML::Feed->parse(
-    URI->new('https://blog.lineofsuccession.co.uk/feed/')
+    URI->new('https://blog.lineofsuccession.co.uk/feed')
   );
 }
 
