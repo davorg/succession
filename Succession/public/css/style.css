@@ -315,3 +315,26 @@ img.portrait { max-width: 160px; height: auto; }
 }
 ul, ol { padding-left: 1.2rem; }
 .succession-list li, #positions-list li { margin-bottom: .4rem; }
+
+.subscribe-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+.subscribe-box .h6 { font-weight: 700; }
+
+.btn-primary {
+  background-color: var(--brand-bg);
+  border-color: var(--brand-bg);
+  color: var(--brand-fg);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--brand-bg-hover, #051e32); /* fallback if no hover variable */
+  border-color: var(--brand-bg-hover, #051e32);
+  color: var(--brand-fg);
+}
+
+

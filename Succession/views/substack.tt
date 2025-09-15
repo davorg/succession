@@ -1,0 +1,7 @@
+<div class="subscribe-box">
+  <h3 class="h6 mb-1">Get updates by email</h3>
+  <p class="small text-muted mb-3">Be the first to hear when new blog posts are published.</p>
+  <a class="btn btn-primary w-100"
+     href="https://blog.lineofsuccession.co.uk/subscribe"
+     target="_blank" rel="noopener">Subscribe on Substack</a>
+</div>

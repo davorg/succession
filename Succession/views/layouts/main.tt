@@ -165,7 +165,8 @@
 <%     END -%>
 <%   END;
    END -%>
-<% INSERT 'moosend.tt' -%>
+<% INSERT 'substack.tt' -%>
+          <hr>
 <% INSERT 'my-ads.tt' -%>
           <hr>
         </div>
