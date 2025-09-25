@@ -22,7 +22,7 @@ sub _build_schema {
   return Succession::Schema->get_schema;
 }
 
-has sovereign_rs => (
+has [ qw[sovereign_rs person_rs] ] => (
   is => 'ro',
   isa => 'DBIx::Class::ResultSet',
   lazy_build =>  1,
@@ -30,6 +30,10 @@ has sovereign_rs => (
 
 sub _build_sovereign_rs {
   return $_[0]->schema->resultset('Sovereign');
+}
+
+sub _build_person_rs {
+  return $_[0]->schema->resultset('Person');
 }
 
 has change_date_rs => (
@@ -381,6 +385,18 @@ sub get_all_changes {
       return [ $self->schema->resultset('ChangeDate')->all ],
     }
   );
+}
+
+sub get_anniveraries {
+  my $self = shift;
+
+  my $anniversaries = $self->sovereign_rs->anniversaries;
+  my $birthdays     = $self->person_rs->birthdays;
+
+  return {
+    anniversaries => $anniversaries,
+    birthdays     => $birthdays,
+  };
 }
 
 sub http_date {

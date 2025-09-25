@@ -24,6 +24,38 @@ sub find_by_slug {
   });
 }
 
+sub birthdays {
+  my $self = shift;
+
+  my @birthdays = $self->search(
+    \[
+      q{
+        ( DATE_FORMAT(born, '%m-%d') BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
+                                       AND DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d') )
+        OR
+        (
+          DATE_FORMAT(CURDATE(), '%m-%d') > DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+          AND (
+            DATE_FORMAT(born, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
+            OR  DATE_FORMAT(born, '%m-%d') <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+          )
+        )
+      }
+    ],
+    {
+      order_by => {
+        -asc => [
+          \ "MONTH(born)",
+          \ "DAY(born)",
+          \ "YEAR(born)",
+        ],
+      },
+    },
+  );
+
+  return \@birthdays;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

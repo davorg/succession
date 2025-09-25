@@ -52,6 +52,19 @@ get '/dates' => sub {
   };
 };
 
+get '/anniversaries' => sub {
+  set layout => 'main';
+
+  my $app = Succession::App->new({
+    request => request,
+  });
+
+  template 'anniversaries', {
+    app   => $app,
+    dates => $app->model->get_anniveraries,
+  };
+};
+
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   set layout => 'main';
 

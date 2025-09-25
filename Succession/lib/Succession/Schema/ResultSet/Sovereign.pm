@@ -22,6 +22,40 @@ sub sovereign_on_date {
   });
 }
 
+sub anniversaries {
+  my $self = shift;
+
+  my @anniversaries = $self->search(
+    \[
+      q{
+        ( DATE_FORMAT(start, '%m-%d')
+            BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
+            AND     DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d') )
+        OR
+        ( DATE_FORMAT(CURDATE(), '%m-%d')
+            > DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+          AND (
+            DATE_FORMAT(start, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
+            OR  DATE_FORMAT(start, '%m-%d')
+              <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+          )
+        )
+      }
+    ],
+    {
+      order_by => {
+        -asc => [
+          \ "MONTH(start)",
+          \ "DAY(start)",
+          \ "YEAR(start)",
+        ],
+      },
+    },
+  );
+
+  return \@anniversaries;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;
