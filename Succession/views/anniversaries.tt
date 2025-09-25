@@ -1,0 +1,27 @@
+<% PROCESS util.tt -%>
+<h1>Upcoming Anniversaries and Birthdays</h1>
+<p>A list of anniversaries and birthdays that fall in the
+  next week.</p>
+
+<% IF dates.anniversaries.size -%>
+<h2>Anniversaries</h2>
+<ul>
+<%   FOR sovereign IN dates.anniversaries;
+     person = sovereign.person -%>
+<li><a href="/p/<% person.slug %>"><% person.name %></a>
+<br>(reigned <% link_date(sovereign.start) %><% IF sovereign.end %> to <% link_date(sovereign.end); END %>)
+</li>
+<%   END -%>
+</ul>
+<% END -%>
+
+<% IF dates.birthdays.size -%>
+<h2>Birthdays</h2>
+<ul>
+<%   FOR person IN dates.birthdays -%>
+<li><a href="/p/<% person.slug %>"><% person.name %></a>
+<br>(born <% link_date(person.born) %><% IF person.died %>, died <% link_date(person.died); END %>)
+</li>
+<%   END -%>
+</ul>
+<% END -%>
