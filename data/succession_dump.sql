@@ -661,6 +661,35 @@ INSERT INTO `exclusion` VALUES (17,NULL,NULL,554,'rm');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `new_child_candidate`
+--
+
+DROP TABLE IF EXISTS `new_child_candidate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `new_child_candidate` (
+  `parent_id` int(11) NOT NULL,
+  `child_label` varchar(255) NOT NULL,
+  `child_dob` date DEFAULT NULL,
+  `child_qid` varchar(32) NOT NULL,
+  `source_url` varchar(512) DEFAULT NULL,
+  `first_seen` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`parent_id`,`child_qid`),
+  KEY `idx_parent_seen` (`parent_id`,`first_seen`),
+  CONSTRAINT `fk_ncc_parent` FOREIGN KEY (`parent_id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `new_child_candidate`
+--
+
+LOCK TABLES `new_child_candidate` WRITE;
+/*!40000 ALTER TABLE `new_child_candidate` DISABLE KEYS */;
+/*!40000 ALTER TABLE `new_child_candidate` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `person`
 --
 
@@ -5817,7 +5846,7 @@ CREATE TABLE `title` (
   KEY `title_is_default` (`is_default`),
   KEY `title_person_id` (`person_id`),
   CONSTRAINT `title_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=908 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=909 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6403,7 +6432,8 @@ INSERT INTO `title` VALUES (903,'The Prince Edward, Duke of Edinburgh','2023-03-
 INSERT INTO `title` VALUES (904,'James, Earl of Wessex','2023-03-10',NULL,14,1);
 INSERT INTO `title` VALUES (905,'Ernest Brooksbank',NULL,NULL,562,1);
 INSERT INTO `title` VALUES (906,'Athena Mapelli Mozzi',NULL,NULL,563,1);
-INSERT INTO `title` VALUES (907,'The Prince Andrew','2025-10-17',NULL,5,1);
+INSERT INTO `title` VALUES (907,'The Prince Andrew','2025-10-17','2025-10-30',5,0);
+INSERT INTO `title` VALUES (908,'Andrew Mountbatten Windsor','2025-10-30',NULL,5,1);
 /*!40000 ALTER TABLE `title` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -6416,4 +6446,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-17 20:42:38
+-- Dump completed on 2025-10-30 21:47:15
