@@ -10,9 +10,9 @@
 </p>
 </div>
 
+<!--
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1486883079150066"
      crossorigin="anonymous"></script>
-<!-- person_top_responsive -->
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-1486883079150066"
@@ -22,6 +22,7 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+-->
 
 <% IF person.titles_rs.count > 1 -%>
 <div class="card-soft">
