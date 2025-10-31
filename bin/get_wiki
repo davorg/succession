@@ -1,26 +1,339 @@
-#!/usr/bin/perl
-
+#!/usr/bin/env perl
 use strict;
 use warnings;
-use feature 'say';
+use utf8;
 
-use WWW::Wikipedia;
-use Data::Dumper;
+use feature qw(say try);
+use Getopt::Long qw(GetOptions);
+use JSON::MaybeXS;
+use HTTP::Tiny;
+use URI::Escape qw(uri_escape_utf8);
+use List::Util qw(first);
+use POSIX qw(strftime);
 
 use Succession::Schema;
 
-my $person_rs = Succession::Schema->get_schema->resultset('Person');
-my $wp = WWW::Wikipedia->new;
+# -------------------------------
+# CLI options
+# -------------------------------
+my %opt = (
+  dry_run      => 0,
+  verbose      => 0,
+  limit        => 0,   # 0 = no limit
+  only_missing => 1,   # by default, skip rows with existing data
+  id           => undef,
+  sleep_ms     => 250, # polite default
+);
 
+GetOptions(
+  "dry-run!"       => \$opt{dry_run},
+  "verbose!"       => \$opt{verbose},
+  "limit=i"        => \$opt{limit},
+  "only-missing!"  => \$opt{only_missing},
+  "id=i"           => \$opt{id},
+  "sleep-ms=i"     => \$opt{sleep_ms},
+) or die "Bad options\n";
+
+my $SLEEP = $opt{sleep_ms} / 1000.0;
+
+# -------------------------------
+# Setup
+# -------------------------------
+my $schema = Succession::Schema->get_schema;
+my $json   = JSON::MaybeXS->new(utf8 => 1);
+my $http   = HTTP::Tiny->new(
+  agent      => "Succession-FillWiki/1.0 (+https://lineofsuccession.uk)",
+  timeout    => 20,
+  max_redirect => 3,
+);
+
+# Endpoints
+my $WD_SEARCH = "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&limit=7&search=";
+my $WD_GET    = "https://www.wikidata.org/wiki/Special:EntityData/"; # append QID.json
+
+# -------------------------------
+# Helpers
+# -------------------------------
+
+sub logv { say @_ if $opt{verbose} }
+
+sub sleep_a_bit { select(undef, undef, undef, $SLEEP) }
+
+# Convert DB date (YYYY-MM-DD) -> (YYYY,MM,DD)
+sub _split_date {
+  my ($d) = @_;
+  return unless $d;
+  return unless $d =~ /^(\d{4})-(\d{2})-(\d{2})$/;
+  return ($1+0, $2+0, $3+0);
+}
+
+# Wikidata time string looks like "+1959-02-19T00:00:00Z"
+sub _parse_wd_time {
+  my ($wd_time) = @_;
+  return unless defined $wd_time && $wd_time =~ /^\+?(\d{4})-(\d{2})-(\d{2})T/;
+  return ($1+0, $2+0, $3+0);
+}
+
+sub _dates_match_loose {
+  # allow some slop: just require year match; if months/days exist, check too
+  my ($db_d, $wd_time) = @_;
+  return 1 unless $db_d; # if our DB doesn't have a date, don't veto match
+  my ($y, $m, $d) = _split_date($db_d);
+  my ($wy, $wm, $wd) = _parse_wd_time($wd_time);
+  return 0 unless defined $wy;
+  return 0 unless $y == $wy;
+  # if month/day known on both sides, check them too (still loose)
+  if (defined $m && defined $wm) {
+    return 0 unless $m == $wm;
+    if (defined $d && defined $wd) {
+      return 0 unless $d == $wd;
+    }
+  }
+  return 1;
+}
+
+sub _sex_matches {
+  my ($db_sex, $entity) = @_;
+  # DB has enum('m','f'); Wikidata P21: male Q6581097, female Q6581072
+  return 1 unless $db_sex; # if unknown, don't veto
+  my $claims = $entity->{claims} || {};
+  my $p21 = $claims->{P21} || [];
+  my @vals;
+  for my $st (@$p21) {
+    my $mainsnak = $st->{mainsnak}||{};
+    my $datav    = $mainsnak->{datavalue}||{};
+    my $val      = $datav->{value}||{};
+    push @vals, $val->{id} if ref($val) eq 'HASH' && $val->{id};
+  }
+  return 1 unless @vals; # no sex listed; don't veto
+  if ($db_sex eq 'm') {
+    return !!first { $_ eq 'Q6581097' } @vals;
+  } else {
+    return !!first { $_ eq 'Q6581072' } @vals;
+  }
+}
+
+sub _claims_time {
+  my ($entity, $prop) = @_;
+  my $claims = $entity->{claims} || {};
+  my $arr    = $claims->{$prop} || [];
+  for my $st (@$arr) {
+    my $mainsnak = $st->{mainsnak}||{};
+    my $datav    = $mainsnak->{datavalue}||{};
+    my $val      = $datav->{value}||{};
+    return $val->{time} if exists $val->{time};
+  }
+  return undef;
+}
+
+sub _entity_enwiki_title {
+  my ($entity) = @_;
+  my $links = $entity->{sitelinks} || {};
+  return unless $links->{enwiki};
+  return $links->{enwiki}{title};
+}
+
+sub _enwiki_url_for_title {
+  my ($title) = @_;
+  return unless defined $title && $title ne '';
+  my $encoded = $title;
+  $encoded =~ s/ /_/g;
+  return "https://en.wikipedia.org/wiki/" . uri_escape_utf8($encoded);
+}
+
+sub _fetch_json {
+  my ($url) = @_;
+  sleep_a_bit();
+  my $res = $http->get($url);
+  return unless $res->{success};
+  my $content;
+  try {
+    $content = $json->decode($res->{content})
+  } catch ($e) {
+  };
+
+  return $content;
+}
+
+sub _fetch_entity {
+  my ($qid) = @_;
+  my $url = $WD_GET . "$qid.json";
+  my $data = _fetch_json($url) or return;
+  my $entities = $data->{entities} || {};
+  return $entities->{$qid};
+}
+
+# Given a candidate search string, query Wikidata, validate by dates/sex; return best QID and Wikipedia URL
+sub find_wikidata_for_name {
+  my (%args) = @_;
+  my $search = $args{search} or return;
+  my $born   = $args{born}; # 'YYYY-MM-DD' or undef
+  my $died   = $args{died}; # 'YYYY-MM-DD' or undef
+  my $sex    = $args{sex};  # 'm'/'f' or undef
+
+  my $url = $WD_SEARCH . uri_escape_utf8($search);
+  my $sr  = _fetch_json($url) || {};
+  my $hits = $sr->{search} || [];
+  logv("  search '$search' -> " . scalar(@$hits) . " hit(s)");
+
+  HIT:
+  for my $hit (@$hits) {
+    my $qid = $hit->{id} or next;
+    my $entity = _fetch_entity($qid) or next;
+
+    # Validate instance of human (Q5). If missing, don't veto, but prefer it.
+    my $is_human = do {
+      my $p31 = $entity->{claims}{P31} || [];
+      !!first {
+        my $v = $_->{mainsnak}{datavalue}{value};
+        ref($v) eq 'HASH' && $v->{id} && $v->{id} eq 'Q5'
+      } @$p31
+    };
+
+    my $wd_birth = _claims_time($entity, 'P569'); # birth
+    my $wd_death = _claims_time($entity, 'P570'); # death
+
+    next unless _dates_match_loose($born, $wd_birth);
+    next unless _dates_match_loose($died, $wd_death);
+    next unless _sex_matches($sex, $entity);
+
+    my $title = _entity_enwiki_title($entity); # may be undef for some items
+    my $wp_url = $title ? _enwiki_url_for_title($title) : undef;
+
+    logv(sprintf "    ✓ %s (%s) [human=%s] enwiki=%s",
+      $qid,
+      ($entity->{labels}{en}{value} // '(no label)'),
+      $is_human ? 'yes' : 'no',
+      $title // '(none)'
+    );
+
+    return ($qid, $wp_url);
+  }
+
+  return; # no acceptable hit
+}
+
+# Pull candidate display names from title table:
+#  - prefer is_default=1 titles first
+#  - then the most recent (largest start date)
+#  - also provide a simplified variant w/o commas/parentheses for search robustness
+sub candidate_names_for_person {
+  my ($person) = @_;
+  my @titles = $person->titles->search(
+    {},
+    { order_by => [{ -desc => 'is_default' }, { -desc => 'start' }], rows => 5 }
+  )->all;
+
+  my @names;
+  for my $t (@titles) {
+    next unless defined $t->title && $t->title ne '';
+    push @names, $t->title;
+    # simplified variant
+    my $simp = $t->title;
+    $simp =~ s/\s*\(.*?\)//g;   # drop parentheticals
+    $simp =~ s/,.*$//;          # drop post-comma qualifiers
+    $simp =~ s/\s{2,}/ /g;
+    $simp =~ s/^\s+|\s+$//g;
+    push @names, $simp if $simp ne $t->title && length $simp >= 3;
+  }
+
+  # de-dup while preserving order
+  my %seen;
+  @names = grep { !$seen{$_}++ } @names;
+
+  return @names;
+}
+
+# -------------------------------
+# Main loop
+# -------------------------------
+my $person_rs = $schema->resultset('Person');
+
+if (defined $opt{id}) {
+  $person_rs = $person_rs->search({ id => $opt{id} });
+} elsif ($opt{only_missing}) {
+  $person_rs = $person_rs->search({
+    -or => [
+      wikipedia     => undef,
+      wikidata_qid  => undef,
+    ]
+  });
+}
+
+my $count = 0;
+my $updated = 0;
+my $skipped = 0;
+my $failed  = 0;
+
+say sprintf "Started: %s", strftime("%Y-%m-%d %H:%M:%S", gmtime);
+
+PERSON:
 while (my $p = $person_rs->next) {
-  my $result = $wp->search($p->name);
+  last if $opt{limit} && $count >= $opt{limit};
+  $count++;
 
-  unless ($result->{src}) {
-    warn $p->name, " / ", Dumper($result), "\n";
+  my $pid   = $p->id;
+  my $born  = defined $p->born ? $p->born->ymd : undef;
+  my $died  = defined $p->died ? $p->died->ymd : undef;
+  my $sex   = $p->sex;
+
+  my $have_wp  = defined $p->wikipedia && $p->wikipedia ne '';
+  my $have_qid = defined $p->wikidata_qid && $p->wikidata_qid ne '';
+
+  if (!$opt{only_missing} && $have_wp && $have_qid) {
+    logv("[$pid] already populated; skipping");
+    $skipped++;
     next;
   }
 
-  my ($url) = $result->{src} =~ /title=(.*?)&/;
+  my @cands = candidate_names_for_person($p);
+  if (!@cands) {
+    logv("[$pid] no title candidates; skipping");
+    $failed++;
+    next;
+  }
 
-  $p->update({ wikipedia => $url });
+  logv("[$pid] trying: " . join(" | ", @cands) . " (born=$born died=" . ($died//'(n/a)') . " sex=$sex)");
+
+  my ($qid, $wp);
+  for my $name (@cands) {
+    ($qid, $wp) = find_wikidata_for_name(
+      search => $name,
+      born   => $born,
+      died   => $died,
+      sex    => $sex,
+    );
+    last if $qid;
+  }
+
+  if ($qid) {
+    # If no enwiki sitelink, leave wikipedia null (we still store QID)
+    my %update = ( wikidata_qid => $qid );
+    $update{wikipedia} = $wp if defined $wp && $wp ne '';
+
+    if ($opt{dry_run}) {
+      say sprintf "[%d] DRY-RUN would set wikidata_qid=%s, wikipedia=%s",
+        $pid, $qid, ($wp // '(none)');
+    } else {
+      try {
+        $p->update(\%update);
+      } catch ($e) {
+        warn $e;
+        next;
+      }
+      say sprintf "[%d] ✓ updated wikidata_qid=%s%s",
+        $pid, $qid, (defined $wp ? " wikipedia=$wp" : "");
+    }
+    $updated++;
+  } else {
+    say sprintf "[%d] ✗ no match found", $pid;
+    $failed++;
+  }
 }
+
+say sprintf "Done:    %s", strftime("%Y-%m-%d %H:%M:%S", gmtime);
+say sprintf "Tried:%d  Updated:%d  Skipped:%d  Failed:%d",
+  $count, $updated, $skipped, $failed;
+
+exit 0;
+

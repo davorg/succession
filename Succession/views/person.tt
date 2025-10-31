@@ -41,6 +41,12 @@
 </div>
 <% END -%>
 
+<% IF person.wikipedia -%>
+<div class="card-soft">
+<ul><li><a href="<% person.wikipedia %>">Wikipedia article</a></li></ul>
+</div>
+<% END -%>
+
 <% IF person.positions_rs.count -%>
 <div class="card-soft">
 <h2>Positions</h2>
@@ -167,6 +173,14 @@
 <ul>
 <% FOREACH child IN person.children_rs.order_by_age -%>
 <li><% link_person(child) %></li>
+<% END -%>
+</ul>
+<% END -%>
+<% IF person.siblings -%>
+<h3>Siblings</h3>
+<ul>
+<% FOREACH sibling IN person.siblings -%>
+<li><% link_person(sibling) %></li>
 <% END -%>
 </ul>
 <% END -%>

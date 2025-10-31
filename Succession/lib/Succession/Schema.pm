@@ -8,11 +8,13 @@ use Moose;
 use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Schema';
 
+__PACKAGE__->load_components("Schema::ResultSetNames");
+
 __PACKAGE__->load_namespaces;
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-12-04 17:40:32
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cqEWNsPVtEZ+VfMbuLt1MQ
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-09-25 12:04:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B7H4cY8h0acwWlCz89HTXA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
