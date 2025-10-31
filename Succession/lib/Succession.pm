@@ -3,6 +3,7 @@ use Dancer2;
 use Try::Tiny;
 
 use Succession::App;
+use Succession::Wikidata qw[get_media_for_qid get_short_bio];
 
 our $VERSION = '0.1';
 
@@ -106,9 +107,19 @@ get qr{/p/(.*)} => sub {
 
   $app->person($person);
 
+  my $qid = $person->wikidata_qid;
+  my $media = $qid ? get_media_for_qid($qid, width => 400) : {};
+
+  my $bio   = $qid ? get_short_bio(qid => $qid,
+                                   wikipedia_url => $person->wikipedia,
+                                   max_chars => 360)
+                 : {};
+
   template 'person', {
     app    => $app,
     person => $person,
+    media  => $media,
+    bio    => $bio,
   };
 };
 
