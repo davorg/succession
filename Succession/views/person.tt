@@ -10,9 +10,6 @@
     </a>
     <% IF media.caption %><figcaption><% media.caption %></figcaption><% END %>
     <br>
-    <small class="photo-credit">
-      Image via Wikimedia Commons
-    </small>
   </figure>
 <% ELSIF media.coat_of_arms %>
   <img src="<% media.coat_of_arms.url %>" alt="Coat of arms of <% person.name %>">

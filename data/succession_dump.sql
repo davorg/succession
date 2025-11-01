@@ -745,14 +745,14 @@ INSERT INTO `person` VALUES (22,'1894-06-23','1972-05-28',21,1,'m','https://en.w
 INSERT INTO `person` VALUES (23,'1900-03-31','1974-06-10',21,3,'m','https://en.wikipedia.org/wiki/Prince_Henry%2C_Duke_of_Gloucester','d7f62e-the-prince-henry-duke-of-gloucester','Q117174');
 INSERT INTO `person` VALUES (24,'1902-12-20','1942-08-25',21,4,'m','https://en.wikipedia.org/wiki/Prince_George%2C_Duke_of_Kent','8ce604-the-prince-george-duke-of-kent','Q160770');
 INSERT INTO `person` VALUES (25,'1905-07-12','1919-01-18',21,5,'m','https://en.wikipedia.org/wiki/Prince_John_of_the_United_Kingdom','b44658-prince-john','Q310488');
-INSERT INTO `person` VALUES (26,'1897-04-25','1965-03-25',21,6,'f',NULL,'1dc75a-the-princess-mary-princess-royal',NULL);
+INSERT INTO `person` VALUES (26,'1897-04-25','1965-03-25',21,6,'f','https://en.wikipedia.org/wiki/Mary,_Princess_Royal_and_Countess_of_Harewood','1dc75a-the-princess-mary-princess-royal','Q233913');
 INSERT INTO `person` VALUES (27,'1961-11-03',NULL,20,1,'m','https://en.wikipedia.org/wiki/David_Armstrong-Jones%2C_2nd_Earl_of_Snowdon','13fa6f-david-armstrong-jones-earl-of-snowdon','Q1091237');
 INSERT INTO `person` VALUES (28,'1964-05-01',NULL,20,2,'f','https://en.wikipedia.org/wiki/Lady_Sarah_Chatto','1a0dbc-lady-sarah-chatto','Q1040807');
 INSERT INTO `person` VALUES (29,'1999-07-01',NULL,27,1,'m',NULL,'8e76f4-charles-armstrong-jones-viscount-linley','Q3312300');
 INSERT INTO `person` VALUES (30,'2002-05-14',NULL,27,2,'f','https://en.wikipedia.org/wiki/Lady_Margarita_Armstrong-Jones','f8d409-lady-margarita-armstrong-jones','Q2414886');
 INSERT INTO `person` VALUES (31,'1996-07-28',NULL,28,1,'m','https://en.wikipedia.org/wiki/Samuel_Chatto','8cce27-samuel-chatto','Q4381222');
 INSERT INTO `person` VALUES (32,'1999-02-05',NULL,28,2,'m','https://en.wikipedia.org/wiki/Arthur_Chatto','a6feb1-arthur-chatto','Q3736601');
-INSERT INTO `person` VALUES (33,'1923-02-23','2011-07-11',26,1,'m',NULL,'1b0e5b-george-lascelles-the-7th-earl-of-harewood',NULL);
+INSERT INTO `person` VALUES (33,'1923-02-23','2011-07-11',26,1,'m','https://en.wikipedia.org/wiki/George_Lascelles,_7th_Earl_of_Harewood','1b0e5b-george-lascelles-the-7th-earl-of-harewood','Q336609');
 INSERT INTO `person` VALUES (34,'1950-10-21',NULL,33,1,'m','https://en.wikipedia.org/wiki/David_Lascelles%2C_8th_Earl_of_Harewood','c5f1e6-david-lascelles-the-8th-earl-of-harewood','Q619788');
 INSERT INTO `person` VALUES (35,'1953-10-05',NULL,33,2,'m','https://en.wikipedia.org/wiki/James_Lascelles','69b892-james-lascelles','Q2038298');
 INSERT INTO `person` VALUES (36,'1955-02-14',NULL,33,3,'m','https://en.wikipedia.org/wiki/Jeremy_Lascelles','7f758a-jeremy-lascelles','Q4494086');
@@ -810,10 +810,10 @@ INSERT INTO `person` VALUES (158,'1962-07-22',NULL,157,1,'f',NULL,'5785fe-cathri
 INSERT INTO `person` VALUES (159,'1990-05-09',NULL,158,1,'m',NULL,'7c627e-sebastian-ferner-johansen',NULL);
 INSERT INTO `person` VALUES (160,'1993-03-07',NULL,158,2,'f',NULL,'be3c42-f-madeleine-ferner-johansen',NULL);
 INSERT INTO `person` VALUES (161,'1963-09-27',NULL,157,1,'m',NULL,'090d6b-benedikte-ferner',NULL);
-INSERT INTO `person` VALUES (162,'1965-03-15',NULL,157,2,'m',NULL,'e6a2dc-alexander-ferner',NULL);
+INSERT INTO `person` VALUES (162,'1965-03-15',NULL,157,2,'m',NULL,'e6a2dc-alexander-ferner','Q3744493');
 INSERT INTO `person` VALUES (163,'1996-03-28',NULL,162,1,'m',NULL,'bbcb9a-edward-ferner','Q76103400');
 INSERT INTO `person` VALUES (164,'1998-04-23',NULL,162,2,'f',NULL,'6b5b7a-stella-ferner','Q76103401');
-INSERT INTO `person` VALUES (165,'1969-03-30',NULL,157,1,'f',NULL,'8b933c-elisabeth-ferner',NULL);
+INSERT INTO `person` VALUES (165,'1969-03-30',NULL,157,1,'f',NULL,'8b933c-elisabeth-ferner','Q11242397');
 INSERT INTO `person` VALUES (166,'1999-04-25',NULL,165,1,'m',NULL,'490f0a-benjamin-ferner-beckmann','Q76103402');
 INSERT INTO `person` VALUES (167,'1972-10-22',NULL,157,1,'m',NULL,'29f7e3-carl-christian-ferner','Q4592162');
 INSERT INTO `person` VALUES (168,'1937-02-21',NULL,152,1,'m','https://en.wikipedia.org/wiki/Harald_V','5e0755-harald-v-king-of-norway','Q57287');
@@ -827,7 +827,7 @@ INSERT INTO `person` VALUES (175,'2005-12-03',NULL,173,2,'f',NULL,'0d35ef-prince
 INSERT INTO `person` VALUES (176,'1924-08-21','1998-02-27',26,2,'m','https://en.wikipedia.org/wiki/Gerald_David_Lascelles','b20846-gerald-lascelles','Q2962982');
 INSERT INTO `person` VALUES (177,'1953-05-19',NULL,176,1,'m',NULL,'d9f391-henry-lascelles','Q12363856');
 INSERT INTO `person` VALUES (178,'1991-12-19',NULL,177,1,'m',NULL,'8c6476-maximilian-john-gerald-lascelles','Q75506806');
-INSERT INTO `person` VALUES (179,'1964-07-04',NULL,33,4,'m',NULL,'ace3ef-mark-lascelles',NULL);
+INSERT INTO `person` VALUES (179,'1964-07-04',NULL,33,4,'m','https://et.wikipedia.org/wiki/Mark_Lascelles','ace3ef-mark-lascelles','Q12369837');
 INSERT INTO `person` VALUES (180,'1819-05-24','1901-01-22',450,1,'f','https://en.wikipedia.org/wiki/Queen_Victoria','82e1ca-queen-victoria','Q9439');
 INSERT INTO `person` VALUES (181,'1840-11-21','1901-08-05',180,5,'f','https://en.wikipedia.org/wiki/Victoria%2C_Princess_Royal','3f7bad-victoria-princess-royal','Q116728');
 INSERT INTO `person` VALUES (182,'1859-01-27','1941-06-04',181,1,'m','https://en.wikipedia.org/wiki/Wilhelm_II','1b9b37-kaiser-wilhelm-ii','Q2677');
@@ -885,7 +885,7 @@ INSERT INTO `person` VALUES (233,'1948-04-01','2020-05-09',232,1,'m',NULL,'c28d5
 INSERT INTO `person` VALUES (234,'1872-04-22','1954-01-22',181,8,'f','https://en.wikipedia.org/wiki/Princess_Margaret_of_Prussia','33e86f-princess-margaret-of-prussia','Q61338');
 INSERT INTO `person` VALUES (235,'1893-11-24','1916-09-12',234,1,'m',NULL,'78edf7-prince-friedrich-wilhelm-of-hesse-kassel',NULL);
 INSERT INTO `person` VALUES (236,'1894-10-20','1914-10-13',234,2,'m',NULL,'bd1edd-prince-maximilian-of-hesse-kassel','Q26309270');
-INSERT INTO `person` VALUES (237,'1896-11-06','1980-10-25',234,3,'m',NULL,'1b271b-prince-philipp-of-hesse-kassel',NULL);
+INSERT INTO `person` VALUES (237,'1896-11-06','1980-10-25',234,3,'m','https://en.wikipedia.org/wiki/Philipp,_Landgrave_of_Hesse','1b271b-prince-philipp-of-hesse-kassel','Q60741');
 INSERT INTO `person` VALUES (238,'1926-08-06','2013-05-23',237,1,'m','https://en.wikipedia.org/wiki/Moritz%2C_Landgrave_of_Hesse','15427a-prince-moritz-landgrave-of-hesse','Q63284');
 INSERT INTO `person` VALUES (239,'1927-10-30','1999-01-31',237,2,'m',NULL,'0523da-prince-heinrich-of-hesse-kassel',NULL);
 INSERT INTO `person` VALUES (240,'1937-06-03','1998-01-03',237,3,'m',NULL,'31788d-prince-otto-adolf-of-hesse-kassel',NULL);
@@ -894,7 +894,7 @@ INSERT INTO `person` VALUES (242,'1896-11-06','1989-07-12',234,4,'m',NULL,'fbe78
 INSERT INTO `person` VALUES (243,'1901-05-14','1969-02-11',234,5,'m','https://en.wikipedia.org/wiki/Prince_Richard_of_Hesse','b547e6-prince-richard-wilhelm-leopold-of-hesse-kassel','Q2150403');
 INSERT INTO `person` VALUES (244,'1901-05-14','1943-10-07',234,6,'m','https://en.wikipedia.org/wiki/Prince_Christoph_of_Hesse','f4dfe3-prince-christoph-of-hesse-kassel','Q2314771');
 INSERT INTO `person` VALUES (245,'1933-01-10','2011-11-22',244,3,'f','https://en.wikipedia.org/wiki/Princess_Christina_of_Hesse','42407a-princess-christina-margarethe-of-hesse','Q6530298');
-INSERT INTO `person` VALUES (246,'1934-07-24',NULL,244,4,'f',NULL,'21519e-princess-dorothea-charlotte-karin-of-hesse','Q75383740');
+INSERT INTO `person` VALUES (246,'1934-07-24','2025-08-24',244,4,'f',NULL,'21519e-princess-dorothea-charlotte-karin-of-hesse','Q75383740');
 INSERT INTO `person` VALUES (247,'1937-03-26','2022-03-23',244,1,'m','https://en.wikipedia.org/wiki/Prince_Karl_of_Hesse','9caa75-prince-karl-adolf-andreas-of-hesse','Q2464604');
 INSERT INTO `person` VALUES (248,'1939-11-18',NULL,244,2,'m',NULL,'3e161d-prince-rainer-christoph-friedrich-of-hesse','Q1621619');
 INSERT INTO `person` VALUES (249,'1944-02-06',NULL,244,5,'f',NULL,'be29c8-princess-clarissa-alice-of-hesse','Q75383767');
@@ -907,7 +907,7 @@ INSERT INTO `person` VALUES (255,'1911-06-22','1937-11-16',252,4,'f','https://en
 INSERT INTO `person` VALUES (256,'1914-06-26','2001-11-03',252,5,'f',NULL,'35a4e1-princess-sophie-of-greece-and-denmark',NULL);
 INSERT INTO `person` VALUES (257,'1921-06-10','2021-04-09',252,1,'m','https://en.wikipedia.org/wiki/Prince_Philip%2C_Duke_of_Edinburgh','3e2f49-prince-philip-duke-of-edinburgh','Q80976');
 INSERT INTO `person` VALUES (258,'1889-07-13','1965-03-07',251,4,'f','https://en.wikipedia.org/wiki/Louise_Mountbatten','83720a-louise-mountbatten','Q115477');
-INSERT INTO `person` VALUES (259,'1892-12-06','1938-04-08',251,1,'m',NULL,'8f2fb9-george-mountbatten-2nd-marquess-of-milford-haven',NULL);
+INSERT INTO `person` VALUES (259,'1892-12-06','1938-04-08',251,1,'m','https://en.wikipedia.org/wiki/George_Mountbatten,_2nd_Marquess_of_Milford_Haven','8f2fb9-george-mountbatten-2nd-marquess-of-milford-haven','Q335129');
 INSERT INTO `person` VALUES (260,'1917-12-16','1988-05-15',259,2,'f',NULL,'880c2c-lady-tatiana-elizabeth-mountbatten','Q75381574');
 INSERT INTO `person` VALUES (261,'1919-05-12','1970-04-14',259,1,'m','https://en.wikipedia.org/wiki/David_Mountbatten%2C_3rd_Marquess_of_Milford_Haven','c906ca-david-michael-mountbatten-3rd-marquess-of-milford-haven','Q2752971');
 INSERT INTO `person` VALUES (262,'1900-06-25','1979-08-27',251,2,'m','https://en.wikipedia.org/wiki/Lord_Mountbatten','fa1db6-louis-mountbatten-1st-earl-mountbatten-of-burma','Q157068');
@@ -934,7 +934,7 @@ INSERT INTO `person` VALUES (282,'1844-08-06','1900-07-30',180,2,'m','https://en
 INSERT INTO `person` VALUES (283,'1874-10-15','1899-02-06',282,1,'m','https://en.wikipedia.org/wiki/Alfred%2C_Hereditary_Prince_of_Saxe-Coburg_and_Gotha','e06dc3-alfred-hereditary-prince-of-saxe-coburg-and-gotha','Q62477');
 INSERT INTO `person` VALUES (284,'1875-10-29','1938-07-18',282,2,'f','https://en.wikipedia.org/wiki/Marie_of_Romania','99a757-marie-of-romania','Q57666');
 INSERT INTO `person` VALUES (285,'1893-10-15','1953-04-04',284,1,'m','https://en.wikipedia.org/wiki/Carol_II_of_Romania','eae275-carol-ii-of-romania','Q212897');
-INSERT INTO `person` VALUES (286,'1920-08-08','2006-01-27',285,1,'m',NULL,'0e80c9-carol-lambrino',NULL);
+INSERT INTO `person` VALUES (286,'1920-08-08','2006-01-27',285,1,'m','https://en.wikipedia.org/wiki/Carol_Lambrino','0e80c9-carol-lambrino','Q878273');
 INSERT INTO `person` VALUES (287,'1894-10-12','1956-11-14',284,4,'f',NULL,'289620-elisabeth-of-romania',NULL);
 INSERT INTO `person` VALUES (288,'1900-01-06','1961-06-22',284,5,'f','https://en.wikipedia.org/wiki/Maria_of_Yugoslavia','b422b8-maria-of-yugoslavia','Q167387');
 INSERT INTO `person` VALUES (289,'1923-09-06','1970-11-03',288,1,'m','https://en.wikipedia.org/wiki/Peter_II_of_Yugoslavia','ef1b58-peter-ii-of-yugoslavia','Q223183');
@@ -946,8 +946,8 @@ INSERT INTO `person` VALUES (294,'1932-08-05','1998-11-12',293,1,'m',NULL,'7707a
 INSERT INTO `person` VALUES (295,'1933-12-18','1959-01-11',293,3,'f',NULL,'240491-archduchess-maria-ileana-of-austria','Q75384074');
 INSERT INTO `person` VALUES (296,'1935-05-21',NULL,293,4,'f',NULL,'633001-archduchess-alexandra-of-austria','Q75384081');
 INSERT INTO `person` VALUES (297,'1937-07-04',NULL,293,2,'m','https://en.wikipedia.org/wiki/Dominic_von_Habsburg','53b84e-archduke-dominic-of-austria','Q8561594');
-INSERT INTO `person` VALUES (298,'1939-10-02',NULL,293,5,'f',NULL,'b9520c-archduchess-maria-magdalena-of-austria','Q75384101');
-INSERT INTO `person` VALUES (299,'1942-01-15',NULL,293,6,'f',NULL,'6aba93-archduchess-elisabeth-of-austria','Q75384113');
+INSERT INTO `person` VALUES (298,'1939-10-02','2021-08-18',293,5,'f',NULL,'b9520c-archduchess-maria-magdalena-of-austria','Q75384101');
+INSERT INTO `person` VALUES (299,'1942-01-15','2019-01-01',293,6,'f',NULL,'6aba93-archduchess-elisabeth-of-austria','Q75384113');
 INSERT INTO `person` VALUES (300,'1913-01-03','1916-11-02',284,3,'m',NULL,'304e9c-prince-mircea-of-romania',NULL);
 INSERT INTO `person` VALUES (301,'1876-11-25','1936-03-02',282,3,'f','https://en.wikipedia.org/wiki/Princess_Victoria_Melita_of_Saxe-Coburg_and_Gotha','dad3d1-princess-victoria-melita-of-saxe-coburg-and-gotha','Q164500');
 INSERT INTO `person` VALUES (302,'1907-02-02','1951-10-25',301,3,'f','https://en.wikipedia.org/wiki/Grand_Duchess_Maria_Kirillovna_of_Russia','e9a4c6-grand-duchess-maria-kirillovna-of-russia','Q778200');
@@ -955,7 +955,7 @@ INSERT INTO `person` VALUES (303,'1926-10-18','1991-10-30',302,1,'m',NULL,'fab60
 INSERT INTO `person` VALUES (304,'1928-01-02','1990-09-28',302,2,'m',NULL,'74c67d-prince-karl-vladimir-ernst-heinrich-of-leiningen',NULL);
 INSERT INTO `person` VALUES (305,'1930-07-18','2005-09-24',302,5,'f',NULL,'181252-princess-kira-melita-feodora-marie-victoria-alexandra-of-leiningen',NULL);
 INSERT INTO `person` VALUES (306,'1932-05-09','1996-06-16',302,6,'f',NULL,'90311e-princess-margarita-ileana-victoria-of-leiningen',NULL);
-INSERT INTO `person` VALUES (307,'1936-01-02',NULL,302,7,'f',NULL,'ac38e0-princess-mechtilde-alexandra-of-leiningen','Q75381797');
+INSERT INTO `person` VALUES (307,'1936-01-02','2021-02-12',302,7,'f',NULL,'ac38e0-princess-mechtilde-alexandra-of-leiningen','Q75381797');
 INSERT INTO `person` VALUES (308,'1938-06-18','1998-08-29',302,3,'m',NULL,'e5dc5e-prince-friedrich-wilhelm-berthold-of-leiningen','Q75381799');
 INSERT INTO `person` VALUES (309,'1942-12-23','1943-01-12',302,4,'m',NULL,'243ce4-prince-peter-victor-of-leiningen',NULL);
 INSERT INTO `person` VALUES (310,'1909-05-09','1967-09-08',301,4,'f','https://en.wikipedia.org/wiki/Grand_Duchess_Kira_Kirillovna_of_Russia','1f5aad-grand-duchess-kira-kirillovna-of-russia','Q237341');
@@ -988,7 +988,7 @@ INSERT INTO `person` VALUES (336,'1910-04-20','1997-08-22',335,1,'m','https://en
 INSERT INTO `person` VALUES (337,'1939-08-25',NULL,336,3,'f',NULL,'d172aa-dona-gerarda-de-orleans-borbon-y-parodi-delfino','Q75384242');
 INSERT INTO `person` VALUES (338,'1941-08-23','1975-09-06',336,1,'m',NULL,'46fd69-don-alonso-de-orleans-borbon-y-parodi-delfino','Q5670371');
 INSERT INTO `person` VALUES (339,'1943-04-27',NULL,336,4,'f',NULL,'175de2-dona-beatriz-de-orleans-borbon-y-parodi-delfino','Q75384262');
-INSERT INTO `person` VALUES (340,'1947-03-01',NULL,336,2,'m',NULL,'065da9-alvaro-jaime-de-orleans-borbon-y-parodi-delfino','Q87769564');
+INSERT INTO `person` VALUES (340,'1947-03-01',NULL,336,2,'m',NULL,'065da9-alvaro-jaime-de-orleans-borbon-y-parodi-delfino','Q75384271');
 INSERT INTO `person` VALUES (341,'1912-05-28','1936-11-18',335,2,'m',NULL,'c8be00-alonso-maria-cristino-justo',NULL);
 INSERT INTO `person` VALUES (342,'1913-10-20','1974-10-04',335,3,'m',NULL,'727fe7-ataulfo-alejandro-isabelo-carlos',NULL);
 INSERT INTO `person` VALUES (343,'1846-05-25','1923-06-09',180,7,'f','https://en.wikipedia.org/wiki/Princess_Helena_of_the_United_Kingdom','ac6ccb-princess-helena-of-the-united-kingdom','Q160539');
@@ -1044,7 +1044,7 @@ INSERT INTO `person` VALUES (392,'1938-11-18',NULL,388,5,'f',NULL,'cef75a-calma-
 INSERT INTO `person` VALUES (393,'1940-11-22',NULL,388,6,'f',NULL,'9aa3c7-dagmar-schnirring',NULL);
 INSERT INTO `person` VALUES (394,'1943-01-04','1966-02-10',388,3,'m',NULL,'8135bc-peter-michael-schnirring','Q75275495');
 INSERT INTO `person` VALUES (395,'1918-11-29','1998-01-23',381,3,'m','https://en.wikipedia.org/wiki/Friedrich_Josias%2C_Prince_of_Saxe-Coburg_and_Gotha','1f3df4-friedrich-josias-prince-of-saxe-coburg-and-gotha','Q72834');
-INSERT INTO `person` VALUES (396,'1943-03-21',NULL,395,1,'m','https://en.wikipedia.org/wiki/Andreas_Prinz_von_Sachsen-Coburg_und_Gotha','68f937-andreas-prince-of-saxe-coburg-and-gotha','Q73257');
+INSERT INTO `person` VALUES (396,'1943-03-21','2025-04-03',395,1,'m','https://en.wikipedia.org/wiki/Andreas_Prinz_von_Sachsen-Coburg_und_Gotha','68f937-andreas-prince-of-saxe-coburg-and-gotha','Q73257');
 INSERT INTO `person` VALUES (397,'1949-05-22','2016-02-05',395,3,'f',NULL,'f0ee95-maria-claudia-sibylla',NULL);
 INSERT INTO `person` VALUES (398,'1951-07-15',NULL,395,4,'f',NULL,'5f2467-beatrice-charlotte',NULL);
 INSERT INTO `person` VALUES (399,'1955-10-18','2011-08-30',395,2,'m',NULL,'b23891-prince-adrian-of-saxe-coburg-and-gotha','Q6352984');
@@ -1089,8 +1089,8 @@ INSERT INTO `person` VALUES (437,'1985-06-08',NULL,35,2,'m',NULL,'b67ee9-tewa-la
 INSERT INTO `person` VALUES (438,'1982-09-07',NULL,36,1,'m',NULL,'49ba15-thomas-lascelles','Q75381855');
 INSERT INTO `person` VALUES (439,'1984-12-17',NULL,36,2,'f',NULL,'995ff6-ellen-lascelles','Q75381856');
 INSERT INTO `person` VALUES (440,'1986-06-26',NULL,36,3,'f',NULL,'79e63b-amy-lascelles','Q75383822');
-INSERT INTO `person` VALUES (441,'2005-12-01',NULL,36,4,'f',NULL,'23d22a-tallulah-lascelles',NULL);
-INSERT INTO `person` VALUES (442,'1738-06-04','1820-01-29',473,1,'m',NULL,'025889-king-george-iii',NULL);
+INSERT INTO `person` VALUES (441,'2005-12-01',NULL,36,4,'f',NULL,'23d22a-tallulah-lascelles','Q75730196');
+INSERT INTO `person` VALUES (442,'1738-06-04','1820-01-29',473,1,'m','https://en.wikipedia.org/wiki/George_III','025889-king-george-iii','Q127318');
 INSERT INTO `person` VALUES (443,'1762-08-12','1830-06-26',442,1,'m','https://en.wikipedia.org/wiki/George_IV','e5f5b9-king-george-iv','Q130586');
 INSERT INTO `person` VALUES (444,'1796-01-07','1817-11-06',443,1,'f','https://en.wikipedia.org/wiki/Princess_Charlotte_of_Wales_%281796%E2%80%931817%29','2b942a-princess-charlotte-augusta-of-wales','Q132440');
 INSERT INTO `person` VALUES (445,'1763-08-16','1827-01-05',442,2,'m','https://en.wikipedia.org/wiki/Prince_Frederick%2C_Duke_of_York_and_Albany','df16b1-prince-frederick-duke-of-york','Q213573');
@@ -1101,14 +1101,14 @@ INSERT INTO `person` VALUES (449,'1766-09-29','1828-10-06',442,10,'f',NULL,'79b4
 INSERT INTO `person` VALUES (450,'1767-11-02','1820-01-23',442,4,'m','https://en.wikipedia.org/wiki/Prince_Edward%2C_Duke_of_Kent_and_Strathearn','73266f-prince-edward-duke-of-kent','Q157009');
 INSERT INTO `person` VALUES (451,'1768-11-08','1840-09-22',442,11,'f','https://en.wikipedia.org/wiki/Princess_Augusta_Sophia_of_the_United_Kingdom','088edf-princess-augusta-sophia','Q241233');
 INSERT INTO `person` VALUES (452,'1770-05-22','1840-01-10',442,12,'f','https://en.wikipedia.org/wiki/Princess_Elizabeth_of_the_United_Kingdom','72b60b-princess-elizabeth','Q234482');
-INSERT INTO `person` VALUES (453,'1771-06-05','1851-11-18',442,5,'m',NULL,'410146-ernest-augustus-i-of-hanover',NULL);
+INSERT INTO `person` VALUES (453,'1771-06-05','1851-11-18',442,5,'m','https://en.wikipedia.org/wiki/Ernest_Augustus,_King_of_Hanover','410146-ernest-augustus-i-of-hanover','Q162302');
 INSERT INTO `person` VALUES (454,'1819-05-27','1878-06-12',453,1,'m','https://en.wikipedia.org/wiki/George_V_of_Hanover','0c50e5-george-v-of-hanover','Q57428');
 INSERT INTO `person` VALUES (455,'1845-09-21','1923-11-14',454,1,'m',NULL,'e6ec74-ernest-augustus-crown-prince-of-hanover',NULL);
 INSERT INTO `person` VALUES (456,'1848-01-09','1926-10-16',454,2,'f','https://en.wikipedia.org/wiki/Princess_Frederica_of_Hanover','c0d9f3-princess-frederica-of-hanover','Q70766');
 INSERT INTO `person` VALUES (457,'1849-12-03','1904-06-04',454,3,'f',NULL,'4533ff-princess-marie-of-hanover',NULL);
 INSERT INTO `person` VALUES (458,'1773-01-27','1843-04-21',442,6,'m','https://en.wikipedia.org/wiki/Prince_Augustus_Frederick%2C_Duke_of_Sussex','6915ab-prince-augustus-duke-of-sussex','Q375467');
 INSERT INTO `person` VALUES (459,'1774-02-24','1850-07-08',442,7,'m','https://en.wikipedia.org/wiki/Prince_Adolphus%2C_Duke_of_Cambridge','c57243-prince-adolphus-duke-of-cambridge','Q313771');
-INSERT INTO `person` VALUES (460,'1819-03-28','1904-03-17',459,1,'m',NULL,'40a361-prince-george-duke-of-cambridge',NULL);
+INSERT INTO `person` VALUES (460,'1819-03-28','1904-03-17',459,1,'m','https://en.wikipedia.org/wiki/Prince_George,_Duke_of_Cambridge','40a361-prince-george-duke-of-cambridge','Q435182');
 INSERT INTO `person` VALUES (461,'1822-07-19','1916-12-05',459,2,'f','https://en.wikipedia.org/wiki/Princess_Augusta_of_Cambridge','9dc037-princess-augusta-of-cambridge','Q61328');
 INSERT INTO `person` VALUES (462,'1848-07-22','1914-06-11',461,1,'m','https://en.wikipedia.org/wiki/Adolphus_Frederick_V','4fcadc-adolf-friedrich-v-grand-duke-of-mecklenberg-strelitz','Q361740');
 INSERT INTO `person` VALUES (463,'1833-11-27','1897-10-27',459,3,'f','https://en.wikipedia.org/wiki/Princess_Mary_Adelaide_of_Cambridge','b42a68-princess-mary-adelaide-of-cambridge','Q233997');
@@ -1121,9 +1121,9 @@ INSERT INTO `person` VALUES (469,'1777-11-03','1848-05-27',442,14,'f','https://e
 INSERT INTO `person` VALUES (470,'1779-02-23','1783-05-03',442,8,'m','https://en.wikipedia.org/wiki/Prince_Octavius_of_Great_Britain','22ca11-prince-octavius','Q2013921');
 INSERT INTO `person` VALUES (471,'1780-09-22','1782-08-02',442,9,'m',NULL,'42ac07-prince-alfred',NULL);
 INSERT INTO `person` VALUES (472,'1783-08-07','1810-11-02',442,15,'f','https://en.wikipedia.org/wiki/Princess_Amelia_of_the_United_Kingdom','5ffe52-princess-amelia','Q257604');
-INSERT INTO `person` VALUES (473,'1707-02-01','1751-03-31',NULL,1,'m',NULL,'8c760e-frederick-prince-of-wales',NULL);
+INSERT INTO `person` VALUES (473,'1707-02-01','1751-03-31',NULL,1,'m','https://en.wikipedia.org/wiki/Frederick,_Prince_of_Wales','8c760e-frederick-prince-of-wales','Q165349');
 INSERT INTO `person` VALUES (474,'1737-07-31','1813-03-23',473,6,'f','https://en.wikipedia.org/wiki/Princess_Augusta_of_Great_Britain','f74bb8-princess-augusta-duchess-of-brunswick','Q238458');
-INSERT INTO `person` VALUES (475,'1764-12-03','1788-09-27',474,5,'f',NULL,'ae1989-auguste-caroline-friederike-luise',NULL);
+INSERT INTO `person` VALUES (475,'1764-12-03','1788-09-27',474,5,'f','https://en.wikipedia.org/wiki/Duchess_Augusta_of_Brunswick-Wolfenb%C3%BCttel','ae1989-auguste-caroline-friederike-luise','Q220823');
 INSERT INTO `person` VALUES (476,'1781-09-27','1864-06-25',475,1,'m','https://en.wikipedia.org/wiki/William_I_of_W%C3%BCrttemberg','44f4cf-william-i-of-wurttemberg','Q170398');
 INSERT INTO `person` VALUES (477,'1783-02-21','1835-11-29',475,3,'f','https://en.wikipedia.org/wiki/Catharina_of_W%C3%BCrttemberg','f68d06-catharina-of-wurttemberg','Q236184');
 INSERT INTO `person` VALUES (478,'1783-12-24','1784-10-03',475,4,'f',NULL,'29b558-princess-sophia-dorothea-of-wurttemberg',NULL);
@@ -1133,7 +1133,7 @@ INSERT INTO `person` VALUES (481,'1768-05-17','1821-08-07',474,5,'f',NULL,'8345d
 INSERT INTO `person` VALUES (482,'1796-01-07','1817-11-06',481,1,'f',NULL,'87e6ef-princess-charlotte-of-wales',NULL);
 INSERT INTO `person` VALUES (483,'1769-06-27','1811-09-16',474,2,'m',NULL,'bbd262-georg-wilhelm-christian','Q75381535');
 INSERT INTO `person` VALUES (484,'1770-08-18','1822-12-18',474,3,'m',NULL,'a280a6-august',NULL);
-INSERT INTO `person` VALUES (485,'1771-10-09','1815-06-16',474,4,'m',NULL,'d07a9f-friedrich-wilhelm',NULL);
+INSERT INTO `person` VALUES (485,'1771-10-09','1815-06-16',474,4,'m','https://en.wikipedia.org/wiki/Frederick_William,_Duke_of_Brunswick-Wolfenb%C3%BCttel','d07a9f-friedrich-wilhelm','Q62029');
 INSERT INTO `person` VALUES (486,'1804-10-30','1873-08-18',485,1,'m',NULL,'0c339e-charles-ii-duke-of-brunswick',NULL);
 INSERT INTO `person` VALUES (487,'1806-04-25','1884-10-18',485,2,'m','https://en.wikipedia.org/wiki/William%2C_Duke_of_Brunswick','e54100-william-duke-of-brunswick','Q62667');
 INSERT INTO `person` VALUES (488,'1772-11-22','1773-04-02',474,7,'f',NULL,'9528b6-amelie-karoline-dorothea-luise','Q75388744');
@@ -1165,7 +1165,7 @@ INSERT INTO `person` VALUES (513,'1818-06-17','1877-06-03',476,3,'f','https://en
 INSERT INTO `person` VALUES (514,'1840-09-04','1879-06-11',513,1,'m','https://en.wikipedia.org/wiki/William%2C_Prince_of_Orange','620667-william-prince-of-orange','Q587967');
 INSERT INTO `person` VALUES (515,'1843-09-15','1850-06-06',513,2,'m',NULL,'ac3fd8-prince-maurice-of-the-netherlands',NULL);
 INSERT INTO `person` VALUES (516,'1851-08-25','1884-06-21',513,3,'m','https://en.wikipedia.org/wiki/Alexander%2C_Prince_of_Orange','fe0a9a-alexander-prince-of-orange','Q1938760');
-INSERT INTO `person` VALUES (517,'1807-01-09','1873-02-02',479,4,'f',NULL,'bd6385-friederike-charlotte-marie',NULL);
+INSERT INTO `person` VALUES (517,'1807-01-09','1873-02-02',479,4,'f','https://en.wikipedia.org/wiki/Princess_Charlotte_of_W%C3%BCrttemberg','025dca-princess-charlotte-of-wurttemberg','Q60232');
 INSERT INTO `person` VALUES (518,'1808-02-21','1870-05-09',479,1,'m',NULL,'ac86fa-frederick-karl-august',NULL);
 INSERT INTO `person` VALUES (519,'1809-03-07','1810-05-28',479,2,'m',NULL,'474d4c-paul-friedrich',NULL);
 INSERT INTO `person` VALUES (520,'1810-02-25','1856-07-07',479,5,'f','https://en.wikipedia.org/wiki/Princess_Pauline_of_W%C3%BCrttemberg_%281810%E2%80%931856%29','d8aa20-pauline-friederike-marie','Q236501');
@@ -1180,7 +1180,7 @@ INSERT INTO `person` VALUES (528,'1899-08-18','1941-11-05',527,1,'m',NULL,'114a3
 INSERT INTO `person` VALUES (529,'1901-10-30','1976-06-08',527,2,'m',NULL,'a0d5d8-prince-dietrich-of-wied','Q75323765');
 INSERT INTO `person` VALUES (530,'1880-07-28','1880-12-28',526,2,'m',NULL,'6c3b04-prince-ulrich-of-wurttemberg',NULL);
 INSERT INTO `person` VALUES (531,'1823-03-06','1891-10-06',476,1,'m','https://en.wikipedia.org/wiki/Charles_I_of_W%C3%BCrttemberg','851d93-charles-i-of-wurttemberg','Q57440');
-INSERT INTO `person` VALUES (532,'1826-01-04','1898-12-03',476,5,'f',NULL,'04ac24-princess-augusta-of-wurttemberg',NULL);
+INSERT INTO `person` VALUES (532,'1826-01-04','1898-12-03',476,5,'f','https://en.wikipedia.org/wiki/Princess_Augusta_of_W%C3%BCrttemberg','04ac24-princess-augusta-of-wurttemberg','Q632966');
 INSERT INTO `person` VALUES (533,'1852-07-25','1904-05-17',532,5,'f','https://en.wikipedia.org/wiki/Princess_Pauline_of_Saxe-Weimar-Eisenach','1381a6-princess-pauline-of-saxe-weimar-eisenach','Q458060');
 INSERT INTO `person` VALUES (534,'1876-06-10','1923-04-24',533,1,'m','https://en.wikipedia.org/wiki/William_Ernest%2C_Grand_Duke_of_Saxe-Weimar-Eisenach','f211f7-william-ernest-grand-duke-of-saxe-weimar-eisenach','Q58037');
 INSERT INTO `person` VALUES (535,'1911-03-20','1988-11-21',534,4,'f',NULL,'3cdb13-princess-sophia-of-saxe-weimar-eisenach',NULL);
@@ -1188,7 +1188,7 @@ INSERT INTO `person` VALUES (536,'1912-07-28','1988-10-14',534,1,'m',NULL,'f9199
 INSERT INTO `person` VALUES (537,'1917-03-03','1986-03-23',534,2,'m',NULL,'ad53c4-prince-bernhard-of-saxe-weimar-eisenach',NULL);
 INSERT INTO `person` VALUES (538,'1921-11-24','2011-03-11',534,3,'m',NULL,'cc5470-prince-georg-of-saxe-weimar-eisenach',NULL);
 INSERT INTO `person` VALUES (539,'1878-04-18','1900-10-01',533,2,'m','https://en.wikipedia.org/wiki/Prince_Bernhard_of_Saxe-Weimar-Eisenach_%281878%E2%80%931900%29','003bb4-prince-bernhard-of-saxe-weimar-eisenach','Q643298');
-INSERT INTO `person` VALUES (540,'1852-12-21','1924-12-15',532,1,'m',NULL,'8b42aa-prince-wilhelm-of-saxe-weimar-eisenach',NULL);
+INSERT INTO `person` VALUES (540,'1852-12-21','1924-12-15',532,1,'m','https://en.wikipedia.org/wiki/Prince_Wilhelm_of_Saxe-Weimar-Eisenach','8b42aa-prince-wilhelm-of-saxe-weimar-eisenach','Q7244277');
 INSERT INTO `person` VALUES (541,'1886-02-14','1964-06-06',540,1,'m','https://en.wikipedia.org/wiki/Prince_Hermann_of_Saxe-Weimar-Eisenach_%281886%E2%80%931964%29','7f2814-prince-hermann-of-saxe-weimar-eisenach','Q7244075');
 INSERT INTO `person` VALUES (542,'1886-12-23','1918-09-09',540,2,'m',NULL,'5e7d7e-prince-albrecht-wilhelm-of-sachsen-weimar-eisenac',NULL);
 INSERT INTO `person` VALUES (543,'1888-07-25','1913-09-18',540,3,'f','https://en.wikipedia.org/wiki/Princess_Sophie_of_Saxe-Weimar-Eisenach_%281888%E2%80%931913%29','db0e8c-princess-sophie-of-saxe-weimar-eisenach','Q7244832');
@@ -6370,7 +6370,7 @@ INSERT INTO `title` VALUES (841,'Princess Sophie of Württemberg',NULL,NULL,513,
 INSERT INTO `title` VALUES (842,'William, Prince of Orange',NULL,NULL,514,1);
 INSERT INTO `title` VALUES (843,'Prince Maurice of the Netherlands',NULL,NULL,515,1);
 INSERT INTO `title` VALUES (844,'Alexander, Prince of Orange',NULL,NULL,516,1);
-INSERT INTO `title` VALUES (845,'Friederike Charlotte Marie',NULL,NULL,517,1);
+INSERT INTO `title` VALUES (845,'Princess Charlotte of Württemberg',NULL,NULL,517,1);
 INSERT INTO `title` VALUES (846,'Frederick Karl August',NULL,NULL,518,1);
 INSERT INTO `title` VALUES (847,'Paul Friedrich',NULL,NULL,519,1);
 INSERT INTO `title` VALUES (848,'Pauline Friederike Marie',NULL,NULL,520,1);
@@ -6446,4 +6446,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-31 11:37:41
+-- Dump completed on 2025-11-01 17:32:28
