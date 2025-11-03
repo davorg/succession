@@ -1,11 +1,12 @@
 package Succession::WikiData::Entity;
 
-use feature qw(signatures try);
-no warnings qw(experimental::signatures experimental::try);
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
 use utf8;
 
 use Moo;
 use HTTP::Tiny;
+use Try::Tiny;
 use JSON::MaybeXS ();
 
 # ----------------------------
@@ -60,8 +61,8 @@ sub _fetch_and_follow_redirects {
     try {
       $res = $self->http->get($url);
     }
-    catch ($e) {
-      die "HTTP error fetching $url: $e";
+    catch {
+      die "HTTP error fetching $url: $_";
     };
 
     die "HTTP $res->{status} $res->{reason} for $url" unless $res->{success};
@@ -70,8 +71,8 @@ sub _fetch_and_follow_redirects {
     try {
       $doc = $self->json->decode($res->{content});
     }
-    catch ($e) {
-      die "JSON decode failed for $current: $e";
+    catch {
+      die "JSON decode failed for $current: $_";
     };
 
     # keep last raw document
