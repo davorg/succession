@@ -1,15 +1,35 @@
 #!/bin/bash
+set -euo pipefail
 
-dir=$(dirname "$0")
+dir="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=bin/func_defs
 . "$dir/func_defs"
 
 check_vars
+mkdir -p "$dir/../data"
 
-echo Dumping database
-mysqldump --skip-extended-insert \
-  -h"$SUCC_DB_HOST" \
-  -P"${SUCC_DB_PORT:-3306}" \
-  -u"$SUCC_DB_USER" \
-  -p"$SUCC_DB_PASS" \
-  "$SUCC_DB_NAME" > data/succession_dump.sql
+if is_sqlite; then
+  db="$(sqlite_db_path)"
+  out="$dir/../data/succession_dump.sql"
+  echo "Dumping SQLite: $db → $out"
+  # --safe: emit PRAGMAs to load fast, then full .dump, then ANALYZE
+  {
+    echo "PRAGMA foreign_keys=OFF;"
+    echo "BEGIN;"
+    sqlite3 "$db" .dump
+    echo "COMMIT;"
+    echo "ANALYZE;"
+  } > "$out"
+else
+  out="$dir/../data/succession_dump.sql"
+  echo "Dumping MySQL: $SUCC_DB_NAME@$SUCC_DB_HOST → $out"
+  mysqldump --skip-extended-insert \
+    -h"$SUCC_DB_HOST" \
+    -P"${SUCC_DB_PORT:-3306}" \
+    -u"$SUCC_DB_USER" \
+    -p"$SUCC_DB_PASS" \
+    "$SUCC_DB_NAME" > "$out"
+fi
+
+echo "Wrote $out"
+

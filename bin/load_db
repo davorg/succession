@@ -1,16 +1,35 @@
 #!/bin/bash
+set -euo pipefail
 
-dir=$(dirname "$0")
+dir="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=bin/func_defs
 . "$dir/func_defs"
 
 check_vars
 
-echo Loading database
-mysql \
-  -h"$SUCC_DB_HOST" \
-  -P"${SUCC_DB_PORT:-3306}" \
-  -u"$SUCC_DB_USER" \
-  -p"$SUCC_DB_PASS" \
-  "$SUCC_DB_NAME" < data/succession_dump.sql
+in="$dir/../data/succession_dump.sql"
+[[ -f "$in" ]] || { echo "Missing $in" >&2; exit 1; }
+
+if is_sqlite; then
+  db="$(sqlite_db_path)"
+  echo "Loading into SQLite: $db"
+  # Use sqlite3; foreign_keys OFF during import for speed, then ON + integrity check
+  sqlite3 "$db" <<SQL
+PRAGMA foreign_keys=OFF;
+.read '$in';
+PRAGMA foreign_keys=ON;
+PRAGMA integrity_check;
+ANALYZE;
+SQL
+else
+  echo "Loading into MySQL: $SUCC_DB_NAME@$SUCC_DB_HOST"
+  mysql \
+    -h"$SUCC_DB_HOST" \
+    -P"${SUCC_DB_PORT:-3306}" \
+    -u"$SUCC_DB_USER" \
+    -p"$SUCC_DB_PASS" \
+    "$SUCC_DB_NAME" < "$in"
+fi
+
+echo "Load complete."
 

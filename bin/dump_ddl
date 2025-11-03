@@ -1,16 +1,29 @@
 #!/bin/bash
+set -euo pipefail
 
-dir=$(dirname "$0")
+dir="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=bin/func_defs
 . "$dir/func_defs"
 
 check_vars
+mkdir -p "$dir/../../data"
 
-echo Dumping database
-mysqldump --skip-extended-insert \
-  -h"$SUCC_DB_HOST" \
-  -P"${SUCC_DB_PORT:-3306}" \
-  -u"$SUCC_DB_USER" \
-  -p"$SUCC_DB_PASS" \
-  --no-data \
-  "$SUCC_DB_NAME" > data/succession.ddl
+out="$dir/../../data/succession.ddl"
+
+if is_sqlite; then
+  db="$(sqlite_db_path)"
+  echo "Dumping SQLite DDL: $db → $out"
+  # .schema prints CREATE statements (tables, indexes, triggers, views)
+  sqlite3 "$db" .schema > "$out"
+else
+  echo "Dumping MySQL DDL: $SUCC_DB_NAME@$SUCC_DB_HOST → $out"
+  mysqldump --no-data \
+    -h"$SUCC_DB_HOST" \
+    -P"${SUCC_DB_PORT:-3306}" \
+    -u"$SUCC_DB_USER" \
+    -p"$SUCC_DB_PASS" \
+    "$SUCC_DB_NAME" > "$out"
+fi
+
+echo "Wrote $out"
+
