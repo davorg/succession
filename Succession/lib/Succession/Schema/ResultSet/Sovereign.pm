@@ -1,11 +1,9 @@
 package Succession::Schema::ResultSet::Sovereign;
 
-use Moose;
-use MooseX::NonMoose;
+use strict;
+use warnings;
 
-extends 'DBIx::Class::ResultSet';
-
-sub BUILDARGS { $_[2] }
+use parent 'DBIx::Class::ResultSet';
 
 sub sovereign_on_date {
   my $self = shift;
@@ -22,40 +20,64 @@ sub sovereign_on_date {
   });
 }
 
+sub _is_sqlite {
+  my $self = shift;
+  return $self->result_source->schema->storage->dbh->{Driver}{Name} eq 'SQLite';
+}
+
 sub anniversaries {
   my $self = shift;
 
-  my @anniversaries = $self->search(
-    \[
-      q{
-        ( DATE_FORMAT(start, '%m-%d')
-            BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
-            AND     DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d') )
-        OR
-        ( DATE_FORMAT(CURDATE(), '%m-%d')
-            > DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
-          AND (
-            DATE_FORMAT(start, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
-            OR  DATE_FORMAT(start, '%m-%d')
-              <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
-          )
+  my ($where_sql, @order);
+  if ($self->_is_sqlite) {
+    $where_sql = q{
+      (
+        strftime('%m-%d', start)
+          BETWEEN strftime('%m-%d','now')
+              AND strftime('%m-%d','now','+7 day')
+      )
+      OR
+      (
+        strftime('%m-%d','now') > strftime('%m-%d','now','+7 day')
+        AND (
+          strftime('%m-%d', start) >= strftime('%m-%d','now')
+          OR  strftime('%m-%d', start) <= strftime('%m-%d','now','+7 day')
         )
-      }
-    ],
+      )
+    };
+    @order = (
+      \q{CAST(strftime('%m', start) AS INTEGER)},
+      \q{CAST(strftime('%d', start) AS INTEGER)},
+      \q{CAST(strftime('%Y', start) AS INTEGER)},
+    );
+  } else {
+    $where_sql = q{
+      (
+        DATE_FORMAT(start, '%m-%d')
+          BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
+              AND DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+      )
+      OR
+      (
+        DATE_FORMAT(CURDATE(), '%m-%d') > DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+        AND (
+          DATE_FORMAT(start, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
+          OR  DATE_FORMAT(start, '%m-%d') <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+        )
+      )
+    };
+    @order = ( \q{MONTH(start)}, \q{DAY(start)}, \q{YEAR(start)} );
+  }
+
+  my @rows = $self->search(
+    [ \ $where_sql ],
     {
-      order_by => {
-        -asc => [
-          \ "MONTH(start)",
-          \ "DAY(start)",
-          \ "YEAR(start)",
-        ],
-      },
+      rows     => 200,                         # optional
+      order_by => { -asc => \@order },
     },
-  );
+  )->all;
 
-  return \@anniversaries;
+  return \@rows;
 }
-
-__PACKAGE__->meta->make_immutable;
 
 1;
