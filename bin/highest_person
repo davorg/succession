@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature qw[say state];
+
+use File::Basename;
+
+use Succession::Schema;
+
+my $sch = Succession::Schema->get_schema;
+
+unless (@ARGV >= 2) {
+  die 'Usage: ' . basename $0 . " person1_id person2_id\n";
+}
+
+my $person1 = get_person($ARGV[0]);
+my $person2 = get_person($ARGV[1]);
+
+my @ancestry1 = $person1->ancestors;
+my @ancestry2 = $person2->ancestors;
+
+my $i = -1;
+my $gen = 0;
+
+while (1) {
+  my $p1 = $ancestry1[$i];
+  my $p2 = $ancestry2[$i];
+
+  if ($p1->id == $p2->id) {
+    say $gen++ . ': ' . $p1->name;
+  } else {
+    say "$gen: " .
+        $p1->name . ' (' . $p1->family_order . ') -> ' . $person1->name . ' / ' .
+        $p2->name . ' (' . $p2->family_order . ') -> ' . $person2->name;
+    last;
+  }
+
+  --$i;
+}
+
+sub get_person {
+  my ($id) = @_;
+
+  state $rs = Succession::Schema->get_schema->resultset('Person');
+
+  my $person = $rs->find($id);
+
+  die "Person [$id] not found\n" unless $person;
+
+  return $person;
+}

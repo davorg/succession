@@ -1,0 +1,53 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Getopt::Long qw(GetOptions);
+
+use Succession::Schema;
+
+my %opt;
+
+GetOptions(
+  \%opt,
+  'id=i',
+  'born=s',
+  'died:s',
+  'sex=s',
+  'name=s',
+);
+
+$opt{died} //= undef;
+
+$opt{sex} = lc $opt{sex};
+
+my @errors;
+
+unless ($opt{sex} =~ /^[mf]$/) {
+  push @errors, "Invalid sex: $opt{sex}";
+}
+
+for (qw[born died]) {
+  next unless defined $opt{$_};
+
+  push @errors, "Invalid $_: $opt{$_}" unless $opt{$_} =~ /^\d{4}-\d{2}-\d{2}$/;
+}
+
+if (@errors) {
+  die join("\n", @errors), "\n";
+}
+
+my $rs = Succession::Schema->get_schema->resultset('Person');
+
+my $parent = $rs->find($opt{id});
+
+my $child = $parent->add_child({
+  name => $opt{name},
+  sex  => $opt{sex},
+  born => $opt{born},
+  died => $opt{died},
+});
+
+say 'Added ', $child->name, ' (child of ', $parent->name, ')';

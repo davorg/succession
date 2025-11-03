@@ -1,0 +1,160 @@
+#!/usr/bin/env perl
+use strict; use warnings;
+use feature 'say';
+use JSON::PP qw(decode_json);
+use HTTP::Tiny;
+use URI::Escape qw(uri_escape);
+
+use lib 'lib';
+use Succession::Schema;
+
+# ---- config ---------------------------------------------------------------
+my $SEARCH_LIMIT   = 10;     # candidates per name
+my $RETRY_MAX      = 6;      # retries on 5xx/timeout
+my $BASE_SLEEP     = 0.4;    # base delay between calls (sec)
+my $UA_STRING      = 'SuccessionQIDResolver/2.0 (+contact: dave@lineofsuccession.co.uk)';
+# --------------------------------------------------------------------------
+
+my $schema = Succession::Schema->get_schema;
+
+my $http = HTTP::Tiny->new(
+  agent           => $UA_STRING,
+  timeout         => 20,                 # bump default
+  default_headers => { 'Accept' => 'application/json' },
+);
+
+sub sleep_backoff {
+  my ($attempt) = @_;
+  my $delay = $BASE_SLEEP * (2 ** $attempt) + (rand() * 0.2);
+  select undef, undef, undef, $delay;
+}
+
+sub get_json {
+  my ($url) = @_;
+  for my $i (0 .. $RETRY_MAX) {
+    my $res = $http->get($url);
+    if ($res->{success}) {
+      return decode_json($res->{content});
+    }
+    my $status = $res->{status} || 0;
+    my $retry  = ($status >= 500 || $status == 429);
+    warn sprintf "HTTP %s on %s%s\n",
+      $status, $url, ($retry && $i < $RETRY_MAX ? " — retrying" : "");
+    last unless $retry && $i < $RETRY_MAX;
+    sleep_backoff($i);
+  }
+  return undef;
+}
+
+sub en_date_from_claims {
+  my ($claims, $pid) = @_;
+  return undef unless $claims && $claims->{$pid} && @{$claims->{$pid}};
+  my $snak = $claims->{$pid}[0]{mainsnak};
+  return undef unless $snak && $snak->{datavalue} && $snak->{datavalue}{value};
+  my $time = $snak->{datavalue}{value}{time} // '';  # e.g. "+1738-06-04T00:00:00Z"
+  $time =~ s/^\+//;
+  $time =~ s/T.*//;
+  return $time;                                      # "1738-06-04" (or "1738-00-00")
+}
+
+sub search_qids_by_name_year {
+  my ($name, $year) = @_;
+  my $query = $name;
+  $query .= " $year" if $year;
+  my $url = sprintf(
+    'https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&limit=%d&search=%s',
+    $SEARCH_LIMIT, uri_escape($query)
+  );
+  my $json = get_json($url) or return [];
+  my @ids = map { $_->{id} } @{ $json->{search} // [] };
+  return \@ids;
+}
+
+sub get_entities_map {
+  my (@qids) = @_;
+  return {} unless @qids;
+  my $url = 'https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&props=labels|claims|sitelinks&languages=en&ids='
+          . join('%7C', @qids); # pipe-separated, URL-encoded
+  my $json = get_json($url) or return {};
+  return $json->{entities} || {};
+}
+
+# prefer default title; else most recent; else slug->titlecase
+sub display_name_for_person {
+  my ($p) = @_;
+  my $t = $p->titles->search({}, { order_by => [{ -desc => 'is_default' }, { -desc => 'start' }], rows => 1 })->single;
+  return $t->title if $t && defined $t->title && $t->title ne '';
+  my $s = $p->slug // '';
+  $s =~ s/-/ /g; $s =~ s/\b(\w)/\U$1/g;
+  return $s || '(unknown)';
+}
+
+# ---- main ----------------------------------------------------------------
+
+my $people = $schema->resultset('Person')->search(
+  { wikidata_qid => undef },
+  { order_by => 'born' }
+);
+
+PERSON: while (my $p = $people->next) {
+  my $id   = $p->id;
+  my $dob  = $p->born;                   # YYYY-MM-DD (your schema says NOT NULL)
+  my ($y)  = $dob =~ /^(\d{4})/;
+  my $name = display_name_for_person($p);
+
+  say "[$id] $name (born $dob)";
+
+  # 1) Search by name + birth year (fast, cheap)
+  my $qids = search_qids_by_name_year($name, $y);
+  if (!@$qids) { say "  No candidates found via search."; next PERSON; }
+
+  # 2) Fetch entities and filter by P569 (DOB)
+  my $entities = get_entities_map(@$qids);
+  my @cands;
+  for my $qid (@$qids) {
+    my $e = $entities->{$qid} or next;
+    my $claim_dob = en_date_from_claims($e->{claims}, 'P569') // '';
+    # allow exact date match first; if Wikidata only has year or year-month (00-00), accept year match
+    my $score = 0;
+    $score = 3 if $claim_dob eq $dob;
+    $score = 2 if !$score && $claim_dob =~ /^\Q$y\E(?:-|$)/;  # same year (possibly year-month only)
+    next unless $score;
+
+    my $label = $e->{labels}{en}{value} // '';
+    my $enwp  = $e->{sitelinks}{enwiki}{title} // '';
+    push @cands, { qid=>$qid, label=>$label, dob=>$claim_dob, enwiki=>$enwp, score=>$score };
+  }
+
+  if (!@cands) {
+    say "  Candidates found, but none with matching DOB/year.";
+    next PERSON;
+  }
+
+  # prefer exact DOB; tie-break with enwiki present
+  @cands = sort {
+    $b->{score} <=> $a->{score}
+      || (!!$b->{enwiki} <=> !!$a->{enwiki})
+  } @cands;
+
+  my $best = $cands[0];
+  # if multiple exact-dob matches, just show options and skip (to avoid accidental mis-assign)
+  if (@cands > 1 && $cands[0]{score} == $cands[1]{score}) {
+    say "  Multiple plausible matches — review manually:";
+    my $i = 0;
+    for (@cands) {
+      printf "    [%d] %-10s  %-40s  dob=%s%s\n",
+        ++$i, $_->{qid}, $_->{label}, ($_->{dob}||'?'), ($_->{enwiki} ? "  (enwiki)" : "");
+    }
+    next PERSON;
+  }
+
+  # Write QID
+  $p->update({ wikidata_qid => $best->{qid} });
+  printf "  ✔ Set wikidata_qid=%s (%s; dob=%s%s)\n",
+    $best->{qid}, ($best->{label}||''), ($best->{dob}||'?'),
+    ($best->{enwiki} ? "; enwiki" : "");
+
+  # gentle throttle between people
+  select undef, undef, undef, 0.2;
+}
+

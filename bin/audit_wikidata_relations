@@ -1,29 +1,33 @@
 #!/usr/bin/env perl
+use v5.40;
+use feature qw(try);
+no warnings qw(experimental::try);
 use strict;
 use warnings;
 use utf8;
 
 use Getopt::Long qw(GetOptions);
-use JSON::MaybeXS;
-use HTTP::Tiny;
-use Try::Tiny;
+use JSON::MaybeXS ();
 
+use lib 'lib';
 use Succession::Schema;
+use Succession::WikiData::Entity ();
 
 # ----------------------------------------
 # CLI options
 # ----------------------------------------
 my %opt = (
-  apply           => 0,      # actually write fixes (guarded by --auto)
-  limit           => 0,      # audit only N people
-  verbose         => 0,
-  sleep_ms        => 250,
-  only_with_qid   => 1,      # only audit rows that already have a QID
-  fill_wikipedia  => 1,      # report MISSING_WP_LINK; fix only if enabled via --auto
-  root_id         => undef,  # optional; else auto-detect sole NULL-parent row
-  auto_all        => 0,      # enable all fix categories
+  apply            => 0,      # actually write fixes (guarded by --auto)
+  limit            => 0,      # audit only N people
+  verbose          => 0,
+  sleep_ms         => 250,
+  only_with_qid    => 1,      # only audit rows that already have a QID
+  fill_wikipedia   => 1,      # report MISSING_WP_LINK; fix only if enabled via --auto
+  root_id          => undef,  # optional; else auto-detect sole NULL-parent row
+  auto_all         => 0,      # enable all fix categories
+  max_create       => 200,    # safety cap for auto-created children
 );
-my (@auto_opts, @ignore_opts);
+my (@auto_opts, @ignore_opts, @only_ids);
 
 GetOptions(
   "apply!"            => \$opt{apply},
@@ -36,6 +40,8 @@ GetOptions(
   "auto=s@"           => \@auto_opts,      # e.g. --auto MISSING_DEATH --auto PARENT_SET_UNIQUE
   "auto-all!"         => \$opt{auto_all},
   "ignore=s@"         => \@ignore_opts,    # e.g. --ignore CHILD_NOT_IN_DB --ignore "DEATH_MISMATCH,CHILD_PARENT_MISMATCH"
+  "id=i@"             => \@only_ids,       # may be repeated: --id 185 --id 310
+  "max-create=i"      => \$opt{max_create},
 ) or die "Bad options\n";
 
 # Normalize chosen categories
@@ -46,6 +52,8 @@ if ($opt{auto_all}) {
     MISSING_WP_LINK
     PARENT_SET_UNIQUE
     CHILD_PARENT_SET_UNIQUE
+    CHILD_CREATE_FROM_WD
+    QID_REDIRECT_NORMALIZED
   );
 } else {
   for my $raw (@auto_opts) {
@@ -60,138 +68,86 @@ for my $raw (@ignore_opts) {
   $IGNORE{ uc $_ } = 1 for grep { length } split /[, ]+/, $raw;
 }
 
-if ((keys %AUTO || $opt{auto_all}) && !$opt{apply}) {
-  warn "[audit] NOTE: --auto specified without --apply — running in DRY-RUN mode (no changes will be written)\n";
-}
-
-sub should_auto   { my ($code) = @_; return $opt{apply} && !$IGNORE{uc $code} && ($opt{auto_all} || $AUTO{ uc($code) }); }
-sub should_report { my ($code) = @_; return !$IGNORE{ uc $code }; }
+sub should_auto   ($code) { return $opt{apply} && !$IGNORE{uc $code} && ($opt{auto_all} || $AUTO{ uc($code) }); }
+sub should_report ($code) { return !$IGNORE{ uc $code }; }
 
 my $SLEEP = $opt{sleep_ms} / 1000.0;
+sub sleep_a_bit { select(undef, undef, undef, $SLEEP) }
+sub logv { return unless $opt{verbose}; print STDERR "[audit] ", @_, "\n"; }
+
+if ((%AUTO || $opt{auto_all}) && !$opt{apply}) {
+  warn "[audit] NOTE: --auto specified without --apply — running in DRY-RUN mode (no changes will be written)\n";
+}
 
 # ----------------------------------------
 # Setup
 # ----------------------------------------
 my $schema = Succession::Schema->get_schema;
-my $json   = JSON::MaybeXS->new(utf8 => 1);
-my $http   = HTTP::Tiny->new(
-  agent        => "LoS-WD-Audit/1.3",
-  timeout      => 20,
-  max_redirect => 3,
-);
-
-sub sleep_a_bit { select(undef, undef, undef, $SLEEP) }
-sub logv { return unless $opt{verbose}; print STDERR "[audit] ", @_, "\n"; }
-
-# ----------------------------------------
-# Wikidata helpers
-# ----------------------------------------
-sub fetch_entity {
-  my ($qid) = @_;
-  return unless $qid && $qid =~ /^Q\d+$/;
-
-  my $url = "https://www.wikidata.org/wiki/Special:EntityData/$qid.json";
-  sleep_a_bit();
-  my $res = $http->get($url) or return;
-  return unless $res->{success};
-
-  my $data = try { $json->decode($res->{content}) } catch { return };
-
-  # Top-level redirects map exists on merged items
-  if (my $rd = $data->{redirects} && $data->{redirects}{$qid}) {
-    my $to = $data->{redirects}{$qid}{to};
-    return fetch_entity($to) if $to;
-  }
-
-  my $ent = $data->{entities}{$qid};
-  # Some payloads embed a redirect stub in the entity
-  if ($ent && $ent->{type} && $ent->{type} eq 'redirect' && $ent->{redirects}{to}) {
-    return fetch_entity($ent->{redirects}{to});
-  }
-
-  return $ent;
-}
-
-
-sub wd_time {
-  my ($entity, $prop) = @_;
-  my $arr = $entity->{claims}{$prop} || [];
-  for my $st (@$arr) {
-    next if ($st->{rank}||'') eq 'deprecated';
-    my $dv = $st->{mainsnak}{datavalue} || next;
-    my $v  = $dv->{value} || next;
-    return $v->{time} if ref($v) eq 'HASH' && $v->{time};
-  }
-  return;
-}
-
-sub wd_date_str {
-  my ($wd_time) = @_;
-  return unless $wd_time && $wd_time =~ /^\+?(\d{4})(?:-(\d{2})-(\d{2}))?/;
-  my ($y,$m,$d) = ($1, $2||"01", $3||"01");
-  return sprintf("%04d-%02d-%02d", $y, $m, $d);
-}
-
-sub wd_year {
-  my ($wd_time) = @_;
-  return $1 if defined $wd_time && $wd_time =~ /^\+?(\d{4})/;
-  return;
-}
-
-sub enwiki_url_from_entity {
-  my ($entity) = @_;
-  my $links = $entity->{sitelinks}||{};
-  return unless $links->{enwiki};
-  my $title = $links->{enwiki}{title} || return;
-  (my $path = $title) =~ s/ /_/g;
-  return "https://en.wikipedia.org/wiki/$path";
-}
-
-# Dave's tweak: prefer en-gb, then en; wrap in quotes for CSV safety
-sub label_en {
-  my ($entity) = @_;
-  return '"' . (
-      $entity->{labels}{'en-gb'}{value}
-   || $entity->{labels}{'en'}{value}
-   || ""
-  ) . '"';
-}
-
-sub wd_ids_from_prop {
-  my ($entity, $prop) = @_;
-  my $arr = $entity->{claims}{$prop} || [];
-  my @ids;
-  for my $st (@$arr) {
-    next if ($st->{rank}||'') eq 'deprecated';
-    my $dv = $st->{mainsnak}{datavalue} || next;
-    my $v  = $dv->{value} || next;
-    push @ids, $v->{id} if ref($v) eq 'HASH' && $v->{id};
-  }
-  return @ids;
-}
 
 # ----------------------------------------
 # DB helpers
 # ----------------------------------------
-sub person_by_qid {
-  my ($qid) = @_;
+sub person_by_qid ($qid) {
   return $schema->resultset('Person')->search({ 'me.wikidata_qid' => $qid })->single;
 }
 
-# Best-effort ymd from DB value (DateTime or string)
-sub db_date_ymd {
-  my ($val) = @_;
+# YYYY-MM-DD best effort from DB value (DateTime or string)
+sub db_date_ymd ($val) {
   return unless defined $val;
-  if (ref($val) && $val->can('ymd')) { return $val->ymd; }
+  return $val->ymd if ref($val) && $val->can('ymd');
   return $val if $val =~ /^\d{4}-\d{2}-\d{2}$/;
   return;
 }
 
-sub year_from_db_date {
-  my ($val) = @_;
+sub year_from_db_date ($val) {
   my $ymd = db_date_ymd($val) // return;
   return $1 if $ymd =~ /^(\d{4})-/;
   return;
+}
+
+# Choose unique DB parent for a child (using child's WD parent_qids)
+sub choose_unique_parent_for_child_entity ($child_wd) {
+  my @p_qids = $child_wd->parent_qids;
+  my %seen; @p_qids = grep { $_ && !$seen{$_}++ } @p_qids;
+  my @ids;
+  for my $q (@p_qids) {
+    if (my $row = person_by_qid($q)) { push @ids, $row->id }
+  }
+  return ($ids[0], "unique") if @ids == 1;
+  return (undef, @ids == 0 ? "none" : "ambiguous");
+}
+
+# Create a minimal child (uses Person->add_child if available)
+sub create_child_stub_with_parent ($parent_id, $child_wd) {
+
+  my $parent = $schema->resultset('Person')->find($parent_id) or return;
+
+  my $attrs = {
+    born          => $child_wd->birth_date // '1000-01-01',   # NOT NULL guard
+    died          => $child_wd->death_date,
+    sex           => ($child_wd->sex // 'm'),
+    wikipedia     => $child_wd->enwiki_url,
+    wikidata_qid  => $child_wd->qid,
+  };
+  my $label = $child_wd->label_en // $child_wd->qid;
+
+  if ($parent->can('add_child')) {
+    # If your add_child supports a title param, pass it; otherwise it can ignore.
+    return $parent->add_child({ %$attrs, title => $label });
+  }
+
+  # Fallback
+  my $row = $schema->resultset('Person')->create({ %$attrs, parent => $parent_id });
+  $row->make_slug();
+  $row->add_to_titles({ title => $label, is_default => 1 });
+  return $row;
+}
+
+# CSV helper for quoted English label
+sub label_q ($wd) {
+  my $l = $wd->label_en // "";
+  $l =~ s/"/""/g;
+  return qq{"$l"};
 }
 
 # ----------------------------------------
@@ -204,29 +160,40 @@ if (defined $opt{root_id}) {
   my @null_parents = $schema->resultset('Person')
     ->search({ 'me.parent' => undef }, { columns => [qw/me.id/] })
     ->get_column('id')->all;
-  die "Multiple NULL parent rows found (@null_parents). Resolve before auditing.\n" if @null_parents > 1;
-  die "No root detected (no NULL parent rows). Use --root-id\n" if @null_parents == 0;
-  $root_id = $null_parents[0];
+  if (@null_parents == 1) {
+    $root_id = $null_parents[0];
+  } else {
+    # If user targets specific --id, allow continuing without a single-root invariant
+    if (!@only_ids) {
+      die "Expected exactly one NULL-parent root; found ".scalar(@null_parents).". Use --root-id or fix data.\n";
+    }
+  }
 }
-logv "Root person id: $root_id";
+logv "Root person id: ".(defined $root_id ? $root_id : '(not enforced for --id)');
 
 # ----------------------------------------
-# Result set (prefetch parent; skip root; disambiguate with me.*)
+# Result set (prefetch parent; respect --id; skip root unless explicitly targeted)
 # ----------------------------------------
-my %where = ( 'me.id' => { '!=' => $root_id } );
+my %where;
+if (@only_ids) {
+  $where{'me.id'} = { -in => \@only_ids };
+} else {
+  $where{'me.id'} = { '!=' => $root_id } if defined $root_id;
+}
 $where{'me.wikidata_qid'} = { '!=' => undef } if $opt{only_with_qid};
 
 my $rs = $schema->resultset('Person')->search(
   \%where,
   {
     prefetch => 'parent',
-    columns  => [qw/me.id me.born me.died me.wikidata_qid me.wikipedia me.parent/],
+    columns  => [qw/me.id me.born me.died me.wikidata_qid me.wikipedia me.parent me.sex/],
   }
 );
 
 # ----------------------------------------
-# CSV helpers
+# CSV heading
 # ----------------------------------------
+print ($opt{apply} ? "" : "DRY RUN — no changes will be written\n");
 print join(",", qw(kind person_id qid note detail expected current)) . "\n";
 
 my $reported = 0;
@@ -237,155 +204,217 @@ sub report {
   $reported++;
 }
 
+# Track parents that need a reorder after edits
+my %needs_reorder;  # parent_id => 1
+
 # ----------------------------------------
 # Main loop
 # ----------------------------------------
 my $n = 0;
+my $created = 0;
+
 PERSON: while (my $p = $rs->next) {
   last if $opt{limit} && $n >= $opt{limit};
   $n++;
 
   my $pid   = $p->id;
-  my $qid   = $p->wikidata_qid or next; # guard
+  my $qid   = $p->wikidata_qid or next;
   my $born  = db_date_ymd($p->born);
   my $died  = $p->died ? db_date_ymd($p->died) : undef;
 
-  my $entity = fetch_entity($qid) or next;
+  sleep_a_bit();
 
-  # --- Death checks ---
-  my $wd_death_t = wd_time($entity, 'P570');
-  my $wd_death_y = wd_year($wd_death_t);
-  if ($wd_death_t) {
+  # Build WD entity (follows redirects) — built-in try/catch (statement form)
+  my $wd;
+  try {
+    $wd = Succession::WikiData::Entity::from_qid($qid);
+  }
+  catch ($e) {
+    warn "[audit] fetch failed for $qid: $e";
+    undef $wd;
+  }
+  next unless $wd;
+
+  # Redirect normalization
+  if (defined $wd->redirected_from && $wd->qid ne $qid) {
+    report("QID_REDIRECT_NORMALIZED", $pid, $qid, label_q($wd), $wd->qid, "", "");
+    if (should_auto('QID_REDIRECT_NORMALIZED')) {
+      $p->update({ wikidata_qid => $wd->qid });
+      $qid = $wd->qid;
+    }
+  }
+
+  # Visibility: P40 with P1039 (non-bio kinship on parent)
+  for my $cq ( $wd->child_qids_nonbio ) {
+    report("CHILD_P40_NONBIO", $pid, $qid, label_q($wd), $cq, "P1039 present", "");
+  }
+
+  # Death checks
+  if (my $wd_death = $wd->death_date) {
     if (!$died) {
-      report("MISSING_DEATH", $pid, $qid, label_en($entity), wd_date_str($wd_death_t), "", "");
+      report("MISSING_DEATH", $pid, $qid, label_q($wd), $wd_death, "", "");
       if (should_auto('MISSING_DEATH')) {
-        $p->update({ died => wd_date_str($wd_death_t) });
+        $p->update({ died => $wd_death });
       }
     } else {
       my $db_y = year_from_db_date($died);
-      if (defined $db_y && defined $wd_death_y && $db_y != $wd_death_y) {
-        report("DEATH_MISMATCH", $pid, $qid, label_en($entity), $wd_death_y, $db_y, "");
+      my ($wd_y) = ($wd_death =~ /^(\d{4})/);
+      if (defined $db_y && defined $wd_y && $db_y != $wd_y) {
+        report("DEATH_MISMATCH", $pid, $qid, label_q($wd), $wd_y, $db_y, "");
         if (should_auto('DEATH_MISMATCH')) {
-          $p->update({ died => wd_date_str($wd_death_t) });
+          $p->update({ died => $wd_death });
         }
       }
     }
   }
 
-  # --- (Optional) Wikipedia link backfill ---
-  if ($opt{fill_wikipedia}) {
-    if ((!defined $p->wikipedia || $p->wikipedia eq '')) {
-      if (my $wp = enwiki_url_from_entity($entity)) {
-        report("MISSING_WP_LINK", $pid, $qid, label_en($entity), $wp, "", "");
-        if (should_auto('MISSING_WP_LINK')) {
-          $p->update({ wikipedia => $wp });
-        }
+  # Wikipedia backfill
+  if ($opt{fill_wikipedia} && (!defined $p->wikipedia || $p->wikipedia eq '')) {
+    if (my $wp = $wd->enwiki_url) {
+      report("MISSING_WP_LINK", $pid, $qid, label_q($wd), $wp, "", "");
+      if (should_auto('MISSING_WP_LINK')) {
+        $p->update({ wikipedia => $wp });
       }
     }
   }
 
-  # --- Royal parent checks (either father P22 or mother P25) ---
-  my @parent_qids = (
-    wd_ids_from_prop($entity, 'P22'),
-    wd_ids_from_prop($entity, 'P25'),
-  );
-  my %seen_q; @parent_qids = grep { $_ && !$seen_q{$_}++ } @parent_qids;
+  # Parent checks (either P22 or P25)
+  my $skip_parent_checks = (defined $root_id && $pid == $root_id && !@only_ids) ? 1 : 0;
+  if (!$skip_parent_checks) {
+    my @parent_qids = $wd->parent_qids;
+    my %seen_q; @parent_qids = grep { $_ && !$seen_q{$_}++ } @parent_qids;
 
-  my @parent_rows = map { person_by_qid($_) } @parent_qids;
-  my @parent_ids  = map { $_ ? $_->id : () } @parent_rows;
+    my @parent_rows = map { person_by_qid($_) } @parent_qids;
+    my @parent_ids  = map { $_ ? $_->id : () } @parent_rows;
 
-  my $current_parent_row = $p->parent;                    # related object or undef
-  my $current_parent_id  = $current_parent_row ? $current_parent_row->id + 0 : undef;
+    my $current_parent_row = $p->parent;                    # related object or undef
+    my $current_parent_id  = $current_parent_row ? $current_parent_row->id + 0 : undef;
 
-  if (defined $current_parent_id) {
-    my $ok = scalar grep { $_ == $current_parent_id } @parent_ids;
-    if (!$ok) {
-      report("PARENT_NOT_WD",
-        $pid, $qid, label_en($entity),
-        (join("|", @parent_qids)),
-        (join("|", @parent_ids)),
-        $current_parent_id
-      );
-      # no auto-fix
-    }
-  } else {
-    # Not the root (root filtered out), so NULL parent is not allowed → try to resolve if unambiguous
-    if (@parent_ids == 1) {
-      my $chosen_id = $parent_ids[0];
-      report("PARENT_SET_UNIQUE", $pid, $qid, label_en($entity),
-        (join("|", @parent_qids)), $chosen_id, "");
-      if (should_auto('PARENT_SET_UNIQUE')) {
-        $p->update({ parent => $chosen_id });
+    if (defined $current_parent_id) {
+      my $ok = scalar grep { $_ == $current_parent_id } @parent_ids;
+      if (!$ok) {
+        report("PARENT_NOT_WD",
+          $pid, $qid, label_q($wd),
+          (join("|", @parent_qids)),
+          (join("|", @parent_ids)),
+          $current_parent_id
+        );
       }
-    } elsif (@parent_ids == 0) {
-      report("PARENT_NOT_IN_DB", $pid, $qid, label_en($entity),
-        (join("|", @parent_qids)), "", "");
     } else {
-      report("PARENT_AMBIGUOUS_BOTH_IN_DB", $pid, $qid, label_en($entity),
-        (join("|", @parent_qids)), (join("|", @parent_ids)), "");
+      if (@parent_ids == 1) {
+        my $chosen_id = $parent_ids[0];
+        report("PARENT_SET_UNIQUE", $pid, $qid, label_q($wd),
+          (join("|", @parent_qids)), $chosen_id, "");
+        if (should_auto('PARENT_SET_UNIQUE')) {
+          $p->update({ parent => $chosen_id });
+          $needs_reorder{$chosen_id} = 1;
+        }
+      } elsif (@parent_ids == 0) {
+        report("PARENT_NOT_IN_DB", $pid, $qid, label_q($wd),
+          (join("|", @parent_qids)), "", "");
+      } else {
+        report("PARENT_AMBIGUOUS_BOTH_IN_DB", $pid, $qid, label_q($wd),
+          (join("|", @parent_qids)), (join("|", @parent_ids)), "");
+      }
     }
   }
 
-  # --- Children checks (advisory; avoid false positives when linked to the other parent) ---
-  my @child_qids = wd_ids_from_prop($entity, 'P40');
-  for my $cq (@child_qids) {
-    my $child_person = person_by_qid($cq);
-    if (!$child_person) {
-      report("CHILD_NOT_IN_DB", $pid, $qid, label_en($entity), $cq, "", "");
-      next;
+  # Children (strict biology): parent-side filter (P1039) + child-side verification (P22/P25)
+  my @child_qids = $wd->child_qids_biological;
+
+  CHILD: for my $cq (@child_qids) {
+    sleep_a_bit();
+
+    my $child_wd;
+    try {
+      $child_wd = Succession::WikiData::Entity::from_qid($cq);
+    }
+    catch ($e) {
+      warn "[audit] fetch child failed for $cq: $e";
+      undef $child_wd;
+    }
+    next CHILD unless $child_wd;
+
+    # Guard: audited person must be one of child's WD parents
+    my %cp = map { $_ => 1 } $child_wd->parent_qids;
+    if (!$cp{$qid}) {
+      report("CHILD_OF_OTHER_PARENTS", $pid, $qid, label_q($wd), $child_wd->qid,
+             join("|", sort keys %cp), "");
+      next CHILD;
     }
 
+    my $child_person = person_by_qid($child_wd->qid);
+    if (!$child_person) {
+      report("CHILD_NOT_IN_DB", $pid, $qid, label_q($wd), $child_wd->qid, "", "");
+
+      if (should_auto('CHILD_CREATE_FROM_WD') && $created < $opt{max_create}) {
+        my ($parent_id, $why) = choose_unique_parent_for_child_entity($child_wd);
+        if (defined $parent_id) {
+          my $new = create_child_stub_with_parent($parent_id, $child_wd);
+          if ($new) {
+            $created++;
+            report("CHILD_CREATED_UNIQUE",
+              $new->id, $child_wd->qid, "(child created)",
+              $parent_id, ($new->wikipedia // ""), ($new->slug // ""));
+            $needs_reorder{$parent_id} = 1;
+          }
+        } else {
+          my @ids = map { my $r = person_by_qid($_); $r ? $r->id : () } $child_wd->parent_qids;
+          my $detail = join("|", @ids);
+          my $code = ($why && $why eq 'ambiguous') ? "CHILD_CREATE_AMBIGUOUS" : "CHILD_CREATE_NO_PARENTS";
+          report($code, $pid, $qid, label_q($wd), $child_wd->qid, $detail, "");
+        }
+      }
+      next CHILD;
+    }
+
+    # Child exists → parent pointer checks
     my $cid = $child_person->id;
     my $child_parent_row = $child_person->parent;
     my $cp_id  = $child_parent_row ? $child_parent_row->id + 0 : undef;
 
     if (!defined $cp_id) {
-      report("CHILD_PARENT_MISSING", $pid, $qid, label_en($entity), $cid, "", "");
+      report("CHILD_PARENT_MISSING", $pid, $qid, label_q($wd), $cid, "", "");
       if (should_auto('CHILD_PARENT_SET_UNIQUE')) {
-        my $cent = fetch_entity($cq);
-        if ($cent) {
-          my @cpar_q = ( wd_ids_from_prop($cent, 'P22'), wd_ids_from_prop($cent, 'P25') );
-          my %seen; @cpar_q = grep { $_ && !$seen{$_}++ } @cpar_q;
-          my @cpar_ids = map { my $r = person_by_qid($_); $r ? $r->id : () } @cpar_q;
-          if (@cpar_ids == 1) {
-            $child_person->update({ parent => $cpar_ids[0] });
-            report("CHILD_PARENT_SET_UNIQUE", $cid, $cq, "(child)", (join("|", @cpar_q)), $cpar_ids[0], "");
-          }
+        my @cpar_ids = map { my $r = person_by_qid($_); $r ? $r->id : () } $child_wd->parent_qids;
+        if (@cpar_ids == 1) {
+          $child_person->update({ parent => $cpar_ids[0] });
+          report("CHILD_PARENT_SET_UNIQUE", $cid, $child_wd->qid, "(child)",
+                 (join("|", $child_wd->parent_qids)), $cpar_ids[0], "");
+          $needs_reorder{$cpar_ids[0]} = 1;
         }
       }
-      next;
+      next CHILD;
     }
 
-    # If the child is already attached to THIS audited person, it's trivially fine.
-    next if $cp_id == $pid;
+    # If already attached to THIS audited person, OK
+    next CHILD if $cp_id == $pid;
 
-    # Prefer a precise check: is the child's DB parent one of the child's WD parents?
-    my $cent = fetch_entity($cq);
-    my $cp_is_wd_parent = 0;
-    if ($cent) {
-      my @cpar_q = ( wd_ids_from_prop($cent, 'P22'), wd_ids_from_prop($cent, 'P25') );
-      my %seen; @cpar_q = grep { $_ && !$seen{$_}++ } @cpar_q;
-      my %wd_parent_ids;
-      for my $pq (@cpar_q) {
-        if (my $row = person_by_qid($pq)) { $wd_parent_ids{$row->id} = 1; }
-      }
-      $cp_is_wd_parent = 1 if $wd_parent_ids{$cp_id};
+    # If attached to the other WD parent, OK
+    my %wd_parent_ids = map { my $r = person_by_qid($_); $r ? ($r->id => 1) : () } $child_wd->parent_qids;
+    if (%wd_parent_ids && $wd_parent_ids{$cp_id}) {
+      next CHILD;
     }
 
-    if ($cp_is_wd_parent) {
-      # Child is attached to the other WD parent — OK, no report.
-      next;
-    }
-
-    # Heuristic fallback: if the audited person and the child's DB parent are opposite sex, assume "other parent" and allow.
-    my $p_sex  = $p->sex;                               # 'm' or 'f'
+    # Heuristic fallback: opposite-sex parent in DB → treat as OK
+    my $p_sex  = $p->sex;
     my $cp_sex = $child_parent_row ? $child_parent_row->sex : undef;
     if (defined $p_sex && defined $cp_sex && $p_sex ne $cp_sex) {
-      next; # treat as OK in lenient mode
+      next CHILD;
     }
 
-    # If we reach here, it's likely pointing to someone who isn't either WD parent.
-    report("CHILD_PARENT_MISMATCH", $pid, $qid, label_en($entity), $cid, $cp_id, $pid);
+    report("CHILD_PARENT_MISMATCH", $pid, $qid, label_q($wd), $cid, $cp_id, $pid);
+  }
+}
+
+# ----------------------------------------
+# Batched family reorders (once per affected parent)
+# ----------------------------------------
+if ($opt{apply}) {
+  for my $parent_id (keys %needs_reorder) {
+    my $parent = $schema->resultset('Person')->find($parent_id);
+    next unless $parent;
+    $parent->reorder_family;
   }
 }
 

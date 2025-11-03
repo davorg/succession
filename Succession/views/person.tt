@@ -3,18 +3,11 @@
 <div class="card-soft">
 <h1><% person.name %></h1>
 
-<% IF media.image_url %>
+<% IF person.image_url %>
   <figure class="person-photo">
-    <a href="<% media.image_page %>" rel="noopener" target="_blank">
-      <img src="<% media.image_url %>" alt="Portrait of <% person.name %>">
-    </a>
-    <% IF media.caption %><figcaption><% media.caption %></figcaption><% END %>
+    <img src="<% person.image_url %>" alt="Portrait of <% person.name %>">
     <br>
   </figure>
-<% ELSIF media.coat_of_arms %>
-  <img src="<% media.coat_of_arms.url %>" alt="Coat of arms of <% person.name %>">
-<% ELSIF media.signature %>
-  <img src="<% media.signature.url %>" alt="Signature of <% person.name %>">
 <% END %>
 
 <p>Born: <% link_date(person.born) %>
@@ -23,11 +16,10 @@
 <% END -%>
 </p>
 
-<% IF bio.text %>
+<% IF person.short_bio %>
   <h2>Biography</h2>
   <p class="person-bio">
-    <% bio.text %>
-    <a href="<% bio.url %>" target="_blank" rel="noopener" class="bio-more">More »</a>
+    <% person.short_bio %>
   </p>
 <% END %>
 

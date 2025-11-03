@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use File::Basename;
+
+use Succession::Schema;
+
+my $sch = Succession::Schema->get_schema;
+
+unless (@ARGV) {
+  die 'Usage: ' . basename $0 . " person_id\n";
+}
+
+my $rs = $sch->resultset('Person');
+my $person = $rs->find($ARGV[0]);
+
+die "Person [$ARGV[0]] not found\n" unless $person;
+
+my $gen = 0;
+
+while (1) {
+  say $gen++ . ': ' . $person->name . ' (' . $person->family_order . ')';
+
+  last unless $person->parent;
+
+  $person = $person->parent;
+
+  die "Parent [$ARGV[0]] not found\n" unless $person;
+}

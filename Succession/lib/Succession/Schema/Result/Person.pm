@@ -279,6 +279,8 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+use feature 'state';
+
 with 'MooX::Role::JSON_LD';
 
 use DateTime;
@@ -287,6 +289,9 @@ use List::MoreUtils qw[firstidx];
 use Genealogy::Relationship;
 use Digest::SHA;
 use Text::Unidecode;
+use URI::Escape qw(uri_escape_utf8);
+
+use Succession::WikiData::Entity;
 
 sub gender { $_[0]->sex; }
 
@@ -586,7 +591,7 @@ sub make_slug {
   $sha->add($self->born);
   my $slug = substr($sha->hexdigest, 0, 6) . '-' . $slugname;
 
-  warn $self->name, ' / ', "$slug\n";
+  warn $self->name, " / $slug\n";
 
   $self->update({ slug => $slug });
 }
@@ -600,6 +605,127 @@ sub is_sovereign_on_date {
   my $sov = $sch->resultset('Sovereign')->sovereign_on_date($date);
 
   return $sov->person->id == $self->id;
+}
+
+sub add_child {
+  my $self = shift;
+  my ($args) = @_;
+
+  unless (exists $args->{died}) {
+    $args->{died} = undef;
+  }
+
+  my @missing;
+
+  for (qw[born sex name]) {
+    push @missing, $_ unless length $args->{$_}
+  }
+
+  die 'Missing fields for child creation - ' . join(', ', @missing) . "\n"
+    if @missing;
+
+  my $child_data = {
+    born => $args->{born},
+    died => $args->{died},
+    sex  => $args->{sex},
+  };
+
+  for (qw[wikipedia wikidata_qid]) {
+    $child_data->{$_} = $args->{$_} if exists $args->{$_};
+  }
+
+  my $child = $self->add_to_children($child_data);
+
+  if ($child) {
+    $child->add_to_titles({
+      title       => $args->{name},
+      is_default => 1,
+    });
+
+    $child->make_slug;
+  }
+
+  $self->reorder_family;
+
+  return $child;
+}
+
+sub reorder_family {
+  my $self = shift;
+  my $schema = $self->result_source->schema;
+
+  # Primogeniture cut-off (UK rule change)
+  my $cutoff = '2011-10-28';
+
+  # We do the whole reorder in one transaction for atomicity
+  $schema->txn_do(sub {
+    # Order:
+    #  (sex='m' AND born < cutoff) DESC  -> priority group (1) first
+    #  born IS NULL ASC                  -> known birthdates before NULLS
+    #  born ASC                          -> older first
+    #  id ASC                            -> stable tie-break
+    my $children_rs = $self->children->search(
+      {},
+      {
+        order_by => \[
+          q{ (sex = 'm' AND born < ?) DESC, born IS NULL, born ASC, id ASC },
+          $cutoff
+        ],
+      }
+    );
+
+    my $i = 0;
+    while (my $child = $children_rs->next) {
+      $child->update({ family_order => ++$i });
+    }
+  });
+
+  return $self;
+}
+
+sub wikidata {
+  my $self = shift;
+
+  my $qid  = $self->wikidata_qid or return;
+
+  state $cache;
+
+  return $cache->{$qid} //= Succession::WikiData::Entity->new(qid => $qid);
+}
+
+sub image_url {
+  my $self = shift;
+  my $width = $_[0] // 400;
+
+  my $wd = $self->wikidata or return;
+  my $filename = $wd->image_filename or return;
+  my $enc_filename = uri_escape_utf8($filename);
+
+  return 'https://commons.wikimedia.org/wiki/Special:FilePath/' .
+         "$enc_filename?width=$width";
+}
+
+sub short_bio {
+  my $self = shift;
+  my $length = $_[0] // 360;
+
+  my $wd = $self->wikidata or return;
+  my $ent = $wd->entity || {};
+
+  my $bio = $ent->{descriptions}{'en-gb'}{value}
+          || $ent->{descriptions}{'en'}{value}
+          || '';
+
+  return _trim(ucfirst $bio);
+}
+
+sub _trim {
+  my ($s, $max) = @_;
+  return $s unless defined $s && $max && length($s) > $max;
+  $s =~ s/\s+/ /g;
+  my $cut = substr($s, 0, $max);
+  $cut =~ s/\s+\S*$//;       # avoid chopping mid-word
+  return "$cut…";
 }
 
 __PACKAGE__->meta->make_immutable;

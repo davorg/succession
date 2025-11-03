@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dir=$(dirname "$0")
+# shellcheck source=bin/func_defs
+. "$dir/func_defs"
+
+check_vars
+
+echo Dumping database
+mysqldump --skip-extended-insert \
+  -h"$SUCC_DB_HOST" \
+  -P"${SUCC_DB_PORT:-3306}" \
+  -u"$SUCC_DB_USER" \
+  -p"$SUCC_DB_PASS" \
+  --no-data \
+  "$SUCC_DB_NAME" > data/succession.ddl
