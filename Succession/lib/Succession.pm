@@ -6,6 +6,30 @@ use Succession::App;
 
 our $VERSION = '0.1';
 
+sub db_ver {
+  my $app = shift;
+
+  my $driver = $app->model->schema->storage->dbh->{Driver}{Name};
+
+  my $info = "DB Driver: $driver";
+
+  if ($driver eq 'SQLite') {
+    $info .= ', version: ' . $app->model->schema->storage->dbh->{sqlite_version};
+  }
+
+  return $info;
+}
+
+warn  db_ver(Succession::App->new), "\n";
+
+get '/db' => sub {
+  my $app = Succession::App->new({
+    request => request,
+  });
+
+  return db_ver($app);
+};
+
 get '/lp' => sub {
   set layout => 'main';
 
