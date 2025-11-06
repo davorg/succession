@@ -45,6 +45,9 @@ print <<EOXML;
      <loc>https://lineofsuccession.co.uk/changes</loc>
    </url>
    <url>
+     <loc>https://lineofsuccession.co.uk/anniversaries</loc>
+   </url>
+   <url>
      <loc>https://lineofsuccession.co.uk/dates</loc>
    </url>
    <url>
