@@ -586,12 +586,36 @@ sub make_slug {
 
   my $sha = Digest::SHA->new;
 
-  my $slugname = lc unidecode($self->name =~ s/\W+/-/gr);
-  $sha->add($slugname);
+  # Use only immutable fields for the hex part
+  $sha->add($self->id);
+  $sha->add($self->sex);
   $sha->add($self->born);
-  my $slug = substr($sha->hexdigest, 0, 6) . '-' . $slugname;
+  my $hex = substr($sha->hexdigest, 0, 6);
+
+  # Use the current name for the variable part
+  my $slugname = lc unidecode($self->name =~ s/\W+/-/gr);
+  my $slug = $hex . '-' . $slugname;
 
   warn $self->name, " / $slug\n";
+
+  $self->update({ slug => $slug });
+}
+
+sub regenerate_slug {
+  my $self = shift;
+
+  # Extract the hex part from the current slug
+  my $current_slug = $self->slug;
+  return unless $current_slug;
+
+  my ($hex) = $current_slug =~ /^([0-9a-f]{6})-/;
+  return unless $hex;
+
+  # Generate new slug with the same hex but current name
+  my $slugname = lc unidecode($self->name =~ s/\W+/-/gr);
+  my $slug = $hex . '-' . $slugname;
+
+  warn $self->name, " / regenerated slug: $slug\n";
 
   $self->update({ slug => $slug });
 }
