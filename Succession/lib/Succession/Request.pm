@@ -1,36 +1,28 @@
 package Succession::Request;
 
+use experimental 'signatures';
+
 use parent 'Dancer2::Core::Request';
 use DateTime;
 use Succession::Model;
 
-sub model {
-  my $self = shift;
-
+sub model( $self ) {
   return $self->{model} //= Succession::Model->new;
 }
 
-sub is_date_page {
-  my $self = shift;
-
+sub is_date_page( $self ) {
   return $self->path =~ m[^/\d\d\d\d-\d\d-\d\d];
 }
 
-sub is_home_page {
-  my $self = shift;
-
+sub is_home_page( $self ) {
   return $self->path eq '/';
 }
 
-sub is_person_page {
-  my $self = shift;
-
+sub is_person_page( $self ) {
   return $self->path =~ m[^/p/];
 }
 
-sub date {
-  my $self = shift;
-    
+sub date( $self ) {
   return DateTime->today unless $self->is_date_page;
    
   $self->{date} //= do {
@@ -46,9 +38,7 @@ sub date {
   return $self->{date};
 }
 
-sub person {
-  my $self = shift;
-
+sub person( $self ) {
   return unless $self->is_person_page;
 
   $self->{person} //= do {
