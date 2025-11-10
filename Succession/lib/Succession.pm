@@ -65,7 +65,7 @@ get '/anniversaries' => sub {
 
   template 'anniversaries', {
     app   => $app,
-    dates => $app->model->get_anniveraries,
+    dates => $app->model->get_anniversaries,
   };
 };
 
@@ -104,8 +104,6 @@ get qr{/p/(.*)} => sub {
     send_error "'$slug' is not a valid person identifier", 404;
     return;
   }
-
-warn "Serving person page for ", $person->name, "\n";
 
   template 'person', {
     app    => vars->{app},

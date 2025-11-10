@@ -280,6 +280,7 @@ __PACKAGE__->has_many(
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
 use feature 'state';
+use experimental 'signatures';
 
 with 'MooX::Role::JSON_LD';
 
@@ -293,7 +294,7 @@ use URI::Escape qw(uri_escape_utf8);
 
 use Succession::WikiData::Entity;
 
-sub gender { $_[0]->sex; }
+sub gender( $self ) { return $self->sex; }
 
 has rel => (
   is => 'ro',
@@ -301,13 +302,11 @@ has rel => (
   lazy_build => 1,
 );
 
-sub _build_rel {
-  my $self = shift;
-
+sub _build_rel($) {
   return Genealogy::Relationship->new;
 }
 
-sub json_ld_fields {
+sub json_ld_fields($) {
   return [
     'name',
     {
@@ -318,18 +317,15 @@ sub json_ld_fields {
   ];
 }
 
-sub json_ld_type {
+sub json_ld_type($) {
   return 'Person';
 }
 
-sub printlog {
-  print @_ if 0;
+sub printlog(@args) {
+  print @args if 0;
 }
 
-sub succession_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub succession_on_date( $self, $date ) {
   printlog "Getting descendants of ", $self->name, "\n";
   my @desc = map {
     $_, $_->descendants
@@ -358,9 +354,7 @@ sub succession_on_date {
   return @living_desc;
 }
 
-sub siblings {
-  my $self = shift;
-
+sub siblings( $self ) {
   return unless $self->parent;
 
   return $self->parent->sorted_children->search({
@@ -368,10 +362,7 @@ sub siblings {
   });
 }
 
-sub younger_siblings_and_descendants {
-  my $self = shift;
-  my ($date) = @_;
-
+sub younger_siblings_and_descendants( $self ) {
   my $parent = $self->parent;
   return unless $self->parent;
 
@@ -386,10 +377,7 @@ sub younger_siblings_and_descendants {
   return @people;
 }
 
-sub descendants {
-  my $self = shift;
-  my ($date) = @_;
-
+sub descendants( $self) {
   my @desc = $self->sorted_children->search({}, {
     prefetch => [ 'titles', 'exclusions'],
   });
@@ -397,10 +385,7 @@ sub descendants {
   return map { $_, $_->descendants } @desc;
 }
 
-sub is_alive_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub is_alive_on_date( $self, $date = undef) {
   $date ||= DateTime->now;
 
   return 0 if $self->born > $date;
@@ -409,18 +394,13 @@ sub is_alive_on_date {
   return 1;
 }
 
-sub sorted_children {
-  my $self = shift;
-
+sub sorted_children(  $self ) {
   return $self->children({}, {
     order_by => 'family_order',
   });
 }
 
-sub describe {
-  my $self = shift;
-  my ($date) = @_;
-
+sub describe( $self, $date ) {
   my $fmt = '%d %B %Y';
 
   my $desc = $self->name_on_date($date) .
@@ -435,19 +415,14 @@ sub describe {
   return $desc;
 }
 
-sub age_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub age_on_date( $self, $date ) {
   $date //= DateTime->now;
 
   my $age = $date - $self->born;
   return $age->years || ($age->months . ' months');
 }
 
-sub name {
-  my $self = shift;
-
+sub name( $self ) {
   if (my $title = $self->titles({ is_default => 1})->first) {
     return $title->title;
   } else {
@@ -455,10 +430,7 @@ sub name {
   }
 }
 
-sub name_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub name_on_date( $self, $date ) {
   unless ($self->is_alive_on_date($date)) {
     return '[' . $self->name . ']';
   }
@@ -487,10 +459,7 @@ sub name_on_date {
   }
 }
 
-sub excluded_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub excluded_on_date( $self, $date ) {
   my $dtf      = $self->result_source->storage->datetime_parser;
   my $fmt_date = $dtf->format_datetime($date);
 
@@ -512,36 +481,23 @@ sub excluded_on_date {
   return $exc->reason;
 }
 
-sub ancestors {
-  my $self = shift;
-
+sub ancestors(  $self ) {
   return $self->rel->get_ancestors($self);
 }
 
-sub most_recent_common_ancestor_with {
-  my $self = shift;
-  my ($person) = @_;
-
+sub most_recent_common_ancestor_with( $self, $person ) {
   return $self->rel->most_recent_common_ancestor($self, $person);
 }
 
-sub relationship_with {
-  my $self = shift;
-  my ($person) = @_;
-
+sub relationship_with( $self, $person ) {
   return $self->rel->get_relationship($self, $person);
 }
 
-sub anc_string {
-  my $self = shift;
-
+sub anc_string( $self ) {
   return join ' / ', map { $_->name } $self->ancestors;
 }
 
-sub position_obj_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub position_obj_on_date( $self, $date ) {
   return 0 if $self->is_sovereign_on_date($date);
 
   my $dtf      = $self->result_source->storage->datetime_parser;
@@ -564,28 +520,21 @@ sub position_obj_on_date {
   return $pos;
 }
 
-sub position_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub position_on_date(  $self, $date ) {
   my $pos = $self->position_obj_on_date($date);
 
   return unless $pos;
   return $pos->position;
 }
 
-sub years {
-  my $self = shift;
-
+sub years( $self ) {
   my $years = $self->born->year . ' - ';
   $years .= $self->died->year if $self->died;
 
   return $years;
 }
 
-sub make_slug {
-  my $self = shift;
-
+sub make_slug( $self ) {
   my $sha = Digest::SHA->new;
 
   # Use only immutable fields for the hex part
@@ -603,9 +552,7 @@ sub make_slug {
   $self->update({ slug => $slug });
 }
 
-sub regenerate_slug {
-  my $self = shift;
-
+sub regenerate_slug( $self ) {
   # Extract the hex part from the current slug
   my $current_slug = $self->slug;
   return unless $current_slug;
@@ -622,10 +569,7 @@ sub regenerate_slug {
   $self->update({ slug => $slug });
 }
 
-sub is_sovereign_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub is_sovereign_on_date(  $self, $date ) {
   my $sch = $self->result_source->schema;
 
   my $sov = $sch->resultset('Sovereign')->sovereign_on_date($date);
@@ -633,10 +577,7 @@ sub is_sovereign_on_date {
   return $sov->person->id == $self->id;
 }
 
-sub add_child {
-  my $self = shift;
-  my ($args) = @_;
-
+sub add_child(  $self, $args ) {
   unless (exists $args->{died}) {
     $args->{died} = undef;
   }
@@ -676,8 +617,7 @@ sub add_child {
   return $child;
 }
 
-sub reorder_family {
-  my $self = shift;
+sub reorder_family( $self ) {
   my $schema = $self->result_source->schema;
 
   # Primogeniture cut-off (UK rule change)
@@ -709,9 +649,7 @@ sub reorder_family {
   return $self;
 }
 
-sub wikidata {
-  my $self = shift;
-
+sub wikidata( $self ) {
   my $qid  = $self->wikidata_qid or return;
 
   state $cache;
@@ -719,10 +657,7 @@ sub wikidata {
   return $cache->{$qid} //= Succession::WikiData::Entity->new(qid => $qid);
 }
 
-sub image_url {
-  my $self = shift;
-  my $width = $_[0] // 400;
-
+sub image_url( $self, $width = 400 ) {
   my $wd = $self->wikidata or return;
   my $filename = $wd->image_filename or return;
   my $enc_filename = uri_escape_utf8($filename);
@@ -731,10 +666,7 @@ sub image_url {
          "$enc_filename?width=$width";
 }
 
-sub short_bio {
-  my $self = shift;
-  my $length = $_[0] // 360;
-
+sub short_bio( $self, $length = 360 ) {
   my $wd = $self->wikidata or return;
   my $ent = $wd->entity || {};
 
@@ -745,8 +677,7 @@ sub short_bio {
   return _trim(ucfirst $bio);
 }
 
-sub _trim {
-  my ($s, $max) = @_;
+sub _trim( $s, $max = 360 ) {
   return $s unless defined $s && $max && length($s) > $max;
   $s =~ s/\s+/ /g;
   my $cut = substr($s, 0, $max);

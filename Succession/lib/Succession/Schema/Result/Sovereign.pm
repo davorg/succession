@@ -127,12 +127,14 @@ __PACKAGE__->belongs_to(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
-sub name {
-  return $_[0]->person->name;
+use experimental 'signatures';
+
+sub name( $self ) {
+  return $self->person->name;
 }
 
-sub succession_on_date {
-  return $_[0]->person->succession_on_date($_[1]);
+sub succession_on_date( $self, $date ) {
+  return $self->person->succession_on_date($date);
 }
 
 __PACKAGE__->meta->make_immutable;

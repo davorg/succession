@@ -2,13 +2,11 @@ package Succession::Schema::ResultSet::Sovereign;
 
 use strict;
 use warnings;
+use experimental 'signatures';
 
 use parent 'DBIx::Class::ResultSet';
 
-sub sovereign_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub sovereign_on_date( $self, $date ) {
   $date = $self->result_source->schema->storage->
           datetime_parser->format_datetime($date);
 
@@ -20,14 +18,11 @@ sub sovereign_on_date {
   });
 }
 
-sub _is_sqlite {
-  my $self = shift;
+sub _is_sqlite( $self ) {
   return $self->result_source->schema->storage->dbh->{Driver}{Name} eq 'SQLite';
 }
 
-sub anniversaries {
-  my $self = shift;
-
+sub anniversaries( $self ) {
   my ($where_sql, @order);
   if ($self->_is_sqlite) {
     $where_sql = q{
