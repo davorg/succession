@@ -1,8 +1,10 @@
 <% MACRO link_date(the_date) BLOCK;
+   date_str = the_date.strftime('%e&nbsp;%B&nbsp;%Y').trim;
+   date_ymd = the_date.strftime('%Y-%m-%d');
    IF the_date < app.earliest;
      the_date.strftime('%e %b %Y').trim;
    ELSE;
-     '<a title="Line of Succession on '; the_date.strftime('%e&nbsp;%B&nbsp;%Y').trim; '" href="/'; the_date.strftime('%Y-%m-%d'); '">'; the_date.strftime('%e&nbsp;%B&nbsp;%Y').trim; '</a>';
+     '<a title="Line of Succession on '; date_str; '" href="/'; date_ymd; '">'; date_str; '</a>';
    END;
    END; -%>
 

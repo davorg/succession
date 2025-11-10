@@ -12,7 +12,7 @@
     </div>
     <% END -%>
     <div class="card-soft">
-    <h1>British Line of Succession on <% app.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
+    <h1>British Line of Succession on <% request.date.strftime('%e&nbsp;%B&nbsp;%Y') %></h1>
 
     <div class="row">
 <% IF app.sovereign.image -%>
@@ -26,8 +26,8 @@
         <img
           src="/images/person/<% sovereign.image %>.jpg"
           class="figure-img img-fluid-rounded"
-          alt="<% sov_person.name_on_date(app.date) %>"
-          title="<% sov_person.name_on_date(app.date) %>"
+          alt="<% sov_person.name_on_date(request.date) %>"
+          title="<% sov_person.name_on_date(request.date) %>"
           width="160" height="200"
           loading="lazy" decoding="async" fetchpriority="low">
       </picture>
@@ -41,8 +41,8 @@
   </div>
 <% END -%>
       <div class="col-md">
-        <h2>Sovereign: <a href="/p/<% sov_person.slug %>"><% sov_person.name_on_date(app.date) %></a></h2>
-        <p class="large">Age <% sov_person.age_on_date(app.date) %>
+        <h2>Sovereign: <a href="/p/<% sov_person.slug %>"><% sov_person.name_on_date(request.date) %></a></h2>
+        <p class="large">Age <% sov_person.age_on_date(request.date) %>
         (born <% link_date(sov_person.born) %><% IF sov_person.died %>, will die on <% link_date(sov_person.died); END %>)<br>
         Sovereign since <% link_date(sovereign.start) %>
         (<% years = sov_duration.years; IF years; "<#:${years}> <N:year>" | inflect; ', '; END -%>
@@ -68,12 +68,12 @@
     <ol>
 <% count = 0;
    FOR person IN app.succession;
-     exc = person.excluded_on_date(app.date) -%>
-      <li<% IF exc %> class="disable" <% END %>><a href="/p/<% person.slug %>"><% person.name_on_date(app.date) %></a>
-        <% IF person.name_on_date(app.date) != person.name -%>
+     exc = person.excluded_on_date(request.date) -%>
+      <li<% IF exc %> class="disable" <% END %>><a href="/p/<% person.slug %>"><% person.name_on_date(request.date) %></a>
+        <% IF person.name_on_date(request.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
-        <br><span class="small">Age <% person.age_on_date(app.date) %>
+        <br><span class="small">Age <% person.age_on_date(request.date) %>
         (born <% link_date(person.born) %><% IF person.died %>, will die on <% link_date(person.died); END %>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
         <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>

@@ -592,16 +592,6 @@ INSERT INTO exclusion VALUES(13,NULL,NULL,552,'i');
 INSERT INTO exclusion VALUES(14,NULL,NULL,553,'i');
 INSERT INTO exclusion VALUES(15,'1948-06-10','2015-03-26',225,'mc');
 INSERT INTO exclusion VALUES(17,NULL,NULL,554,'rm');
-CREATE TABLE IF NOT EXISTS "new_child_candidate" (
-  "parent_id" integer NOT NULL,
-  "child_label" varchar(255) NOT NULL,
-  "child_dob" date,
-  "child_qid" varchar(32) NOT NULL,
-  "source_url" varchar(512),
-  "first_seen" datetime NOT NULL DEFAULT 'current_timestamp()',
-  PRIMARY KEY ("parent_id", "child_qid"),
-  FOREIGN KEY ("parent_id") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE RESTRICT
-);
 CREATE TABLE IF NOT EXISTS "person" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "born" date NOT NULL,
@@ -2958,7 +2948,6 @@ INSERT INTO title VALUES(1028,'India Hicks',NULL,NULL,683,1);
 CREATE INDEX "change_idx_change_date_id" ON "change" ("change_date_id");
 CREATE INDEX "change_idx_person_id" ON "change" ("person_id");
 CREATE INDEX "exclusion_idx_person_id" ON "exclusion" ("person_id");
-CREATE INDEX "new_child_candidate_idx_parent_id" ON "new_child_candidate" ("parent_id");
 CREATE INDEX "person_idx_parent" ON "person" ("parent");
 CREATE UNIQUE INDEX "uq_person_qid" ON "person" ("wikidata_qid");
 CREATE INDEX "position_idx_person_id" ON "position" ("person_id");
