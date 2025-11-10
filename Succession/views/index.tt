@@ -4,11 +4,9 @@
    sov_person = sovereign.person;
    sov_duration = app.sovereign_duration -%>
     <% IF error -%>
-    <div class="alert alert-danger alert-dismissable fade show">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <% error %>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-       <span aria-hidden="true">&times;</span>
-     </button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <% END -%>
     <div class="card-soft">

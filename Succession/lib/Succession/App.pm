@@ -24,12 +24,12 @@ via {
   DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
-sub BUILD( $self, @ ) {
-  die 'Date cannot be before ' . $self->earliest->strftime('%d %B %Y')
-    if $self->too_early;
-
-  die 'Date cannot be after today' if $self->too_late;
-}
+#sub BUILD( $self, @ ) {
+#  die 'Date cannot be before ' . $self->earliest->strftime('%d %B %Y')
+#    if $self->too_early;
+#
+#  die 'Date cannot be after today' if $self->too_late;
+#}
 
 has request => (
   is => 'ro',
@@ -328,6 +328,26 @@ sub next_day( $self ) {
 
 sub get_changes( $self ) {
   return $self->model->get_changes_on_date($self->request->date);
+}
+
+sub error( $self ) {
+  if ($self->request->is_date_page) {
+    if ($self->too_early) {
+      return 'Date cannot be before ' . $self->earliest->strftime('%d %B %Y');
+    }
+
+    if ($self->too_late) {
+      return 'Date cannot be after today';
+    }
+  }
+
+  if ($self->request->is_person_page) {
+    unless ($self->request->person) {
+      return "'" . ($self->request->path =~ m[^/p/(.*)] ? $1 : '') . "' is not a valid person identifier";
+    }
+  }
+
+  return;
 }
 
 sub json_ld_type($) {

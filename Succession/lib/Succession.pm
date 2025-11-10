@@ -84,42 +84,37 @@ get '/anniversaries' => sub {
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   set layout => 'main';
 
-  my ($date) = splat;
-  $date //= query_parameters->get('date');
+  my $app = vars->{app};
 
-  my ($app, $date_err) = make_app({
-    date => $date,
-    request => request,
-  });
+  if (my $error = $app->error) {
+    cookie 'error' => $error;
+    redirect '/';
+    return;
+  }
 
-  if ($date_err) {
-    if ($date_err =~ /before/) {
-      $date_err .= Succession::App->new->earliest->strftime('%d %B %Y');
-    }
-    var date_err => $date_err;
-    send_error $date_err, 404;
+  my $error;
+  if ($error = cookie 'error') {
+    cookie 'error' => undef;
   }
 
   template 'index', {
     app     => $app,
+    error   => $error,
   };
 };
 
 get qr{/p/(.*)} => sub {
   set layout => 'main';
 
-  my ($slug) = splat;
-
-  my $person = request->person;
-
-  unless ($person) {
-    send_error "'$slug' is not a valid person identifier", 404;
+  if (my $error = vars->{app}->error) {
+    cookie 'error' => $error;
+    redirect '/';
     return;
   }
 
   template 'person', {
     app    => vars->{app},
-    person => $person,
+    person => request->person,
   };
 };
 
@@ -144,7 +139,7 @@ get '/api' => sub {
   my $count = query_parameters->get('count');
   my $callback = query_parameters->get('callback');
 
-  my ($app, $date_err) = make_app({
+  my $app = make_app({
     date => $date,
     list_size => $count,
     request => request,
@@ -168,19 +163,9 @@ sub make_app {
 
   my $date_err;
 
-  my $app = try {
-    Succession::App->new($args)
-  } catch {
-    if (/Validation failed/) {
-      $date_err = 'Dates must be in the format: YYYY-MM-DD';
-    } elsif (/Date cannot be before/) {
-      $date_err = 'Date cannot be before ';
-    } elsif (/Date cannot be after today/) {
-      $date_err = 'Date cannot be after today';
-    }
-  };
-
-  return ($app, $date_err);
+  my $app = Succession::App->new($args);
+ 
+  return $app;
 }
 
 sub handle_conditional_get {
