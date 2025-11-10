@@ -51,8 +51,8 @@ has host => (
   lazy_build => 1,
 );
 
-sub _build_host(@) {
-  return hostname;
+sub _build_host($self) {
+  return $self->request->uri_base;
 }
 
 has model => (
@@ -239,6 +239,10 @@ sub _build_static_titles($) {
     shop   => {
       title => 'British Line of Succession Shop',
       desc  => 'British Line of Succession Shop',
+    },
+    anniversaries => {
+      title => 'List of Upcoming Anniversaries and Birthdays in the British Line of Succession',
+      desc  => 'List of Upcoming Anniversaries and Birthdays in the British Line of Succession',
     },
   };
 }
