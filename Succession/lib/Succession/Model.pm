@@ -1,10 +1,7 @@
 package Succession::Model;
 
-use strict;
-use warnings;
-use experimental 'signatures';
-
 use Moose;
+use experimental 'signatures'; # After Moose because Moose turns all warnings on
 use DateTime;
 use CHI;
 use Path::Tiny;

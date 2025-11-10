@@ -1,10 +1,9 @@
 package Succession::WikiData::Entity;
 
-use feature qw(signatures);
-no warnings qw(experimental::signatures);
 use utf8;
 
 use Moo;
+use experimental 'signatures'; # After Moo because Moo turns all warnings on
 use HTTP::Tiny;
 use Try::Tiny;
 use JSON::MaybeXS ();
