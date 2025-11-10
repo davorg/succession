@@ -13,10 +13,24 @@ hook before => sub {
   vars->{app} = Succession::App->new(
     request => request,
   );
+  vars->{dancer_app} = app;
 };
 
-get '/db' => sub {
-  return vars->{app}->model->db_ver;
+get '/info' => sub {
+  my %info = (
+    perl_version   => $],
+    dancer_version => $Dancer2::VERSION,
+    succession_version => $Succession::VERSION,
+    db_version    => vars->{app}->model->db_ver,
+    environment  => vars->{dancer_app}->environment,
+    host         => vars->{app}->host,
+  );
+
+  my $info_str = join "\n", map { "* $_: $info{$_}" } sort keys %info;
+
+  content_type 'text/plain';
+
+  return $info_str;
 };
 
 get '/lp' => sub {

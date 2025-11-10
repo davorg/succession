@@ -10,8 +10,6 @@
 <!-- You'd never believe I'm a republican, would you! -->
 <html lang="en">
   <head>
-    <!-- succession app running on <% app.host %> -->
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="<% app.description %>">
