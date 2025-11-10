@@ -1,9 +1,8 @@
 package Succession::Request;
 
-use experimental 'signatures';
-
 use Moose;
 extends 'Dancer2::Core::Request';
+use experimental 'signatures'; # After Moose because Moose turns all warnings on
 
 use DateTime;
 use Succession::Model;
