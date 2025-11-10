@@ -2,12 +2,40 @@ package Succession::Request;
 
 use experimental 'signatures';
 
-use parent 'Dancer2::Core::Request';
+use Moose;
+extends 'Dancer2::Core::Request';
+
 use DateTime;
 use Succession::Model;
 
-sub model( $self ) {
-  return $self->{model} //= Succession::Model->new;
+has model => (
+  is => 'ro',
+  isa => 'Succession::Model',
+  lazy => 1,
+  builder => '_build_model',
+);
+
+sub _build_model( $ ) {
+  return Succession::Model->new;
+}
+
+has date => (
+  is => 'ro',
+  lazy => 1,
+  builder => '_build_date',
+);
+
+sub _build_date( $self ) {
+  return DateTime->today unless $self->is_date_page;
+
+  my ($date_str) = $self->path =~ m[^/(\d{4}-\d\d-\d\d)];
+  my ($year, $month, $day) = split /-/, $date_str;
+
+  return DateTime->new(
+    year  => $year,
+    month => $month,
+    day   => $day,
+    );
 }
 
 sub is_date_page( $self ) {
@@ -22,31 +50,18 @@ sub is_person_page( $self ) {
   return $self->path =~ m[^/p/];
 }
 
-sub date( $self ) {
-  return DateTime->today unless $self->is_date_page;
-   
-  $self->{date} //= do {
-    my ($date_str) = $self->path =~ m[^/(\d{4}-\d\d-\d\d)];
-    my ($year, $month, $day) = split /-/, $date_str;
-    DateTime->new(
-      year  => $year,
-      month => $month,
-      day   => $day,
-      );
-  };
-    
-  return $self->{date};
-}
+has person => (
+  is => 'ro',
+  isa => 'Succession::Schema::Result::Person|Undef',
+  lazy => 1,
+  builder => '_build_person',
+);
 
-sub person( $self ) {
+sub _build_person( $self ) {
   return unless $self->is_person_page;
 
-  $self->{person} //= do {
-    my ($slug) = $self->path =~ m[^/p/(.*)];
-    $self->model->get_person_from_slug($slug);
-  };
-
-  return $self->{person};
+  my ($slug) = $self->path =~ m[^/p/(.*)];
+  return $self->model->get_person_from_slug($slug);
 }
 
 1;
