@@ -40,16 +40,14 @@ has json => (
 # ----------------------------
 # Build step: fetch & follow redirects once constructed
 # ----------------------------
-sub BUILD {
-  my ($self, $args) = @_;
+sub BUILD( $self, $args ) {
   $self->_fetch_and_follow_redirects();
 }
 
 # ----------------------------
 # Fetch with redirect handling
 # ----------------------------
-sub _fetch_and_follow_redirects {
-  my ($self) = @_;
+sub _fetch_and_follow_redirects( $self ) {
   my $hops    = 0;
   my $current = $self->qid;
   my $from;
@@ -114,14 +112,12 @@ sub _fetch_and_follow_redirects {
 # ----------------------------
 # Generic claim readers
 # ----------------------------
-sub _claims {
-  my ($self, $prop) = @_;
+sub _claims( $self, $prop ) {
   my $ent = $self->entity // return [];
   return $ent->{claims}{$prop} // [];
 }
 
-sub ids_for {
-  my ($self, $prop) = @_;
+sub ids_for( $self, $prop ) {
   my @out;
   for my $st (@{ $self->_claims($prop) }) {
     next if ($st->{rank} // '') eq 'deprecated';
@@ -132,8 +128,7 @@ sub ids_for {
   return @out;
 }
 
-sub times_for {
-  my ($self, $prop) = @_;
+sub times_for( $self, $prop ) {
   my @out;
   for my $st (@{ $self->_claims($prop) }) {
     next if ($st->{rank} // '') eq 'deprecated';
@@ -147,16 +142,14 @@ sub times_for {
 # ----------------------------
 # Labels / sitelinks
 # ----------------------------
-sub label_en {
-  my ($self) = @_;
+sub label_en( $self ) {
   my $ent = $self->entity // return undef;
   return $ent->{labels}{'en-gb'}{value}
       // $ent->{labels}{'en'}{value}
       // undef;
 }
 
-sub enwiki_url {
-  my ($self) = @_;
+sub enwiki_url( $self ) {
   my $ent = $self->entity // return undef;
   my $links = $ent->{sitelinks} // {};
   return undef unless $links->{enwiki};
@@ -168,21 +161,19 @@ sub enwiki_url {
 # ----------------------------
 # Dates / sex
 # ----------------------------
-sub birth_time { my ($self) = @_; my ($t) = $self->times_for('P569'); return $t }
-sub death_time { my ($self) = @_; my ($t) = $self->times_for('P570'); return $t }
+sub birth_time( $self ) { my ($t) = $self->times_for('P569'); return $t }
+sub death_time( $self ) { my ($t) = $self->times_for('P570'); return $t }
 
-sub _wd_date_str {
-  my ($t) = @_;
+sub _wd_date_str( $t ) {
   return unless defined $t && $t =~ /^\+?(\d{4})(?:-(\d{2})-(\d{2}))?/;
   my ($y,$m,$d) = ($1, $2 // "01", $3 // "01");
   return sprintf "%04d-%02d-%02d", $y, $m, $d;
 }
 
-sub birth_date { my ($self) = @_; return _wd_date_str($self->birth_time) }
-sub death_date { my ($self) = @_; return _wd_date_str($self->death_time) }
+sub birth_date( $self ) { return _wd_date_str($self->birth_time) }
+sub death_date( $self ) { return _wd_date_str($self->death_time) }
 
-sub sex {
-  my ($self) = @_;
+sub sex( $self ) {
   for my $st (@{ $self->_claims('P21') }) {
     my $v = $st->{mainsnak}{datavalue}{value};
     next unless ref($v) eq 'HASH' && $v->{id};
@@ -195,18 +186,18 @@ sub sex {
 # ----------------------------
 # Parents / children
 # ----------------------------
-sub parent_qids {
-  my ($self) = @_;
+sub parent_qids( $self ) {
   my %seen;
   my @ids = ($self->ids_for('P22'), $self->ids_for('P25'));
   return grep { $_ && !$seen{$_}++ } @ids;
 }
 
-sub child_qids_all { my ($self) = @_; return $self->ids_for('P40') }
+sub child_qids_all( $self ) {
+  return $self->ids_for('P40');
+}
 
 # P40 where ANY P1039 (type of kinship) is present (e.g., foster/step/adopted)
-sub child_qids_nonbio {
-  my ($self) = @_;
+sub child_qids_nonbio( $self ) {
   my @out;
   for my $st (@{ $self->_claims('P40') }) {
     next if ($st->{rank} // '') eq 'deprecated';
@@ -221,8 +212,7 @@ sub child_qids_nonbio {
 }
 
 # P40 where NO P1039 kinship qualifier exists (treat as biological/adoptive)
-sub child_qids_biological {
-  my ($self) = @_;
+sub child_qids_biological( $self ) {
   my @out;
   for my $st (@{ $self->_claims('P40') }) {
     next if ($st->{rank} // '') eq 'deprecated';
@@ -238,8 +228,7 @@ sub child_qids_biological {
 }
 
 # True if THIS entity is a P22/P25 parent of $child (another Entity object)
-sub is_parent_of {
-  my ($self, $child) = @_;
+sub is_parent_of( $self, $child ) {
   my $me = $self->qid // return 0;
   return 0 unless $child && $child->can('parent_qids');
   my %p = map { $_ => 1 } $child->parent_qids;
@@ -249,8 +238,7 @@ sub is_parent_of {
 # ----------------------------
 # Media
 # ----------------------------
-sub image_filename {
-  my ($self) = @_;
+sub image_filename( $self ) {
   for my $st (@{ $self->_claims('P18') }) {
     my $dv = $st->{mainsnak}{datavalue} // next;
     my $v  = $dv->{value};
@@ -263,7 +251,7 @@ sub image_filename {
 # Convenience one-argument constructor
 # Usage: my $wd = Succession::WikiData::Entity::from_qid('Q123');
 # ------------------------------------------------------------------
-sub from_qid ($qid) {
+sub from_qid( $qid ) {
   die "from_qid() requires a QID like Q12345" unless defined $qid && $qid =~ /^Q\d+$/;
   return __PACKAGE__->new(qid => $qid);
 }

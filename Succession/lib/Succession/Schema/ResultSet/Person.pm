@@ -2,19 +2,15 @@ package Succession::Schema::ResultSet::Person;
 
 use strict;
 use warnings;
+use experimental 'signatures';
 
 use parent 'DBIx::Class::ResultSet';
 
-sub order_by_age {
-  my $self = shift;
-
+sub order_by_age( $self ) {
   return $self->search(undef, { order_by => 'born' });
 }
 
-sub find_by_slug {
-  my $self = shift;
-  my ($slug) = @_;
-
+sub find_by_slug( $self, $slug ) {
   $slug =~ s/-.*//;
 
   return $self->find({
@@ -22,13 +18,11 @@ sub find_by_slug {
   });
 }
 
-sub _is_sqlite {
-  my $self = shift;
+sub _is_sqlite( $self ) {
   return $self->result_source->schema->storage->dbh->{Driver}{Name} eq 'SQLite';
 }
 
-sub birthdays {
-  my $self = shift;
+sub birthdays( $self ) {
 
   my ($where_sql, @bind, @order);
   if ($self->_is_sqlite) {

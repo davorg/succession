@@ -2,6 +2,7 @@ package Succession::App;
 
 use strict;
 use warnings;
+use experimental 'signatures';
 
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -26,9 +27,7 @@ via {
   DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')->parse_datetime($_);
 };
 
-sub BUILD {
-  my $self = shift;
-
+sub BUILD( $self, @ ) {
   die 'Date cannot be before ' . $self->earliest->strftime('%d %B %Y')
     if $self->too_early;
 
@@ -42,7 +41,7 @@ has request => (
 );
 
 
-sub _build_request {
+sub _build_request(@) {
   die "No request attribute given to " . __PACKAGE__;
 }
 
@@ -52,7 +51,7 @@ has host => (
   lazy_build => 1,
 );
 
-sub _build_host {
+sub _build_host(@) {
   return hostname;
 }
 
@@ -63,7 +62,7 @@ has model => (
   handles => [ qw( get_succession get_succession_data interesting_dates ) ],
 );
 
-sub _build_model {
+sub _build_model(@) {
   return Succession::Model->new;
 }
 
@@ -74,7 +73,7 @@ has today => (
   coerce => 1,
 );
 
-sub _build_today {
+sub _build_today(@) {
   return DateTime->today;
 }
 
@@ -101,8 +100,7 @@ has list_size_str => (
   lazy_build => 1,
 );
 
-sub _build_list_size_str {
-  my $self = shift;
+sub _build_list_size_str( $self ) {
   return num2en($self->list_size);
 }
 
@@ -112,8 +110,7 @@ has sovereign => (
   lazy_build => 1,
 );
 
-sub _build_sovereign {
-  my $self = shift;
+sub _build_sovereign( $self ) {
   return $self->model->sovereign_on_date($self->request->date);
 }
 
@@ -123,8 +120,7 @@ has sovereign_duration => (
   lazy_build => 1,
 );
 
-sub _build_sovereign_duration {
-  my $self = shift;
+sub _build_sovereign_duration( $self ) {
   return $self->request->date - $self->sovereign->start;
 }
 
@@ -134,8 +130,7 @@ has succession => (
   lazy_build => 1,
 );
 
-sub _build_succession {
-  my $self = shift;
+sub _build_succession( $self ) {
   my $succ = $self->model->succession_on_date($self->request->date);
 
   my @short_succ = grep {
@@ -153,7 +148,7 @@ has feed => (
   lazy_build => 1,
 );
 
-sub _build_feed {
+sub _build_feed($) {
   return XML::Feed->parse(
     URI->new('https://blog.lineofsuccession.co.uk/feed')
   );
@@ -165,9 +160,7 @@ has title => (
   lazy_build => 1,
 );
 
-sub _build_title {
-  my $self = shift;
-
+sub _build_title( $self ) {
   my $path = $self->request->path;
 
   my $title = 'British Line of Succession';
@@ -199,9 +192,7 @@ has description => (
   lazy_build => 1,
 );
 
-sub _build_description {
-  my $self = shift;
-
+sub _build_description( $self ) {
   my $path = $self->request->path;
 
   my $desc = 'See the Line of Succession to the British Throne';
@@ -235,7 +226,7 @@ has static_titles => (
   lazy_build => 1,
 );
 
-sub _build_static_titles {
+sub _build_static_titles($) {
   return {
     changes => {
       title => 'Timeline of Changes to the British Line of Succession',
@@ -252,9 +243,7 @@ sub _build_static_titles {
   };
 }
 
-sub image {
-  my $self = shift;
-
+sub image( $self ) {
   if ($self->request->is_home_page or $self->request->is_date_page) {
     return $self->sovereign->image . '.jpg';
   } else {
@@ -262,27 +251,21 @@ sub image {
   }
 }
 
-sub too_early {
-  my $self = shift;
+sub too_early( $self ) {
   return $self->request->date < $self->earliest;
 }
 
-sub too_late {
-  my $self = shift;
+sub too_late( $self ) {
   return DateTime->now < $self->request->date;
 }
 
-sub is_valid_date {
-  my $self = shift;
-
+sub is_valid_date( $self, $date ) {
   return !! DateTime::Format::Strptime->new(
     pattern => '%Y-%m-%d'
-  )->parse_datetime($_[0]);
+  )->parse_datetime($date);
 }
 
-sub canonical {
-  my $self = shift;
-
+sub canonical( $self ) {
   if ($self->request->is_date_page) {
     return '/' . $self->canonical_date;
   } else {
@@ -290,13 +273,11 @@ sub canonical {
   }
 }
 
-sub canonical_date {
-  return $_[0]->model->get_canonical_date($_[0]->request->date);
+sub canonical_date( $self ) {
+  return $self->model->get_canonical_date($self->request->date);
 }
 
-sub alternate {
-  my $self = shift;
-
+sub alternate( $self ) {
   if ($self->request->is_date_page) {
     return '/' . $self->page_date;
   } else {
@@ -304,28 +285,23 @@ sub alternate {
   }
 }
 
-sub page_date {
-  my $self = shift;
-
+sub page_date( $self ) {
   return '' unless $self->request->date;
   return '' if $self->request->date == $self->today;
   return $self->request->date->strftime('%Y-%m-%d');
 }
 
-sub prev_change_date {
-  my $self = shift;
+sub prev_change_date( $self ) {
   my $date = $self->model->get_prev_change_date($self->request->date);
   return $date ? $date->change_date : '';
 }
 
-sub next_change_date {
-  my $self = shift;
+sub next_change_date( $self ) {
   my $date = $self->model->get_next_change_date($self->request->date);
   return $date ? $date->change_date : '';
 }
 
-sub prev_day {
-  my $self = shift;
+sub prev_day( $self ) {
   my $date = $self->request->date;
 
   return unless $self->request->is_home_page or $self->request->is_date_page;
@@ -337,8 +313,7 @@ sub prev_day {
   return;
 }
 
-sub next_day {
-  my $self = shift;
+sub next_day( $self ) {
   my $date = $self->request->date;
 
   return unless $self->request->is_home_page or $self->request->is_date_page;
@@ -350,16 +325,15 @@ sub next_day {
   return;
 }
 
-sub get_changes {
-  my $self = shift;
+sub get_changes( $self ) {
   return $self->model->get_changes_on_date($self->request->date);
 }
 
-sub json_ld_type {
+sub json_ld_type($) {
   return 'ItemList';
 }
 
-sub json_ld_fields {
+sub json_ld_fields($) {
   return [];
 }
 
@@ -392,10 +366,7 @@ around json_ld_data => sub {
   return $data;
 };
 
-sub make_succ_str_for_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub make_succ_str_for_date( $self, $date = undef) {
   $date //= $self->request->date;
 
   my @succ = @{ $self->model->succession_on_date($date) };

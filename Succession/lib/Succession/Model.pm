@@ -2,6 +2,7 @@ package Succession::Model;
 
 use strict;
 use warnings;
+use experimental 'signatures';
 
 use Moose;
 use DateTime;
@@ -18,7 +19,7 @@ has schema => (
   isa => 'Succession::Schema',
 );
 
-sub _build_schema {
+sub _build_schema($) {
   return Succession::Schema->get_schema;
 }
 
@@ -28,12 +29,12 @@ has [ qw[sovereign_rs person_rs] ] => (
   lazy_build =>  1,
 );
 
-sub _build_sovereign_rs {
-  return $_[0]->schema->resultset('Sovereign');
+sub _build_sovereign_rs($self) {
+  return $self->schema->resultset('Sovereign');
 }
 
-sub _build_person_rs {
-  return $_[0]->schema->resultset('Person');
+sub _build_person_rs($self) {
+  return $self->schema->resultset('Person');
 }
 
 has change_date_rs => (
@@ -42,8 +43,8 @@ has change_date_rs => (
   lazy_build =>  1,
 );
 
-sub _build_change_date_rs {
-  return $_[0]->schema->resultset('ChangeDate');
+sub _build_change_date_rs($self) {
+  return $self->schema->resultset('ChangeDate');
 }
 
 has cache_servers => (
@@ -52,7 +53,7 @@ has cache_servers => (
   lazy_build => 1,
 );
 
-sub _build_cache_servers {
+sub _build_cache_servers($) {
   my $server = $ENV{SUCC_CACHE_SERVER} // 'localhost';
   my $port   = $ENV{SUCC_CACHE_PORT}   // 11_211;
 
@@ -65,9 +66,7 @@ has cache => (
   lazy_build => 1,
 );
 
-sub _build_cache {
-  my $self = shift;
-
+sub _build_cache( $self ) {
   return CHI->new(
     driver => 'Memcached',
     namespace => 'succession',
@@ -83,7 +82,7 @@ has interesting_dates => (
   lazy_build => 1,
 );
 
-sub _build_interesting_dates {
+sub _build_interesting_dates($) {
   return [{
     monarch => 'George IV',
     dates => [{
@@ -166,10 +165,7 @@ sub _build_interesting_dates {
   }];
 }
 
-sub sovereign_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub sovereign_on_date($self, $date = undef) {
   $date //= $self->date;
 
   my $sovereign = $self->cache->compute(
@@ -182,10 +178,7 @@ sub sovereign_on_date {
   return $sovereign;
 }
 
-sub succession_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub succession_on_date($self, $date = undef) {
   $date //= $self->date;
 
   my $succession = $self->cache->compute(
@@ -198,9 +191,7 @@ sub succession_on_date {
   return $succession;
 }
 
-sub get_succession {
-  my $self = shift;
-
+sub get_succession($self) {
   my $succ = {
     sovereign => $self->sovereign->name,
   };
@@ -212,10 +203,7 @@ sub get_succession {
   return $succ;
 }
 
-sub get_succession_data {
-  my $self = shift;
-  my ($date, $count) = @_;
-
+sub get_succession_data($self, $date, $count) {
   my $sov = $self->sovereign_on_date($date)->person;
 
   my $succ = {
@@ -244,10 +232,7 @@ sub get_succession_data {
   return $succ;
 }
 
-sub get_canonical_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub get_canonical_date($self, $date) {
   my $canonical_date = $self->cache->compute(
     'canon|' . $date->ymd, undef,
     sub {
@@ -272,11 +257,7 @@ sub get_canonical_date {
   return $canonical_date;
 }
 
-sub get_prev_change_date {
-  my $self = shift;
-  my ($date) = @_;
-  my $include_curr = $_[1] // 0;
-
+sub get_prev_change_date($self, $date, $include_curr = 0) {
   my $prev_date = $self->cache->compute(
     "prev_change|$include_curr|" . $date->ymd, undef,
     sub {
@@ -297,11 +278,7 @@ sub get_prev_change_date {
   return $prev_date;
 }
 
-sub get_next_change_date {
-  my $self = shift;
-  my ($date) = @_;
-  my $include_curr = $_[1] // 0;
-
+sub get_next_change_date($self, $date, $include_curr = 0) {
   my $next_date = $self->cache->compute(
     "next_change|$include_curr|" . $date->ymd, undef,
     sub {
@@ -322,10 +299,7 @@ sub get_next_change_date {
     return $next_date;
 }
 
-sub get_changes_on_date {
-  my $self = shift;
-  my ($date) = @_;
-
+sub get_changes_on_date($self, $date) {
   my @changes;
 
   foreach ($date->clone->subtract(days => 1),
@@ -348,10 +322,7 @@ sub get_changes_on_date {
   return \@changes;
 }
 
-sub get_relationship_between_people {
-  my $self = shift;
-  my ($person1, $person2) = @_;
-
+sub get_relationship_between_people($self, $person1, $person2) {
   my $relationship = $self->cache->compute(
     'rel|' . $person1->id . '|' . $person2->id, undef,
     sub {
@@ -362,10 +333,7 @@ sub get_relationship_between_people {
   return $relationship;
 }
 
-sub get_person_from_slug {
-  my $self = shift;
-  my ($slug) = @_;
-
+sub get_person_from_slug($self, $slug) {
   my $person = $self->cache->compute(
     'person|' . $slug, undef,
     sub {
@@ -376,9 +344,7 @@ sub get_person_from_slug {
   return $person;
 }
 
-sub get_all_changes {
-  my $self = shift;
-
+sub get_all_changes($self) {
   return $self->cache->compute(
     'changes', undef,
     sub {
@@ -387,9 +353,7 @@ sub get_all_changes {
   );
 }
 
-sub get_anniveraries {
-  my $self = shift;
-
+sub get_anniversaries($self) {
   my $anniversaries = $self->sovereign_rs->anniversaries;
   my $birthdays     = $self->person_rs->birthdays;
 
@@ -399,14 +363,12 @@ sub get_anniveraries {
   };
 }
 
-sub http_date {
-  return gmtime(shift || time)->strftime('%a, %d %b %Y %H:%M:%S GMT');
+sub http_date($epoch) {
+  return gmtime($epoch || time)->strftime('%a, %d %b %Y %H:%M:%S GMT');
 }
 
 # Load + cache shop.json (Memcached) with mtime-based invalidation
-sub get_shop_data {
-  my $self = shift;
-
+sub get_shop_data($self) {
   my $json_path = path('Succession', 'public', 'var', 'shop.json');
   my $mtime     = $json_path->stat ? $json_path->stat->mtime : 0;
 
@@ -432,9 +394,7 @@ sub get_shop_data {
   return ($shop, $etag, $last_mod);
 }
 
-sub db_ver {
-  my $self = shift;
-
+sub db_ver( $self ) {
   my $driver = $self->schema->storage->dbh->{Driver}{Name};
 
   my $info = "DB Driver: $driver";
