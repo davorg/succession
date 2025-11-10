@@ -87,14 +87,14 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
   my $app = vars->{app};
 
   if (my $error = $app->error) {
-    cookie 'error' => 'expired', expires => '-1d';
+    cookie 'error' => $error;
     redirect '/';
     return;
   }
 
   my $error;
   if ($error = cookie 'error') {
-    cookie 'error' => undef;
+    cookie 'error' => 'expired', expires => '-1d';
   }
 
   template 'index', {
