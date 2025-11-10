@@ -401,6 +401,8 @@ sub is_alive_on_date {
   my $self = shift;
   my ($date) = @_;
 
+  $date ||= DateTime->now;
+
   return 0 if $self->born > $date;
   return 1 if !defined $self->died;
   return 0 if $self->died < $date;

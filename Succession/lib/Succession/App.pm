@@ -37,7 +37,7 @@ sub BUILD {
 
 has request => (
   is => 'ro',
-  isa => 'Dancer2::Core::Request',
+  isa => 'Succession::Request',
   lazy_build => 1,
 );
 
@@ -65,17 +65,6 @@ has model => (
 
 sub _build_model {
   return Succession::Model->new;
-}
-
-has date => (
-  is => 'ro',
-  isa => 'SuccessionDate',
-  lazy_build =>  1,
-  coerce => 1,
-);
-
-sub _build_date {
-  return DateTime->today;
 }
 
 has today => (
@@ -125,7 +114,7 @@ has sovereign => (
 
 sub _build_sovereign {
   my $self = shift;
-  return $self->model->sovereign_on_date($self->date);
+  return $self->model->sovereign_on_date($self->request->date);
 }
 
 has sovereign_duration => (
@@ -136,7 +125,7 @@ has sovereign_duration => (
 
 sub _build_sovereign_duration {
   my $self = shift;
-  return $self->date - $self->sovereign->start;
+  return $self->request->date - $self->sovereign->start;
 }
 
 has succession => (
@@ -147,21 +136,16 @@ has succession => (
 
 sub _build_succession {
   my $self = shift;
-  my $succ = $self->model->succession_on_date($self->date);
+  my $succ = $self->model->succession_on_date($self->request->date);
 
   my @short_succ = grep {
-    ! $_->excluded_on_date($self->date);
+    ! $_->excluded_on_date($self->request->date);
   } @$succ;
 
   $#short_succ = $self->list_size - 1 if $#short_succ >= $self->list_size;
 
   return \@short_succ;
 }
-
-has person => (
-  is => 'rw',
-  isa => 'Maybe[Succession::Schema::Result::Person]',
-);
 
 has feed => (
   is => 'ro',
@@ -188,16 +172,16 @@ sub _build_title {
 
   my $title = 'British Line of Succession';
 
-  if ($path eq '/') {
+  if ($self->request->is_home_page) {
     return $title . ' on any date in the last 200 years.';
   }
 
-  if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
-    return $title . ' on ' . $self->date->strftime('%e %B %Y');
+  if ($self->request->is_date_page) {
+    return $title . ' on ' . $self->request->date->strftime('%e %B %Y');
   }
 
-  if ($path =~ m[^/p/]) {
-    return $self->person->name . ' (' . $self->person->years . ") - $title";
+  if ($self->request->is_person_page) {
+    return $self->request->person->name . ' (' . $self->request->person->years . ") - $title";
   }
 
   for (keys %{ $self->static_titles }) {
@@ -227,12 +211,12 @@ sub _build_description {
   }
 
   if ($path =~ m[^/\d\d\d\d\-\d\d\-\d\d]) {
-    return $desc . ' on ' . $self->date->strftime('%e %B %Y') . '.';
+    return $desc . ' on ' . $self->request->date->strftime('%e %B %Y') . '.';
   }
 
   if ($path =~ m[^/p/]) {
-    return 'Details of ' . $self->person->name .
-           ' (' . $self->person->years . ')' .
+    return 'Details of ' . $self->request->person->name .
+           ' (' . $self->request->person->years . ')' .
            ' in the Line of Succession to the British Throne.';
   }
 
@@ -271,33 +255,21 @@ sub _build_static_titles {
 sub image {
   my $self = shift;
 
-  if ($self->is_home_page or $self->is_date_page) {
+  if ($self->request->is_home_page or $self->request->is_date_page) {
     return $self->sovereign->image . '.jpg';
   } else {
     return 'Imperial_State_Crown.png';
   }
 }
 
-sub is_date_page {
-  my $self = shift;
-
-  return $self->request->path =~ m[^/\d\d\d\d-\d\d-\d\d];
-}
-
-sub is_home_page {
-  my $self = shift;
-
-  return $self->request->path eq '/';
-}
-
 sub too_early {
   my $self = shift;
-  return $self->date < $self->earliest;
+  return $self->request->date < $self->earliest;
 }
 
 sub too_late {
   my $self = shift;
-  return DateTime->now < $self->date;
+  return DateTime->now < $self->request->date;
 }
 
 sub is_valid_date {
@@ -311,7 +283,7 @@ sub is_valid_date {
 sub canonical {
   my $self = shift;
 
-  if ($self->is_date_page) {
+  if ($self->request->is_date_page) {
     return '/' . $self->canonical_date;
   } else {
     return $self->request->path;
@@ -319,13 +291,13 @@ sub canonical {
 }
 
 sub canonical_date {
-  return $_[0]->model->get_canonical_date($_[0]->date);
+  return $_[0]->model->get_canonical_date($_[0]->request->date);
 }
 
 sub alternate {
   my $self = shift;
 
-  if ($self->is_date_page) {
+  if ($self->request->is_date_page) {
     return '/' . $self->page_date;
   } else {
     return $self->request->path;
@@ -335,28 +307,28 @@ sub alternate {
 sub page_date {
   my $self = shift;
 
-  return '' unless $self->date;
-  return '' if $self->date == $self->today;
-  return $self->date->strftime('%Y-%m-%d');
+  return '' unless $self->request->date;
+  return '' if $self->request->date == $self->today;
+  return $self->request->date->strftime('%Y-%m-%d');
 }
 
 sub prev_change_date {
   my $self = shift;
-  my $date = $self->model->get_prev_change_date($self->date);
+  my $date = $self->model->get_prev_change_date($self->request->date);
   return $date ? $date->change_date : '';
 }
 
 sub next_change_date {
   my $self = shift;
-  my $date = $self->model->get_next_change_date($self->date);
+  my $date = $self->model->get_next_change_date($self->request->date);
   return $date ? $date->change_date : '';
 }
 
 sub prev_day {
   my $self = shift;
-  my $date = $self->date;
+  my $date = $self->request->date;
 
-  return unless $self->is_home_page or $self->is_date_page;
+  return unless $self->request->is_home_page or $self->request->is_date_page;
 
   if ($date > $self->earliest) {
     return $date->clone->subtract(days => 1);
@@ -367,9 +339,9 @@ sub prev_day {
 
 sub next_day {
   my $self = shift;
-  my $date = $self->date;
+  my $date = $self->request->date;
 
-  return unless $self->is_home_page or $self->is_date_page;
+  return unless $self->request->is_home_page or $self->request->is_date_page;
 
   if ($date < $self->today) {
     return $date->clone->add(days => 1);
@@ -380,7 +352,7 @@ sub next_day {
 
 sub get_changes {
   my $self = shift;
-  return $self->model->get_changes_on_date($self->date);
+  return $self->model->get_changes_on_date($self->request->date);
 }
 
 sub json_ld_type {
@@ -397,8 +369,8 @@ around json_ld_data => sub {
 
   my $data = $self->$orig(@_);
 
-  if ($self->person) {
-    $data = $self->person->json_ld_data;
+  if ($self->request->person) {
+    $data = $self->request->person->json_ld_data;
   } else {
     my $pos = 1;
 
@@ -424,7 +396,7 @@ sub make_succ_str_for_date {
   my $self = shift;
   my ($date) = @_;
 
-  $date //= $self->date;
+  $date //= $self->request->date;
 
   my @succ = @{ $self->model->succession_on_date($date) };
 

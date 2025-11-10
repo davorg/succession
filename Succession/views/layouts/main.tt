@@ -1,6 +1,6 @@
 <% PROCESS util.tt -%>
 <% MACRO active_date(the_date) BLOCK;
-   IF app.date.strftime('%Y-%m-%d') == the_date;
+   IF request.date.strftime('%Y-%m-%d') == the_date;
      ' active';
    ELSE;
      '';
@@ -151,7 +151,7 @@
           <!-- Go to www.addthis.com/dashboard to customize your tools -->
           <div class="addthis_native_toolbox"></div>
           <hr>
-<% IF app.is_date_page OR app.is_home_page;
+<% IF request.is_date_page OR request.is_home_page;
      changes = app.get_changes;
      IF changes.size -%>
           <h3>Changes</h3>

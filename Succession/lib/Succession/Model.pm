@@ -432,6 +432,20 @@ sub get_shop_data {
   return ($shop, $etag, $last_mod);
 }
 
+sub db_ver {
+  my $self = shift;
+
+  my $driver = $self->schema->storage->dbh->{Driver}{Name};
+
+  my $info = "DB Driver: $driver";
+
+  if ($driver eq 'SQLite') {
+    $info .= ', version: ' . $self->schema->storage->dbh->{sqlite_version};
+  }
+
+  return $info;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

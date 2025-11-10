@@ -3,51 +3,36 @@ use Dancer2;
 use Try::Tiny;
 
 use Succession::App;
+use Succession::Request;
 
 our $VERSION = '0.1';
 
-sub db_ver {
-  my $app = shift;
+hook before => sub {
+  bless request, 'Succession::Request';
 
-  my $driver = $app->model->schema->storage->dbh->{Driver}{Name};
+  vars->{app} = Succession::App->new(
+    request => request,
+  );
 
-  my $info = "DB Driver: $driver";
-
-  if ($driver eq 'SQLite') {
-    $info .= ', version: ' . $app->model->schema->storage->dbh->{sqlite_version};
-  }
-
-  return $info;
-}
-
-warn  db_ver(Succession::App->new), "\n";
+  warn vars->{app}->model->db_ver;
+};
 
 get '/db' => sub {
-  my $app = Succession::App->new({
-    request => request,
-  });
-
-  return db_ver($app);
+  return vars->{app}->model->db_ver;
 };
 
 get '/lp' => sub {
   set layout => 'main';
 
-  my $app = Succession::App->new({
-    request => request,
-  });
-
   template 'lp', {
-    app => $app,
+    app => vars->{app},
   };
 };
 
 get '/shop' => sub {
   set layout => 'main';
 
-  my $app = Succession::App->new({
-    request => request,
-  });
+  my $app = vars->{app};
 
   my ($shop, $etag, $last_mod) = $app->model->get_shop_data;
 
@@ -61,27 +46,22 @@ get '/shop' => sub {
     title => 'Shop',
     shop  => $shop,
     amazon_tag => setting('amazon_tag') // 'davblog-21',
+    app   => $app,
   };
 };
 
 get '/dates' => sub {
   set layout => 'main';
 
-  my $app = Succession::App->new({
-    request => request,
-  });
-
   template 'dates', {
-    app => $app,
+    app => vars->{app},
   };
 };
 
 get '/anniversaries' => sub {
   set layout => 'main';
 
-  my $app = Succession::App->new({
-    request => request,
-  });
+  my $app = vars->{app};
 
   template 'anniversaries', {
     app   => $app,
@@ -118,20 +98,17 @@ get qr{/p/(.*)} => sub {
 
   my ($slug) = splat;
 
-  my $app    = Succession::App->new({
-    request => request,
-  });
-  my $person = $app->model->get_person_from_slug($slug);
+  my $person = request->person;
 
   unless ($person) {
     send_error "'$slug' is not a valid person identifier", 404;
     return;
   }
 
-  $app->person($person);
+warn "Serving person page for ", $person->name, "\n";
 
   template 'person', {
-    app    => $app,
+    app    => vars->{app},
     person => $person,
   };
 };
@@ -139,9 +116,7 @@ get qr{/p/(.*)} => sub {
 get '/changes' => sub {
   set layout => 'main';
 
-  my $app = Succession::App->new({
-    request => request,
-  });
+  my $app = vars->{app};
 
   my $changes = $app->model->get_all_changes;
 
