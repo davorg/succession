@@ -1,8 +1,8 @@
 package Succession::App;
 
 use Moose;
-use experimental 'signatures'; # After Moose because Moose turns all warnings on
 use Moose::Util::TypeConstraints;
+use experimental 'signatures'; # After Moose because Moose turns all warnings on
 use DateTime;
 use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
