@@ -1,38 +1,30 @@
-version: '3'
+version: '3.8'
 
 services:
-  database:
-    image: mariadb/server:10.3
-    container_name: succession-db
-    environment:
-      - MARIADB_ROOT_PASSWORD=sekrit
-      - MARIADB_DATABASE=$SUCC_DB_NAME
-      - MARIADB_USER=$SUCC_DB_USER
-      - MARIADB_PASSWORD=$SUCC_DB_PASS
-    ports:
-      - "13306:3306"
-    volumes:
-      - ./data:/docker-entrypoint-initdb.d
-
   cache:
-    container_name: succession-cache
     image: memcached:1.5
+    container_name: succession-cache
+    command: memcached -m 128 -I 2m
+    restart: unless-stopped
 
   app:
     image: davorg/succession:latest
     container_name: succession
-    links:
-      - database
     depends_on:
-      - database
       - cache
     environment:
-      - SUCC_CACHE_SERVER=cache
-      - SUCC_DB_HOST=database
-      - SUCC_DB_PORT
-      - SUCC_DB_NAME
-      - SUCC_DB_USER
-      - SUCC_DB_PASS
+      # Use the baked-in SQLite file
+      SUCC_DSN: "dbi:SQLite:dbname=/succession/data/los.sqlite;mode=ro;immutable=1"
+      # or: SUCC_DB_PATH=/succession/data/los.sqlite
+      SUCC_DB_VERSION: "2025-11-05+dev"     # bump per DB build to invalidate caches
+      MEMCACHED_SERVERS: "cache:11211"      # only if/when you enable CHI
+      PLACK_ENV: "production"
+    # Map host 1701 -> container 8080 (we bind PORT=8080 in Dockerfile)
     ports:
-      - "1701:1701"
+      - "1701:8080"
+    # Optional hardening; add tmpfs if anything needs /tmp
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
 

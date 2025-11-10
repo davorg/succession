@@ -13,8 +13,6 @@ hook before => sub {
   vars->{app} = Succession::App->new(
     request => request,
   );
-
-  warn vars->{app}->model->db_ver;
 };
 
 get '/db' => sub {
