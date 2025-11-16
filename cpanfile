@@ -10,9 +10,11 @@ requires 'Data::UUID';
 requires 'DateTime';
 requires 'DateTime::Format::HTTP';
 requires 'DateTime::Format::MySQL';
+requires 'DateTime::Format::SQLite';
 requires 'DateTime::Format::Strptime';
 requires 'DBD::SQLite';
 requires 'DBIx::Class';
+requires 'DBIx::Class::Schema::ResultSetNames';
 requires 'Digest::SHA';
 requires 'ExtUtils::MakeMaker';
 requires 'File::Basename';
@@ -50,5 +52,4 @@ requires 'Time::Piece';
 requires 'URI';
 requires 'URI::Escape';
 requires 'XML::Feed';
-requires 'XML::Parser';
 
