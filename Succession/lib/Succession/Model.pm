@@ -8,6 +8,7 @@ use Path::Tiny;
 use JSON::MaybeXS qw(decode_json);
 use Digest::SHA qw(sha1_hex);
 use Time::Piece;
+use Succession (); # for version number to use in cache
 use Succession::Schema;
 
 has schema => (
@@ -66,7 +67,7 @@ has cache => (
 sub _build_cache( $self ) {
   return CHI->new(
     driver => 'Memcached',
-    namespace => 'succession',
+    namespace => "succession-$Succession::VERSION",
     servers => $self->cache_servers,
     debug => 0,
     compress_threshold => 10_000,

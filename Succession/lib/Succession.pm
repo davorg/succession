@@ -5,7 +5,7 @@ use Try::Tiny;
 use Succession::App;
 use Succession::Request;
 
-our $VERSION = '0.1';
+our $VERSION = '0.1.1';
 
 hook before => sub {
   bless request, 'Succession::Request';
