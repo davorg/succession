@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ID="${PROJECT_ID:-dave-web-apps}"
+REGION="${REGION:-europe-west1}"
+REPO="${REPO:-containers}"
+IMAGE_NAME="${IMAGE_NAME:-succession}"
+
+SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
+TAG="${IMAGE_PATH}:${SHA}"
+
+echo "Building image: ${TAG}"
+docker build -t "${TAG}" .
+
+echo "Pushing image: ${TAG}"
+docker push "${TAG}"
+
+# Grab the repo digest (e.g. europe-west1-docker.pkg.dev/...@sha256:...)
+DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' "${TAG}")"
+
+echo "Image digest: ${DIGEST}"
+
+# Persist digest for later workflow
+mkdir -p artifacts
+printf '%s\n' "${DIGEST}" > artifacts/image-digest.txt
+

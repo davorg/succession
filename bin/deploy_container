@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ID="${PROJECT_ID:-dave-web-apps}"
+REGION="${REGION:-europe-west1}"
+SERVICE_NAME="${SERVICE_NAME:-succession}"
+VPC_CONNECTOR="${VPC_CONNECTOR:-los-connector}"
+
+MEMCACHE_INSTANCE="${MEMCACHE_INSTANCE:-los-cache}"
+
+# SQLite DSN (matches Dockerfile)
+SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1}"
+
+# --- Resolve Memcached host/port if not provided explicitly ---
+
+if [[ -z "${SUCC_CACHE_SERVER:-}" || -z "${SUCC_CACHE_PORT:-}" ]]; then
+  echo "Resolving Memcached endpoint from gcloud memcache describe (${MEMCACHE_INSTANCE})…"
+
+  # You need memcache.instances.get permission on this SA
+  HOST="$(gcloud memcache instances describe "${MEMCACHE_INSTANCE}" \
+    --project="${PROJECT_ID}" \
+    --region="${REGION}" \
+    --format='value(memcacheNodes[0].host)')"
+
+  PORT="$(gcloud memcache instances describe "${MEMCACHE_INSTANCE}" \
+    --project="${PROJECT_ID}" \
+    --region="${REGION}" \
+    --format='value(memcacheNodes[0].port)')"
+
+  if [[ -z "${HOST}" || -z "${PORT}" ]]; then
+    echo "ERROR: Could not resolve Memcached host/port from instance '${MEMCACHE_INSTANCE}'" >&2
+    exit 1
+  fi
+
+  SUCC_CACHE_SERVER="${SUCC_CACHE_SERVER:-$HOST}"
+  SUCC_CACHE_PORT="${SUCC_CACHE_PORT:-$PORT}"
+
+  echo "Using Memcached at ${SUCC_CACHE_SERVER}:${SUCC_CACHE_PORT}"
+fi
+
+# --- Image digest ---
+
+if [[ $# -ge 1 ]]; then
+  IMAGE_DIGEST="$1"
+else
+  IMAGE_DIGEST="$(< artifacts/image-digest.txt)"
+fi
+
+if [[ -z "${IMAGE_DIGEST}" ]]; then
+  echo "ERROR: IMAGE_DIGEST is empty. Provide as arg or artifacts/image-digest.txt" >&2
+  exit 1
+fi
+
+ENV_VARS=$(
+  cat <<EOF
+SUCC_DSN=${SUCC_DSN},SUCC_CACHE_SERVER=${SUCC_CACHE_SERVER},SUCC_CACHE_PORT=${SUCC_CACHE_PORT},PLACK_ENV=production
+EOF
+)
+
+echo "Deploying ${SERVICE_NAME} with image ${IMAGE_DIGEST}"
+
+gcloud run deploy "${SERVICE_NAME}" \
+  --image="${IMAGE_DIGEST}" \
+  --project="${PROJECT_ID}" \
+  --region="${REGION}" \
+  --platform=managed \
+  --allow-unauthenticated \
+  --vpc-connector="${VPC_CONNECTOR}" \
+  --vpc-egress=private-ranges-only \
+  --cpu=1 \
+  --memory=1Gi \
+  --concurrency=40 \
+  --min-instances=0 \
+  --max-instances=10 \
+  --set-env-vars="${ENV_VARS}"
+
