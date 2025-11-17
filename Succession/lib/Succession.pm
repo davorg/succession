@@ -24,6 +24,7 @@ get '/info' => sub {
     db_version    => vars->{app}->model->db_ver,
     environment  => vars->{dancer_app}->environment,
     host         => vars->{app}->host,
+    cache        => vars->{app}->model->cache->short_driver_name,
   );
 
   my $info_str = join "\n", map { "* $_: $info{$_}" } sort keys %info;

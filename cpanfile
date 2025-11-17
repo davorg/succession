@@ -1,5 +1,6 @@
 requires 'Cache::Memcached';
 requires 'CHI';
+requires 'CHI::Driver::FastMmap';
 requires 'CHI::Driver::Memcached';
 requires 'Clone';
 requires 'Cwd';

@@ -60,18 +60,41 @@ sub _build_cache_servers($) {
 
 has cache => (
   is => 'ro',
-  isa => 'CHI::Driver::Memcached',
+  isa => 'CHI::Driver',
   lazy_build => 1,
 );
 
 sub _build_cache( $self ) {
-  return CHI->new(
-    driver => 'Memcached',
+  my $driver = $ENV{SUCC_CACHE_DRIVER} // 'FastMmap';
+
+  my %common = (
     namespace => "succession-$Succession::VERSION",
-    servers => $self->cache_servers,
-    debug => 0,
-    compress_threshold => 10_000,
   );
+
+  if ($driver eq 'Memcached') {
+    return CHI->new(
+      driver => 'Memcached',
+      servers => $self->cache_servers,
+      compress_threshold => 10_000,
+      %common,
+    );
+  } elsif ($driver eq 'FastMmap') {
+    my $root_dir  = $ENV{SUCC_CACHE_DIR}  // '/tmp/chi-cache';
+    my $cache_size = $ENV{SUCC_CACHE_SIZE} // '64m';  # FastMmap/Cache::FastMmap syntax
+
+    return CHI->new(
+      driver     => 'FastMmap',
+      root_dir   => $root_dir,
+      cache_size => $cache_size,
+      unlink_on_exit => 0,
+      %common,
+    );
+  } else {
+    return CHI->new(
+      driver => $driver,
+      %common,
+    );
+  };
 }
 
 has interesting_dates => (

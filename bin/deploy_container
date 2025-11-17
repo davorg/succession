@@ -8,36 +8,8 @@ VPC_CONNECTOR="${VPC_CONNECTOR:-los-connector}"
 REPO="${REPO:-containers}"
 IMAGE_NAME="${IMAGE_NAME:-succession}"
 
-MEMCACHE_INSTANCE="${MEMCACHE_INSTANCE:-los-cache}"
-
 # SQLite DSN (matches Dockerfile)
 SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1}"
-
-# --- Resolve Memcached host/port if not provided explicitly ---
-
-if [[ -z "${SUCC_CACHE_SERVER:-}" || -z "${SUCC_CACHE_PORT:-}" ]]; then
-  echo "Resolving Memcached endpoint from gcloud memcache describe (${MEMCACHE_INSTANCE})…"
-
-  HOST="$(gcloud memcache instances describe "${MEMCACHE_INSTANCE}" \
-    --project="${PROJECT_ID}" \
-    --region="${REGION}" \
-    --format='value(memcacheNodes[0].host)')"
-
-  PORT="$(gcloud memcache instances describe "${MEMCACHE_INSTANCE}" \
-    --project="${PROJECT_ID}" \
-    --region="${REGION}" \
-    --format='value(memcacheNodes[0].port)')"
-
-  if [[ -z "${HOST}" || -z "${PORT}" ]]; then
-    echo "ERROR: Could not resolve Memcached host/port from instance '${MEMCACHE_INSTANCE}'" >&2
-    exit 1
-  fi
-
-  SUCC_CACHE_SERVER="${SUCC_CACHE_SERVER:-$HOST}"
-  SUCC_CACHE_PORT="${SUCC_CACHE_PORT:-$PORT}"
-
-  echo "Using Memcached at ${SUCC_CACHE_SERVER}:${SUCC_CACHE_PORT}"
-fi
 
 # --- Image reference: use tag based on commit SHA ---
 
@@ -55,8 +27,6 @@ gcloud run deploy "${SERVICE_NAME}" \
   --region="${REGION}" \
   --platform=managed \
   --allow-unauthenticated \
-  --vpc-connector="${VPC_CONNECTOR}" \
-  --vpc-egress=private-ranges-only \
   --cpu=1 \
   --memory=1Gi \
   --concurrency=40 \
