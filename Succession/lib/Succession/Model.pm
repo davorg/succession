@@ -1,7 +1,8 @@
 package Succession::Model;
 
+use v5.40;
 use Moose;
-use experimental 'signatures'; # After Moose because Moose turns all warnings on
+use experimental qw[try signatures]; # After Moose because Moose turns all warnings on
 use DateTime;
 use CHI;
 use Path::Tiny;
@@ -71,30 +72,40 @@ sub _build_cache( $self ) {
     namespace => "succession-$Succession::VERSION",
   );
 
-  if ($driver eq 'Memcached') {
-    return CHI->new(
-      driver => 'Memcached',
-      servers => $self->cache_servers,
-      compress_threshold => 10_000,
-      %common,
-    );
-  } elsif ($driver eq 'FastMmap') {
-    my $root_dir  = $ENV{SUCC_CACHE_DIR}  // '/tmp/chi-cache';
-    my $cache_size = $ENV{SUCC_CACHE_SIZE} // '64m';  # FastMmap/Cache::FastMmap syntax
+  try {
+    if ($driver eq 'Memcached') {
+      return CHI->new(
+        driver => 'Memcached',
+        servers => $self->cache_servers,
+        compress_threshold => 10_000,
+        %common,
+      );
+    } elsif ($driver eq 'FastMmap') {
+      my $root_dir  = $ENV{SUCC_CACHE_DIR}  // '/tmp/chi-cache';
+      my $cache_size = $ENV{SUCC_CACHE_SIZE} // '64m';  # FastMmap/Cache::FastMmap syntax
+
+      return CHI->new(
+        driver     => 'FastMmap',
+        root_dir   => $root_dir,
+        cache_size => $cache_size,
+        unlink_on_exit => 0,
+        %common,
+      );
+    } else {
+      return CHI->new(
+        driver => $driver,
+        %common,
+      );
+    };
+  } catch ($e) {
+    warn "Cache initialisation failed for driver '$driver': $e\n",
+         "Falling back to Null cache.\n";
 
     return CHI->new(
-      driver     => 'FastMmap',
-      root_dir   => $root_dir,
-      cache_size => $cache_size,
-      unlink_on_exit => 0,
+      driver => 'Null',
       %common,
     );
-  } else {
-    return CHI->new(
-      driver => $driver,
-      %common,
-    );
-  };
+  }
 }
 
 has interesting_dates => (
