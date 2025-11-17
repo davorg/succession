@@ -5,6 +5,8 @@ PROJECT_ID="${PROJECT_ID:-dave-web-apps}"
 REGION="${REGION:-europe-west1}"
 SERVICE_NAME="${SERVICE_NAME:-succession}"
 VPC_CONNECTOR="${VPC_CONNECTOR:-los-connector}"
+REPO="${REPO:-containers}"
+IMAGE_NAME="${IMAGE_NAME:-succession}"
 
 MEMCACHE_INSTANCE="${MEMCACHE_INSTANCE:-los-cache}"
 
@@ -16,7 +18,6 @@ SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1
 if [[ -z "${SUCC_CACHE_SERVER:-}" || -z "${SUCC_CACHE_PORT:-}" ]]; then
   echo "Resolving Memcached endpoint from gcloud memcache describe (${MEMCACHE_INSTANCE})…"
 
-  # You need memcache.instances.get permission on this SA
   HOST="$(gcloud memcache instances describe "${MEMCACHE_INSTANCE}" \
     --project="${PROJECT_ID}" \
     --region="${REGION}" \
@@ -38,29 +39,18 @@ if [[ -z "${SUCC_CACHE_SERVER:-}" || -z "${SUCC_CACHE_PORT:-}" ]]; then
   echo "Using Memcached at ${SUCC_CACHE_SERVER}:${SUCC_CACHE_PORT}"
 fi
 
-# --- Image digest ---
+# --- Image reference: use tag based on commit SHA ---
 
-if [[ $# -ge 1 ]]; then
-  IMAGE_DIGEST="$1"
-else
-  IMAGE_DIGEST="$(< artifacts/image-digest.txt)"
-fi
+SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
+IMAGE_REF="${IMAGE_PATH}:${SHA}"
 
-if [[ -z "${IMAGE_DIGEST}" ]]; then
-  echo "ERROR: IMAGE_DIGEST is empty. Provide as arg or artifacts/image-digest.txt" >&2
-  exit 1
-fi
+echo "Deploying image ${IMAGE_REF}"
 
-ENV_VARS=$(
-  cat <<EOF
-SUCC_DSN=${SUCC_DSN},SUCC_CACHE_SERVER=${SUCC_CACHE_SERVER},SUCC_CACHE_PORT=${SUCC_CACHE_PORT},PLACK_ENV=production
-EOF
-)
-
-echo "Deploying ${SERVICE_NAME} with image ${IMAGE_DIGEST}"
+ENV_VARS="SUCC_DSN=${SUCC_DSN},SUCC_CACHE_SERVER=${SUCC_CACHE_SERVER},SUCC_CACHE_PORT=${SUCC_CACHE_PORT},PLACK_ENV=production"
 
 gcloud run deploy "${SERVICE_NAME}" \
-  --image="${IMAGE_DIGEST}" \
+  --image="${IMAGE_REF}" \
   --project="${PROJECT_ID}" \
   --region="${REGION}" \
   --platform=managed \
