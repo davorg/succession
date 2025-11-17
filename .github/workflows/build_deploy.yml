@@ -1,0 +1,61 @@
+name: Deploy to Cloud Run
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    env:
+      PROJECT_ID: dave-web-apps
+      REGION: europe-west1
+      SERVICE_NAME: succession
+      VPC_CONNECTOR: los-connector
+      SUCC_CACHE_SERVER: 10.9.0.4
+      SUCC_CACHE_PORT: "11211"
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Auth to Google Cloud (WIF)
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Download image digest artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: image-digest
+          path: artifacts
+
+      - name: Deploy to Cloud Run
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          REGION: ${{ env.REGION }}
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          VPC_CONNECTOR: ${{ env.VPC_CONNECTOR }}
+          SUCC_CACHE_SERVER: ${{ env.SUCC_CACHE_SERVER }}
+          SUCC_CACHE_PORT: ${{ env.SUCC_CACHE_PORT }}
+        run: |
+          chmod +x bin/deploy_container
+          bin/deploy_container "$(cat artifacts/image-digest.txt)"
+
+      - name: Smoke test
+        run: |
+          URL="$(gcloud run services describe "${SERVICE_NAME}" \
+            --project="${PROJECT_ID}" \
+            --region="${REGION}" \
+            --format='value(status.url)')"
+          echo "Service URL: ${URL}"
+          curl -fsS "${URL}/" > /dev/null
+
