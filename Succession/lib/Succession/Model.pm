@@ -1,11 +1,12 @@
 package Succession::Model;
 
-use v5.40;
+use v5.32;
 use Moose;
-use experimental qw[try signatures]; # After Moose because Moose turns all warnings on
+use experimental qw[signatures]; # After Moose because Moose turns all warnings on
 use DateTime;
 use CHI;
 use Path::Tiny;
+use Try::Tiny;
 use JSON::MaybeXS qw(decode_json);
 use Digest::SHA qw(sha1_hex);
 use Time::Piece;
@@ -97,8 +98,8 @@ sub _build_cache( $self ) {
         %common,
       );
     };
-  } catch ($e) {
-    warn "Cache initialisation failed for driver '$driver': $e\n",
+  } catch {
+    warn "Cache initialisation failed for driver '$driver': $_\n",
          "Falling back to Null cache.\n";
 
     return CHI->new(

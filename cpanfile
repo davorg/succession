@@ -1,3 +1,4 @@
+requires 'Cache::FastMmap';
 requires 'Cache::Memcached';
 requires 'CHI';
 requires 'CHI::Driver::FastMmap';

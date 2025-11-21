@@ -19,7 +19,7 @@ IMAGE_REF="${IMAGE_PATH}:${SHA}"
 
 echo "Deploying image ${IMAGE_REF}"
 
-ENV_VARS="SUCC_DSN=${SUCC_DSN},SUCC_CACHE_DRIVER=Null,PLACK_ENV=production"
+ENV_VARS="SUCC_DSN=${SUCC_DSN},PLACK_ENV=production"
 
 gcloud run deploy "${SERVICE_NAME}" \
   --image="${IMAGE_REF}" \
