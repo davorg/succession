@@ -214,16 +214,14 @@ sub sovereign_on_date($self, $date = undef) {
 sub succession_on_date($self, $date = undef) {
   $date //= $self->date;
 
-  return $self->schema->succession_periods->succession_on_date($date);
+  my $succession = $self->cache->compute(
+    'succ|' . $date->ymd, undef,
+    sub {
+      [ $self->schema->succession_periods->succession_on_date($date)->succession_people->all ];
+    },
+  );
 
-#  my $succession = $self->cache->compute(
-#    'succ|' . $date->ymd, undef,
-#    sub {
-#      [ $self->sovereign_on_date($date)->succession_on_date($date) ];
-#    },
-#  );
-#
-#  return $succession;
+  return $succession;
 }
 
 sub get_succession($self) {
@@ -258,7 +256,7 @@ sub get_succession_data($self, $date, $count) {
     born   => $_->born->ymd,
     age    => $_->age_on_date,
     slug   => $_->slug,
-  }} @{ $self->succession_on_date($date) };
+  }} @{ $self->succession_on_date($date)->succession_people-all };
 
   $#succ = $count - 1 if $#succ >= $count;
 
