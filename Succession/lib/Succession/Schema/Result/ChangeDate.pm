@@ -47,7 +47,6 @@ __PACKAGE__->table("change_date");
 =head2 change_date
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 succession
@@ -62,7 +61,7 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "change_date",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "succession",
   { data_type => "varchar", is_nullable => 1, size => 255 },
 );
@@ -97,8 +96,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-10-03 17:46:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EzdoaCniBN3+pzEQUjTYnw
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ys77sdDek6onuLSO6h5AUw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

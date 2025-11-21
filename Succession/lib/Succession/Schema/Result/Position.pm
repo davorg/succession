@@ -58,13 +58,11 @@ __PACKAGE__->table("position");
 =head2 start
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 end
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =cut
@@ -77,9 +75,9 @@ __PACKAGE__->add_columns(
   "position",
   { data_type => "integer", is_nullable => 0 },
   "start",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "end",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -108,12 +106,12 @@ __PACKAGE__->belongs_to(
   "person",
   "Succession::Schema::Result::Person",
   { id => "person_id" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 0, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-10-03 17:46:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/GOLEbLXgxY8kKEdZKV5IQ
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dQnRBu5Pz1WSZ1vKrwBnUA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

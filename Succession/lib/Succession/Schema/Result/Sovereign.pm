@@ -47,13 +47,11 @@ __PACKAGE__->table("sovereign");
 =head2 start
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 0
 
 =head2 end
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 person_id
@@ -80,9 +78,9 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "start",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 0 },
+  { data_type => "date", is_nullable => 0 },
   "end",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "person_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "image",
@@ -117,12 +115,12 @@ __PACKAGE__->belongs_to(
   "person",
   "Succession::Schema::Result::Person",
   { id => "person_id" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 0, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07049 @ 2020-01-20 10:56:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KaPzuOAqZnLBKCDUQMP38g
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:deLr81y6BMxNFQBt3/SN5Q
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

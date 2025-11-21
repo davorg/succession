@@ -100,7 +100,7 @@ __PACKAGE__->belongs_to(
   "change_date",
   "Succession::Schema::Result::ChangeDate",
   { id => "change_date_id" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 0, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 person
@@ -115,12 +115,12 @@ __PACKAGE__->belongs_to(
   "person",
   "Succession::Schema::Result::Person",
   { id => "person_id" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 0, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07049 @ 2019-09-20 22:07:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rGBal1mc+ytukvN2opQJHA
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:F0nHfl31zxrpsYMpo3mVfw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
