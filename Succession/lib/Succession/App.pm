@@ -128,9 +128,7 @@ has succession => (
 );
 
 sub _build_succession( $self ) {
-  my $succ = [
-    $self->model->succession_on_date($self->request->date)->succession_people->all
-  ];
+  my $succ = $self->model->succession_on_date($self->request->date);
 
   my @short_succ = grep {
     ! $_->excluded_on_date($self->request->date);

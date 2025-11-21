@@ -256,7 +256,7 @@ sub get_succession_data($self, $date, $count) {
     born   => $_->born->ymd,
     age    => $_->age_on_date,
     slug   => $_->slug,
-  }} @{ $self->succession_on_date($date)->succession_people-all };
+  }} @{ $self->succession_on_date($date)->succession_people->all };
 
   $#succ = $count - 1 if $#succ >= $count;
 
