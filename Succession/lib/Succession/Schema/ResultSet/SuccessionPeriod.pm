@@ -11,6 +11,9 @@ sub succession_on_date {
 
   die "succession_on_date() requires a date" unless defined $date;
 
+  $date = $self->result_source->schema->storage
+            ->datetime_parser->format_datetime($date);
+
   my $row = $self->search(
     {
       'me.from_date' => { '<=' => $date },
