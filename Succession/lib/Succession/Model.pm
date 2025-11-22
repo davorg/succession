@@ -217,7 +217,8 @@ sub succession_on_date($self, $date = undef) {
   my $succession = $self->cache->compute(
     'succ|' . $date->ymd, undef,
     sub {
-      [ $self->schema->succession_periods->succession_on_date($date)->succession_people->all ];
+      my $succ = $self->schema->succession_periods->succession_on_date($date);
+      [ $succ ? $succ->succession_people->all : () ];
     },
   );
 

@@ -98,6 +98,20 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/NNZN3vgPnG/XUne277LXw
 
+=head1 METHODS
+
+=head2 succession_people
+
+Given a succession_period object, returns the people in the line of succession
+during that period, ordered by their rank. Takes an optional "limit" argument
+to control the number of people returned.
+
+In scalar context, returns a resultset that will return the people.
+
+In list context, returns a list of person objects.
+
+=cut
+
 sub succession_people {
   my ($self, $limit) = @_;
 
