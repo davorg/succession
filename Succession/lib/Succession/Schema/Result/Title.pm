@@ -53,13 +53,11 @@ __PACKAGE__->table("title");
 =head2 start
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 end
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 person_id
@@ -82,9 +80,9 @@ __PACKAGE__->add_columns(
   "title",
   { data_type => "varchar", is_nullable => 1, size => 255 },
   "start",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "end",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "person_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "is_default",
@@ -117,12 +115,12 @@ __PACKAGE__->belongs_to(
   "person",
   "Succession::Schema::Result::Person",
   { id => "person_id" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 0, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-12-18 17:36:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JVSJr+47CmwMbwa4jqbC+w
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xq3wA5awlmxAQsKWx5hzVw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

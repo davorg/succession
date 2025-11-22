@@ -47,13 +47,11 @@ __PACKAGE__->table("person");
 =head2 born
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 0
 
 =head2 died
 
   data_type: 'date'
-  datetime_undef_if_invalid: 1
   is_nullable: 1
 
 =head2 parent
@@ -71,7 +69,6 @@ __PACKAGE__->table("person");
 
   data_type: 'enum'
   default_value: 'm'
-  extra: {list => ["m","f"]}
   is_nullable: 0
 
 =head2 wikipedia
@@ -97,20 +94,15 @@ __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
   "born",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 0 },
+  { data_type => "date", is_nullable => 0 },
   "died",
-  { data_type => "date", datetime_undef_if_invalid => 1, is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "parent",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "family_order",
   { data_type => "integer", is_nullable => 1 },
   "sex",
-  {
-    data_type => "enum",
-    default_value => "m",
-    extra => { list => ["m", "f"] },
-    is_nullable => 0,
-  },
+  { data_type => "enum", default_value => "m", is_nullable => 0 },
   "wikipedia",
   { data_type => "text", is_nullable => 1 },
   "slug",
@@ -133,7 +125,7 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 UNIQUE CONSTRAINTS
 
-=head2 C<uq_person_qid>
+=head2 C<wikidata_qid_unique>
 
 =over 4
 
@@ -143,7 +135,7 @@ __PACKAGE__->set_primary_key("id");
 
 =cut
 
-__PACKAGE__->add_unique_constraint("uq_person_qid", ["wikidata_qid"]);
+__PACKAGE__->add_unique_constraint("wikidata_qid_unique", ["wikidata_qid"]);
 
 =head1 RELATIONS
 
@@ -192,21 +184,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 new_child_candidates
-
-Type: has_many
-
-Related object: L<Succession::Schema::Result::NewChildCandidate>
-
-=cut
-
-__PACKAGE__->has_many(
-  "new_child_candidates",
-  "Succession::Schema::Result::NewChildCandidate",
-  { "foreign.parent_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 parent
 
 Type: belongs_to
@@ -220,7 +197,7 @@ __PACKAGE__->belongs_to(
   "Succession::Schema::Result::Person",
   { id => "parent" },
   {
-    is_deferrable => 1,
+    is_deferrable => 0,
     join_type     => "LEFT",
     on_delete     => "RESTRICT",
     on_update     => "RESTRICT",
@@ -257,6 +234,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 succession_entries
+
+Type: has_many
+
+Related object: L<Succession::Schema::Result::SuccessionEntry>
+
+=cut
+
+__PACKAGE__->has_many(
+  "succession_entries",
+  "Succession::Schema::Result::SuccessionEntry",
+  { "foreign.person_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 titles
 
 Type: has_many
@@ -273,8 +265,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-09-25 12:08:08
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZbUfYIkKiOvZoejufFCSZQ
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4ODsQvzyp2p45/g5YZJDAg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
