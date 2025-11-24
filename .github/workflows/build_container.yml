@@ -20,7 +20,7 @@ jobs:
       IMAGE_NAME: succession
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Auth to Google Cloud (WIF)
         uses: google-github-actions/auth@v3
