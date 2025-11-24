@@ -42,7 +42,7 @@ jobs:
           bin/build_container
 
       - name: Upload image digest artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: image-digest
           path: artifacts/image-digest.txt
