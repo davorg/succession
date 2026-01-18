@@ -54,6 +54,22 @@ __PACKAGE__->table("succession_period");
   data_type: 'date'
   is_nullable: 1
 
+=head2 person_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
+=head2 change_position
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 change_type
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -63,6 +79,12 @@ __PACKAGE__->add_columns(
   { data_type => "date", is_nullable => 0 },
   "to_date",
   { data_type => "date", is_nullable => 1 },
+  "person_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "change_position",
+  { data_type => "integer", is_nullable => 1 },
+  "change_type",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -78,6 +100,26 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 person
+
+Type: belongs_to
+
+Related object: L<Succession::Schema::Result::Person>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "person",
+  "Succession::Schema::Result::Person",
+  { id => "person_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
 
 =head2 succession_entries
 
@@ -95,8 +137,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-21 16:50:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/NNZN3vgPnG/XUne277LXw
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-22 09:39:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1vNiPw/muXGSnENbv5Uegw
 
 =head1 METHODS
 
