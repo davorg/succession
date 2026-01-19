@@ -22,11 +22,13 @@ __PACKAGE__->load_namespaces;
 sub get_schema {
   # --- Branch 1: explicit SQLite if LOS_DB_PATH or LOS_DSN is set ---
 
+  state $sch;
+
   if ($ENV{SUCC_DSN} or $ENV{SUCC_DB_PATH}) {
     my $dbfile = $ENV{SUCC_DB_PATH} // '/app/data/los.sqlite';
     my $dsn    = $ENV{SUCC_DSN} // "dbi:SQLite:dbname=$dbfile;mode=ro;immutable=1";
 
-    my $sch = __PACKAGE__->connect(
+    $sch //= __PACKAGE__->connect(
       $dsn, '', '',
       {
         sqlite_unicode => 1,
@@ -61,7 +63,7 @@ sub get_schema {
     $dsn .= ";port=$ENV{SUCC_DB_PORT}";
   }
 
-  my $sch = __PACKAGE__->connect(
+  $sch //= __PACKAGE__->connect(
     $dsn, $ENV{SUCC_DB_USER}, $ENV{SUCC_DB_PASS},
     {
       mysql_enable_utf8mb4 => 1,  # modern MySQL UTF8
