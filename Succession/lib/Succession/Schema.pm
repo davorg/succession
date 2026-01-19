@@ -19,6 +19,8 @@ __PACKAGE__->load_namespaces;
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+use feature 'state';
+
 sub get_schema {
   # --- Branch 1: explicit SQLite if LOS_DB_PATH or LOS_DSN is set ---
 
