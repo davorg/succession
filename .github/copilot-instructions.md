@@ -9,7 +9,7 @@ This is the codebase for [lineofsuccession.co.uk](https://lineofsuccession.co.uk
 - **Language**: Perl 5
 - **Web Framework**: Dancer2 (v0.204002+)
 - **ORM**: DBIx::Class
-- **Database**: SQLite (production uses MariaDB/MySQL)
+- **Database**: SQLite
 - **Template Engine**: Template Toolkit
 - **Object System**: Moose/Moo
 - **Testing**: Test::More
@@ -76,7 +76,8 @@ Key scripts for data management:
 
 1. Install Perl dependencies: `cpanm --installdeps .`
 2. Set environment variables for database connection:
-   - `SUCC_DB_USER`, `SUCC_DB_HOST`, `SUCC_DB_NAME`, `SUCC_DB_PASS`, `SUCC_DB_PORT`
+   - `SUCC_DSN` (e.g., `dbi:SQLite:dbname=/path/to/los.sqlite`) or
+   - `SUCC_DB_PATH` (path to SQLite database file)
 3. Load test database: `bin/load_db`
 4. Run tests: `prove -ISuccession/lib -v Succession/t`
 
@@ -129,7 +130,7 @@ See `UPDATES.md` for detailed procedures:
 ## Important Notes
 
 - The application caches data extensively (CHI with FastMmap or Memcached)
-- Database is usually SQLite for development, MariaDB/MySQL in production
+- Database is SQLite for both development and production
 - Person data linked to Wikidata (QID identifiers)
 - Historical data requires careful handling - changes affect succession calculations
 - Always verify data changes don't corrupt historical succession records
@@ -144,16 +145,13 @@ See `UPDATES.md` for detailed procedures:
 
 GitHub Actions workflow (`.github/workflows/perltest.yml`):
 - Runs on push/PR to master branch
-- Sets up MariaDB service
+- Sets up test database
 - Installs dependencies via cpanm
 - Runs test suite with coverage
 - Reports coverage to Coveralls
 
 ## Environment Variables
 
-- `SUCC_DB_USER` - Database username
-- `SUCC_DB_HOST` - Database host
-- `SUCC_DB_NAME` - Database name
-- `SUCC_DB_PASS` - Database password
-- `SUCC_DB_PORT` - Database port
+- `SUCC_DSN` - Database connection string (e.g., `dbi:SQLite:dbname=/path/to/los.sqlite;mode=ro;immutable=1`)
+- `SUCC_DB_PATH` - Alternative: direct path to SQLite database file
 - `PERL5LIB` - Should include `Succession/lib`
