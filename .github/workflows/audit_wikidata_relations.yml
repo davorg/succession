@@ -1,0 +1,85 @@
+name: Audit Wikidata Relations
+
+# Run weekly on Monday at 9:00 AM UTC
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      SUCC_DB_PATH: los.sqlite
+      PERL5LIB: Succession/lib:$PERL5LIB
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+      
+      - name: Set up perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: 'latest'
+      
+      - name: Perl version
+        run: perl -V
+      
+      - name: Setup SQLite database
+        run: bin/load_db
+      
+      - name: Check database
+        run: bin/db "select count(*) from sovereign"
+      
+      - name: Install modules
+        run: cpanm -n --installdeps .
+      
+      - name: Run audit_wikidata_relations (dry run)
+        continue-on-error: true
+        run: |
+          echo "Running audit_wikidata_relations in dry-run mode..."
+          bin/audit_wikidata_relations --verbose > audit_results.csv 2> audit_errors.log
+          echo "Audit complete. Results saved."
+      
+      - name: Display audit summary
+        if: always()
+        run: |
+          echo "=== Audit Errors ==="
+          if [ -f audit_errors.log ]; then
+            cat audit_errors.log
+          else
+            echo "No error log found"
+          fi
+          echo ""
+          echo "=== Audit Results (first 50 lines) ==="
+          if [ -f audit_results.csv ]; then
+            head -n 50 audit_results.csv
+            LINE_COUNT=$(wc -l < audit_results.csv)
+            echo ""
+            echo "Total lines in results: $LINE_COUNT"
+          else
+            echo "No results file found"
+          fi
+      
+      - name: Upload audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-results
+          path: |
+            audit_results.csv
+            audit_errors.log
+          retention-days: 30
+      
+      - name: Check for issues
+        run: |
+          if [ -f audit_results.csv ]; then
+            LINE_COUNT=$(wc -l < audit_results.csv)
+            if [ "$LINE_COUNT" -gt 1 ]; then
+              echo "::warning::Audit found $(($LINE_COUNT - 1)) issues in the database"
+            else
+              echo "No issues found in the audit"
+            fi
+          fi
