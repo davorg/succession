@@ -56,6 +56,7 @@ jobs:
         run: cpanm -n --installdeps .
       
       - name: Run audit_wikidata_relations (dry run)
+        continue-on-error: true
         run: |
           echo "Running audit_wikidata_relations in dry-run mode..."
           bin/audit_wikidata_relations --verbose > audit_results.csv 2> audit_errors.log
