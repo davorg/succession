@@ -9,6 +9,8 @@ on:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     services:
       mariadb:
         image: mariadb:latest
