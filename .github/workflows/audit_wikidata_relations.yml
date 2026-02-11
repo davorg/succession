@@ -1,0 +1,103 @@
+name: Audit Wikidata Relations
+
+# Run weekly on Monday at 9:00 AM UTC
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 13306:3306
+        env:
+          MYSQL_USER: succession
+          MYSQL_PASSWORD: strongpassword
+          MYSQL_ROOT_PASSWORD: sekrit
+          MYSQL_DATABASE: succession
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+    env:
+      SUCC_DB_USER: succession
+      SUCC_DB_HOST: 127.0.0.1
+      SUCC_DB_NAME: succession
+      SUCC_DB_PASS: strongpassword
+      SUCC_DB_PORT: 13306
+      PERL5LIB: Succession/lib:$PERL5LIB
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+      
+      - name: Set up perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: 'latest'
+      
+      - name: Perl version
+        run: perl -V
+      
+      - name: Setup database
+        run: mysql -u root -psekrit -h 127.0.0.1 -P"$SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
+      
+      - name: Wait for database
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" -P"$SUCC_DB_PORT" --silent; do
+            sleep 1
+          done
+      
+      - name: Check database
+        run: bin/db "select count(*) from sovereign"
+      
+      - name: Install modules
+        run: cpanm -n --installdeps .
+      
+      - name: Run audit_wikidata_relations (dry run)
+        run: |
+          echo "Running audit_wikidata_relations in dry-run mode..."
+          bin/audit_wikidata_relations --verbose > audit_results.csv 2> audit_errors.log
+          echo "Audit complete. Results saved."
+      
+      - name: Display audit summary
+        if: always()
+        run: |
+          echo "=== Audit Errors ==="
+          if [ -f audit_errors.log ]; then
+            cat audit_errors.log
+          else
+            echo "No error log found"
+          fi
+          echo ""
+          echo "=== Audit Results (first 50 lines) ==="
+          if [ -f audit_results.csv ]; then
+            head -n 50 audit_results.csv
+            LINE_COUNT=$(wc -l < audit_results.csv)
+            echo ""
+            echo "Total lines in results: $LINE_COUNT"
+          else
+            echo "No results file found"
+          fi
+      
+      - name: Upload audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-results
+          path: |
+            audit_results.csv
+            audit_errors.log
+          retention-days: 30
+      
+      - name: Check for issues
+        run: |
+          if [ -f audit_results.csv ]; then
+            LINE_COUNT=$(wc -l < audit_results.csv)
+            if [ "$LINE_COUNT" -gt 1 ]; then
+              echo "::warning::Audit found $(($LINE_COUNT - 1)) issues in the database"
+            else
+              echo "No issues found in the audit"
+            fi
+          fi
