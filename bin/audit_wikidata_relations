@@ -5,6 +5,8 @@ no warnings qw(experimental::try);
 use strict;
 use warnings;
 use utf8;
+binmode(STDOUT, ':utf8');
+binmode(STDERR, ':utf8');
 
 use Getopt::Long qw(GetOptions);
 use JSON::MaybeXS ();
