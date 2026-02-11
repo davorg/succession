@@ -153,7 +153,7 @@ GitHub Actions workflow (`.github/workflows/perltest.yml`):
 
 - `SUCC_DB_USER` - Database username
 - `SUCC_DB_HOST` - Database host
-- `SUCC_DB_NAME` - Database name  
+- `SUCC_DB_NAME` - Database name
 - `SUCC_DB_PASS` - Database password
 - `SUCC_DB_PORT` - Database port
 - `PERL5LIB` - Should include `Succession/lib`
