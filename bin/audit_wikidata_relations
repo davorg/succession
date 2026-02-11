@@ -421,3 +421,483 @@ if ($opt{apply}) {
 warn sprintf "Audited %d person(s), reported %d issue(s)%s\n",
   $n, $reported, ($opt{apply} ? " (apply on; fixes limited to chosen --auto categories)" : "");
 
+__END__
+
+=head1 NAME
+
+audit_wikidata_relations - Audit and synchronize person records with Wikidata
+
+=head1 SYNOPSIS
+
+  # Dry-run audit of all people with Wikidata QIDs
+  bin/audit_wikidata_relations
+
+  # Audit with verbose output
+  bin/audit_wikidata_relations --verbose
+
+  # Auto-fix missing death dates (dry-run)
+  bin/audit_wikidata_relations --auto MISSING_DEATH
+
+  # Auto-fix missing death dates (apply changes)
+  bin/audit_wikidata_relations --auto MISSING_DEATH --apply
+
+  # Auto-fix all supported error types
+  bin/audit_wikidata_relations --auto-all --apply
+
+  # Audit specific people by ID
+  bin/audit_wikidata_relations --id 185 --id 310
+
+  # Audit first 10 people only
+  bin/audit_wikidata_relations --limit 10
+
+  # Ignore certain error types
+  bin/audit_wikidata_relations --ignore CHILD_NOT_IN_DB,DEATH_MISMATCH
+
+=head1 DESCRIPTION
+
+This program audits person records in the database against their corresponding
+Wikidata entities (identified by wikidata_qid). It checks for:
+
+=over 4
+
+=item * QID redirects
+
+=item * Missing or mismatched death dates
+
+=item * Missing Wikipedia links
+
+=item * Parent-child relationships (both directions)
+
+=item * Children not yet in the database
+
+=back
+
+The program outputs a CSV report of all issues found. With C<--auto> and C<--apply>,
+it can automatically fix certain types of errors.
+
+By default, the program runs in DRY-RUN mode (no changes are written). Use
+C<--apply> to actually write changes to the database.
+
+=head1 OPTIONS
+
+=head2 Core Options
+
+=over 4
+
+=item B<--apply>
+
+Actually write changes to the database. Without this flag, the program runs in
+DRY-RUN mode and only reports what it would do.
+
+=item B<--verbose>
+
+Enable verbose logging to STDERR. Useful for debugging and understanding what
+the program is doing.
+
+=item B<--limit=N>
+
+Audit only the first N people. Useful for testing.
+
+=item B<--id=N>
+
+Audit only specific person IDs. Can be repeated multiple times:
+C<--id 185 --id 310>
+
+=back
+
+=head2 Auto-Fix Options
+
+=over 4
+
+=item B<--auto=ERROR_TYPE>
+
+Enable automatic fixes for specific error types. Can be repeated or use
+comma-separated values: C<--auto MISSING_DEATH --auto PARENT_SET_UNIQUE>
+or C<--auto MISSING_DEATH,PARENT_SET_UNIQUE>
+
+See L</"AUTO-FIX CAPABILITIES"> for supported error types.
+
+=item B<--auto-all>
+
+Enable automatic fixes for all supported error types. Equivalent to:
+C<--auto MISSING_DEATH,MISSING_WP_LINK,PARENT_SET_UNIQUE,CHILD_PARENT_SET_UNIQUE,CHILD_CREATE_FROM_WD,QID_REDIRECT_NORMALIZED>
+
+=back
+
+=head2 Filter Options
+
+=over 4
+
+=item B<--ignore=ERROR_TYPE>
+
+Suppress reporting of specific error types. Can be repeated or use
+comma-separated values: C<--ignore CHILD_NOT_IN_DB,DEATH_MISMATCH>
+
+=item B<--only-with-qid> / B<--no-only-with-qid>
+
+Only audit people who have a wikidata_qid (default: enabled). Use
+C<--no-only-with-qid> to audit all people.
+
+=item B<--fill-wikipedia> / B<--no-fill-wikipedia>
+
+Report missing Wikipedia links (default: enabled). Use C<--no-fill-wikipedia>
+to skip this check.
+
+=back
+
+=head2 Advanced Options
+
+=over 4
+
+=item B<--root-id=N>
+
+Explicitly specify the root person ID. By default, the program auto-detects
+the person with no parent (NULL parent). Use this if you have multiple roots
+or want to specify a different root.
+
+=item B<--sleep-ms=N>
+
+Milliseconds to sleep between Wikidata API calls (default: 250). Increase
+this if you're hitting rate limits.
+
+=item B<--max-create=N>
+
+Maximum number of children to auto-create when using
+C<--auto CHILD_CREATE_FROM_WD> (default: 200). Safety cap to prevent
+accidentally creating too many records.
+
+=back
+
+=head1 ERROR TYPES
+
+The program reports various types of errors/issues in CSV format. Each row
+contains: error_code, person_id, qid, note, detail, expected, current
+
+=head2 QID Issues
+
+=over 4
+
+=item B<QID_REDIRECT_NORMALIZED>
+
+The person's wikidata_qid points to a redirected entity. Wikidata returns
+the canonical QID.
+
+B<Auto-fix:> Updates the wikidata_qid to the canonical value.
+
+=back
+
+=head2 Death Date Issues
+
+=over 4
+
+=item B<MISSING_DEATH>
+
+Wikidata has a death date but the database record has NULL.
+
+B<Auto-fix:> Populates the died field from Wikidata.
+
+=item B<DEATH_MISMATCH>
+
+The death year in the database differs from Wikidata's death year.
+
+B<Auto-fix:> Updates the died field to match Wikidata.
+
+B<Manual fix:> Review both sources and determine which is correct. If the
+database is correct, you may need to update Wikidata or ignore this error.
+
+=back
+
+=head2 Wikipedia Link Issues
+
+=over 4
+
+=item B<MISSING_WP_LINK>
+
+The person has no Wikipedia link in the database, but Wikidata has an English
+Wikipedia article (sitelink).
+
+B<Auto-fix:> Populates the wikipedia field from Wikidata.
+
+=back
+
+=head2 Parent Issues
+
+=over 4
+
+=item B<PARENT_NOT_WD>
+
+The person's parent in the database doesn't match any of the parents listed
+in Wikidata (P22 father or P25 mother).
+
+B<Manual fix:> Review the relationship. Either update Wikidata, update the
+database, or investigate if the database is tracking a different lineage
+(e.g., legal vs. biological parent).
+
+=item B<PARENT_SET_UNIQUE>
+
+The person has no parent in the database, but Wikidata lists exactly one
+parent who exists in the database.
+
+B<Auto-fix:> Sets the parent field to the unique matching parent.
+
+=item B<PARENT_NOT_IN_DB>
+
+The person has no parent in the database, and none of their Wikidata parents
+are in the database.
+
+B<Manual fix:> Add the parent(s) to the database first, then re-run the audit.
+
+=item B<PARENT_AMBIGUOUS_BOTH_IN_DB>
+
+The person has no parent in the database, but both Wikidata parents are in
+the database, making the choice ambiguous.
+
+B<Manual fix:> Manually determine which parent should be used based on your
+data model (e.g., prefer father for patrilineal succession). Update the parent
+field directly in the database.
+
+=back
+
+=head2 Child Issues
+
+=over 4
+
+=item B<CHILD_P40_NONBIO>
+
+Wikidata lists a child (P40) but also marks the relationship as non-biological
+(P1039 present). These are reported but not considered errors.
+
+B<Manual action:> Review if this relationship should be tracked in your database.
+
+=item B<CHILD_OF_OTHER_PARENTS>
+
+A Wikidata child (P40) claims parents that don't include this person. This
+indicates an inconsistency in Wikidata where P40 on the parent doesn't match
+P22/P25 on the child.
+
+B<Manual fix:> Review Wikidata and fix the inconsistency there, or ignore if
+known to be correct (e.g., step-parent relationships).
+
+=item B<CHILD_NOT_IN_DB>
+
+Wikidata lists a biological child (P40 without P1039) who isn't in the database.
+
+B<Auto-fix:> If the child has exactly one parent in the database, creates a
+minimal person record with basic info from Wikidata. Limited by C<--max-create>
+(default 200).
+
+B<Manual fix:> If auto-fix can't handle it (ambiguous parents, no parents),
+manually add the child using other tools or scripts.
+
+=item B<CHILD_CREATED_UNIQUE>
+
+Confirmation that a child was auto-created from Wikidata.
+
+=item B<CHILD_CREATE_AMBIGUOUS>
+
+Can't auto-create child because both parents are in the database (ambiguous
+which to use as parent).
+
+B<Manual fix:> Manually create the child with the appropriate parent.
+
+=item B<CHILD_CREATE_NO_PARENTS>
+
+Can't auto-create child because no parents are in the database.
+
+B<Manual fix:> Add parent(s) first, then re-run the audit.
+
+=item B<CHILD_PARENT_MISSING>
+
+A child exists in the database but has no parent set.
+
+B<Auto-fix:> If the child's Wikidata entity has exactly one parent in the
+database, sets the parent field.
+
+B<Manual fix:> If ambiguous, manually set the parent.
+
+=item B<CHILD_PARENT_SET_UNIQUE>
+
+Confirmation that a child's parent was auto-set.
+
+=item B<CHILD_PARENT_MISMATCH>
+
+A child's parent in the database doesn't match expected relationships based
+on Wikidata. The child is attached to a different person than would be expected.
+
+B<Manual fix:> Review the relationships and determine if the database parent
+is correct, or if it should be updated. This could indicate a data modeling
+choice (e.g., adoptive vs. biological parent).
+
+=back
+
+=head1 AUTO-FIX CAPABILITIES
+
+The following error types can be automatically fixed with C<--auto>:
+
+=over 4
+
+=item B<MISSING_DEATH>
+
+Copies death date from Wikidata to the database.
+
+=item B<MISSING_WP_LINK>
+
+Copies Wikipedia URL from Wikidata to the database.
+
+=item B<PARENT_SET_UNIQUE>
+
+Sets parent when exactly one Wikidata parent is in the database.
+
+=item B<CHILD_PARENT_SET_UNIQUE>
+
+Sets a child's parent when exactly one Wikidata parent is in the database.
+
+=item B<CHILD_CREATE_FROM_WD>
+
+Creates minimal child records from Wikidata when they have a unique parent
+in the database. Limited by C<--max-create> (default 200).
+
+=item B<QID_REDIRECT_NORMALIZED>
+
+Updates QID to canonical value when Wikidata redirects.
+
+=back
+
+Note: All auto-fixes require C<--apply> to actually write changes. Without
+C<--apply>, the program runs in DRY-RUN mode and only reports what would
+be done.
+
+=head1 EXAMPLES
+
+=head2 Basic Auditing
+
+  # See all issues (dry-run, no changes)
+  bin/audit_wikidata_relations
+
+  # Save report to a file
+  bin/audit_wikidata_relations > audit_report.csv
+
+  # Audit with details about API calls
+  bin/audit_wikidata_relations --verbose
+
+=head2 Fixing Specific Issues
+
+  # Fix missing death dates (dry-run first)
+  bin/audit_wikidata_relations --auto MISSING_DEATH
+
+  # If results look good, apply changes
+  bin/audit_wikidata_relations --auto MISSING_DEATH --apply
+
+  # Fix multiple types
+  bin/audit_wikidata_relations --auto MISSING_DEATH --auto MISSING_WP_LINK --apply
+
+  # Or use comma-separated list
+  bin/audit_wikidata_relations --auto MISSING_DEATH,MISSING_WP_LINK --apply
+
+=head2 Comprehensive Fixes
+
+  # Fix everything possible (dry-run first!)
+  bin/audit_wikidata_relations --auto-all
+
+  # Review output, then apply if safe
+  bin/audit_wikidata_relations --auto-all --apply
+
+=head2 Targeted Audits
+
+  # Audit specific people
+  bin/audit_wikidata_relations --id 185 --id 310
+
+  # Test on first 10 people
+  bin/audit_wikidata_relations --limit 10
+
+  # Ignore certain errors you're not concerned about
+  bin/audit_wikidata_relations --ignore CHILD_NOT_IN_DB,DEATH_MISMATCH
+
+=head2 Creating Children from Wikidata
+
+  # Find children not in database
+  bin/audit_wikidata_relations | grep CHILD_NOT_IN_DB
+
+  # Auto-create children with unique parents (dry-run)
+  bin/audit_wikidata_relations --auto CHILD_CREATE_FROM_WD
+
+  # Apply if safe (creates up to 200 by default)
+  bin/audit_wikidata_relations --auto CHILD_CREATE_FROM_WD --apply
+
+  # Increase limit if needed
+  bin/audit_wikidata_relations --auto CHILD_CREATE_FROM_WD --apply --max-create 500
+
+=head2 Workflow for Data Maintenance
+
+  # 1. Run full audit to see all issues
+  bin/audit_wikidata_relations > audit_$(date +%Y%m%d).csv
+
+  # 2. Fix safe/obvious issues automatically
+  bin/audit_wikidata_relations --auto MISSING_DEATH,MISSING_WP_LINK,QID_REDIRECT_NORMALIZED --apply
+
+  # 3. Review remaining issues and fix manually or with targeted auto-fixes
+  bin/audit_wikidata_relations --auto PARENT_SET_UNIQUE --apply
+
+  # 4. Handle ambiguous cases manually based on your data model
+
+=head1 OUTPUT FORMAT
+
+The program outputs CSV with the following columns:
+
+=over 4
+
+=item 1. B<kind> - Error code (e.g., MISSING_DEATH, PARENT_NOT_WD)
+
+=item 2. B<person_id> - Database ID of the person
+
+=item 3. B<qid> - Wikidata QID
+
+=item 4. B<note> - Quoted English label from Wikidata, or descriptive text
+
+=item 5. B<detail> - Additional context (varies by error type)
+
+=item 6. B<expected> - Expected value (if applicable)
+
+=item 7. B<current> - Current value (if applicable)
+
+=back
+
+=head1 NOTES
+
+=over 4
+
+=item * The program respects C<--sleep-ms> between Wikidata API calls to avoid
+rate limiting (default 250ms).
+
+=item * Auto-created children get minimal data (birth/death dates, sex, Wikipedia
+link, QID). You may need to add titles and other details manually.
+
+=item * The program automatically triggers C<reorder_family> on parents after
+making changes that affect child ordering.
+
+=item * Some errors (like PARENT_AMBIGUOUS_BOTH_IN_DB) require manual judgment
+based on your data model and cannot be auto-fixed.
+
+=item * Always run in dry-run mode first (without C<--apply>) to review what
+would be changed before applying fixes.
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<Succession::WikiData::Entity> - Module that fetches Wikidata entities
+
+=item * L<Succession::Schema> - Database schema
+
+=item * Wikidata properties used: P22 (father), P25 (mother), P40 (child), P1039 (kinship to subject)
+
+=back
+
+=head1 AUTHOR
+
+Dave Cross
+
+=cut
+
