@@ -599,7 +599,8 @@ CREATE TABLE IF NOT EXISTS "person" (
   "sex" enum NOT NULL DEFAULT 'm',
   "wikipedia" text,
   "slug" varchar(100),
-  "wikidata_qid" varchar(32), last_audited_datetime datetime,
+  "wikidata_qid" varchar(32),
+  last_audited_datetime datetime,
   FOREIGN KEY ("parent") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 INSERT INTO person VALUES(1,'1895-12-14','1952-02-06',21,2,'m','https://en.wikipedia.org/wiki/George_VI','3b1b86-king-george-vi','Q280856',NULL);
