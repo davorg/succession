@@ -22,7 +22,8 @@ my %opt = (
   apply            => 0,      # actually write fixes (guarded by --auto)
   limit            => 0,      # audit only N people
   verbose          => 0,
-  sleep_ms         => 250,
+  sleep_ms         => 500,    # increased from 250ms to be more conservative
+  max_requests     => 450,    # safety cap to avoid hitting Wikidata rate limits (0 = unlimited)
   only_with_qid    => 1,      # only audit rows that already have a QID
   fill_wikipedia   => 1,      # report MISSING_WP_LINK; fix only if enabled via --auto
   root_id          => undef,  # optional; else auto-detect sole NULL-parent row
@@ -36,6 +37,7 @@ GetOptions(
   "limit=i"           => \$opt{limit},
   "verbose!"          => \$opt{verbose},
   "sleep-ms=i"        => \$opt{sleep_ms},
+  "max-requests=i"    => \$opt{max_requests},
   "only-with-qid!"    => \$opt{only_with_qid},
   "fill-wikipedia!"   => \$opt{fill_wikipedia},
   "root-id=i"         => \$opt{root_id},
@@ -209,6 +211,21 @@ sub report {
 # Track parents that need a reorder after edits
 my %needs_reorder;  # parent_id => 1
 
+# Track Wikidata API requests to avoid rate limiting
+my $wikidata_requests = 0;
+sub check_request_limit {
+  return 0 if $opt{max_requests} == 0;  # 0 means unlimited
+  if ($wikidata_requests >= $opt{max_requests}) {
+    warn "[audit] Reached maximum request limit ($opt{max_requests}). Stopping to avoid rate limiting.\n";
+    warn "[audit] Total requests made: $wikidata_requests\n";
+    warn "[audit] To continue, use --max-requests with a higher value or 0 for unlimited.\n";
+    return 1;  # signal to stop
+  }
+  return 0;  # continue
+}
+sub increment_request_count { $wikidata_requests++ }
+sub get_request_count { return $wikidata_requests }
+
 # ----------------------------------------
 # Main loop
 # ----------------------------------------
@@ -226,12 +243,25 @@ PERSON: while (my $p = $rs->next) {
 
   sleep_a_bit();
 
+  # Check if we're approaching the rate limit before making a request
+  if (check_request_limit()) {
+    last PERSON;  # exit the main loop
+  }
+
   # Build WD entity (follows redirects) — built-in try/catch (statement form)
   my $wd;
   try {
+    increment_request_count();  # count the request before making it
     $wd = Succession::WikiData::Entity::from_qid($qid);
   }
   catch ($e) {
+    # Check for rate limiting error
+    if ($e =~ /RATE_LIMIT:/) {
+      warn "[audit] $e\n";
+      warn "[audit] Wikidata rate limit hit after $wikidata_requests requests. Exiting immediately.\n";
+      warn "[audit] Use --max-requests to set a lower limit, or --sleep-ms to slow down requests.\n";
+      last PERSON;  # exit the main loop
+    }
     warn "[audit] fetch failed for $qid: $e";
     undef $wd;
   }
@@ -327,11 +357,24 @@ PERSON: while (my $p = $rs->next) {
   CHILD: for my $cq (@child_qids) {
     sleep_a_bit();
 
+    # Check if we're approaching the rate limit before making a request
+    if (check_request_limit()) {
+      last PERSON;  # exit both loops
+    }
+
     my $child_wd;
     try {
+      increment_request_count();  # count the request before making it
       $child_wd = Succession::WikiData::Entity::from_qid($cq);
     }
     catch ($e) {
+      # Check for rate limiting error
+      if ($e =~ /RATE_LIMIT:/) {
+        warn "[audit] $e\n";
+        warn "[audit] Wikidata rate limit hit after $wikidata_requests requests. Exiting immediately.\n";
+        warn "[audit] Use --max-requests to set a lower limit, or --sleep-ms to slow down requests.\n";
+        last PERSON;  # exit both loops
+      }
       warn "[audit] fetch child failed for $cq: $e";
       undef $child_wd;
     }
@@ -422,6 +465,9 @@ if ($opt{apply}) {
 
 warn sprintf "Audited %d person(s), reported %d issue(s)%s\n",
   $n, $reported, ($opt{apply} ? " (apply on; fixes limited to chosen --auto categories)" : "");
+warn sprintf "Total Wikidata API requests: %d%s\n",
+  $wikidata_requests,
+  ($opt{max_requests} > 0 ? " (limit: $opt{max_requests})" : " (unlimited)");
 
 __END__
 
@@ -559,8 +605,21 @@ or want to specify a different root.
 
 =item B<--sleep-ms=N>
 
-Milliseconds to sleep between Wikidata API calls (default: 250). Increase
-this if you're hitting rate limits.
+Milliseconds to sleep between Wikidata API calls (default: 500, previously 250).
+Increase this if you're hitting rate limits. Higher values = slower execution but
+less risk of rate limiting.
+
+=item B<--max-requests=N>
+
+Maximum number of Wikidata API requests to make before stopping (default: 450).
+This is a safety limit to prevent hitting Wikidata's rate limits. Set to 0 for
+unlimited requests (use with caution and monitor for 429 errors). When the limit
+is reached, the program stops gracefully.
+
+If you encounter HTTP 429 (Too Many Requests) errors, try:
+- Lowering C<--max-requests> (e.g., 300 or 200)
+- Increasing C<--sleep-ms> (e.g., 1000 for 1 second between requests)
+- Running the audit in smaller batches using C<--limit>
 
 =item B<--max-create=N>
 
@@ -868,8 +927,27 @@ The program outputs CSV with the following columns:
 
 =over 4
 
-=item * The program respects C<--sleep-ms> between Wikidata API calls to avoid
-rate limiting (default 250ms).
+=item * B<Rate Limiting Protection>: The program includes safeguards to prevent
+hitting Wikidata's rate limits:
+
+=over 4
+
+=item - Default sleep time of 500ms between requests (configurable via C<--sleep-ms>)
+
+=item - Default maximum of 450 requests per run (configurable via C<--max-requests>)
+
+=item - Immediate exit on HTTP 429 (Too Many Requests) errors
+
+=item - Request counter displayed at the end of execution
+
+=back
+
+If you need to audit the entire database, run the program in batches using C<--limit>
+or process specific people with C<--id>.
+
+=item * The program respects C<--sleep-ms> between Wikidata API calls. The default
+has been increased to 500ms (from 250ms) to be more conservative and avoid rate
+limiting.
 
 =item * Auto-created children get minimal data (birth/death dates, sex, Wikipedia
 link, QID). You may need to add titles and other details manually.

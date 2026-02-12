@@ -39,9 +39,10 @@ jobs:
       - name: Run audit_wikidata_relations (dry run)
         continue-on-error: true
         run: |
-          echo "Running audit_wikidata_relations in dry-run mode..."
+          echo "Running audit_wikidata_relations in dry-run mode with rate limiting..."
           export PERL5LIB=$PERL5LIB:$SUCC_LIB
-          bin/audit_wikidata_relations --verbose > audit_results.csv 2> audit_errors.log
+          # Use conservative limits to avoid rate limiting: 200 requests max, 500ms sleep
+          bin/audit_wikidata_relations --verbose --max-requests 200 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
           echo "Audit complete. Results saved."
       
       - name: Display audit summary
