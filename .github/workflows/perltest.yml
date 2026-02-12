@@ -15,7 +15,7 @@ on:
 jobs:
   unit_tests:
     env:
-      SUCC_DB_PATH: /home/runner/work/succession/succession/data/test.sqlite
+      SUCC_DB_PATH: ${{ github.workspace }}/data/test.sqlite
       PERL5LIB: Succession/lib:$PERL5LIB
     runs-on: ${{ matrix.os }}
     strategy:
