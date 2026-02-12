@@ -88,6 +88,11 @@ __PACKAGE__->table("person");
   is_nullable: 1
   size: 32
 
+=head2 last_audited_datetime
+
+  data_type: 'datetime'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -109,6 +114,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 100 },
   "wikidata_qid",
   { data_type => "varchar", is_nullable => 1, size => 32 },
+  "last_audited_datetime",
+  { data_type => "datetime", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -154,21 +161,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 children
-
-Type: has_many
-
-Related object: L<Succession::Schema::Result::Person>
-
-=cut
-
-__PACKAGE__->has_many(
-  "children",
-  "Succession::Schema::Result::Person",
-  { "foreign.parent" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 exclusions
 
 Type: has_many
@@ -202,6 +194,21 @@ __PACKAGE__->belongs_to(
     on_delete     => "RESTRICT",
     on_update     => "RESTRICT",
   },
+);
+
+=head2 people
+
+Type: has_many
+
+Related object: L<Succession::Schema::Result::Person>
+
+=cut
+
+__PACKAGE__->has_many(
+  "people",
+  "Succession::Schema::Result::Person",
+  { "foreign.parent" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
 );
 
 =head2 positions
@@ -280,8 +287,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-22 09:39:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lhwLbJ8EJDCcGpRdTRSZYQ
+# Created by DBIx::Class::Schema::Loader v0.07052 @ 2026-02-12 18:35:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:U84yq/zA3zvaOSEOTZGn/g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

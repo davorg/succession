@@ -19,6 +19,7 @@ requires 'DateTime::Format::SQLite';
 requires 'DateTime::Format::Strptime';
 requires 'DBD::SQLite';
 requires 'DBIx::Class';
+requires 'DBIx::Class::Schema::Loader';
 requires 'DBIx::Class::Schema::ResultSetNames';
 requires 'Digest::SHA';
 requires 'ExtUtils::MakeMaker';

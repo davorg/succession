@@ -10,6 +10,7 @@ binmode(STDERR, ':utf8');
 
 use Getopt::Long qw(GetOptions);
 use JSON::MaybeXS ();
+use DateTime ();
 
 use lib 'lib';
 use Succession::Schema;
@@ -29,6 +30,8 @@ my %opt = (
   root_id          => undef,  # optional; else auto-detect sole NULL-parent row
   auto_all         => 0,      # enable all fix categories
   max_create       => 200,    # safety cap for auto-created children
+  time_filter      => 1,      # only audit records with NULL or old last_audited_datetime
+  audit_age_days   => 7,      # minimum days since last audit (default: 7)
 );
 my (@auto_opts, @ignore_opts, @only_ids);
 
@@ -46,6 +49,8 @@ GetOptions(
   "ignore=s@"         => \@ignore_opts,    # e.g. --ignore CHILD_NOT_IN_DB --ignore "DEATH_MISMATCH,CHILD_PARENT_MISMATCH"
   "id=i@"             => \@only_ids,       # may be repeated: --id 185 --id 310
   "max-create=i"      => \$opt{max_create},
+  "time-filter!"      => \$opt{time_filter},    # enable/disable time filtering
+  "audit-age-days=i"  => \$opt{audit_age_days}, # minimum days since last audit
 ) or die "Bad options\n";
 
 # Normalize chosen categories
@@ -185,6 +190,20 @@ if (@only_ids) {
   $where{'me.id'} = { '!=' => $root_id } if defined $root_id;
 }
 $where{'me.wikidata_qid'} = { '!=' => undef } if $opt{only_with_qid};
+
+# Add time filtering to only audit records with NULL or old last_audited_datetime
+if ($opt{time_filter}) {
+  my $cutoff_date = DateTime->now->subtract(days => $opt{audit_age_days});
+  my $dtf = $schema->storage->datetime_parser;
+  my $cutoff_str = $dtf->format_datetime($cutoff_date);
+  
+  $where{'-or'} = [
+    { 'me.last_audited_datetime' => undef },
+    { 'me.last_audited_datetime' => { '<' => $cutoff_str } },
+  ];
+  
+  logv "Time filter enabled: only auditing records with NULL or last_audited_datetime < $cutoff_str";
+}
 
 my $rs = $schema->resultset('Person')->search(
   \%where,
@@ -450,6 +469,15 @@ PERSON: while (my $p = $rs->next) {
 
     report("CHILD_PARENT_MISMATCH", $pid, $qid, label_q($wd), $cid, $cp_id, $pid);
   }
+  
+  # Update last_audited_datetime for this person
+  if ($opt{apply}) {
+    my $now = DateTime->now;
+    my $dtf = $schema->storage->datetime_parser;
+    my $now_str = $dtf->format_datetime($now);
+    $p->update({ last_audited_datetime => $now_str });
+    logv "Updated last_audited_datetime for person $pid to $now_str";
+  }
 }
 
 # ----------------------------------------
@@ -590,6 +618,37 @@ C<--no-only-with-qid> to audit all people.
 
 Report missing Wikipedia links (default: enabled). Use C<--no-fill-wikipedia>
 to skip this check.
+
+=item B<--time-filter> / B<--no-time-filter>
+
+Enable or disable time filtering for audit records (default: enabled). When enabled,
+only audits person records that have either:
+
+=over 4
+
+=item * NULL C<last_audited_datetime> (never audited before), OR
+
+=item * C<last_audited_datetime> older than C<--audit-age-days> (default: 7 days)
+
+=back
+
+Use C<--no-time-filter> to audit all records regardless of when they were last audited.
+This is useful for forcing a complete audit of the database.
+
+=item B<--audit-age-days=N>
+
+Minimum number of days since last audit before a record is eligible for auditing again
+(default: 7). Only used when C<--time-filter> is enabled. For example:
+
+=over 4
+
+=item * C<--audit-age-days 7> - audit records older than 7 days (default)
+
+=item * C<--audit-age-days 1> - audit records older than 1 day
+
+=item * C<--audit-age-days 30> - audit records older than 30 days
+
+=back
 
 =back
 
@@ -926,6 +985,42 @@ The program outputs CSV with the following columns:
 =head1 NOTES
 
 =over 4
+
+=item * B<Audit Tracking>: The program tracks when each person record was last audited
+using the C<last_audited_datetime> field:
+
+=over 4
+
+=item - On each audit run (with C<--apply>), the C<last_audited_datetime> is updated
+
+=item - By default (C<--time-filter>), only records with NULL or old C<last_audited_datetime> are audited
+
+=item - This allows the audit to run incrementally over multiple days without re-auditing recent records
+
+=item - Use C<--no-time-filter> to force auditing all records regardless of last audit time
+
+=item - Adjust C<--audit-age-days> to control how often records should be re-audited (default: 7 days)
+
+=back
+
+For example, with default settings and a database of 2000 people where each run audits
+~450 people (due to rate limiting):
+
+=over 4
+
+=item - Day 1: Audit 450 people (25% of database)
+
+=item - Day 2: Audit next 450 people (another 25%)
+
+=item - Day 3: Audit next 450 people (another 25%)
+
+=item - Day 4-5: Audit remaining people (25%)
+
+=item - Days 6-7: No records eligible (all audited within 7 days)
+
+=item - Day 8: Day 1 records become eligible again (7+ days old)
+
+=back
 
 =item * B<Rate Limiting Protection>: The program includes safeguards to prevent
 hitting Wikidata's rate limits:

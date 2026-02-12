@@ -1,0 +1,34 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../Succession/lib";
+
+# Set environment variable for database path
+$ENV{SUCC_DB_PATH} = "$FindBin::Bin/../data/los.sqlite";
+
+eval {
+    require DBIx::Class::Schema::Loader;
+    1;
+} or do {
+    die "DBIx::Class::Schema::Loader is not installed. Please install it first:\n" .
+        "  perl -MCPAN -e 'install DBIx::Class::Schema::Loader'\n";
+};
+
+use DBIx::Class::Schema::Loader qw/ make_schema_at /;
+
+make_schema_at(
+    'Succession::Schema',
+    {
+        debug => 1,
+        dump_directory => "$FindBin::Bin/../Succession/lib",
+        overwrite_modifications => 0,
+        use_moose => 1,
+        use_namespaces => 1,
+        components => ['InflateColumn::DateTime'],
+    },
+    [ "dbi:SQLite:dbname=$ENV{SUCC_DB_PATH}", '', '' ],
+);
+
+print "Schema regenerated successfully!\n";
