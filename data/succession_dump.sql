@@ -660,13 +660,13 @@ INSERT INTO person VALUES(54,'2010-05-20',NULL,50,2,'f','https://en.wikipedia.or
 INSERT INTO person VALUES(55,'2010-06-22',NULL,51,1,'f',NULL,'09c401-senna-lewis','Q75979984');
 INSERT INTO person VALUES(56,'2012-05-25',NULL,51,2,'m',NULL,'0f841b-tane-lewis','Q76245303');
 INSERT INTO person VALUES(57,'2010-05-30',NULL,52,1,'f',NULL,'6cd8c9-lyla-gilman','Q75979985');
-INSERT INTO person VALUES(58,'2012-10-30',NULL,52,2,'m',NULL,'1daaec-rufus-gilman','Q76245057');
+INSERT INTO person VALUES(58,'2012-10-30',NULL,52,2,'m','https://en.wikipedia.org/wiki/Rufus_Gilman','1daaec-rufus-gilman','Q76245057');
 INSERT INTO person VALUES(59,'1994-08-06',NULL,44,1,'m',NULL,'38115e-columbus-taylor','Q12360655');
 INSERT INTO person VALUES(60,'1996-12-26',NULL,44,2,'m',NULL,'1e7c08-cassius-taylor','Q75385377');
 INSERT INTO person VALUES(61,'2003-03-02',NULL,44,3,'f',NULL,'fb7ff4-eloise-taylor','Q16408535');
 INSERT INTO person VALUES(62,'2004-12-21',NULL,44,4,'f',NULL,'e56bb5-estella-taylor','Q12362386');
-INSERT INTO person VALUES(63,'2013-08-15',NULL,48,1,'f',NULL,'91bce4-maud-windsor','Q76249585');
-INSERT INTO person VALUES(64,'2016-01-16',NULL,48,2,'f',NULL,'e96c4b-isabella-windsor','Q76306742');
+INSERT INTO person VALUES(63,'2013-08-15',NULL,48,1,'f','https://en.wikipedia.org/wiki/Maud_Windsor','91bce4-maud-windsor','Q76249585');
+INSERT INTO person VALUES(64,'2016-01-16',NULL,48,2,'f','https://en.wikipedia.org/wiki/Isabella_Windsor','e96c4b-isabella-windsor','Q76306742');
 INSERT INTO person VALUES(65,'1841-11-09','1910-05-06',180,1,'m','https://en.wikipedia.org/wiki/Edward_VII','1a8fbd-king-edward-vii','Q20875');
 INSERT INTO person VALUES(66,'1864-01-08','1892-01-14',65,1,'m','https://en.wikipedia.org/wiki/Prince_Albert_Victor%2C_Duke_of_Clarence_and_Avondale','7ceed6-prince-albert-victor-duke-of-clarence-and-avondale','Q159670');
 INSERT INTO person VALUES(67,'1871-04-06','1871-04-07',65,3,'m',NULL,'1afea1-prince-alexander-john','Q12738554');
@@ -761,7 +761,7 @@ INSERT INTO person VALUES(225,'1921-10-25','2017-12-05',285,1,'m','https://en.wi
 INSERT INTO person VALUES(226,'1901-12-14','1964-03-06',220,3,'m','https://en.wikipedia.org/wiki/Paul_of_Greece','de78b5-paul-of-greece','Q155394');
 INSERT INTO person VALUES(227,'1938-11-02',NULL,226,2,'f','https://en.wikipedia.org/wiki/Queen_Sof%C3%ADa_of_Spain','71e5b1-queen-sofia-of-spain','Q156548');
 INSERT INTO person VALUES(228,'1940-06-02','2023-01-10',226,1,'m','https://en.wikipedia.org/wiki/Constantine_II_of_Greece','af31e0-constantine-ii-of-greece','Q151773');
-INSERT INTO person VALUES(229,'1942-05-11',NULL,226,3,'f','https://en.wikipedia.org/wiki/Princess_Irene_of_Greece_and_Denmark','49f668-princess-irene-of-greece-and-denmark','Q242298');
+INSERT INTO person VALUES(229,'1942-05-11','2026-01-15',226,3,'f','https://en.wikipedia.org/wiki/Princess_Irene_of_Greece_and_Denmark','49f668-princess-irene-of-greece-and-denmark','Q242298');
 INSERT INTO person VALUES(230,'1904-02-13','1974-04-15',220,5,'f','https://en.wikipedia.org/wiki/Princess_Irene%2C_Duchess_of_Aosta','418adb-princess-irene-duchess-of-aosta','Q236770');
 INSERT INTO person VALUES(231,'1943-09-27','2021-06-01',230,1,'m','https://en.wikipedia.org/wiki/Prince_Amedeo%2C_Duke_of_Aosta_%281943%E2%80%932021%29','249e00-prince-amedeo-duke-of-aosta','Q452039');
 INSERT INTO person VALUES(232,'1913-05-04','2007-10-02',220,6,'f','https://en.wikipedia.org/wiki/Princess_Katherine_of_Greece_and_Denmark','a3f26c-princess-katherine-of-greece-and-denmark','Q242338');
@@ -3219,7 +3219,7 @@ INSERT INTO succession_period VALUES(266,'2021-02-09','2021-03-21',558,11,'birth
 INSERT INTO succession_period VALUES(267,'2021-03-21','2021-06-04',559,22,'birth');
 INSERT INTO succession_period VALUES(268,'2021-06-04','2021-09-18',560,8,'birth');
 INSERT INTO succession_period VALUES(269,'2021-09-18','2022-09-08',561,11,'birth');
-INSERT INTO succession_period VALUES(270,'2022-09-08','2023-05-30',NULL,NULL,'none');
+INSERT INTO succession_period VALUES(270,'2022-09-08','2023-05-30',NULL,NULL,'complex');
 INSERT INTO succession_period VALUES(271,'2023-05-30','2025-01-22',562,13,'birth');
 INSERT INTO succession_period VALUES(272,'2025-01-22',NULL,563,11,'birth');
 CREATE TABLE succession_entry (
