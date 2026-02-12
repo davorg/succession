@@ -5,7 +5,17 @@ dir="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=bin/func_defs
 . "$dir/func_defs"
 
-check_vars
+# Custom check for load_db: we don't require the DB file to exist yet
+if is_sqlite; then
+  path="$(sqlite_db_path)" || { echo "Missing SUCC_DB_PATH or SUCC_DSN(dbname)" >&2; exit 1; }
+  if [[ -z "$path" ]]; then
+    echo "Missing/invalid SUCC_DB_PATH or SUCC_DSN" >&2
+    exit 1
+  fi
+else
+  # MySQL: use standard check
+  check_vars
+fi
 
 in="$dir/../data/succession_dump.sql"
 [[ -f "$in" ]] || { echo "Missing $in" >&2; exit 1; }
@@ -13,14 +23,8 @@ in="$dir/../data/succession_dump.sql"
 if is_sqlite; then
   db="$(sqlite_db_path)"
   echo "Loading into SQLite: $db"
-  # Use sqlite3; foreign_keys OFF during import for speed, then ON + integrity check
-  sqlite3 "$db" <<SQL
-PRAGMA foreign_keys=OFF;
-.read '$in';
-PRAGMA foreign_keys=ON;
-PRAGMA integrity_check;
-ANALYZE;
-SQL
+  # Load the SQL dump directly
+  sqlite3 "$db" < "$in"
 else
   echo "Loading into MySQL: $SUCC_DB_NAME@$SUCC_DB_HOST"
   mysql \

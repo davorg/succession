@@ -14,23 +14,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   unit_tests:
-    services:
-      mariadb:
-        image: mariadb:latest
-        ports:
-          - 13306:3306
-        env:
-          MYSQL_USER: succession
-          MYSQL_PASSWORD: strongpassword
-          MYSQL_ROOT_PASSWORD: sekrit
-          MYSQL_DATABASE: succession
-        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
-      SUCC_DB_USER: succession
-      SUCC_DB_HOST: 127.0.0.1
-      SUCC_DB_NAME: succession
-      SUCC_DB_PASS: strongpassword
-      SUCC_DB_PORT: 13306
+      SUCC_DB_PATH: ${{ github.workspace }}/data/test.sqlite
       PERL5LIB: Succession/lib:$PERL5LIB
     runs-on: ${{ matrix.os }}
     strategy:
@@ -47,13 +32,12 @@ jobs:
           perl-version: ${{ matrix.perl }}
       - name: Perl version
         run: perl -V
+      - name: Update apt cache
+        run: sudo apt-get update
+      - name: Install sqlite3
+        run: sudo apt-get install -y sqlite3
       - name: Setup database
-        run: mysql -u root -psekrit -h 127.0.0.1 -P"$SUCC_DB_PORT" -D $SUCC_DB_NAME < data/succession_dump.sql
-      - name: Wait for database
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"$SUCC_DB_PORT" --silent; do
-            sleep 1
-          done
+        run: bin/load_db
       - name: Check database
         run: bin/db "select count(*) from sovereign"
       - name: Install modules

@@ -1,8 +1,9 @@
 PRAGMA foreign_keys=OFF;
-BEGIN;
-PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 ANALYZE sqlite_schema;
+INSERT INTO sqlite_stat1 VALUES('succession_entry','idx_succ_entry_person','7950 34');
+INSERT INTO sqlite_stat1 VALUES('succession_entry','sqlite_autoindex_succession_entry_1','7950 30 1');
+INSERT INTO sqlite_stat1 VALUES('succession_period','idx_succ_period_range','272 1 1');
 INSERT INTO sqlite_stat1 VALUES('change','change_idx_person_id','272 2');
 INSERT INTO sqlite_stat1 VALUES('change','change_idx_change_date_id','272 1');
 INSERT INTO sqlite_stat1 VALUES('change_date',NULL,'272');
@@ -10,8 +11,8 @@ INSERT INTO sqlite_stat1 VALUES('exclusion','exclusion_idx_person_id','15 1');
 INSERT INTO sqlite_stat1 VALUES('person','uq_person_qid','609 2');
 INSERT INTO sqlite_stat1 VALUES('person','person_idx_parent','609 4');
 INSERT INTO sqlite_stat1 VALUES('position','position_idx_person_id','1000 14');
-INSERT INTO sqlite_stat1 VALUES('title','title_idx_person_id','696 2');
 INSERT INTO sqlite_stat1 VALUES('sovereign','sovereign_idx_person_id','10 1');
+INSERT INTO sqlite_stat1 VALUES('title','title_idx_person_id','696 2');
 CREATE TABLE IF NOT EXISTS "change" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
@@ -11190,6 +11191,5 @@ CREATE INDEX idx_succ_entry_person
   ON succession_entry(person_id);
 CREATE INDEX idx_succ_period_range
   ON succession_period(from_date, to_date);
-COMMIT;
 COMMIT;
 ANALYZE;

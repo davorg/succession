@@ -12,12 +12,10 @@ if is_sqlite; then
   db="$(sqlite_db_path)"
   out="$dir/../data/succession_dump.sql"
   echo "Dumping SQLite: $db → $out"
-  # --safe: emit PRAGMAs to load fast, then full .dump, then ANALYZE
+  # sqlite3 .dump already includes PRAGMA foreign_keys=OFF; BEGIN TRANSACTION; ... COMMIT;
+  # We just need to add ANALYZE at the end
   {
-    echo "PRAGMA foreign_keys=OFF;"
-    echo "BEGIN;"
     sqlite3 "$db" .dump
-    echo "COMMIT;"
     echo "ANALYZE;"
   } > "$out"
 else
