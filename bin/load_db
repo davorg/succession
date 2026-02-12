@@ -23,14 +23,9 @@ in="$dir/../data/succession_dump.sql"
 if is_sqlite; then
   db="$(sqlite_db_path)"
   echo "Loading into SQLite: $db"
-  # Use sqlite3; foreign_keys OFF during import for speed, then ON + integrity check
-  sqlite3 "$db" <<SQL
-PRAGMA foreign_keys=OFF;
-.read '$in';
-PRAGMA foreign_keys=ON;
-PRAGMA integrity_check;
-ANALYZE;
-SQL
+  # The dump has duplicate BEGIN (line 2) and first COMMIT (line 11193) that cause nested transaction errors
+  # Remove these duplicate lines before loading
+  sed '2d;11193d' "$in" | sqlite3 "$db"
 else
   echo "Loading into MySQL: $SUCC_DB_NAME@$SUCC_DB_HOST"
   mysql \
