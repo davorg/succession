@@ -1,3 +1,6 @@
+on 'test' => sub {
+  requires 'SQL::Translator', '>=', '0.11018'
+};
 requires 'Cache::FastMmap';
 requires 'Cache::Memcached';
 requires 'CHI';
