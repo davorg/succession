@@ -1,4 +1,3 @@
-CREATE TABLE sqlite_stat1(tbl,idx,stat);
 CREATE TABLE IF NOT EXISTS "change" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
