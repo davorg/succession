@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: read
     env:
-      SUCC_DB_PATH: los.sqlite
+      SUCC_DB_PATH: data/los.sqlite
       PERL5LIB: Succession/lib:$PERL5LIB
     
     steps:
