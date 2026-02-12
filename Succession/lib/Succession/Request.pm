@@ -51,7 +51,7 @@ sub is_person_page( $self ) {
 
 has person => (
   is => 'ro',
-  isa => 'Succession::Schema::Result::Person|Undef',
+  isa => 'Maybe[Succession::Schema::Result::Person]',
   lazy => 1,
   builder => '_build_person',
 );
