@@ -62,7 +62,13 @@ sub _fetch_and_follow_redirects( $self ) {
       die "HTTP error fetching $url: $_";
     };
 
-    die "HTTP $res->{status} $res->{reason} for $url" unless $res->{success};
+    unless ($res->{success}) {
+      # Specific handling for rate limiting (HTTP 429)
+      if ($res->{status} == 429) {
+        die "RATE_LIMIT: HTTP 429 Too Many Requests - Wikidata rate limit exceeded for $url";
+      }
+      die "HTTP $res->{status} $res->{reason} for $url";
+    }
 
     my $doc;
     try {
