@@ -1,8 +1,0 @@
-#!/bin/bash
-
-docker run --name succession-db \
-  -e MARIADB_ROOT_PASSWORD=sekrit \
-  -e MARIADB_DATABASE="$SUCC_DB_NAME" \
-  -e MARIADB_USER="$SUCC_DB_USER" \
-  -e MARIADB_PASSWORD="$SUCC_DB_PASS" \
-  -p 13306:3306 -d succession-db

@@ -6,24 +6,14 @@ dir="$(cd "$(dirname "$0")" && pwd)"
 . "$dir/func_defs"
 
 check_vars
-mkdir -p "$dir/../../data"
+mkdir -p "$dir/../data"
 
-out="$dir/../../data/succession.ddl"
+out="$dir/../data/succession.ddl"
 
-if is_sqlite; then
-  db="$(sqlite_db_path)"
-  echo "Dumping SQLite DDL: $db → $out"
-  # .schema prints CREATE statements (tables, indexes, triggers, views)
-  sqlite3 "$db" .schema > "$out"
-else
-  echo "Dumping MySQL DDL: $SUCC_DB_NAME@$SUCC_DB_HOST → $out"
-  mysqldump --no-data \
-    -h"$SUCC_DB_HOST" \
-    -P"${SUCC_DB_PORT:-3306}" \
-    -u"$SUCC_DB_USER" \
-    -p"$SUCC_DB_PASS" \
-    "$SUCC_DB_NAME" > "$out"
-fi
+db="$(sqlite_db_path)"
+echo "Dumping SQLite DDL: $db → $out"
+# .schema prints CREATE statements (tables, indexes, triggers, views)
+sqlite3 "$db" .schema > "$out"
 
 echo "Wrote $out"
 
