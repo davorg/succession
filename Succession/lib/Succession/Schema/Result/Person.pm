@@ -293,6 +293,14 @@ __PACKAGE__->has_many(
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 
+# Add 'children' as an alias for 'people' to maintain backward compatibility
+__PACKAGE__->has_many(
+  "children",
+  "Succession::Schema::Result::Person",
+  { "foreign.parent" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 use feature 'state';
 use experimental 'signatures';
 
