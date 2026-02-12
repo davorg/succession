@@ -13,7 +13,7 @@ jobs:
       contents: read
     env:
       SUCC_DB_PATH: data/los.sqlite
-      PERL5LIB: Succession/lib:$PERL5LIB
+      SUCC_LIB: Succession/lib
     
     steps:
       - name: Check out code
@@ -40,6 +40,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "Running audit_wikidata_relations in dry-run mode..."
+          export PERL5LIB=$PERL5LIB:$SUCC_LIB
           bin/audit_wikidata_relations --verbose > audit_results.csv 2> audit_errors.log
           echo "Audit complete. Results saved."
       
