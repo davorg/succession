@@ -14,7 +14,6 @@ requires 'Data::Dumper';
 requires 'Data::UUID';
 requires 'DateTime';
 requires 'DateTime::Format::HTTP';
-requires 'DateTime::Format::MySQL';
 requires 'DateTime::Format::SQLite';
 requires 'DateTime::Format::Strptime';
 requires 'DBD::SQLite';

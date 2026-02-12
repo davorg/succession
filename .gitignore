@@ -1,4 +1,5 @@
 .env
 data/succession.conf
+data/test.sqlite
 local/*
 *.*.swp

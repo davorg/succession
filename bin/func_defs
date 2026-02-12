@@ -1,20 +1,5 @@
 #!/bin/bash
-# Common helpers for DB scripts (SQLite or MySQL)
-
-# --- Backend detection -------------------------------------------------------
-is_sqlite() {
-  if [[ -n "$SUCC_DB_PATH" ]]; then
-    return 0
-  fi
-  if [[ -n "$SUCC_DSN" && "$SUCC_DSN" == dbi:SQLite:* ]]; then
-    return 0
-  fi
-  return 1
-}
-
-is_mysql() {
-  ! is_sqlite
-}
+# Common helpers for DB scripts (SQLite only)
 
 # --- Resolve SQLite db file --------------------------------------------------
 sqlite_db_path() {
@@ -40,18 +25,10 @@ sqlite_db_path() {
 check_vars() {
   local -a errors=()
 
-  if is_sqlite; then
-    local path
-    path="$(sqlite_db_path)" || errors+=("SUCC_DB_PATH or SUCC_DSN(dbname)")
-    if [[ -z "$path" || ! -f "$path" ]]; then
-      errors+=("sqlite_db_missing:${path:-<empty>}")
-    fi
-  else
-    # MySQL: SUCC_DB_PORT optional
-    local vars=(SUCC_DB_HOST SUCC_DB_NAME SUCC_DB_USER SUCC_DB_PASS)
-    for var_name in "${vars[@]}"; do
-      [[ -z "${!var_name}" ]] && errors+=("$var_name")
-    done
+  local path
+  path="$(sqlite_db_path)" || errors+=("SUCC_DB_PATH or SUCC_DSN(dbname)")
+  if [[ -z "$path" || ! -f "$path" ]]; then
+    errors+=("sqlite_db_missing:${path:-<empty>}")
   fi
 
   if (( ${#errors[@]} )); then
@@ -62,25 +39,15 @@ check_vars() {
 
 # --- Command wrappers --------------------------------------------------------
 db_shell() {
-  if is_sqlite; then
-    local db; db="$(sqlite_db_path)" || return 1
-    command -v sqlite3 >/dev/null || { echo "sqlite3 CLI not found" >&2; return 127; }
-    sqlite3 "$db"
-  else
-    command -v mysql >/dev/null || { echo "mysql CLI not found" >&2; return 127; }
-    mysql -h"$SUCC_DB_HOST" -P"${SUCC_DB_PORT:-3306}" -u"$SUCC_DB_USER" -p"$SUCC_DB_PASS" "$SUCC_DB_NAME"
-  fi
+  local db; db="$(sqlite_db_path)" || return 1
+  command -v sqlite3 >/dev/null || { echo "sqlite3 CLI not found" >&2; return 127; }
+  sqlite3 "$db"
 }
 
 db_exec() {
-  # Reads SQL from stdin, executes in the chosen backend
-  if is_sqlite; then
-    local db; db="$(sqlite_db_path)" || return 1
-    command -v sqlite3 >/dev/null || { echo "sqlite3 CLI not found" >&2; return 127; }
-    sqlite3 -echo "$db"
-  else
-    command -v mysql >/dev/null || { echo "mysql CLI not found" >&2; return 127; }
-    mysql -t -h"$SUCC_DB_HOST" -P"${SUCC_DB_PORT:-3306}" -u"$SUCC_DB_USER" -p"$SUCC_DB_PASS" "$SUCC_DB_NAME"
-  fi
+  # Reads SQL from stdin, executes in SQLite
+  local db; db="$(sqlite_db_path)" || return 1
+  command -v sqlite3 >/dev/null || { echo "sqlite3 CLI not found" >&2; return 127; }
+  sqlite3 -echo "$db"
 }
 

@@ -8,26 +8,15 @@ dir="$(cd "$(dirname "$0")" && pwd)"
 check_vars
 mkdir -p "$dir/../data"
 
-if is_sqlite; then
-  db="$(sqlite_db_path)"
-  out="$dir/../data/succession_dump.sql"
-  echo "Dumping SQLite: $db → $out"
-  # sqlite3 .dump already includes PRAGMA foreign_keys=OFF; BEGIN TRANSACTION; ... COMMIT;
-  # We just need to add ANALYZE at the end
-  {
-    sqlite3 "$db" .dump
-    echo "ANALYZE;"
-  } > "$out"
-else
-  out="$dir/../data/succession_dump.sql"
-  echo "Dumping MySQL: $SUCC_DB_NAME@$SUCC_DB_HOST → $out"
-  mysqldump --skip-extended-insert \
-    -h"$SUCC_DB_HOST" \
-    -P"${SUCC_DB_PORT:-3306}" \
-    -u"$SUCC_DB_USER" \
-    -p"$SUCC_DB_PASS" \
-    "$SUCC_DB_NAME" > "$out"
-fi
+db="$(sqlite_db_path)"
+out="$dir/../data/succession_dump.sql"
+echo "Dumping SQLite: $db → $out"
+# sqlite3 .dump already includes PRAGMA foreign_keys=OFF; BEGIN TRANSACTION; ... COMMIT;
+# We just need to add ANALYZE at the end
+{
+  sqlite3 "$db" .dump
+  echo "ANALYZE;"
+} > "$out"
 
 echo "Wrote $out"
 
