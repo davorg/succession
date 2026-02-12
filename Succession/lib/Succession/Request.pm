@@ -6,6 +6,7 @@ use experimental 'signatures'; # After Moose because Moose turns all warnings on
 
 use DateTime;
 use Succession::Model;
+use Succession::Schema::Result::Person; # For type constraint
 
 has model => (
   is => 'ro',
