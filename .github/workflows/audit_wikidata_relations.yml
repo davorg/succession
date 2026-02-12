@@ -27,8 +27,8 @@ jobs:
       - name: Perl version
         run: perl -V
       
-      - name: Setup SQLite database
-        run: bin/load_db
+#      - name: Setup SQLite database
+#        run: bin/load_db
       
       - name: Check database
         run: bin/db "select count(*) from sovereign"
