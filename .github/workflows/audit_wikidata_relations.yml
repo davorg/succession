@@ -89,7 +89,7 @@ jobs:
       - name: Check if database changed
         id: db_check
         run: |
-          if git diff --quiet data/los.sqlite; then
+          if git diff --exit-code data/los.sqlite > /dev/null 2>&1; then
             echo "Database unchanged"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -110,4 +110,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add data/los.sqlite data/succession_dump.sql
           git commit -m "Auto-commit: Update database from audit workflow"
-          git push
+          if ! git push; then
+            echo "::error::Failed to push database changes to repository"
+            exit 1
+          fi
