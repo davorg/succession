@@ -6,6 +6,11 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:  # Allow manual triggering
 
+# Ensure only one audit workflow runs at a time to prevent conflicts
+concurrency:
+  group: audit-wikidata-relations
+  cancel-in-progress: false
+
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -13,6 +18,7 @@ jobs:
       contents: write
     env:
       SUCC_DB_PATH: data/los.sqlite
+      SUCC_DUMP_PATH: data/succession_dump.sql
       SUCC_LIB: Succession/lib
     
     steps:
@@ -89,7 +95,7 @@ jobs:
       - name: Check if database changed
         id: db_check
         run: |
-          if git diff --exit-code data/los.sqlite > /dev/null 2>&1; then
+          if git diff --exit-code "$SUCC_DB_PATH" > /dev/null 2>&1; then
             echo "Database unchanged"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -108,7 +114,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/los.sqlite data/succession_dump.sql
+          git add "$SUCC_DB_PATH" "$SUCC_DUMP_PATH"
           git commit -m "Auto-commit: Update database from audit workflow"
           if ! git push; then
             echo "::error::Failed to push database changes to repository"
