@@ -6,13 +6,19 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:  # Allow manual triggering
 
+# Ensure only one audit workflow runs at a time to prevent conflicts
+concurrency:
+  group: audit-wikidata-relations
+  cancel-in-progress: false
+
 jobs:
   audit:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     env:
       SUCC_DB_PATH: data/los.sqlite
+      SUCC_DUMP_PATH: data/succession_dump.sql
       SUCC_LIB: Succession/lib
     
     steps:
@@ -36,12 +42,14 @@ jobs:
       - name: Install modules
         run: cpanm -n --installdeps .
       
-      - name: Run audit_wikidata_relations (dry run)
+      - name: Run audit_wikidata_relations
         continue-on-error: true
         run: |
-          echo "Running audit_wikidata_relations in dry-run mode with rate limiting..."
+          echo "Running audit_wikidata_relations in report-only mode with rate limiting..."
           export PERL5LIB=$PERL5LIB:$SUCC_LIB
           # Use conservative limits to avoid rate limiting: 200 requests max, 500ms sleep
+          # Run without --apply to report issues without making changes
+          # Timestamps are still updated (--audit is default on) to avoid rechecking same records
           bin/audit_wikidata_relations --verbose --max-requests 200 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
           echo "Audit complete. Results saved."
       
@@ -84,4 +92,38 @@ jobs:
             else
               echo "No issues found in the audit"
             fi
+          fi
+      
+      - name: Check if database changed
+        id: db_check
+        run: |
+          if git diff HEAD --exit-code "$SUCC_DB_PATH" > /dev/null 2>&1; then
+            echo "Database unchanged"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Database was modified by audit"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      
+      - name: Dump database if changed
+        if: steps.db_check.outputs.changed == 'true'
+        run: |
+          echo "Dumping database to succession_dump.sql..."
+          bin/dump_db
+      
+      - name: Commit database changes
+        if: steps.db_check.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "$SUCC_DB_PATH" "$SUCC_DUMP_PATH"
+          git commit -m "Auto-commit: Update database from audit workflow"
+          # Pull with rebase in case the branch was updated since checkout
+          # Note: Concurrency control should prevent conflicts, but this is a safety measure
+          if ! git pull --rebase origin "${GITHUB_REF#refs/heads/}"; then
+            echo "::warning::Pull with rebase failed. This may indicate conflicts. The push below will fail if the remote has diverged. Manual intervention may be required to resolve conflicts."
+          fi
+          if ! git push; then
+            echo "::error::Failed to push database changes to repository"
+            exit 1
           fi
