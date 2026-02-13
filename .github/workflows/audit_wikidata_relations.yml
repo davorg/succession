@@ -117,9 +117,10 @@ jobs:
           git add "$SUCC_DB_PATH" "$SUCC_DUMP_PATH"
           git commit -m "Auto-commit: Update database from audit workflow"
           # Pull with rebase in case the branch was updated since checkout
-          git pull --rebase origin "${GITHUB_REF#refs/heads/}" || {
-            echo "::warning::Pull failed, attempting push without pull"
-          }
+          # Note: Concurrency control should prevent conflicts, but this is a safety measure
+          if ! git pull --rebase origin "${GITHUB_REF#refs/heads/}"; then
+            echo "::warning::Pull with rebase failed - conflicts may exist. Attempting push anyway which may fail if remote has diverged."
+          fi
           if ! git push; then
             echo "::error::Failed to push database changes to repository"
             exit 1
