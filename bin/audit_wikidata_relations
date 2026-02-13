@@ -902,7 +902,11 @@ be done.
 =head2 Basic Auditing
 
   # See all issues (dry-run, no changes)
+  # Timestamps are updated by default to track audited records
   bin/audit_wikidata_relations
+
+  # See issues without updating timestamps
+  bin/audit_wikidata_relations --no-audit
 
   # Save report to a file
   bin/audit_wikidata_relations > audit_report.csv
