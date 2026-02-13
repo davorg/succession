@@ -88,6 +88,11 @@ __PACKAGE__->table("person");
   is_nullable: 1
   size: 32
 
+=head2 last_audited_datetime
+
+  data_type: 'datetime'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -109,6 +114,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 100 },
   "wikidata_qid",
   { data_type => "varchar", is_nullable => 1, size => 32 },
+  "last_audited_datetime",
+  { data_type => "datetime", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -280,8 +287,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07053 @ 2025-11-22 09:39:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lhwLbJ8EJDCcGpRdTRSZYQ
+# Created by DBIx::Class::Schema::Loader v0.07053 @ 2026-02-13 11:19:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HpKMoi3hpxw4NPwBBGVCLQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

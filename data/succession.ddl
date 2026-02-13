@@ -1,3 +1,4 @@
+CREATE TABLE sqlite_stat1(tbl,idx,stat);
 CREATE TABLE IF NOT EXISTS "change" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS "person" (
   "sex" enum NOT NULL DEFAULT 'm',
   "wikipedia" text,
   "slug" varchar(100),
-  "wikidata_qid" varchar(32),
+  "wikidata_qid" varchar(32), last_audited_datetime datetime null,
   FOREIGN KEY ("parent") REFERENCES "person"("id") ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 CREATE TABLE IF NOT EXISTS "position" (
