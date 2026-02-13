@@ -119,7 +119,7 @@ jobs:
           # Pull with rebase in case the branch was updated since checkout
           # Note: Concurrency control should prevent conflicts, but this is a safety measure
           if ! git pull --rebase origin "${GITHUB_REF#refs/heads/}"; then
-            echo "::warning::Pull with rebase failed - conflicts may exist. Attempting push anyway which may fail if remote has diverged."
+            echo "::warning::Pull with rebase failed. This may indicate conflicts. The push below will fail if the remote has diverged. Manual intervention may be required to resolve conflicts."
           fi
           if ! git push; then
             echo "::error::Failed to push database changes to repository"
