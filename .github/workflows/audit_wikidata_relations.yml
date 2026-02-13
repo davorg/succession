@@ -3,7 +3,7 @@ name: Audit Wikidata Relations
 # Run weekly on Monday at 9:00 AM UTC
 on:
   schedule:
-    - cron: '0 9 * * 1'
+    - cron: '0 5 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 # Ensure only one audit workflow runs at a time to prevent conflicts
@@ -33,9 +33,6 @@ jobs:
       - name: Perl version
         run: perl -V
       
-#      - name: Setup SQLite database
-#        run: bin/load_db
-      
       - name: Check database
         run: bin/db "select count(*) from sovereign"
       
@@ -50,7 +47,7 @@ jobs:
           # Use conservative limits to avoid rate limiting: 200 requests max, 500ms sleep
           # Run without --apply to report issues without making changes
           # Timestamps are still updated (--audit is default on) to avoid rechecking same records
-          bin/audit_wikidata_relations --verbose --max-requests 200 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
+          bin/audit_wikidata_relations --verbose --max-requests 500 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
           echo "Audit complete. Results saved."
       
       - name: Display audit summary
