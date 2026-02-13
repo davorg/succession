@@ -45,10 +45,12 @@ jobs:
       - name: Run audit_wikidata_relations
         continue-on-error: true
         run: |
-          echo "Running audit_wikidata_relations with rate limiting..."
+          echo "Running audit_wikidata_relations in report-only mode with rate limiting..."
           export PERL5LIB=$PERL5LIB:$SUCC_LIB
           # Use conservative limits to avoid rate limiting: 200 requests max, 500ms sleep
-          bin/audit_wikidata_relations --apply --verbose --max-requests 200 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
+          # Run without --apply to report issues without making changes
+          # Timestamps are still updated (--audit is default on) to avoid rechecking same records
+          bin/audit_wikidata_relations --verbose --max-requests 200 --sleep-ms 500 > audit_results.csv 2> audit_errors.log
           echo "Audit complete. Results saved."
       
       - name: Display audit summary

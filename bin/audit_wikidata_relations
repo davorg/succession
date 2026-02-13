@@ -21,6 +21,7 @@ use Succession::WikiData::Entity ();
 # ----------------------------------------
 my %opt = (
   apply            => 0,      # actually write fixes (guarded by --auto)
+  audit            => 1,      # update audit timestamps (default: on)
   limit            => 0,      # audit only N people
   verbose          => 0,
   sleep_ms         => 500,    # increased from 250ms to be more conservative
@@ -38,6 +39,7 @@ my (@auto_opts, @ignore_opts, @only_ids);
 
 GetOptions(
   "apply!"            => \$opt{apply},
+  "audit!"            => \$opt{audit},
   "limit=i"           => \$opt{limit},
   "verbose!"          => \$opt{verbose},
   "sleep-ms=i"        => \$opt{sleep_ms},
@@ -472,7 +474,7 @@ PERSON: while (my $p = $rs->next) {
   }
 
   # Update last_audited_datetime for this person
-  if ($opt{apply}) {
+  if ($opt{audit}) {
     my $now = DateTime->now;
     my $dtf = $schema->storage->datetime_parser;
     my $now_str = $dtf->format_datetime($now);
@@ -565,6 +567,13 @@ C<--apply> to actually write changes to the database.
 
 Actually write changes to the database. Without this flag, the program runs in
 DRY-RUN mode and only reports what it would do.
+
+=item B<--audit>
+
+Update audit timestamps (C<last_audited_datetime>) after processing each person
+(default: on). This allows you to track which records have been audited even in
+DRY-RUN mode (without C<--apply>), preventing the same records from being
+rechecked on every run. Use C<--no-audit> to disable timestamp updates.
 
 =item B<--verbose>
 
@@ -992,7 +1001,9 @@ using the C<last_audited_datetime> field:
 
 =over 4
 
-=item - On each audit run (with C<--apply>), the C<last_audited_datetime> is updated
+=item - On each audit run (with C<--audit>, which is the default), the C<last_audited_datetime> is updated
+
+=item - This happens regardless of C<--apply> mode, allowing timestamp tracking even in DRY-RUN mode
 
 =item - By default (C<--time-filter>), only records with NULL or old C<last_audited_datetime> are audited
 
