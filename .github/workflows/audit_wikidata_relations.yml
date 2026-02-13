@@ -95,7 +95,7 @@ jobs:
       - name: Check if database changed
         id: db_check
         run: |
-          if git diff --exit-code "$SUCC_DB_PATH" > /dev/null 2>&1; then
+          if git diff HEAD --exit-code "$SUCC_DB_PATH" > /dev/null 2>&1; then
             echo "Database unchanged"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -116,6 +116,10 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add "$SUCC_DB_PATH" "$SUCC_DUMP_PATH"
           git commit -m "Auto-commit: Update database from audit workflow"
+          # Pull with rebase in case the branch was updated since checkout
+          git pull --rebase origin "${GITHUB_REF#refs/heads/}" || {
+            echo "::warning::Pull failed, attempting push without pull"
+          }
           if ! git push; then
             echo "::error::Failed to push database changes to repository"
             exit 1
