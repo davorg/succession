@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Succession::Schema;
+
+my $sch = Succession::Schema->get_schema;
+
+my $prev_succ;
+
+for ($sch->change_dates->all) {
+  say '' . $_->change_date;
+  $prev_succ->update({ to_date => $_->change_date }) if $prev_succ;
+
+  $prev_succ = $sch->succession_periods->create({
+    from_date => $_->change_date,
+  });
+
+  my $rank = 1;
+
+  for my $p (split /:/, $_->succession) {
+    next if $p =~ /x$/;
+
+    $prev_succ->add_to_succession_entries({
+      rank => $rank++,
+      person_id => $p,
+    });
+  }
+}
