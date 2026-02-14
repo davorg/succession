@@ -1,0 +1,16 @@
+#!/usr/bin/perl -CS
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Succession::Model;
+
+my $model = Succession::Model->new;
+my $rs = $model->person_rs;
+
+while (my $p = $rs->next) {
+  next if $p->died;
+
+  say join ':', $p->id, $p->name, $p->born->ymd;
+}

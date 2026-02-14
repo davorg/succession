@@ -1,0 +1,296 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use feature 'say';
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use Succession::Schema;
+
+# -------------------------------------------------------------------------
+# Get schema via your helper
+# -------------------------------------------------------------------------
+
+my $schema = Succession::Schema->get_schema();
+
+# Optional: date filter from CLI (YYYY-MM-DD)
+my $date_filter = shift @ARGV;
+if (defined $date_filter && $date_filter !~ /^\d{4}-\d{2}-\d{2}$/) {
+  die "Date must be in YYYY-MM-DD format\n";
+}
+
+# -------------------------------------------------------------------------
+# Helpers
+# -------------------------------------------------------------------------
+
+# Normalise a DBIC date/datetime column to 'YYYY-MM-DD' string.
+# Works whether the column is a plain string or a DateTime object.
+sub _as_date {
+  my ($v) = @_;
+  return undef unless defined $v;
+
+  if (ref $v && eval { $v->isa('DateTime') }) {
+    return $v->ymd;         # 'YYYY-MM-DD'
+  }
+
+  # Assume it's already a 'YYYY-MM-DD' style string
+  return "$v";
+}
+
+# Given a SuccessionPeriod row, return the ordered list of person_ids
+sub period_line_ids {
+  my ($period) = @_;
+  my @entries = $period->succession_entries;   # ordered by rank
+  return map { $_->person_id } @entries;
+}
+
+# Has this person ever appeared in the line before date $date_str?
+sub appeared_before {
+  my ($schema, $person_id, $date_str) = @_;
+
+  my $row = $schema->resultset('SuccessionEntry')->search({
+    'me.person_id'     => $person_id,
+    'period.from_date' => { '<' => $date_str },
+  }, {
+    join => 'period',
+    rows => 1,
+  },
+  )->single;
+
+  return $row ? 1 : 0;
+}
+
+# Classify a change between two periods, driven by real events
+sub classify_by_events {
+  my ($schema, $prev, $curr) = @_;
+
+  my $date_str = _as_date( $curr->from_date );
+
+  my @prev_ids = period_line_ids($prev);
+  my @curr_ids = period_line_ids($curr);
+
+  my %prev_idx; $prev_idx{$prev_ids[$_]} = $_ for 0 .. $#prev_ids;
+  my %curr_idx; $curr_idx{$curr_ids[$_]} = $_ for 0 .. $#curr_ids;
+
+  my $in_prev = sub { exists $prev_idx{ $_[0] } };
+  my $in_curr = sub { exists $curr_idx{ $_[0] } };
+
+  # ---------- 1. Collect candidate events (don’t return yet) ----------
+
+  my @events;  # at most one "primary" per type
+
+  # 1a. Accession (monarch change: sovereign.start = date)
+  my $sov = $schema->resultset('Sovereign')->find({
+    start => $date_str
+  });
+
+  if ($sov) {
+    my $id = $sov->person_id;
+    if ($in_prev->($id) && !$in_curr->($id) && $prev_idx{$id} == 0) {
+      push @events, {
+        change_type => 'accession',
+        person_id   => $id,
+        position    => 1,
+      };
+    }
+  }
+
+  # 1b. Births that actually appear in the new line
+  my @births = $schema->resultset('Person')->search({
+    born => $date_str
+  })->all;
+  my @births_in_line = grep { $in_curr->($_->id) } @births;
+
+  push @events, map { {
+    change_type => 'birth',
+    person_id   => $_->id,
+    position    => $curr_idx{ $_->id } + 1,
+  } } @births_in_line;
+
+  # 1c. Deaths of people in the previous line
+  my @deaths = $schema->resultset('Person')->search({
+    died => $date_str
+  })->all;
+  my @deaths_in_line = grep { $in_prev->($_->id) } @deaths;
+
+  push @events, map { {
+    change_type => 'death',
+    person_id   => $_->id,
+    position    => $prev_idx{ $_->id } + 1,
+  } } @deaths_in_line;
+
+  # 1d. Exclusion: disappearing person (looks a lot like a death but no death date)
+  my @exclusions = $schema->resultset('Exclusion')->search({
+    start => $date_str
+  })->all;
+  my @excl_in_line = grep { $in_prev->($_->person_id) } @exclusions;
+
+  push @events, map { {
+    change_type => 'exclusion',
+    person_id   => $_->person_id,
+    position    => $prev_idx{ $_->person_id } + 1,
+  } } @excl_in_line;
+
+  # 1d. Unexclusion: re-appearing person (looks a lot like a birth but no birth date)
+  my @unexclusions = $schema->resultset('Exclusion')->search({
+    end => $date_str
+  })->all;
+  my @unexcl_in_line = grep { $in_curr->($_->person_id) } @unexclusions;
+
+  push @events, map { {
+    change_type => 'unexclusion',
+    person_id   => $_->person_id,
+    position    => $curr_idx{ $_->person_id } + 1,
+  } } @unexcl_in_line;
+
+  # ---------- 2. Count events and decide simple vs complex vs none ----------
+
+  say "Events found on $date_str:";
+  for my $event (@events) {
+    say sprintf("    %-12s person_id=%s pos=%s", $event->{change_type},
+      $event->{person_id}, $event->{position});
+  }
+
+  return;
+
+use List::Util 'uniq';
+
+  my @types = map { $_->{change_type} } @events;
+  my $n_events = @types;
+
+  # Did the visible top-N line change at all?
+  my $line_changed = 0;
+  if (@prev_ids == @curr_ids) {
+    for my $i (0 .. $#prev_ids) {
+      if ($prev_ids[$i] != $curr_ids[$i]) {
+        $line_changed = 1;
+        last;
+      }
+    }
+  } else {
+    $line_changed = 1;
+  }
+
+  if ($n_events == 0) {
+    # No births/deaths/accessions/unexclusions found
+    if ($line_changed) {
+      # Something else re-ordered the line (law change, data tweak, etc.)
+      return {
+        change_type     => 'complex',
+        person_id       => undef,
+        change_position => undef,
+      };
+    } else {
+      return {
+        change_type     => 'none',
+        person_id       => undef,
+        change_position => undef,
+      };
+    }
+  }
+
+  if ($n_events > 1) {
+    # e.g. birth + death on same day, or accession + death, etc.
+    return {
+      change_type     => 'complex',
+      person_id       => undef,
+      change_position => undef,
+    };
+  }
+
+  # Exactly one event type – classify based on which one it is
+  my $t = $types[0];
+  my $e = $events[0];
+
+  return {
+    change_type     => $t,
+    person_id       => $e->{person_id},
+    change_position => $e->{position},
+  };
+}
+
+# -------------------------------------------------------------------------
+# Main program
+# -------------------------------------------------------------------------
+
+if ($date_filter) {
+  # Process only the period with this from_date (and its previous)
+  my $curr = $schema->resultset('SuccessionPeriod')->search({
+    from_date => $date_filter
+  }, {
+    rows => 1
+  })->single;
+
+  die "No succession_period row with from_date = $date_filter\n"
+    unless $curr;
+
+  my $curr_date = _as_date($curr->from_date);
+
+  # Find previous period by earlier from_date (using a normalised date)
+  my $prev = $schema->resultset('SuccessionPeriod')->search({
+    from_date => { '<' => $curr_date },
+  }, {
+    order_by => { -desc => 'from_date' },
+    rows     => 1,
+  })->single;
+
+  my $info;
+  if ($prev) {
+    $info = classify_by_events($schema, $prev, $curr);
+  } else {
+    # This is the very first period
+    $info = {
+      change_type     => 'initial',
+      person_id       => undef,
+      change_position => undef,
+    };
+  }
+
+  $curr->update($info);
+
+  say sprintf(
+    "%s: %-11s person_id=%s pos=%s",
+    _as_date($curr->from_date),
+    $info->{change_type} // '',
+    (defined $info->{person_id}       ? $info->{person_id}       : '-'),
+    (defined $info->{change_position} ? $info->{change_position} : '-'),
+  );
+
+} else {
+  # Process all periods
+  my @periods = $schema->resultset('SuccessionPeriod')->search({}, {
+    order_by => 'from_date'
+  })->all;
+
+  die "No succession_period rows found\n" unless @periods;
+
+  # First period: no prior line to compare
+  $periods[0]->update({
+    change_type     => 'initial',
+    person_id       => undef,
+    change_position => undef,
+  });
+
+  say _as_date($periods[0]->from_date) . ": initial";
+
+  for my $i (1 .. $#periods) {
+    my $prev = $periods[$i - 1];
+    my $curr = $periods[$i];
+
+    my $info = classify_by_events($schema, $prev, $curr);
+
+    $curr->update($info);
+
+    say sprintf(
+      "%s: %-11s person_id=%s pos=%s",
+      _as_date($curr->from_date),
+      $info->{change_type} // '',
+      ($info->{person_id}       // '-'),
+      ($info->{change_position} // '-'),
+    );
+  }
+
+    say "Done.";
+}
+

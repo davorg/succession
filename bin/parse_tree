@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use feature 'say';
+
+use FindBin '$RealBin';
+
+open my $tree_fh, "$RealBin/../data/queen-tree.txt" or die $!;
+
+my $data;
+
+while (<$tree_fh>) {
+  chomp;
+
+  my ($gen, $count, $rest) = /(\d+): \((\d+)\) (.*)/;
+
+  say "$gen / $count / $rest";
+}

@@ -1,0 +1,119 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+
+use Succession::Schema;            # your DBIC Schema
+use DBIx::Class::Schema;
+use Getopt::Long qw(GetOptions);
+use Path::Tiny qw(path);
+
+# ---- CLI args / env ----
+my ($mysql_dsn, $mysql_user, $mysql_pass, $out, $vacuum_into);
+GetOptions(
+  'mysql-dsn=s'  => \$mysql_dsn,
+  'mysql-user=s' => \$mysql_user,
+  'mysql-pass=s' => \$mysql_pass,
+  'out=s'        => \$out,              # e.g. infra/los.sqlite
+  'vacuum-into!' => \$vacuum_into,      # default on
+) or die "Usage: $0 --mysql-dsn=... --mysql-user=... --mysql-pass=... --out=infra/los.sqlite\n";
+
+$mysql_dsn  ||= $ENV{LOS_MYSQL_DSN}  || 'dbi:mysql:database=los;host=127.0.0.1;mysql_enable_utf8mb4=1';
+$mysql_user ||= $ENV{LOS_MYSQL_USER} || 'root';
+$mysql_pass ||= $ENV{LOS_MYSQL_PASS} || '';
+$out        ||= $ENV{LOS_SQLITE_OUT} || 'infra/los.sqlite';
+$vacuum_into = 1 unless defined $vacuum_into;
+
+path($out)->parent->mkpath;
+
+# ---- connect schemas ----
+my $src = Succession::Schema->connect(
+  $mysql_dsn, $mysql_user, $mysql_pass,
+  {
+    mysql_enable_utf8mb4 => 1,
+    quote_names => 1, RaiseError => 1, AutoCommit => 1,
+  }
+);
+
+my $sqlite_dsn = "dbi:SQLite:dbname=$out";
+my $dst = Succession::Schema->connect(
+  $sqlite_dsn, "", "",
+  {
+    sqlite_unicode => 1,
+    on_connect_do  => [
+      'PRAGMA journal_mode = OFF',   # we are building once
+      'PRAGMA synchronous = OFF',
+      'PRAGMA foreign_keys = OFF',   # load fast, validate later
+      'PRAGMA temp_store = MEMORY',
+    ],
+    quote_names => 1, RaiseError => 1, AutoCommit => 1,
+  }
+);
+
+# ---- create target schema ----
+$dst->deploy({ add_drop_table => 1});   # uses your DBIC Result classes -> portable DDL for SQLite
+
+# ---- copy data table-by-table ----
+# We’ll use the DBIC source list; for tricky FK graphs we disabled FK checks during load
+my @sources = $src->sources;
+
+$dst->txn_do(sub {
+  for my $source (@sources) {
+    my $rs_src = $src->resultset($source);
+    my $rs_dst = $dst->resultset($source);
+
+    my $copied = 0;
+    my $CHUNK  = 1000;
+    my @buf;
+    my $it = $rs_src->search(undef, { rows => $CHUNK });  # server-side limit if supported
+    while (my $row = $it->next) {
+      push @buf, { $row->get_columns };
+      if (@buf >= $CHUNK) {
+        $rs_dst->populate(\@buf);
+        $copied += @buf;
+        @buf = ();
+      }
+    }
+    if (@buf) {
+      $rs_dst->populate(\@buf);
+      $copied += @buf;
+    }
+
+    printf "Copied %-30s %10d rows\n", $source, $copied if $ENV{VERBOSE};
+  }
+});
+
+# ---- validate FKs & integrity, then ANALYZE ----
+$dst->storage->dbh_do(sub {
+  my ($storage, $dbh) = @_;
+  $dbh->do('PRAGMA foreign_keys = ON');
+  my ($fk_issues) = $dbh->selectrow_array('PRAGMA foreign_key_check');
+  die "Foreign key violations detected" if defined $fk_issues;
+
+  my ($ok) = $dbh->selectrow_array('PRAGMA integrity_check');
+  die "Integrity check failed: $ok" unless $ok && $ok eq 'ok';
+
+  $dbh->do('ANALYZE');
+});
+
+# ---- compact: VACUUM INTO (if supported) ----
+if ($vacuum_into) {
+  my $compact = "$out.compact";
+  $dst->storage->dbh_do(sub {
+    my ($storage, $dbh) = @_;
+    eval { $dbh->do("VACUUM INTO '$compact'") } or do {
+      warn "VACUUM INTO not supported by this SQLite; skipping compact\n";
+      return;
+    };
+  });
+  if (-e $compact) {
+    path($compact)->move($out);
+  }
+}
+
+print "Built SQLite DB at $out\n";
+exit 0;
+
