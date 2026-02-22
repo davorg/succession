@@ -136,10 +136,10 @@ sub create_child_stub_with_parent ($parent_id, $child_wd) {
 
   my $attrs = {
     born          => $child_wd->birth_date // '1000-01-01',   # NOT NULL guard
-    died          => $child_wd->death_date,
+    died          => $child_wd->death_date // undef,
     sex           => ($child_wd->sex // 'm'),
-    wikipedia     => $child_wd->enwiki_url,
-    wikidata_qid  => $child_wd->qid,
+    wikipedia     => $child_wd->enwiki_url // undef,
+    wikidata_qid  => $child_wd->qid // undef,
   };
   my $label = $child_wd->label_en // $child_wd->qid;
 
