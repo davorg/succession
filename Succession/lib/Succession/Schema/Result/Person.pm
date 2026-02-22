@@ -596,6 +596,10 @@ sub add_child(  $self, $args ) {
     $args->{died} = undef;
   }
 
+  if (!exists $args->{name} and exists $args->{title}) {
+    $args->{name} = delete $args->{title};
+  }
+
   my @missing;
 
   for (qw[born sex name]) {
