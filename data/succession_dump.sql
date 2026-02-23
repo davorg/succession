@@ -1211,23 +1211,23 @@ INSERT INTO person VALUES(680,'1964-11-18',NULL,263,6,'m','https://en.wikipedia.
 INSERT INTO person VALUES(681,'1961-12-24',NULL,264,2,'f',NULL,'2f150e-edwina-brudenell','Q5346944','2026-02-18 05:41:55');
 INSERT INTO person VALUES(682,'1963-07-18',NULL,264,1,'m','https://en.wikipedia.org/wiki/Ashley_Hicks','dbaa27-ashley-hicks','Q16195113','2026-02-18 05:41:59');
 INSERT INTO person VALUES(683,'1967-09-05',NULL,264,3,'f','https://en.wikipedia.org/wiki/India_Hicks','7f3824-india-hicks','Q1936171','2026-02-18 05:42:02');
-INSERT INTO person VALUES(684,'1894-10-12','1956-11-15',284,7,'f','https://en.wikipedia.org/wiki/Elisabeth_of_Romania','e3d557-princess-elisabeth-of-romania','Q232735',NULL);
-INSERT INTO person VALUES(685,'1903-08-05','1978-07-09',284,3,'m','https://en.wikipedia.org/wiki/Prince_Nicholas_of_Romania','ab93c6-prince-nicholas-of-romania','Q529045',NULL);
-INSERT INTO person VALUES(686,'1913-01-13','1916-11-02',284,5,'m','https://en.wikipedia.org/wiki/Prince_Mircea_of_Romania','1ea06c-prince-mircea-of-romania','Q2419125',NULL);
-INSERT INTO person VALUES(687,'1879-10-13','1879-10-13',282,2,'m',NULL,'236a73-unnamed-son-saxe-coburg-and-gotha','Q75384228',NULL);
-INSERT INTO person VALUES(688,'1984-05-25',NULL,290,1,'m','https://en.wikipedia.org/wiki/Prince_George_of_Yugoslavia_(born_1984)','bb933f-prince-george-of-serbia','Q17057647',NULL);
-INSERT INTO person VALUES(689,'1985-12-15',NULL,290,2,'m','https://en.wikipedia.org/wiki/Prince_Michael_of_Yugoslavia_(born_1985)','91e6f4-prince-michael-of-serbia','Q11989408',NULL);
-INSERT INTO person VALUES(690,'1961-10-18',NULL,291,5,'f',NULL,'d743f1-princess-lavinia-of-serbia','Q105549371',NULL);
-INSERT INTO person VALUES(691,'1964-03-11',NULL,291,2,'m',NULL,'d64019-prince-vladimir-of-serbia','Q16083300',NULL);
-INSERT INTO person VALUES(692,'1965-04-12',NULL,291,3,'m',NULL,'75a0ea-prince-dimitri-of-serbia-1965-','Q11965694',NULL);
-INSERT INTO person VALUES(693,'1932-08-15','1998-11-12',293,2,'m',NULL,'553986-archduke-stefan-of-austria','Q507243',NULL);
-INSERT INTO person VALUES(694,'1958-08-25','2007-10-13',295,1,'f',NULL,'8336b7-maria-ileana-kottulinska-baroness-von-kotulin','Q75384080',NULL);
-INSERT INTO person VALUES(695,'1976-03-24','1976-03-24',296,1,'m',NULL,'65937e-stillborn-son-von-baillou','Q75384090',NULL);
-INSERT INTO person VALUES(696,'1965-02-13',NULL,297,1,'m',NULL,'ce254d-archduke-sandor-of-austria','Q75384098',NULL);
-INSERT INTO person VALUES(697,'1968-11-20',NULL,297,2,'m',NULL,'79d6d8-archduke-gregor-of-austria','Q75384099',NULL);
-INSERT INTO person VALUES(698,'1960-07-29',NULL,298,1,'m',NULL,'bbaa3f-johannes-holzhausen','Q3808939',NULL);
-INSERT INTO person VALUES(699,'1962-02-16',NULL,298,2,'m',NULL,'8740ba-georg-ferdinand-freiherr-von-holzhausen','Q75384107',NULL);
-INSERT INTO person VALUES(700,'1963-01-22',NULL,298,3,'f',NULL,'0cb45c-alexandra-maria-freiin-von-holzhausen','Q75384108',NULL);
+INSERT INTO person VALUES(684,'1894-10-12','1956-11-15',284,7,'f','https://en.wikipedia.org/wiki/Elisabeth_of_Romania','e3d557-princess-elisabeth-of-romania','Q232735','2026-02-23 05:38:56');
+INSERT INTO person VALUES(685,'1903-08-05','1978-07-09',284,3,'m','https://en.wikipedia.org/wiki/Prince_Nicholas_of_Romania','ab93c6-prince-nicholas-of-romania','Q529045','2026-02-23 05:38:57');
+INSERT INTO person VALUES(686,'1913-01-13','1916-11-02',284,5,'m','https://en.wikipedia.org/wiki/Prince_Mircea_of_Romania','1ea06c-prince-mircea-of-romania','Q2419125','2026-02-23 05:38:58');
+INSERT INTO person VALUES(687,'1879-10-13','1879-10-13',282,2,'m',NULL,'236a73-unnamed-son-saxe-coburg-and-gotha','Q75384228','2026-02-23 05:38:59');
+INSERT INTO person VALUES(688,'1984-05-25',NULL,290,1,'m','https://en.wikipedia.org/wiki/Prince_George_of_Yugoslavia_(born_1984)','bb933f-prince-george-of-serbia','Q17057647','2026-02-23 05:39:00');
+INSERT INTO person VALUES(689,'1985-12-15',NULL,290,2,'m','https://en.wikipedia.org/wiki/Prince_Michael_of_Yugoslavia_(born_1985)','91e6f4-prince-michael-of-serbia','Q11989408','2026-02-23 05:39:01');
+INSERT INTO person VALUES(690,'1961-10-18',NULL,291,5,'f',NULL,'d743f1-princess-lavinia-of-serbia','Q105549371','2026-02-23 05:39:01');
+INSERT INTO person VALUES(691,'1964-03-11',NULL,291,2,'m',NULL,'d64019-prince-vladimir-of-serbia','Q16083300','2026-02-23 05:39:02');
+INSERT INTO person VALUES(692,'1965-04-12',NULL,291,3,'m',NULL,'75a0ea-prince-dimitri-of-serbia-1965-','Q11965694','2026-02-23 05:39:03');
+INSERT INTO person VALUES(693,'1932-08-15','1998-11-12',293,2,'m',NULL,'553986-archduke-stefan-of-austria','Q507243','2026-02-23 05:39:08');
+INSERT INTO person VALUES(694,'1958-08-25','2007-10-13',295,1,'f',NULL,'8336b7-maria-ileana-kottulinska-baroness-von-kotulin','Q75384080','2026-02-23 05:39:08');
+INSERT INTO person VALUES(695,'1976-03-24','1976-03-24',296,1,'m',NULL,'65937e-stillborn-son-von-baillou','Q75384090','2026-02-23 05:39:09');
+INSERT INTO person VALUES(696,'1965-02-13',NULL,297,1,'m',NULL,'ce254d-archduke-sandor-of-austria','Q75384098','2026-02-23 05:39:11');
+INSERT INTO person VALUES(697,'1968-11-20',NULL,297,2,'m',NULL,'79d6d8-archduke-gregor-of-austria','Q75384099','2026-02-23 05:39:12');
+INSERT INTO person VALUES(698,'1960-07-29',NULL,298,1,'m',NULL,'bbaa3f-johannes-holzhausen','Q3808939','2026-02-23 05:39:13');
+INSERT INTO person VALUES(699,'1962-02-16',NULL,298,2,'m',NULL,'8740ba-georg-ferdinand-freiherr-von-holzhausen','Q75384107','2026-02-23 05:39:16');
+INSERT INTO person VALUES(700,'1963-01-22',NULL,298,3,'f',NULL,'0cb45c-alexandra-maria-freiin-von-holzhausen','Q75384108','2026-02-23 05:39:19');
 CREATE TABLE IF NOT EXISTS "position" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
