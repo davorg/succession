@@ -21,18 +21,25 @@ force in March 2015.
 
 Before the 2013 Act, the line of succession was determined by male-preference
 primogeniture. Under that system, sons took precedence over daughters
-regardless of age. This is why Princess Anne, the daughter of Queen Elizabeth
-II, is behind her younger brothers Prince Andrew and Prince Edward in the line
-of succession.
+regardless of age. This is why Princess Anne, the daughter of
+[Elizabeth II](/p/a56c08-queen-elizabeth-ii),
+is behind her younger brothers
+[Andrew Mountbatten-Windsor](/p/7a632d-andrew-mountbatten-windsor) and
+[Prince Edward](/p/b54459-the-prince-edward-duke-of-edinburgh)
+in the line of succession.
 
 The 2013 Act changed this to absolute primogeniture for people born after 28
 October 2011. Under the new system, the eldest child takes precedence
 regardless of gender.
 
-A clear example of this change can be seen in the family of William, Prince of
-Wales. His daughter, Princess Charlotte, remains ahead of her younger brother,
-Prince Louis, in the line of succession. Under the old rules, Louis would have
-come before Charlotte.
+A clear example of this change can be seen in the family of
+[William, Prince of Wales](/p/2b5998-the-prince-william-prince-of-wales).
+His daughter,
+[Princess Charlotte](/p/d8b740-princess-charlotte-of-wales),
+remains ahead of her younger brother,
+[Prince Louis](/p/64441b-prince-louis-of-wales),
+in the line of succession. Under the old rules, Louis would have come before
+Charlotte.
 
 ## Marriage to Roman Catholics
 

@@ -4,12 +4,18 @@ title: Who Is Next in Line to the British Throne?
 
 ## Summary
 
-Prince William, Prince of Wales, is currently first in line to the British
-throne. He is the heir apparent to his father, King Charles III. After Prince
-William, the line of succession passes to his three children: Prince George,
-Princess Charlotte, and Prince Louis. The line then continues with Prince
-Harry, Duke of Sussex, and his children, before moving to King Charles III’s
-siblings and their descendants.
+[Prince William, Prince of Wales](/p/2b5998-the-prince-william-prince-of-wales),
+is currently first in line to the British throne. He is the heir apparent to
+his father,
+[Charles III](/p/83d2fc-charles-iii).
+After Prince William, the line of succession passes to his three children:
+[Prince George](/p/db70bf-prince-george-of-wales),
+[Princess Charlotte](/p/d8b740-princess-charlotte-of-wales),
+and [Prince Louis](/p/64441b-prince-louis-of-wales).
+The line then continues with
+[Prince Harry, Duke of Sussex](/p/c0745d-the-prince-henry-duke-of-sussex),
+and his children, before moving to Charles III’s siblings and their
+descendants.
 
 ## The First Ten in Line to the Throne
 
@@ -20,11 +26,11 @@ As of the present day, the first ten people in the line of succession are:
 3. Princess Charlotte of Wales
 4. Prince Louis of Wales
 5. Prince Harry, Duke of Sussex
-6. Prince Archie of Sussex
-7. Princess Lilibet of Sussex
-8. Andrew Mountbatten-Windsor (formerly Prince Andrew, Duke of York)
-9. Princess Beatrice
-10. Sienna Mapelli Mozzi
+6. [Prince Archie of Sussex](/p/bb6f84-prince-archie-of-sussex)
+7. [Princess Lilibet of Sussex](/p/78f2f5-princess-lilibet-of-sussex)
+8. [Andrew Mountbatten-Windsor](/p/7a632d-andrew-mountbatten-windsor) (formerly Prince Andrew, Duke of York)
+9. [Princess Beatrice](/p/4e490e-princess-beatrice)
+10. [Sienna Mapelli Mozzi](/p/0fba2a-sienna-mapelli-mozzi)
 
 This order is determined by descent from Elizabeth II and the rules of
 primogeniture.

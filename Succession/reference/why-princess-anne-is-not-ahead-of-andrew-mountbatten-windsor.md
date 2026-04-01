@@ -4,8 +4,14 @@ title: Why Princess Anne Is Not Ahead of Andrew Mountbatten-Windsor in the Line 
 
 ## Summary
 
-Princess Anne, the daughter of Elizabeth II, is behind her younger brothers
-Andrew Mountbatten-Windsor and Prince Edward in the line of succession because
+[Princess Anne](/p/b3fcb1-the-princess-anne-princess-royal),
+the daughter of
+[Elizabeth II](/p/a56c08-queen-elizabeth-ii),
+is behind her younger brothers
+[Andrew Mountbatten-Windsor](/p/7a632d-andrew-mountbatten-windsor)
+and
+[Prince Edward](/p/b54459-the-prince-edward-duke-of-edinburgh)
+in the line of succession because
 the rules in place at the time of their births followed male-preference
 primogeniture. Under those rules, sons took precedence over daughters
 regardless of age. The law was changed in 2013 to introduce absolute
@@ -14,7 +20,7 @@ of older members of the royal family did not change.
 
 ## The Old Rules: Male-Preference Primogeniture
 
-When the children of Queen Elizabeth II were born, the line of succession was
+When the children of Elizabeth II were born, the line of succession was
 determined by male-preference primogeniture. This meant that:
 
 * Sons came before daughters
@@ -39,9 +45,13 @@ of people born before that date did not change.
 
 ## A Modern Example: Princess Charlotte
 
-A clear example of the new rules can be seen in the family of William, Prince
-of Wales. His daughter, Princess Charlotte, was born in 2015, after the new
-rules were introduced. She remains ahead of her younger brother, Prince Louis,
+A clear example of the new rules can be seen in the family of
+[William, Prince of Wales](/p/2b5998-the-prince-william-prince-of-wales).
+His daughter,
+[Princess Charlotte](/p/d8b740-princess-charlotte-of-wales),
+was born in 2015, after the new rules were introduced. She remains ahead of
+her younger brother,
+[Prince Louis](/p/64441b-prince-louis-of-wales),
 in the line of succession.
 
 Under the old system, Louis would have moved ahead of Charlotte when he was

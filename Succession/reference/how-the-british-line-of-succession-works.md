@@ -37,8 +37,15 @@ primogeniture. Under this system, sons took precedence over daughters,
 regardless of birth order. For example, a younger son would come before an
 older daughter in the line of succession.
 
-This is why Princess Anne, the daughter of Queen Elizabeth II, is behind her
-younger brothers Prince Andrew and Prince Edward in the line of succession.
+This is why
+[Princess Anne](/p/b3fcb1-the-princess-anne-princess-royal),
+the daughter of
+[Elizabeth II](/p/a56c08-queen-elizabeth-ii),
+is behind her younger brothers,
+[Andrew Mounbatten-Windsor](/p/7a632d-andrew-mountbatten-windsor)
+and
+[Prince Edward](/p/b54459-the-prince-edward-duke-of-edinburgh),
+in the line of succession.
 
 ### Absolute Primogeniture (After 2013)
 
@@ -46,9 +53,13 @@ The Succession to the Crown Act 2013 changed the rules to absolute
 primogeniture for people born after 28 October 2011. Under this system, the
 eldest child takes precedence regardless of gender.
 
-This can be seen in the family of William, Prince of Wales. His daughter,
-Princess Charlotte, remains ahead of her younger brother, Prince Louis, in the
-line of succession.
+This can be seen in the family of
+[William, Prince of Wales](/p/2b5998-the-prince-william-prince-of-wales).
+His daughter,
+[Princess Charlotte](/p/d8b740-princess-charlotte-of-wales),
+remains ahead of her younger brother,
+[Prince Louis](/p/64441b-prince-louis-of-wales),
+in the line of succession.
 
 ## Religion
 
@@ -85,13 +96,15 @@ child under the new rules)
 * **Heir presumptive**: someone who is next in line but could be displaced if
 a more eligible heir is born
 
-A historical example helps explain the difference. When Queen Elizabeth II
+A historical example helps explain the difference. When Elizabeth II
 became queen in 1952, her eldest child, Prince Charles, immediately became
 **heir apparent**, because no future birth could displace him from that
 position.
 
 In contrast, Elizabeth herself was only ever **heir** presumptive during her
-father George VI’s reign. This was because, under the rules at the time, if
+father
+[George VI](/p/3b1b86-king-george-vi)’s
+reign. This was because, under the rules at the time, if
 George VI had had a son, that son would have taken precedence over Elizabeth,
 even if he had been younger than her. No such son was born, so Elizabeth
 eventually succeeded to the throne, but she was technically heir presumptive
