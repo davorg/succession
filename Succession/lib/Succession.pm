@@ -1,7 +1,8 @@
 package Succession;
 use Dancer2;
 use Try::Tiny;
-
+use Text::Markdown 'markdown';
+use Path::Tiny;
 use Succession::App;
 use Succession::Request;
 
@@ -39,6 +40,26 @@ get '/lp' => sub {
 
   template 'lp', {
     app => vars->{app},
+  };
+};
+
+get qr{/r/([\w-]+)$} => sub {
+  set layout => 'main';
+
+  my ($slug) = splat;
+
+  my $md_file = path(setting('appdir'), 'reference', "$slug.md");
+
+  if (!$md_file->is_file) {
+    status 404;
+    return template '404', { app => vars->{app} };
+  }
+
+  my $html = markdown($md_file->slurp_utf8);
+
+  template 'reference', {
+    app     => vars->{app},
+    content => $html,
   };
 };
 
