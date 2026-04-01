@@ -69,7 +69,6 @@ get qr{/r/([\w-]+)$} => sub {
     app     => vars->{app},
     content => $html,
     title   => $title,
-    slug    => $slug,
   };
 };
 

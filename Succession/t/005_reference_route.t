@@ -23,12 +23,8 @@ unlike( $res->decoded_content, qr/---/, 'Frontmatter delimiters not in rendered 
 # Test that the title from frontmatter is used in the <title> tag
 like( $res->decoded_content, qr{<title>About This Site}, 'Frontmatter title used in <title> tag' );
 
-# Test that the reference menu is present and links to the about page
-like( $res->decoded_content, qr{href="/r/about"}, 'Reference menu contains link to about page' );
-
-# Test that the current page link is marked active
-like( $res->decoded_content, qr{class="nav-link active"[^>]*href="/r/about"},
-      'Current page link is marked active' );
+# Test that the reference menu is present in the navbar and links to the about page
+like( $res->decoded_content, qr{href="/r/about"}, 'Reference navbar menu contains link to about page' );
 
 # Test a non-existent reference page returns 404
 $res = $test->request( GET '/r/no-such-page' );

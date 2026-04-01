@@ -1,12 +1,1 @@
-<% IF ref_menu.size -%>
-<nav class="mb-3">
-  <ul class="nav nav-pills">
-<%   FOREACH item IN ref_menu -%>
-    <li class="nav-item">
-      <a class="nav-link<% IF item.slug == slug %> active<% END %>" href="/r/<% item.slug %>"><% item.title %></a>
-    </li>
-<%   END -%>
-  </ul>
-</nav>
-<% END -%>
 <% content %>
