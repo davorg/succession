@@ -32,6 +32,7 @@ succession/
 │   │       ├── App.pm          # Core application logic
 │   │       ├── Model.pm        # Data model layer
 │   │       └── Request.pm      # Request handling
+│   ├── reference/   # Markdown files for reference pages (served at /r/<slug>)
 │   ├── t/           # Test files
 │   ├── views/       # Template Toolkit templates
 │   └── public/      # Static assets (CSS, JS, images)
@@ -58,6 +59,24 @@ The application uses several main tables:
 - **Succession::Model** - Data access layer with caching (CHI)
 - **Succession::Schema** - DBIx::Class schema base
 - **Succession::Request** - Custom request object
+
+### Reference Pages
+
+Reference pages are served at `/r/<slug>` from Markdown files in `Succession/reference/`.
+Each file must include a Jekyll-style YAML frontmatter block at the top:
+
+```
+---
+title: Page Title Here
+---
+
+Markdown content follows...
+```
+
+- The `title:` value is used as the page's `<title>` tag and as the link text in the Reference navigation menu.
+- The reference menu (list of all reference pages with their titles) is cached via CHI on first access using the cache key `ref_menu`.
+- The menu appears both as a "Reference" dropdown in the main navbar and as an in-page pill navigation on reference pages.
+- To add a new reference page, create `Succession/reference/<slug>.md` with frontmatter including a `title:` key.
 
 ### Utility Scripts (bin/)
 

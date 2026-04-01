@@ -17,6 +17,13 @@ hook before => sub {
   vars->{dancer_app} = app;
 };
 
+hook before_template_render => sub {
+  my ($tokens) = @_;
+  return unless $tokens->{app};
+  my $ref_dir = path(setting('appdir'), 'reference');
+  $tokens->{ref_menu} = $tokens->{app}->model->get_reference_menu($ref_dir);
+};
+
 get '/info' => sub {
   my %info = (
     perl_version   => $],
@@ -55,11 +62,13 @@ get qr{/r/([\w-]+)$} => sub {
     return template '404', { app => vars->{app} };
   }
 
-  my $html = markdown($md_file->slurp_utf8);
+  my ($title, $body) = _parse_frontmatter($md_file->slurp_utf8);
+  my $html = markdown($body);
 
   template 'reference', {
     app     => vars->{app},
     content => $html,
+    title   => $title,
   };
 };
 
@@ -213,6 +222,19 @@ sub handle_conditional_get {
   }
 
   return 0;
+}
+
+sub _parse_frontmatter {
+  my ($content) = @_;
+  my $title;
+
+  if ($content =~ /\A---\n(.*?)\n---\n/s) {
+    my $fm = $1;
+    ($title) = $fm =~ /^title:\s*(.+?)\s*$/m;
+    $content =~ s/\A---\n.*?\n---\n//s;
+  }
+
+  return ($title, $content);
 }
 
 true;

@@ -428,6 +428,27 @@ sub get_shop_data($self) {
   return ($shop, $etag, $last_mod);
 }
 
+sub get_reference_menu($self, $ref_dir) {
+  return $self->cache->compute('ref_menu', undef, sub {
+    my @menu;
+    for my $file (sort { $a->basename cmp $b->basename } $ref_dir->children(qr/\.md$/)) {
+      my $slug  = $file->basename('.md');
+      my $title = _ref_page_title($file->slurp_utf8) // $slug;
+      push @menu, { slug => $slug, title => $title };
+    }
+    return \@menu;
+  });
+}
+
+sub _ref_page_title {
+  my ($content) = @_;
+  if ($content =~ /\A---\n(.*?)\n---\n/s) {
+    my ($title) = $1 =~ /^title:\s*(.+?)\s*$/m;
+    return $title;
+  }
+  return undef;
+}
+
 sub db_ver( $self ) {
   my $driver = $self->schema->storage->dbh->{Driver}{Name};
 
