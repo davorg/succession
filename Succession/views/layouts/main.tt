@@ -16,7 +16,7 @@
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:image" content="https://lineofsuccession.co.uk/images/Imperial_State_Crown.png"/>
-    <meta property="og:title" content="<% app.title %>" />
+    <meta property="og:title" content="<% title || app.title %>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://lineofsuccession.co.uk<% app.request.path %>" />
     <meta property="og:description" content="<% app.description %>" />
@@ -42,7 +42,7 @@
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
 
-    <title><% app.title %></title>
+    <title><% title || app.title %></title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-X7R7RVTMQJ"></script>
     <script>
@@ -111,6 +111,16 @@
               <ul class="dropdown-menu" aria-labelledby="dropdown02">
 <% FOREACH entry IN app.feed.entries -%>
                 <li><a class="dropdown-item" href="<% entry.link %>"><% entry.title %></a></li>
+<% END -%>
+              </ul>
+            </li>
+<% END -%>
+<% IF ref_menu.size -%>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownRef" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reference</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownRef">
+<% FOREACH item IN ref_menu -%>
+                <li><a class="dropdown-item" href="/r/<% item.slug %>"><% item.title %></a></li>
 <% END -%>
               </ul>
             </li>

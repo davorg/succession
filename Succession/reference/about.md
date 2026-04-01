@@ -1,3 +1,7 @@
+---
+title: About This Site
+---
+
 # About This Site
 
 This site tracks the British line of succession to the Crown. It shows who
