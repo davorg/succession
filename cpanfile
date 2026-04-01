@@ -50,6 +50,7 @@ requires 'Sys::Hostname';
 requires 'Template';
 requires 'Template::Plugin::Lingua::EN::Inflexion';
 requires 'Test::More';
+requires 'Text::Markdown';
 requires 'Text::ParseWords';
 requires 'Text::Unidecode';
 requires 'Time::Piece';
