@@ -3,6 +3,11 @@
 use strict;
 use warnings;
 
+use feature 'say';
+
+use FindBin '$RealBin';
+use File::Basename 'basename';
+
 use Succession::Schema;
 
 my $rs = Succession::Schema->get_schema->resultset('ChangeDate');
@@ -35,6 +40,17 @@ for ($rs->all) {
    </url>
 EOXML
 
+}
+
+my $ref_dir = "$RealBin/../Succession/reference";
+
+for (glob "$ref_dir/*.md") {
+  my $ref = basename $_, '.md';
+  print <<EOXML;
+   <url>
+      <loc>https://lineofsuccession.co.uk/r/$ref</loc>
+   </url>
+EOXML
 }
 
 print <<EOXML;
