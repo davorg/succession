@@ -829,7 +829,7 @@ INSERT INTO person VALUES(295,'1933-12-18','1959-01-11',293,4,'f',NULL,'240491-a
 INSERT INTO person VALUES(296,'1935-05-21',NULL,293,5,'f',NULL,'633001-archduchess-alexandra-of-austria','Q75384081','2026-04-16 05:54:55');
 INSERT INTO person VALUES(297,'1937-07-04',NULL,293,3,'m','https://en.wikipedia.org/wiki/Dominic_von_Habsburg','53b84e-archduke-dominic-of-austria','Q8561594','2026-04-16 05:54:57');
 INSERT INTO person VALUES(298,'1939-10-02','2021-08-18',293,6,'f',NULL,'b9520c-archduchess-maria-magdalena-of-austria','Q75384101','2026-04-16 05:55:00');
-INSERT INTO person VALUES(299,'1942-01-15','2019-01-01',293,7,'f',NULL,'6aba93-archduchess-elisabeth-of-austria','Q75384113','2026-04-10 05:48:58');
+INSERT INTO person VALUES(299,'1942-01-15','2019-01-01',293,7,'f',NULL,'6aba93-archduchess-elisabeth-of-austria','Q75384113','2026-04-17 05:51:09');
 INSERT INTO person VALUES(300,'1913-01-03','1916-11-02',284,4,'m',NULL,'304e9c-prince-mircea-of-romania',NULL,NULL);
 INSERT INTO person VALUES(301,'1876-11-25','1936-03-02',282,4,'f','https://en.wikipedia.org/wiki/Princess_Victoria_Melita_of_Saxe-Coburg_and_Gotha','dad3d1-princess-victoria-melita-of-saxe-coburg-and-gotha','Q164500','2026-04-11 05:37:13');
 INSERT INTO person VALUES(302,'1907-02-02','1951-10-25',301,3,'f','https://en.wikipedia.org/wiki/Grand_Duchess_Maria_Kirillovna_of_Russia','e9a4c6-grand-duchess-maria-kirillovna-of-russia','Q778200','2026-04-11 05:37:19');
