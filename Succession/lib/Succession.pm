@@ -1,8 +1,17 @@
 package Succession;
+
+use strict;
+use warnings;
+use feature 'state';
+
 use Dancer2;
 use Try::Tiny;
 use Text::Markdown 'markdown';
 use Path::Tiny;
+use DateTime;
+use YAML::XS qw[LoadFile];
+use Path::Tiny qw[path];
+use FindBin qw[$Bin];
 use Succession::App;
 use Succession::Request;
 
@@ -110,6 +119,67 @@ get '/anniversaries' => sub {
     app   => $app,
     dates => $app->model->get_anniversaries,
   };
+};
+
+get '/mcp' => sub {
+  template 'mcp' => {
+    tools => _mcp_tool_docs(),
+  };
+};
+
+sub _mcp_tool_docs {
+  state $tools = LoadFile("$Bin/../public/mcp-tools.yml");
+  return [
+    map {
+      +{
+        $_->%*,
+        input_schema_json => to_json($_->{inputSchema}, { pretty => 1 }),
+      }
+    } $tools->@*
+  ];
+}
+
+post '/mcp' => sub {
+  content_type 'application/json';
+
+  my $req = eval { from_json(request->body) };
+
+  if ($@ or ref $req ne 'HASH') {
+    return to_json(_mcp_error(undef, -32700, 'Parse error'));
+  }
+
+  my $id     = $req->{id};
+  my $method = $req->{method} // '';
+
+  return '' unless exists $req->{id}; # JSON-RPC notification
+
+  if ($method eq 'initialize') {
+    return(to_json(_mcp_result($id, {
+      protocolVersion => '2025-11-25',
+      capabilities    => {
+        tools => {},
+      },
+      serverInfo => {
+        name    => 'line-of-succession',
+        version => $Succession::VERSION,
+      },
+    })));
+  }
+
+  if ($method eq 'tools/list') {
+    return to_json(_mcp_result($id, {
+      tools => _mcp_tools(),
+    }));
+  }
+
+  if ($method eq 'tools/call') {
+    return to_json(_mcp_result(
+      $id,
+      _mcp_call_tool($req->{params} // {}),
+    ));
+  }
+
+  return to_json(_mcp_error($id, -32601, 'Method not found'));
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
@@ -235,6 +305,140 @@ sub _parse_frontmatter {
   }
 
   return ($title, $content);
+}
+
+sub _mcp_tools {
+  warn "Loading MCP tools from YAML file...[$Bin/../public/mcp-tools.yml]\n";
+  state $tools = LoadFile("$Bin/../public/mcp-tools.yml");
+
+  return [
+    map {
+      {
+        name        => $_->{name},
+        description => $_->{description},
+        inputSchema => $_->{inputSchema},
+      }
+    } $tools->@*
+  ];
+}
+
+sub _mcp_call_tool {
+  my ($params) = @_;
+
+  my $name = $params->{name} // '';
+  my $args = $params->{arguments} // {};
+
+  return _mcp_tool_error("Unknown tool: $name")
+    unless $name eq 'sovereign_on_date'
+        || $name eq 'line_of_succession';
+
+  my $date;
+
+  if (exists $args->{date}) {
+    $date = _mcp_date($args->{date});
+    unless ($date) {
+      return _mcp_tool_error('Invalid date format. Use YYYY-MM-DD.');
+    }
+  } else {
+    $date = DateTime->today;
+  }
+
+  my $model = vars->{app}->model;
+
+  if ($name eq 'sovereign_on_date') {
+    my $sov    = $model->sovereign_on_date($date);
+    my $person = $sov->person;
+
+    my $data = {
+      date      => $date->ymd,
+      sovereign => {
+        name => $person->name,
+        born => $person->born ? $person->born->ymd : undef,
+        slug => $person->slug,
+      },
+    };
+
+    my $text = "On " . $date->ymd . ", the sovereign was " . $person->name;
+
+    return _mcp_tool_result($data, $text);
+  }
+
+  if ($name eq 'line_of_succession') {
+    my $limit = $args->{limit} // 30;
+    $limit = 1   if $limit < 1;
+    $limit = 100 if $limit > 100;
+
+    my $data = $model->get_succession_data($date, $limit);
+
+    my $text = "Line of succession on " . $date->ymd . ":\nSovereign: " .
+               $data->{sovereign}->{name} . "\n" .
+               join("\n", map { "$_->{number}. $_->{name}" } @{ $data->{successors} });
+
+    return _mcp_tool_result($data, $text);
+  }
+}
+
+sub _mcp_date {
+  my ($date) = @_;
+  return unless defined $date;
+  return unless $date =~ /\A(\d{4})-(\d\d)-(\d\d)\z/;
+
+  return eval {
+    DateTime->new(
+      year  => $1,
+      month => $2,
+      day   => $3,
+    );
+  };
+}
+
+sub _mcp_tool_result {
+  my ($data, $text) = @_;
+
+  $text //= encode_json($data);
+
+  return {
+    content => [{
+      type => 'text',
+      text => $text,
+    }],
+    structuredContent => $data,
+  };
+}
+
+sub _mcp_tool_error {
+  my ($message) = @_;
+
+  return {
+    isError => JSON::MaybeXS::true,
+    content => [{
+      type => 'text',
+      text => $message,
+    }],
+  };
+}
+
+sub _mcp_result {
+  my ($id, $result) = @_;
+
+  return {
+    jsonrpc => '2.0',
+    id      => $id,
+    result  => $result,
+  };
+}
+
+sub _mcp_error {
+  my ($id, $code, $message) = @_;
+
+  return encode_json({
+    jsonrpc => '2.0',
+    id      => $id,
+    error   => {
+      code    => $code,
+      message => $message,
+    },
+  });
 }
 
 true;

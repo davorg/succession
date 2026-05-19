@@ -245,7 +245,7 @@ sub get_succession_data($self, $date, $count) {
     sovereign => {
       name => $sov->name,
       born => $sov->born->ymd,
-      age  => $sov->age_on_date,
+      age  => $sov->age_on_date($date),
       slug => $sov->slug,
     },
   };
@@ -255,7 +255,7 @@ sub get_succession_data($self, $date, $count) {
     number => $i++,
     name   => $_->name,
     born   => $_->born->ymd,
-    age    => $_->age_on_date,
+    age    => $_->age_on_date($date),
     slug   => $_->slug,
   }} @{ $self->succession_on_date($date) };
 

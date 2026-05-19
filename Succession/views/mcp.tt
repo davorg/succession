@@ -1,0 +1,34 @@
+<h1>Line of Succession MCP Server</h1>
+
+<p>
+  This is the MCP endpoint for Line of Succession.
+  MCP clients should send JSON-RPC POST requests to:
+</p>
+
+<pre>POST /mcp</pre>
+
+<h2>Supported methods</h2>
+
+<ul>
+  <li><code>initialize</code></li>
+  <li><code>tools/list</code></li>
+  <li><code>tools/call</code></li>
+</ul>
+
+<h2>Available tools</h2>
+
+<% FOR tool IN tools.sort(name) %>
+  <section>
+    <h3><code><% tool.name %></code></h3>
+
+    <p><% tool.description %></p>
+
+    <% IF tool.documentation %>
+      <h4>Documentation</h4>
+      <% tool.documentation | html_para %>
+    <% END %>
+
+    <h4>Input schema</h4>
+    <pre><% tool.input_schema_json %></pre>
+  </section>
+<% END %>

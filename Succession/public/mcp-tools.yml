@@ -1,0 +1,36 @@
+# data/mcp-tools.yml
+
+- name: sovereign_on_date
+  description: Return the British sovereign on a given date.
+  documentation: |
+    Looks up the reigning British sovereign for the supplied date.
+
+    Use this when answering questions such as “Who was sovereign on
+    6 February 1952?”
+  inputSchema:
+    type: object
+    properties:
+      date:
+        type: string
+        description: Date in YYYY-MM-DD format.
+    required:
+      - date
+
+- name: line_of_succession
+  description: Return the line of succession on a given date.
+  documentation: |
+    Returns people in the line of succession.
+
+    If no date is supplied, the current line of succession is returned.
+  inputSchema:
+    type: object
+    properties:
+      date:
+        type: string
+        description: Optional date in YYYY-MM-DD format. Omit for the current line of succession.
+      limit:
+        type: integer
+        description: Maximum number of successors to return.
+        minimum: 1
+        maximum: 100
+    required: []
