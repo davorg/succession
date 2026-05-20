@@ -176,14 +176,14 @@ sub rpc_result {
 sub rpc_error {
   my ($self, $id, $code, $message) = @_;
 
-  return encode_json({
+  return {
     jsonrpc => '2.0',
     id      => $id,
     error   => {
       code    => $code,
       message => $message,
     },
-  });
+  };
 }
 
 1;

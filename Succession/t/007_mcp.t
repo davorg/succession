@@ -89,6 +89,6 @@ is($rpc->{id}, 7, 'rpc_result includes id');
 is($rpc->{result}{ok}, 1, 'rpc_result includes payload');
 
 my $rpc_error = $mcp->rpc_error(9, -1, 'oops');
-like($rpc_error, qr/"code":-1/, 'rpc_error returns encoded JSON with error code');
+is($rpc_error->{error}{code}, -1, 'rpc_error includes error code');
 
 done_testing();
