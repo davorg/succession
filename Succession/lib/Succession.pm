@@ -308,7 +308,6 @@ sub _parse_frontmatter {
 }
 
 sub _mcp_tools {
-  warn "Loading MCP tools from YAML file...[$Bin/../public/mcp-tools.yml]\n";
   state $tools = LoadFile("$Bin/../public/mcp-tools.yml");
 
   return [
@@ -364,9 +363,9 @@ sub _mcp_call_tool {
   }
 
   if ($name eq 'line_of_succession') {
-    my $limit = $args->{limit} // 30;
-    $limit = 1   if $limit < 1;
-    $limit = 100 if $limit > 100;
+    my $limit = $args->{limit} // 10;
+    $limit = 1  if $limit < 1;
+    $limit = 30 if $limit > 30;
 
     my $data = $model->get_succession_data($date, $limit);
 
