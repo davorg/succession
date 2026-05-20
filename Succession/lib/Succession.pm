@@ -5,15 +5,13 @@ use warnings;
 use feature 'state';
 
 use Dancer2;
-use Try::Tiny;
 use Text::Markdown 'markdown';
 use Path::Tiny;
-use DateTime;
-use YAML::XS qw[LoadFile];
 use Path::Tiny qw[path];
-use FindBin qw[$Bin];
 use Succession::App;
+use Succession::MCP;
 use Succession::Request;
+use Succession::RouteHelpers;
 
 our $VERSION = '0.9.0';
 
@@ -61,6 +59,7 @@ get '/lp' => sub {
 
 get qr{/r/([\w-]+)$} => sub {
   set layout => 'main';
+  state $helpers = Succession::RouteHelpers->new;
 
   my ($slug) = splat;
 
@@ -71,7 +70,7 @@ get qr{/r/([\w-]+)$} => sub {
     return template '404', { app => vars->{app} };
   }
 
-  my ($title, $body) = _parse_frontmatter($md_file->slurp_utf8);
+  my ($title, $body) = $helpers->parse_frontmatter($md_file->slurp_utf8);
   my $html = markdown($body);
 
   template 'reference', {
@@ -83,12 +82,19 @@ get qr{/r/([\w-]+)$} => sub {
 
 get '/shop' => sub {
   set layout => 'main';
+  state $helpers = Succession::RouteHelpers->new;
 
   my $app = vars->{app};
 
   my ($shop, $etag, $last_mod) = $app->model->get_shop_data;
 
-  return '' if handle_conditional_get($etag, $last_mod);
+  if ($helpers->is_not_modified(request, $etag, $last_mod)) {
+    status 304;
+    response_header 'ETag'          => $etag;
+    response_header 'Last-Modified' => $last_mod;
+    response_header 'Cache-Control' => 'public, max-age=300';
+    return '';
+  }
 
   response_header 'ETag'          => $etag;
   response_header 'Last-Modified' => $last_mod;
@@ -122,30 +128,28 @@ get '/anniversaries' => sub {
 };
 
 get '/mcp' => sub {
+  state $mcp = Succession::MCP->new(
+    server_version => $Succession::VERSION,
+    tools_file     => path(setting('appdir'), 'public', 'mcp-tools.yml')->stringify,
+  );
+
   template 'mcp' => {
-    tools => _mcp_tool_docs(),
+    tools => $mcp->tool_docs,
   };
 };
 
-sub _mcp_tool_docs {
-  state $tools = LoadFile("$Bin/../public/mcp-tools.yml");
-  return [
-    map {
-      +{
-        $_->%*,
-        input_schema_json => to_json($_->{inputSchema}, { pretty => 1 }),
-      }
-    } $tools->@*
-  ];
-}
-
 post '/mcp' => sub {
+  state $mcp = Succession::MCP->new(
+    server_version => $Succession::VERSION,
+    tools_file     => path(setting('appdir'), 'public', 'mcp-tools.yml')->stringify,
+  );
+
   content_type 'application/json';
 
   my $req = eval { from_json(request->body) };
 
   if ($@ or ref $req ne 'HASH') {
-    return to_json(_mcp_error(undef, -32700, 'Parse error'));
+    return to_json($mcp->rpc_error(undef, -32700, 'Parse error'));
   }
 
   my $id     = $req->{id};
@@ -154,32 +158,26 @@ post '/mcp' => sub {
   return '' unless exists $req->{id}; # JSON-RPC notification
 
   if ($method eq 'initialize') {
-    return(to_json(_mcp_result($id, {
-      protocolVersion => '2025-11-25',
-      capabilities    => {
-        tools => {},
-      },
-      serverInfo => {
-        name    => 'line-of-succession',
-        version => $Succession::VERSION,
-      },
-    })));
+    return to_json($mcp->rpc_result($id, $mcp->initialize_data));
   }
 
   if ($method eq 'tools/list') {
-    return to_json(_mcp_result($id, {
-      tools => _mcp_tools(),
+    return to_json($mcp->rpc_result($id, {
+      tools => $mcp->tools,
     }));
   }
 
   if ($method eq 'tools/call') {
-    return to_json(_mcp_result(
+    return to_json($mcp->rpc_result(
       $id,
-      _mcp_call_tool($req->{params} // {}),
+      $mcp->call_tool(
+        params => ($req->{params} // {}),
+        model  => vars->{app}->model,
+      ),
     ));
   }
 
-  return to_json(_mcp_error($id, -32601, 'Method not found'));
+  return to_json($mcp->rpc_error($id, -32601, 'Method not found'));
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
@@ -235,12 +233,13 @@ get '/changes' => sub {
 get '/api' => sub {
   set layout => '';
   # set serializer => '';
+  state $helpers = Succession::RouteHelpers->new;
 
   my $date  = query_parameters->get('date');
   my $count = query_parameters->get('count');
   my $callback = query_parameters->get('callback');
 
-  my $app = make_app({
+  my $app = $helpers->make_app({
     date => $date,
     list_size => $count,
     request => request,
@@ -250,194 +249,5 @@ get '/api' => sub {
 
   return "$callback(" . encode_json($succ) . ')';
 };
-
-sub make_app {
-  my ($params) = @_;
-
-  my $args = {
-    request => $params->{request},
-  };
-
-  for (qw[date list_size]) {
-    $args->{$_} = $params->{$_} if defined $params->{$_};
-  }
-
-  my $date_err;
-
-  my $app = Succession::App->new($args);
- 
-  return $app;
-}
-
-sub handle_conditional_get {
-  my ($etag, $last_mod) = @_;
-
-  my $if_none_match = request->header('If-None-Match');
-  my $if_modified   = request->header('If-Modified-Since');
-
-  if (defined $if_none_match && $if_none_match eq $etag) {
-    status 304;
-    response_header 'ETag'          => $etag;
-    response_header 'Last-Modified' => $last_mod;
-    response_header 'Cache-Control' => 'public, max-age=300';
-    return 1;
-  }
-
-  if (defined $if_modified && $if_modified eq $last_mod) {
-    status 304;
-    response_header 'ETag'          => $etag;
-    response_header 'Last-Modified' => $last_mod;
-    response_header 'Cache-Control' => 'public, max-age=300';
-    return 1;
-  }
-
-  return 0;
-}
-
-sub _parse_frontmatter {
-  my ($content) = @_;
-  my $title;
-
-  if ($content =~ /\A---\n(.*?)\n---\n/s) {
-    my $fm = $1;
-    ($title) = $fm =~ /^title:\s*(.+?)\s*$/m;
-    $content =~ s/\A---\n.*?\n---\n//s;
-  }
-
-  return ($title, $content);
-}
-
-sub _mcp_tools {
-  state $tools = LoadFile("$Bin/../public/mcp-tools.yml");
-
-  return [
-    map {
-      {
-        name        => $_->{name},
-        description => $_->{description},
-        inputSchema => $_->{inputSchema},
-      }
-    } $tools->@*
-  ];
-}
-
-sub _mcp_call_tool {
-  my ($params) = @_;
-
-  my $name = $params->{name} // '';
-  my $args = $params->{arguments} // {};
-
-  return _mcp_tool_error("Unknown tool: $name")
-    unless $name eq 'sovereign_on_date'
-        || $name eq 'line_of_succession';
-
-  my $date;
-
-  if (exists $args->{date}) {
-    $date = _mcp_date($args->{date});
-    unless ($date) {
-      return _mcp_tool_error('Invalid date format. Use YYYY-MM-DD.');
-    }
-  } else {
-    $date = DateTime->today;
-  }
-
-  my $model = vars->{app}->model;
-
-  if ($name eq 'sovereign_on_date') {
-    my $sov    = $model->sovereign_on_date($date);
-    my $person = $sov->person;
-
-    my $data = {
-      date      => $date->ymd,
-      sovereign => {
-        name => $person->name,
-        born => $person->born ? $person->born->ymd : undef,
-        slug => $person->slug,
-      },
-    };
-
-    my $text = "On " . $date->ymd . ", the sovereign was " . $person->name;
-
-    return _mcp_tool_result($data, $text);
-  }
-
-  if ($name eq 'line_of_succession') {
-    my $limit = $args->{limit} // 10;
-    $limit = 1  if $limit < 1;
-    $limit = 30 if $limit > 30;
-
-    my $data = $model->get_succession_data($date, $limit);
-
-    my $text = "Line of succession on " . $date->ymd . ":\nSovereign: " .
-               $data->{sovereign}->{name} . "\n" .
-               join("\n", map { "$_->{number}. $_->{name}" } @{ $data->{successors} });
-
-    return _mcp_tool_result($data, $text);
-  }
-}
-
-sub _mcp_date {
-  my ($date) = @_;
-  return unless defined $date;
-  return unless $date =~ /\A(\d{4})-(\d\d)-(\d\d)\z/;
-
-  return eval {
-    DateTime->new(
-      year  => $1,
-      month => $2,
-      day   => $3,
-    );
-  };
-}
-
-sub _mcp_tool_result {
-  my ($data, $text) = @_;
-
-  $text //= encode_json($data);
-
-  return {
-    content => [{
-      type => 'text',
-      text => $text,
-    }],
-    structuredContent => $data,
-  };
-}
-
-sub _mcp_tool_error {
-  my ($message) = @_;
-
-  return {
-    isError => JSON::MaybeXS::true,
-    content => [{
-      type => 'text',
-      text => $message,
-    }],
-  };
-}
-
-sub _mcp_result {
-  my ($id, $result) = @_;
-
-  return {
-    jsonrpc => '2.0',
-    id      => $id,
-    result  => $result,
-  };
-}
-
-sub _mcp_error {
-  my ($id, $code, $message) = @_;
-
-  return encode_json({
-    jsonrpc => '2.0',
-    id      => $id,
-    error   => {
-      code    => $code,
-      message => $message,
-    },
-  });
-}
 
 true;
