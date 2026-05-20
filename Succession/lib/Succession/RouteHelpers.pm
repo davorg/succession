@@ -1,11 +1,11 @@
 package Succession::RouteHelpers;
 
 use Moo;
+use experimental 'signatures'; # After Moo because Moo turns all warnings on
 
 use Succession::App;
 
-sub make_app {
-  my ($self, $params) = @_;
+sub make_app ($self, $params) {
 
   my $args = {
     request => $params->{request},
@@ -18,8 +18,7 @@ sub make_app {
   return Succession::App->new($args);
 }
 
-sub is_not_modified {
-  my ($self, $request, $etag, $last_mod) = @_;
+sub is_not_modified ($self, $request, $etag, $last_mod) {
 
   my $if_none_match = $request->header('If-None-Match');
   my $if_modified   = $request->header('If-Modified-Since');
@@ -30,8 +29,7 @@ sub is_not_modified {
   return 0;
 }
 
-sub parse_frontmatter {
-  my ($self, $content) = @_;
+sub parse_frontmatter ($self, $content) {
   my $title;
 
   if ($content =~ /\A---\n(.*?)\n---\n/s) {

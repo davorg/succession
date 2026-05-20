@@ -1,6 +1,7 @@
 package Succession::MCP;
 
 use Moo;
+use experimental 'signatures'; # After Moo because Moo turns all warnings on
 
 use DateTime;
 use JSON::MaybeXS qw[encode_json];
@@ -20,13 +21,11 @@ has _tools => (
   is => 'lazy',
 );
 
-sub _build__tools {
-  my ($self) = @_;
+sub _build__tools ($self) {
   return LoadFile($self->tools_file);
 }
 
-sub tool_docs {
-  my ($self) = @_;
+sub tool_docs ($self) {
 
   return [
     map {
@@ -38,8 +37,7 @@ sub tool_docs {
   ];
 }
 
-sub initialize_data {
-  my ($self) = @_;
+sub initialize_data ($self) {
 
   return {
     protocolVersion => '2025-11-25',
@@ -53,8 +51,7 @@ sub initialize_data {
   };
 }
 
-sub tools {
-  my ($self) = @_;
+sub tools ($self) {
 
   return [
     map {
@@ -67,8 +64,7 @@ sub tools {
   ];
 }
 
-sub call_tool {
-  my ($self, %args) = @_;
+sub call_tool ($self, %args) {
   my $params = $args{params};
   my $model  = $args{model};
 
@@ -123,8 +119,7 @@ sub call_tool {
   }
 }
 
-sub mcp_date {
-  my ($self, $date) = @_;
+sub mcp_date ($self, $date) {
   return unless defined $date;
   return unless $date =~ /\A(\d{4})-(\d\d)-(\d\d)\z/;
 
@@ -137,8 +132,7 @@ sub mcp_date {
   };
 }
 
-sub tool_result {
-  my ($self, $data, $text) = @_;
+sub tool_result ($self, $data, $text) {
 
   $text //= encode_json($data);
 
@@ -151,8 +145,7 @@ sub tool_result {
   };
 }
 
-sub tool_error {
-  my ($self, $message) = @_;
+sub tool_error ($self, $message) {
 
   return {
     isError => JSON::MaybeXS::true,
@@ -163,8 +156,7 @@ sub tool_error {
   };
 }
 
-sub rpc_result {
-  my ($self, $id, $result) = @_;
+sub rpc_result ($self, $id, $result) {
 
   return {
     jsonrpc => '2.0',
@@ -173,8 +165,7 @@ sub rpc_result {
   };
 }
 
-sub rpc_error {
-  my ($self, $id, $code, $message) = @_;
+sub rpc_error ($self, $id, $code, $message) {
 
   return {
     jsonrpc => '2.0',
