@@ -269,6 +269,8 @@ sub is_valid_date( $self, $date ) {
 sub canonical( $self ) {
   if ($self->request->is_date_page) {
     return '/' . $self->canonical_date;
+  } elsif($self->request->is_person_page) {
+    return '/p/' . $self->request->person->slug;
   } else {
     return $self->request->path;
   }
@@ -279,11 +281,7 @@ sub canonical_date( $self ) {
 }
 
 sub alternate( $self ) {
-  if ($self->request->is_date_page) {
-    return '/' . $self->page_date;
-  } else {
-    return $self->request->path;
-  }
+  return $self->canonical;
 }
 
 sub page_date( $self ) {
