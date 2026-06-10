@@ -164,7 +164,7 @@
 <ul id="positions-list">
 <% collapsed_positions = person.succession_entries_rs.collapsed_by_position -%>
 <% FOR pos IN collapsed_positions -%>
-<li><% IF pos.position > 30; '&gt; 30'; ELSE; pos.position; END %>: <% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
+<li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %>: <% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
     link_date(pos.end);
      ELSIF person.died;

@@ -35,12 +35,9 @@ sub collapsed_by_position($self) {
 
     my $same_position = $current->{position} == $entry->position;
     my $adjacent      = (
-      (!defined $current->{end} && !defined $entry->start)
-      || (
-        defined $current->{end}
-        && defined $entry->start
-        && $current->{end}->ymd eq $entry->start->ymd
-      )
+      defined $current->{end}
+      && defined $entry->start
+      && $current->{end}->ymd eq $entry->start->ymd
     );
 
     if ($same_position && $adjacent) {
