@@ -7,7 +7,7 @@ use Succession::Schema;
 
 my $schema = Succession::Schema->get_schema;
 
-my $person_with_adjacent_duplicate_rank;
+my $person_with_adjacent_duplicate_position;
 
 PERSON:
 for my $person ($schema->resultset('Person')->search(
@@ -22,18 +22,18 @@ for my $person ($schema->resultset('Person')->search(
 
   for my $i (1 .. $#entries) {
     if ($entries[$i - 1]->position == $entries[$i]->position) {
-      $person_with_adjacent_duplicate_rank = $person;
+      $person_with_adjacent_duplicate_position = $person;
       last PERSON;
     }
   }
 }
 
-if (!$person_with_adjacent_duplicate_rank) {
+if (!$person_with_adjacent_duplicate_position) {
   plan skip_all => 'No person with adjacent duplicate succession positions in fixture data';
 }
 
-my @entries   = $person_with_adjacent_duplicate_rank->succession_entries_rs->order_by_date->all;
-my $collapsed = $person_with_adjacent_duplicate_rank->succession_entries_rs->collapsed_by_position;
+my @entries   = $person_with_adjacent_duplicate_position->succession_entries_rs->order_by_date->all;
+my $collapsed = $person_with_adjacent_duplicate_position->succession_entries_rs->collapsed_by_position;
 
 is(ref $collapsed, 'ARRAY', 'collapsed_by_position returns an array ref');
 ok(@$collapsed < @entries, 'Collapsed ranges are fewer than raw entries');
