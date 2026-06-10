@@ -63,7 +63,7 @@
 </div>
 <% END -%>
 
-<% IF person.positions_rs.count -%>
+<% IF person.succession_entries_rs.count -%>
 <div class="card-soft">
 <h2>Positions</h2>
 
@@ -91,7 +91,7 @@
   (function () {
     // Build labels (dates) + values (positions) from your template data
     var labels = [
-<%  positions = person.positions_rs.order_by_date;
+<%  positions = person.succession_entries_rs.order_by_date;
     FOR pos IN positions;
       date = pos.start OR person.born -%>
       '<% date.ymd %>',
@@ -162,7 +162,8 @@
 
 
 <ul id="positions-list">
-<% FOR pos IN positions -%>
+<% collapsed_positions = person.succession_entries_rs.collapsed_by_position -%>
+<% FOR pos IN collapsed_positions -%>
 <li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %>: <% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
     link_date(pos.end);
