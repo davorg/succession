@@ -117,6 +117,11 @@ __PACKAGE__->belongs_to(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3RBqYMFNx6yW946ud6bKMw
 
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+use experimental 'signatures';
+
+sub start($self)    { return $self->period->from_date }
+sub end($self)      { return $self->period->to_date   }
+sub position($self) { return $self->rank              }
+
 __PACKAGE__->meta->make_immutable;
 1;
