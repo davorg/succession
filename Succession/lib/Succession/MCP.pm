@@ -5,7 +5,7 @@ use experimental 'signatures'; # After Moo because Moo turns all warnings on
 
 use DateTime;
 use JSON::MaybeXS qw[encode_json];
-use YAML::XS qw[LoadFile];
+use YAML qw[LoadFile];
 
 has server_version => (
   is => 'ro',
