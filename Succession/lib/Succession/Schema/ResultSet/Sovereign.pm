@@ -14,7 +14,7 @@ sub sovereign_on_date( $self, $date ) {
     start => { '<=' => $date },
     end   => [ { '>' => $date }, undef ],
   }, {
-    prefetch => qw[person],
+    prefetch => { person => 'titles' },
   });
 }
 

@@ -18,6 +18,8 @@ use MooseX::NonMoose;
 use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Core';
 
+use List::Util 'first';
+
 =head1 COMPONENTS LOADED
 
 =over 4
@@ -437,62 +439,36 @@ sub age_on_date( $self, $date ) {
 }
 
 sub name( $self ) {
-  if (my $title = $self->titles({ is_default => 1})->first) {
+  if (my $title = first { $_->is_default } $self->titles) {
     return $title->title;
-  } else {
-    return 'XXX';
   }
+
+  return 'XXX';
 }
 
 sub name_on_date( $self, $date ) {
-  unless ($self->is_alive_on_date($date)) {
-    return '[' . $self->name . ']';
-  }
+  my $name = first {
+    _active_on_date($_, $date)
+  } $self->titles->all;
 
-  my $dtf      = $self->result_source->storage->datetime_parser;
-  my $fmt_date = $dtf->format_datetime($date);
-
-  my $name = $self->titles([{
-    start => undef,
-    end   => undef,
-  },{
-    start => undef,
-    end   => { '>'  => $fmt_date },
-  },{
-    start => { '<=' => $fmt_date },
-    end   => undef,
-  },{
-    start => { '<=' => $fmt_date },
-    end   => { '>'  => $fmt_date },
-  }])->first;
-
-  if ($name) {
-    return $name->title;
-  } else {
-    return $self->name;
-  }
+  return $name ? $name->title : $self->name;
 }
 
 sub excluded_on_date( $self, $date ) {
-  my $dtf      = $self->result_source->storage->datetime_parser;
-  my $fmt_date = $dtf->format_datetime($date);
-
-  my $exc = $self->exclusions([{
-    start => undef,
-    end   => undef,
-  },{
-    start => undef,
-    end   => { '>'  => $fmt_date },
-  },{
-    start => { '<=' => $fmt_date },
-    end   => undef,
-  },{
-    start => { '<=' => $fmt_date },
-    end   => { '>'  => $fmt_date },
-  }])->first;
+  my $exc = first {
+    _active_on_date($_, $date)
+  } $self->exclusions->all;
 
   return unless $exc;
   return $exc->reason;
+}
+
+sub _active_on_date($row, $date) {
+  my $d     = $date->ymd('');
+  my $start = $row->start ? $row->start->ymd('') : 0;
+  my $end   = $row->end   ? $row->end->ymd('')   : 99999999;
+
+  return $start <= $d < $end;
 }
 
 sub ancestors(  $self ) {
