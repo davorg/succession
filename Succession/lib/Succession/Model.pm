@@ -10,7 +10,9 @@ use Try::Tiny;
 use JSON::MaybeXS qw(decode_json);
 use Digest::SHA qw(sha1_hex);
 use Time::Piece;
+use Genealogy::Relationship;
 use Succession (); # for version number to use in cache
+use Succession::RelationshipPerson;
 use Succession::Schema;
 
 has schema => (
@@ -35,6 +37,47 @@ sub _build_sovereign_rs($self) {
 
 sub _build_person_rs($self) {
   return $self->schema->resultset('Person');
+}
+
+has relationship => (
+  is => 'ro',
+  isa => 'Genealogy::Relationship',
+  lazy_build => 1,
+);
+
+sub _build_relationship($) {
+  return Genealogy::Relationship->new;
+}
+
+has relationship_people => (
+  is => 'ro',
+  isa => 'HashRef',
+  lazy_build => 1,
+);
+
+sub _build_relationship_people($self) {
+  my @rows = $self->person_rs->search(undef, {
+    columns => [ qw(id parent sex) ],
+  })->all;
+
+  my %people = map {
+    $_->id => Succession::RelationshipPerson->new(
+      id     => $_->id,
+      gender => $_->sex,
+    )
+  } @rows;
+
+  for my $row (@rows) {
+    my $parent_id = $row->get_column('parent');
+    next unless defined $parent_id;
+
+    die "Person $parent_id is missing from the relationship graph"
+      unless exists $people{$parent_id};
+
+    $people{$row->id}->parent($people{$parent_id});
+  }
+
+  return \%people;
 }
 
 has change_date_rs => (
@@ -360,7 +403,13 @@ sub get_relationship_between_people($self, $person1, $person2) {
   my $relationship = $self->cache->compute(
     'rel|' . $person1->id . '|' . $person2->id, undef,
     sub {
-      return $person1->relationship_with($person2);
+      my $people = $self->relationship_people;
+      my $rel_person1 = $people->{$person1->id}
+        or die 'Person ' . $person1->id . ' is missing from the relationship graph';
+      my $rel_person2 = $people->{$person2->id}
+        or die 'Person ' . $person2->id . ' is missing from the relationship graph';
+
+      return $self->relationship->get_relationship($rel_person1, $rel_person2);
     }
   );
 
