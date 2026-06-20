@@ -205,15 +205,20 @@ get qr{/(\d{4}-\d\d-\d\d)?$} => sub {
 get qr{/p/(.*)} => sub {
   set layout => 'main';
 
-  if (my $error = vars->{app}->error) {
+  my $app = vars->{app};
+
+  if (my $error = $app->error) {
     cookie 'error' => $error;
     redirect '/';
     return;
   }
 
+  my $person = request->person;
+
   template 'person', {
-    app    => vars->{app},
-    person => request->person,
+    app    => $app,
+    person => $person,
+    %{ $app->model->get_person_page_data($person) },
   };
 };
 

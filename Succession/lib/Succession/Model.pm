@@ -417,13 +417,44 @@ sub get_relationship_between_people($self, $person1, $person2) {
 
 sub get_person_from_slug($self, $slug) {
   my $person = $self->cache->compute(
-    'person|' . $slug, undef,
+    'person_page_v2|' . $slug, undef,
     sub {
       return $self->schema->resultset('Person')->find_by_slug($slug);
     }
   );
 
   return $person;
+}
+
+sub get_person_page_data($self, $person) {
+  my @titles = sort {
+    ($a->start ? $a->start->ymd : '') cmp ($b->start ? $b->start->ymd : '')
+  } $person->titles;
+
+  my @exclusions = sort {
+    ($a->start ? $a->start->ymd : '') cmp ($b->start ? $b->start->ymd : '')
+  } $person->exclusions;
+
+  my $position_rs = $person->succession_entries_rs;
+  my @positions   = $position_rs->order_by_date->all;
+
+  my @children = $person->children_rs->order_by_age->search(undef, {
+    prefetch => 'titles',
+  })->all;
+
+  my $siblings_rs = $person->siblings;
+  my @siblings = $siblings_rs
+    ? $siblings_rs->search(undef, { prefetch => 'titles' })->all
+    : ();
+
+  return {
+    titles              => \@titles,
+    positions           => \@positions,
+    collapsed_positions => $position_rs->collapse_entries(\@positions),
+    children            => \@children,
+    siblings            => \@siblings,
+    exclusions          => \@exclusions,
+  };
 }
 
 sub get_all_changes($self) {

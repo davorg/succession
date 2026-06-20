@@ -3,9 +3,10 @@
 <div class="card-soft">
 <h1><% person.name %></h1>
 
-<% IF person.image_url %>
+<% image_url = person.image_url;
+   IF image_url %>
   <figure class="person-photo">
-    <img src="<% person.image_url %>" alt="Portrait of <% person.name %>">
+    <img src="<% image_url %>" alt="Portrait of <% person.name %>">
     <br>
   </figure>
 <% END %>
@@ -16,10 +17,11 @@
 <% END -%>
 </p>
 
-<% IF person.short_bio %>
+<% short_bio = person.short_bio;
+   IF short_bio %>
   <h2>Biography</h2>
   <p class="person-bio">
-    <% person.short_bio %>
+    <% short_bio %>
   </p>
 <% END %>
 
@@ -39,11 +41,11 @@
 </script>
 -->
 
-<% IF person.titles_rs.count > 1 -%>
+<% IF titles.size > 1 -%>
 <div class="card-soft">
 <h2>Names &amp; titles</h2>
 <ul>
-<% FOR title IN person.titles_rs.order_by_date -%>
+<% FOR title IN titles -%>
 <li><% title.title %> (<% IF title.start; link_date(title.start); ELSE; 'birth'; END %>
 - <% IF title.end;
     link_date(title.end);
@@ -63,7 +65,7 @@
 </div>
 <% END -%>
 
-<% IF person.succession_entries_rs.count -%>
+<% IF positions.size -%>
 <div class="card-soft">
 <h2>Positions</h2>
 
@@ -91,8 +93,7 @@
   (function () {
     // Build labels (dates) + values (positions) from your template data
     var labels = [
-<%  positions = person.succession_entries_rs.order_by_date;
-    FOR pos IN positions;
+<%  FOR pos IN positions;
       date = pos.start OR person.born -%>
       '<% date.ymd %>',
 <%  END;
@@ -162,7 +163,6 @@
 
 
 <ul id="positions-list">
-<% collapsed_positions = person.succession_entries_rs.collapsed_by_position -%>
 <% FOR pos IN collapsed_positions -%>
 <li><% IF pos.position > 30; '&gt; 30'; ELSIF pos.position == -1; 'Excluded'; ELSE; pos.position; END %>: <% IF pos.start; link_date(pos.start); ELSE; 'birth'; END %>
 - <% IF pos.end;
@@ -185,29 +185,29 @@
 <li><% link_person(person.parent) %></li>
 </ul>
 <% END -%>
-<% IF person.children_rs.count -%>
+<% IF children.size -%>
 <h3>Children</h3>
 <ul>
-<% FOREACH child IN person.children_rs.order_by_age -%>
+<% FOREACH child IN children -%>
 <li><% link_person(child) %></li>
 <% END -%>
 </ul>
 <% END -%>
-<% IF person.siblings -%>
+<% IF siblings.size -%>
 <h3>Siblings</h3>
 <ul>
-<% FOREACH sibling IN person.siblings -%>
+<% FOREACH sibling IN siblings -%>
 <li><% link_person(sibling) %></li>
 <% END -%>
 </ul>
 <% END -%>
 </div>
 
-<% IF person.exclusions_rs.count -%>
+<% IF exclusions.size -%>
 <div class="card-soft">
 <h2>Exclusions</h2>
 <ul>
-<% FOREACH excl IN person.exclusions_rs.order_by_date -%>
+<% FOREACH excl IN exclusions -%>
 <li><% exclusions.${excl.reason} %> (<% IF excl.start; link_date(excl.start); ELSE; 'birth'; END %>
 - <% IF excl.end;
     link_date(excl.end);

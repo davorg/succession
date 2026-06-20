@@ -18,12 +18,15 @@ sub order_by_date($self) {
 }
 
 sub collapsed_by_position($self) {
+  my @entries = $self->order_by_date->all;
+  return $self->collapse_entries(\@entries);
+}
+
+sub collapse_entries($self, $entries) {
   my @collapsed;
   my $current;
 
-  my $entries = $self->order_by_date;
-
-  while (my $entry = $entries->next) {
+  for my $entry (@$entries) {
     if (!$current) {
       $current = {
         position => $entry->position,

@@ -15,6 +15,12 @@ sub find_by_slug( $self, $slug ) {
 
   return $self->find({
     slug => { like => "$slug-%" },
+  }, {
+    prefetch => [
+      'titles',
+      'exclusions',
+      { parent => 'titles' },
+    ],
   });
 }
 

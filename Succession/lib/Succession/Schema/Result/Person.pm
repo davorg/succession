@@ -374,7 +374,7 @@ sub siblings( $self ) {
   return unless $self->parent;
 
   return $self->parent->sorted_children->search({
-    id => { '!=' => $self->id },
+    'me.id' => { '!=' => $self->id },
   });
 }
 
@@ -412,7 +412,7 @@ sub is_alive_on_date( $self, $date = undef) {
 
 sub sorted_children(  $self ) {
   return $self->children({}, {
-    order_by => 'family_order',
+    order_by => 'me.family_order',
   });
 }
 
