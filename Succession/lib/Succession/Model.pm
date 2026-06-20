@@ -377,26 +377,25 @@ sub get_next_change_date($self, $date, $include_curr = 0) {
 }
 
 sub get_changes_on_date($self, $date) {
-  my @changes;
+  return $self->cache->compute(
+    'changes_around|' . $date->ymd, undef,
+    sub {
+      my $dtf = $self->schema->storage->datetime_parser;
+      my @dates = map {
+        $dtf->format_datetime($_)
+      } (
+        $date->clone->subtract(days => 1),
+        $date,
+        $date->clone->add(days => 1),
+      );
 
-  foreach ($date->clone->subtract(days => 1),
-           $date,
-           $date->clone->add(days => 1)) {
-    my @date_changes = $self->cache->compute(
-        'changes|' . $_->ymd, undef,
-        sub {
-          my $search_date =
-            $self->schema->storage->datetime_parser->format_datetime($_);
-
-          return $self->schema->resultset('ChangeDate')->search({
-            change_date => $search_date,
-          })->all;
-      });
-
-      push @changes, @date_changes;
-    }
-
-  return \@changes;
+      return [ $self->change_date_rs->search({
+        change_date => { -in => \@dates },
+      }, {
+        order_by => { -asc => 'change_date' },
+      })->all ];
+    },
+  );
 }
 
 sub get_relationship_between_people($self, $person1, $person2) {
