@@ -48,7 +48,7 @@ my @selects = grep { /^SELECT\b/i } @$queries;
 cmp_ok(
   scalar(@selects),
   '<=',
-  7,
+  6,
   'homepage stays within its SELECT budget',
 );
 

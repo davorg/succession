@@ -23,10 +23,15 @@ sub succession_on_date {
       ],
     },
     {
-      order_by => { -desc => 'me.from_date' },   # latest applicable period
+      order_by => [
+        { -desc => 'me.from_date' },   # latest applicable period
+        'succession_entries.rank',
+      ],
       rows     => 1,
       prefetch => {
-        succession_entries => 'person',
+        succession_entries => {
+          person => [ qw(titles exclusions) ],
+        },
       },
     },
   )->first;

@@ -261,7 +261,7 @@ sub succession_on_date($self, $date = undef) {
     'succ|' . $date->ymd, undef,
     sub {
       my $succ = $self->schema->succession_periods->succession_on_date($date);
-      [ $succ ? $succ->succession_people->search(undef, {prefetch =>[ qw(titles exclusions) ]})->all : () ];
+      [ $succ ? map { $_->person } $succ->succession_entries : () ];
     },
   );
 
