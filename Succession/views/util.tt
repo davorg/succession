@@ -18,7 +18,7 @@
    END; -%>
 
 <%
-   exclusions = {
+   exclusion_reasons = {
      c  => 'Catholic',
      mc => 'Married to a Catholic',
      i  => 'Illegitimate',

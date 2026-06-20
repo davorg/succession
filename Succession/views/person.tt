@@ -208,7 +208,7 @@
 <h2>Exclusions</h2>
 <ul>
 <% FOREACH excl IN exclusions -%>
-<li><% exclusions.${excl.reason} %> (<% IF excl.start; link_date(excl.start); ELSE; 'birth'; END %>
+<li><% exclusion_reasons.${excl.reason} %> (<% IF excl.start; link_date(excl.start); ELSE; 'birth'; END %>
 - <% IF excl.end;
     link_date(excl.end);
      ELSIF person.died;
