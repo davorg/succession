@@ -459,9 +459,16 @@ sub get_person_page_data($self, $person) {
 
 sub get_all_changes($self) {
   return $self->cache->compute(
-    'changes', undef,
+    'changes_v2', undef,
     sub {
-      return [ $self->schema->resultset('ChangeDate')->all ],
+      return [ $self->change_date_rs->search(undef, {
+        order_by => [ 'me.change_date', 'changes.id' ],
+        prefetch => {
+          changes => {
+            person => 'titles',
+          },
+        },
+      })->all ];
     }
   );
 }
