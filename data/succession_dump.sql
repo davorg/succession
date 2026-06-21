@@ -1088,7 +1088,7 @@ INSERT INTO person VALUES(554,'1847-06-12','1933-10-30',460,3,'m','https://en.wi
 INSERT INTO person VALUES(556,'1948-08-13',NULL,286,1,'m','https://en.wikipedia.org/wiki/Paul_Philippe_of_Romania','cf9743-paul-philippe-hohenzollern','Q2466605','2026-06-17 06:50:13');
 INSERT INTO person VALUES(557,'1961-09-01',NULL,286,2,'m',NULL,'6e3503-ion-george-nicholas-alexander-lambrino','Q75383980','2026-06-17 06:50:13');
 INSERT INTO person VALUES(558,'2021-02-09',NULL,12,1,'m','https://en.wikipedia.org/wiki/August_Brooksbank','c010be-august-brooksbank','Q105597990','2026-06-17 06:50:14');
-INSERT INTO person VALUES(559,'2021-03-21',NULL,8,3,'m','https://en.wikipedia.org/wiki/Lucas_Tindall','97c5ee-unnamed-tindall-son','Q106153177','2026-06-16 06:59:30');
+INSERT INTO person VALUES(559,'2021-03-21',NULL,8,3,'m','https://en.wikipedia.org/wiki/Lucas_Tindall','97c5ee-lucas-tindall','Q106153177','2026-06-16 06:59:30');
 INSERT INTO person VALUES(560,'2021-06-04',NULL,10,2,'f','https://en.wikipedia.org/wiki/Princess_Lilibet_of_Sussex','78f2f5-princess-lilibet-of-sussex','Q107125551','2026-06-17 06:50:15');
 INSERT INTO person VALUES(561,'2021-09-18',NULL,11,1,'f','https://en.wikipedia.org/wiki/Sienna_Mapelli_Mozzi','0fba2a-sienna-mapelli-mozzi','Q108703114','2026-06-17 06:50:15');
 INSERT INTO person VALUES(562,'2023-05-30',NULL,12,2,'m','https://en.wikipedia.org/wiki/Ernest_Brooksbank','665f6d-ernest-brooksbank','Q119133052','2026-06-17 06:50:16');
