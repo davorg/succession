@@ -1,5 +1,155 @@
 package Succession::Model;
 
+=head1 NAME
+
+Succession::Model - Application data access and cached view data
+
+=head1 DESCRIPTION
+
+This class is the application's boundary around DBIx::Class, cache-backed
+lookups, and the small external or file-backed data sources used by routes.
+Methods are grouped below by responsibility so that new queries have an
+obvious home.
+
+=head1 ATTRIBUTES
+
+=over 4
+
+=item C<schema>
+
+The L<Succession::Schema> used for database access.
+
+=item C<sovereign_rs>, C<person_rs>, C<change_date_rs>
+
+Convenience result sets for the tables queried directly by this model.
+
+=item C<cache>, C<cache_servers>
+
+The CHI cache and its configured server list.
+
+=item C<relationship>, C<relationship_people>
+
+The genealogy engine and the in-memory person graph used by it.
+
+=item C<feed_url>, C<feed_timeout>, C<feed_ttl>, C<feed_stale_ttl>,
+C<feed_failure_ttl>, C<feed_fetcher>
+
+Configuration and injectable fetcher for the cached blog feed.
+
+=item C<interesting_dates>
+
+Curated reign and jubilee dates displayed by the application.
+
+=back
+
+=head1 METHODS
+
+=head2 Blog feed
+
+=over 4
+
+=item C<get_feed_entries>
+
+Returns cached blog-feed entries, using stale data when a refresh fails.
+
+=back
+
+=head2 Succession
+
+=over 4
+
+=item C<sovereign_on_date($date)>
+
+Returns the sovereign in office on a date.
+
+=item C<succession_on_date($date)>
+
+Returns the ordered people in the line of succession on a date.
+
+=item C<get_succession>
+
+Returns the current sovereign and succession as a simple name structure.
+
+=item C<get_succession_data($date, $count)>
+
+Builds the dated succession view data, limited to C<$count> successors.
+
+=back
+
+=head2 Change dates
+
+=over 4
+
+=item C<get_canonical_date($date)>
+
+Returns the canonical change date for a dated succession page.
+
+=item C<get_prev_change_date($date, $include_current)>
+
+Returns the change date immediately before the supplied date.
+
+=item C<get_next_change_date($date, $include_current)>
+
+Returns the change date immediately after the supplied date.
+
+=item C<get_changes_on_date($date)>
+
+Returns change records for the day before, the day itself, and the day after.
+
+=item C<get_all_changes>
+
+Returns every change date with the related people and titles prefetched.
+
+=back
+
+=head2 People and relationships
+
+=over 4
+
+=item C<get_relationship_between_people($person1, $person2)>
+
+Calculates the genealogical relationship between two people.
+
+=item C<get_person_from_slug($slug)>
+
+Finds and caches the person identified by a page slug.
+
+=item C<get_person_page_data($person)>
+
+Builds the prefetched titles, positions, relatives, and exclusions for a
+person page.
+
+=back
+
+=head2 Other page data
+
+=over 4
+
+=item C<get_anniversaries>
+
+Returns sovereign anniversaries and birthdays for the anniversaries page.
+
+=item C<get_shop_data($json_path)>
+
+Reads and caches shop JSON, returning its data and HTTP validator values.
+
+=item C<get_reference_menu($directory)>
+
+Builds the cached reference-page navigation from Markdown files.
+
+=item C<db_ver>
+
+Returns a human-readable description of the active database driver.
+
+=back
+
+=head1 INTERNAL HELPERS
+
+Builder methods and file-format helpers are private implementation details and
+are not part of the public method list above.
+
+=cut
+
 use v5.32;
 use Moose;
 use experimental qw[signatures]; # After Moose because Moose turns all warnings on
@@ -16,6 +166,8 @@ use Genealogy::Relationship;
 use Succession (); # for version number to use in cache
 use Succession::RelationshipPerson;
 use Succession::Schema;
+
+# Database access
 
 has schema => (
   is => 'ro',
@@ -40,6 +192,18 @@ sub _build_sovereign_rs($self) {
 sub _build_person_rs($self) {
   return $self->schema->resultset('Person');
 }
+
+has change_date_rs => (
+  is => 'ro',
+  isa => 'DBIx::Class::ResultSet',
+  lazy_build =>  1,
+);
+
+sub _build_change_date_rs($self) {
+  return $self->schema->resultset('ChangeDate');
+}
+
+# Genealogical relationships
 
 has relationship => (
   is => 'ro',
@@ -82,15 +246,7 @@ sub _build_relationship_people($self) {
   return \%people;
 }
 
-has change_date_rs => (
-  is => 'ro',
-  isa => 'DBIx::Class::ResultSet',
-  lazy_build =>  1,
-);
-
-sub _build_change_date_rs($self) {
-  return $self->schema->resultset('ChangeDate');
-}
+# Caching
 
 has cache_servers => (
   is => 'ro',
@@ -153,6 +309,8 @@ sub _build_cache( $self ) {
     );
   }
 }
+
+# Blog feed
 
 has feed_url => (
   is => 'ro',
@@ -253,6 +411,8 @@ sub get_feed_entries($self) {
   return $entries;
 }
 
+# Curated historical dates
+
 has interesting_dates => (
   is => 'ro',
   isa => 'ArrayRef',
@@ -342,6 +502,8 @@ sub _build_interesting_dates($) {
   }];
 }
 
+# Succession queries
+
 sub sovereign_on_date($self, $date = undef) {
   $date //= $self->date;
 
@@ -409,6 +571,8 @@ sub get_succession_data($self, $date, $count) {
 
   return $succ;
 }
+
+# Change-date queries
 
 sub get_canonical_date($self, $date) {
   my $canonical_date = $self->cache->compute(
@@ -499,6 +663,24 @@ sub get_changes_on_date($self, $date) {
   );
 }
 
+sub get_all_changes($self) {
+  return $self->cache->compute(
+    'changes_v2', undef,
+    sub {
+      return [ $self->change_date_rs->search(undef, {
+        order_by => [ 'me.change_date', 'changes.id' ],
+        prefetch => {
+          changes => {
+            person => 'titles',
+          },
+        },
+      })->all ];
+    }
+  );
+}
+
+# People and relationships
+
 sub get_relationship_between_people($self, $person1, $person2) {
   my $relationship = $self->cache->compute(
     'rel|' . $person1->id . '|' . $person2->id, undef,
@@ -558,21 +740,7 @@ sub get_person_page_data($self, $person) {
   };
 }
 
-sub get_all_changes($self) {
-  return $self->cache->compute(
-    'changes_v2', undef,
-    sub {
-      return [ $self->change_date_rs->search(undef, {
-        order_by => [ 'me.change_date', 'changes.id' ],
-        prefetch => {
-          changes => {
-            person => 'titles',
-          },
-        },
-      })->all ];
-    }
-  );
-}
+# Anniversary page
 
 sub get_anniversaries($self) {
   my $anniversaries = $self->sovereign_rs->anniversaries;
@@ -583,6 +751,8 @@ sub get_anniversaries($self) {
     birthdays     => $birthdays,
   };
 }
+
+# Shop data
 
 sub http_date($epoch) {
   return gmtime($epoch || time)->strftime('%a, %d %b %Y %H:%M:%S GMT');
@@ -615,6 +785,8 @@ sub get_shop_data($self, $json_path) {
   return ($shop, $etag, $last_mod);
 }
 
+# Reference pages
+
 sub get_reference_menu($self, $ref_dir) {
   return $self->cache->compute('ref_menu', undef, sub {
     my @menu;
@@ -635,6 +807,8 @@ sub _ref_page_title {
   }
   return undef;
 }
+
+# Diagnostics
 
 sub db_ver( $self ) {
   my $driver = $self->schema->storage->dbh->{Driver}{Name};
