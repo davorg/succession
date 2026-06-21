@@ -6,8 +6,6 @@ use experimental 'signatures'; # After Moose because Moose turns all warnings on
 use DateTime;
 use DateTime::Format::Strptime;
 use Lingua::EN::Numbers 'num2en';
-use XML::Feed;
-use URI;
 use Sys::Hostname;
 
 use Succession::Model;
@@ -139,16 +137,14 @@ sub _build_succession( $self ) {
   return \@short_succ;
 }
 
-has feed => (
+has feed_entries => (
   is => 'ro',
-  isa => 'Maybe[XML::Feed]',
+  isa => 'ArrayRef',
   lazy_build => 1,
 );
 
-sub _build_feed($) {
-  return XML::Feed->parse(
-    URI->new('https://blog.lineofsuccession.co.uk/feed')
-  );
+sub _build_feed_entries($self) {
+  return $self->model->get_feed_entries;
 }
 
 has title => (

@@ -107,11 +107,12 @@
                 <li><a class="dropdown-item" href="/anniversaries">Upcoming Anniversaries</a></li>
               </ul>
             </li>
-<% IF app.feed -%>
+<% feed_entries = app.feed_entries;
+   IF feed_entries.size -%>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="https://blog.lineofsuccession.co.uk/" id="dropdown02" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog Posts</a>
               <ul class="dropdown-menu" aria-labelledby="dropdown02">
-<% FOREACH entry IN app.feed.entries -%>
+<% FOREACH entry IN feed_entries -%>
                 <li><a class="dropdown-item" href="<% entry.link %>"><% entry.title %></a></li>
 <% END -%>
               </ul>

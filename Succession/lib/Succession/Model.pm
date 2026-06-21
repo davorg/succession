@@ -9,7 +9,9 @@ use Path::Tiny;
 use Try::Tiny;
 use JSON::MaybeXS qw(decode_json);
 use Digest::SHA qw(sha1_hex);
+use HTTP::Tiny;
 use Time::Piece;
+use XML::Feed;
 use Genealogy::Relationship;
 use Succession (); # for version number to use in cache
 use Succession::RelationshipPerson;
@@ -150,6 +152,105 @@ sub _build_cache( $self ) {
       %common,
     );
   }
+}
+
+has feed_url => (
+  is => 'ro',
+  isa => 'Str',
+  default => 'https://blog.lineofsuccession.co.uk/feed',
+);
+
+has feed_timeout => (
+  is => 'ro',
+  isa => 'Num',
+  default => 3,
+);
+
+has feed_ttl => (
+  is => 'ro',
+  isa => 'Int',
+  default => 15 * 60,
+);
+
+has feed_stale_ttl => (
+  is => 'ro',
+  isa => 'Int',
+  default => 7 * 24 * 60 * 60,
+);
+
+has feed_failure_ttl => (
+  is => 'ro',
+  isa => 'Int',
+  default => 60,
+);
+
+has feed_fetcher => (
+  is => 'ro',
+  isa => 'CodeRef',
+  lazy_build => 1,
+);
+
+sub _build_feed_fetcher($self) {
+  my $url = $self->feed_url;
+  my $http = HTTP::Tiny->new(
+    timeout => $self->feed_timeout,
+    agent   => "succession/$Succession::VERSION",
+  );
+
+  return sub {
+    my $response = $http->get($url);
+    die "HTTP $response->{status} $response->{reason}"
+      unless $response->{success};
+
+    return $response->{content};
+  };
+}
+
+sub get_feed_entries($self) {
+  my $fresh_key = 'blog_feed_entries_v1';
+  my $stale_key = 'blog_feed_entries_stale_v1';
+
+  my $cached = $self->cache->get($fresh_key);
+  return $cached if ref $cached eq 'ARRAY';
+
+  my $stale = $self->cache->get($stale_key);
+  $stale = undef unless ref $stale eq 'ARRAY';
+
+  my ($entries, $error);
+
+  try {
+    my $fetcher = $self->feed_fetcher;
+    my $xml = $fetcher->();
+    my $feed = XML::Feed->parse(\$xml)
+      or die 'XML parse failed: ' . (XML::Feed->errstr // 'unknown error');
+
+    $entries = [ map {
+      my $title = $_->title;
+      my $link  = $_->link;
+
+      {
+        title => defined $title ? "$title" : '',
+        link  => defined $link  ? "$link"  : '',
+      }
+    } $feed->entries ];
+  } catch {
+    $error = $_;
+  };
+
+  if ($error) {
+    chomp $error;
+    warn "Blog feed refresh failed: $error\n";
+    $entries = $stale // [];
+
+    # Avoid retrying the remote feed on every request during an outage.
+    $self->cache->set($fresh_key, $entries, $self->feed_failure_ttl);
+    return $entries;
+  }
+
+  $self->cache->set($fresh_key, $entries, $self->feed_ttl);
+  $self->cache->set($stale_key, $entries, $self->feed_stale_ttl);
+
+  return $entries;
 }
 
 has interesting_dates => (
@@ -488,8 +589,8 @@ sub http_date($epoch) {
 }
 
 # Load + cache shop.json (Memcached) with mtime-based invalidation
-sub get_shop_data($self) {
-  my $json_path = path('Succession', 'public', 'var', 'shop.json');
+sub get_shop_data($self, $json_path) {
+  $json_path = path($json_path);
   my $mtime     = $json_path->stat ? $json_path->stat->mtime : 0;
 
   # cache key includes mtime — if file changes, cache miss

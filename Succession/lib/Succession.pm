@@ -86,7 +86,8 @@ get '/shop' => sub {
 
   my $app = vars->{app};
 
-  my ($shop, $etag, $last_mod) = $app->model->get_shop_data;
+  my $shop_path = path(setting('appdir'), 'public', 'var', 'shop.json');
+  my ($shop, $etag, $last_mod) = $app->model->get_shop_data($shop_path);
 
   if ($helpers->is_not_modified(request, $etag, $last_mod)) {
     status 304;

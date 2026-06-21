@@ -3,10 +3,10 @@
 <div class="card-soft">
 <h1><% person.name %></h1>
 
-<% image_url = person.image_url;
-   IF image_url %>
-  <figure class="person-photo">
-    <img src="<% image_url %>" alt="Portrait of <% person.name %>">
+<% IF person.wikidata_qid %>
+  <figure class="person-photo" id="wikidata-photo" hidden>
+    <img id="wikidata-image" alt="Portrait of <% person.name %>"
+         loading="lazy" decoding="async">
     <br>
   </figure>
 <% END %>
@@ -17,12 +17,59 @@
 <% END -%>
 </p>
 
-<% short_bio = person.short_bio;
-   IF short_bio %>
-  <h2>Biography</h2>
-  <p class="person-bio">
-    <% short_bio %>
-  </p>
+<% IF person.wikidata_qid %>
+  <section id="wikidata-biography" hidden>
+    <h2>Biography</h2>
+    <p class="person-bio"></p>
+  </section>
+
+  <script>
+    (function () {
+      const qid = '<% person.wikidata_qid %>';
+      if (!/^Q\d+$/.test(qid)) return;
+
+      fetch('https://www.wikidata.org/wiki/Special:EntityData/' +
+            encodeURIComponent(qid) + '.json')
+        .then(function (response) {
+          if (!response.ok) throw new Error('Wikidata request failed');
+          return response.json();
+        })
+        .then(function (payload) {
+          const entity = payload.entities && payload.entities[qid];
+          if (!entity) return;
+
+          const descriptions = entity.descriptions || {};
+          const description = descriptions['en-gb'] || descriptions.en;
+          if (description && description.value) {
+            const biography = document.querySelector(
+              '#wikidata-biography .person-bio'
+            );
+            biography.textContent = description.value.charAt(0).toUpperCase() +
+              description.value.slice(1);
+            document.getElementById('wikidata-biography').hidden = false;
+          }
+
+          const imageClaim = ((entity.claims || {}).P18 || []).find(
+            function (claim) {
+              return claim.rank !== 'deprecated' &&
+                claim.mainsnak &&
+                claim.mainsnak.datavalue &&
+                claim.mainsnak.datavalue.value;
+            }
+          );
+          if (imageClaim) {
+            const filename = imageClaim.mainsnak.datavalue.value;
+            document.getElementById('wikidata-image').src =
+              'https://commons.wikimedia.org/wiki/Special:FilePath/' +
+              encodeURIComponent(filename) + '?width=400';
+            document.getElementById('wikidata-photo').hidden = false;
+          }
+        })
+        .catch(function () {
+          // Wikidata is optional enrichment; the page is complete without it.
+        });
+    }());
+  </script>
 <% END %>
 
 </div>
