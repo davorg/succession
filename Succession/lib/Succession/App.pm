@@ -276,7 +276,13 @@ sub canonical( $self ) {
   }
 }
 
-sub canonical_date( $self ) {
+has canonical_date => (
+  is => 'ro',
+  isa => 'Str',
+  lazy_build => 1,
+);
+
+sub _build_canonical_date( $self ) {
   return $self->model->get_canonical_date($self->request->date);
 }
 
