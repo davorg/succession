@@ -49,7 +49,7 @@ my @selects = grep { /^SELECT\b/i } @{ $counter->queries };
 cmp_ok(
   scalar(@selects),
   '<=',
-  4,
+  2,
   '/anniversaries stays within its SELECT budget',
 );
 

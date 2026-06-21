@@ -235,24 +235,27 @@ get '/changes' => sub {
   }
 };
 
-get '/api' => sub {
-  set layout => '';
-  # set serializer => '';
-  state $helpers = Succession::RouteHelpers->new;
-
-  my $date  = query_parameters->get('date');
-  my $count = query_parameters->get('count');
-  my $callback = query_parameters->get('callback');
-
-  my $app = $helpers->make_app({
-    date => $date,
-    list_size => $count,
-    request => request,
-  });
-
-  my $succ = $app->get_succession_data($app->date, $app->list_size);
-
-  return "$callback(" . encode_json($succ) . ')';
-};
+# Experimental API spike. Keep this out of the production route table until
+# its interface and Succession::App integration have been completed.
+#
+# get '/api' => sub {
+#   set layout => '';
+#   # set serializer => '';
+#   state $helpers = Succession::RouteHelpers->new;
+#
+#   my $date  = query_parameters->get('date');
+#   my $count = query_parameters->get('count');
+#   my $callback = query_parameters->get('callback');
+#
+#   my $app = $helpers->make_app({
+#     date => $date,
+#     list_size => $count,
+#     request => request,
+#   });
+#
+#   my $succ = $app->get_succession_data($app->date, $app->list_size);
+#
+#   return "$callback(" . encode_json($succ) . ')';
+# };
 
 true;
