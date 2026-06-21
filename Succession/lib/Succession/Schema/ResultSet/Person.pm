@@ -53,6 +53,7 @@ sub birthdays( $self ) {
     {
       rows     => 200,                         # optional: cap
       order_by => { -asc => \@order },
+      prefetch => 'titles',
     },
   )->all;
 

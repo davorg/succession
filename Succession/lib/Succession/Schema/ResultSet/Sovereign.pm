@@ -27,7 +27,7 @@ sub anniversaries( $self ) {
   if ($self->_is_sqlite) {
     $where_sql = q{
       (
-        strftime('%m-%d', start)
+        strftime('%m-%d', me.start)
           BETWEEN strftime('%m-%d','now')
               AND strftime('%m-%d','now','+7 day')
       )
@@ -35,20 +35,20 @@ sub anniversaries( $self ) {
       (
         strftime('%m-%d','now') > strftime('%m-%d','now','+7 day')
         AND (
-          strftime('%m-%d', start) >= strftime('%m-%d','now')
-          OR  strftime('%m-%d', start) <= strftime('%m-%d','now','+7 day')
+          strftime('%m-%d', me.start) >= strftime('%m-%d','now')
+          OR  strftime('%m-%d', me.start) <= strftime('%m-%d','now','+7 day')
         )
       )
     };
     @order = (
-      \q{CAST(strftime('%m', start) AS INTEGER)},
-      \q{CAST(strftime('%d', start) AS INTEGER)},
-      \q{CAST(strftime('%Y', start) AS INTEGER)},
+      \q{CAST(strftime('%m', me.start) AS INTEGER)},
+      \q{CAST(strftime('%d', me.start) AS INTEGER)},
+      \q{CAST(strftime('%Y', me.start) AS INTEGER)},
     );
   } else {
     $where_sql = q{
       (
-        DATE_FORMAT(start, '%m-%d')
+        DATE_FORMAT(me.start, '%m-%d')
           BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
               AND DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
       )
@@ -56,12 +56,12 @@ sub anniversaries( $self ) {
       (
         DATE_FORMAT(CURDATE(), '%m-%d') > DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
         AND (
-          DATE_FORMAT(start, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
-          OR  DATE_FORMAT(start, '%m-%d') <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
+          DATE_FORMAT(me.start, '%m-%d') >= DATE_FORMAT(CURDATE(), '%m-%d')
+          OR  DATE_FORMAT(me.start, '%m-%d') <= DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 7 DAY), '%m-%d')
         )
       )
     };
-    @order = ( \q{MONTH(start)}, \q{DAY(start)}, \q{YEAR(start)} );
+    @order = ( \q{MONTH(me.start)}, \q{DAY(me.start)}, \q{YEAR(me.start)} );
   }
 
   my @rows = $self->search(
@@ -69,6 +69,7 @@ sub anniversaries( $self ) {
     {
       rows     => 200,                         # optional
       order_by => { -asc => \@order },
+      prefetch => { person => 'titles' },
     },
   )->all;
 
