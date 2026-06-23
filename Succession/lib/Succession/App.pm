@@ -33,6 +33,7 @@ has request => (
   is => 'ro',
   isa => 'Succession::Request',
   lazy_build => 1,
+  weak_ref => 1,
 );
 
 

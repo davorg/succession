@@ -28,9 +28,8 @@ gcloud run deploy "${SERVICE_NAME}" \
   --platform=managed \
   --allow-unauthenticated \
   --cpu=1 \
-  --memory=1Gi \
+  --memory=2Gi \
   --concurrency=40 \
   --min-instances=0 \
   --max-instances=10 \
   --set-env-vars="${ENV_VARS}"
-
