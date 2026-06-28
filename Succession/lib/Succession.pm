@@ -5,9 +5,11 @@ use warnings;
 use feature 'state';
 
 use Dancer2;
+use JSON::MaybeXS ();
 use Text::Markdown 'markdown';
 use Path::Tiny;
 use Path::Tiny qw[path];
+use URI::Escape qw(uri_escape_utf8);
 use Succession::App;
 use Succession::MCP;
 use Succession::Request;
@@ -101,11 +103,19 @@ get '/shop' => sub {
   response_header 'Last-Modified' => $last_mod;
   response_header 'Cache-Control' => 'public, max-age=300';
 
+  my $amazon_tag = setting('amazon_tag') // 'davblog-21';
+  my $amazon_tag_json = JSON::MaybeXS->new(allow_nonref => 1)->encode($amazon_tag);
+  $amazon_tag_json =~ s/</\\u003c/g;
+  $amazon_tag_json =~ s/>/\\u003e/g;
+  $amazon_tag_json =~ s/&/\\u0026/g;
+
   template 'shop' => {
-    title => 'Shop',
-    shop  => $shop,
-    amazon_tag => setting('amazon_tag') // 'davblog-21',
-    app   => $app,
+    title           => 'Shop',
+    shop            => $shop,
+    amazon_tag      => $amazon_tag,
+    amazon_tag_json => $amazon_tag_json,
+    amazon_tag_url  => uri_escape_utf8($amazon_tag),
+    app             => $app,
   };
 };
 

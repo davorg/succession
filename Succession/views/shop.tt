@@ -49,7 +49,7 @@
                      data-amazon-title="<% it.title %>"
                      data-amazon-category="<% c.label || c.id %>"
                      data-amazon-mode="link"
-                     href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
+                     href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag_url %>"
                      target="_blank" rel="sponsored noopener">
                     <img src="<% it.image %>" class="shop-cover" alt="<% it.title %>"
                       loading="lazy" decoding="async">
@@ -76,7 +76,7 @@
                        data-amazon-title="<% it.title %>"
                        data-amazon-category="<% c.label || c.id %>"
                        data-amazon-text="View on Amazon"
-                       href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag %>"
+                       href="https://www.amazon.co.uk/dp/<% it.asin %>?tag=<% amazon_tag_url %>"
                        target="_blank" rel="sponsored noopener"></a>
                     <% ELSE %>
                       <span class="text-muted small">ASIN missing</span>
@@ -102,9 +102,9 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     AmazonStore.enhanceAll({
-      tag: 'davblog-21',        // TODO: replace with your tag (or pass from config)
+      tag: <% amazon_tag_json %>,
       defaultRegion: 'UK'       // sensible fallback if detection fails
     });
-    AmazonStore.renderStoreGridAll({ tag: 'davblog-21' });
+    AmazonStore.renderStoreGridAll({ tag: <% amazon_tag_json %> });
   });
 </script>
