@@ -306,9 +306,6 @@ use List::MoreUtils qw[firstidx];
 use Genealogy::Relationship;
 use Digest::SHA;
 use Text::Unidecode;
-use URI::Escape qw(uri_escape_utf8);
-
-use Succession::WikiData::Entity;
 
 sub gender( $self ) { return $self->sex; }
 
@@ -641,42 +638,6 @@ sub reorder_family( $self ) {
   });
 
   return $self;
-}
-
-sub wikidata( $self ) {
-  my $qid  = $self->wikidata_qid or return;
-
-  state $cache;
-
-  return $cache->{$qid} //= Succession::WikiData::Entity->new(qid => $qid);
-}
-
-sub image_url( $self, $width = 400 ) {
-  my $wd = $self->wikidata or return;
-  my $filename = $wd->image_filename or return;
-  my $enc_filename = uri_escape_utf8($filename);
-
-  return 'https://commons.wikimedia.org/wiki/Special:FilePath/' .
-         "$enc_filename?width=$width";
-}
-
-sub short_bio( $self, $length = 360 ) {
-  my $wd = $self->wikidata or return;
-  my $ent = $wd->entity || {};
-
-  my $bio = $ent->{descriptions}{'en-gb'}{value}
-          || $ent->{descriptions}{'en'}{value}
-          || '';
-
-  return _trim(ucfirst $bio);
-}
-
-sub _trim( $s, $max = 360 ) {
-  return $s unless defined $s && $max && length($s) > $max;
-  $s =~ s/\s+/ /g;
-  my $cut = substr($s, 0, $max);
-  $cut =~ s/\s+\S*$//;       # avoid chopping mid-word
-  return "$cut…";
 }
 
 __PACKAGE__->meta->make_immutable;
