@@ -5,16 +5,29 @@ PROJECT_ID="${PROJECT_ID:-dave-web-apps}"
 REGION="${REGION:-europe-west1}"
 REPO="${REPO:-containers}"
 IMAGE_NAME="${IMAGE_NAME:-succession}"
+SOURCE_URL="${SOURCE_URL:-https://github.com/davorg/succession}"
 
+VERSION="$(perl -I Succession/lib -MSuccession -e 'print $Succession::VERSION')"
 SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
 IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
 TAG="${IMAGE_PATH}:${SHA}"
+VERSION_TAG="${IMAGE_PATH}:v${VERSION}"
 
 echo "Building image: ${TAG}"
-docker build -t "${TAG}" .
+echo "Adding version tag: ${VERSION_TAG}"
+docker build \
+  --build-arg "VERSION=${VERSION}" \
+  --build-arg "SHA=${SHA}" \
+  --build-arg "SOURCE_URL=${SOURCE_URL}" \
+  -t "${TAG}" \
+  -t "${VERSION_TAG}" \
+  .
 
 echo "Pushing image: ${TAG}"
 docker push "${TAG}"
+
+echo "Pushing image: ${VERSION_TAG}"
+docker push "${VERSION_TAG}"
 
 # Grab the repo digest (e.g. europe-west1-docker.pkg.dev/...@sha256:...)
 DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' "${TAG}")"
@@ -24,4 +37,3 @@ echo "Image digest: ${DIGEST}"
 # Persist digest for later workflow
 mkdir -p artifacts
 printf '%s\n' "${DIGEST}" > artifacts/image-digest.txt
-

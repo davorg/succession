@@ -1,6 +1,14 @@
 FROM perl:5.42-slim
 LABEL maintainer="dave@davecross.co.uk"
 
+ARG VERSION
+ARG SHA
+ARG SOURCE_URL="https://github.com/davorg/succession"
+
+LABEL org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${SHA}" \
+      org.opencontainers.image.source="${SOURCE_URL}"
+
 WORKDIR /app
 
 # System deps: compiler, headers, SQLite, expat (for XML::Parser), curl/git for cpanm
