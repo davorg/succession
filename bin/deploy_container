@@ -10,7 +10,9 @@ IMAGE_NAME="${IMAGE_NAME:-succession}"
 
 # SQLite DSN (matches Dockerfile)
 SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1}"
-VERSION="$(perl -I Succession/lib -MSuccession -e 'print $Succession::VERSION')"
+VERSION="$(
+  sed -n 's/^our $VERSION = .\([^;]*\).;/\1/p' Succession/lib/Succession.pm
+)"
 
 # --- Image reference: use tag based on commit SHA ---
 
