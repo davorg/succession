@@ -13,6 +13,27 @@ IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
 TAG="${IMAGE_PATH}:${SHA}"
 VERSION_TAG="${IMAGE_PATH}:v${VERSION}"
 
+echo "Checking for existing version tag: ${VERSION_TAG}"
+EXISTING_TAGS="$(
+  gcloud artifacts docker tags list "${IMAGE_PATH}" \
+    --format='value(tag)'
+)"
+EXISTING_VERSION_TAG=""
+while IFS= read -r EXISTING_TAG; do
+  case "${EXISTING_TAG}" in
+    "${VERSION_TAG}"|"v${VERSION}"|*":v${VERSION}")
+      EXISTING_VERSION_TAG="${EXISTING_TAG}"
+      break
+      ;;
+  esac
+done <<< "${EXISTING_TAGS}"
+
+if [[ -n "${EXISTING_VERSION_TAG}" ]]; then
+  echo "Version ${VERSION} already exists in Artifact Registry." >&2
+  echo 'Please increment $Succession::VERSION before releasing.' >&2
+  exit 1
+fi
+
 echo "Building image: ${TAG}"
 echo "Adding version tag: ${VERSION_TAG}"
 docker build \
