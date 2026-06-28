@@ -10,6 +10,7 @@ IMAGE_NAME="${IMAGE_NAME:-succession}"
 
 # SQLite DSN (matches Dockerfile)
 SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1}"
+VERSION="$(perl -I Succession/lib -MSuccession -e 'print $Succession::VERSION')"
 
 # --- Image reference: use tag based on commit SHA ---
 
@@ -19,7 +20,7 @@ IMAGE_REF="${IMAGE_PATH}:${SHA}"
 
 echo "Deploying image ${IMAGE_REF}"
 
-ENV_VARS="SUCC_DSN=${SUCC_DSN},PLACK_ENV=production"
+ENV_VARS="SUCC_DSN=${SUCC_DSN},PLACK_ENV=production,SUCC_VERSION=${VERSION}"
 
 gcloud run deploy "${SERVICE_NAME}" \
   --image="${IMAGE_REF}" \
