@@ -20,6 +20,9 @@ ok($shop->header('Last-Modified'), 'shop response has a Last-Modified header');
 
 {
   no warnings 'redefine';
+  # These methods were removed from Person; keep explicit traps here so a
+  # future reintroduction cannot add server-side Wikidata calls unnoticed.
+  no warnings 'once';
 
   local *Succession::Schema::Result::Person::image_url = sub {
     die 'person page called image_url during server render';
