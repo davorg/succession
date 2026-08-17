@@ -3255,7 +3255,8 @@ INSERT INTO succession_period VALUES(268,'2021-06-04','2021-09-18',560,8,'birth'
 INSERT INTO succession_period VALUES(269,'2021-09-18','2022-09-08',561,11,'birth');
 INSERT INTO succession_period VALUES(270,'2022-09-08','2023-05-30',NULL,NULL,'complex');
 INSERT INTO succession_period VALUES(271,'2023-05-30','2025-01-22',562,13,'birth');
-INSERT INTO succession_period VALUES(272,'2025-01-22',NULL,563,11,'birth');
+INSERT INTO succession_period VALUES(272,'2025-01-22','2026-08-03',563,11,'birth');
+INSERT INTO succession_period VALUES(273,'2026-08-03',NULL,701,15,'birth');
 CREATE TABLE succession_entry (
   period_id INTEGER NOT NULL REFERENCES succession_period(id),
   rank      INTEGER NOT NULL,    -- 1 = first in line, etc.
@@ -11212,6 +11213,36 @@ INSERT INTO succession_entry VALUES(272,28,30);
 INSERT INTO succession_entry VALUES(272,29,28);
 INSERT INTO succession_entry VALUES(272,30,31);
 INSERT INTO succession_entry VALUES(270,30,38);
+INSERT INTO succession_entry VALUES(273,1,9);
+INSERT INTO succession_entry VALUES(273,2,17);
+INSERT INTO succession_entry VALUES(273,3,19);
+INSERT INTO succession_entry VALUES(273,4,506);
+INSERT INTO succession_entry VALUES(273,5,10);
+INSERT INTO succession_entry VALUES(273,6,511);
+INSERT INTO succession_entry VALUES(273,7,560);
+INSERT INTO succession_entry VALUES(273,8,5);
+INSERT INTO succession_entry VALUES(273,9,11);
+INSERT INTO succession_entry VALUES(273,10,561);
+INSERT INTO succession_entry VALUES(273,11,563);
+INSERT INTO succession_entry VALUES(273,12,12);
+INSERT INTO succession_entry VALUES(273,13,558);
+INSERT INTO succession_entry VALUES(273,14,562);
+INSERT INTO succession_entry VALUES(273,15,701);
+INSERT INTO succession_entry VALUES(273,16,6);
+INSERT INTO succession_entry VALUES(273,17,14);
+INSERT INTO succession_entry VALUES(273,18,13);
+INSERT INTO succession_entry VALUES(273,19,4);
+INSERT INTO succession_entry VALUES(273,20,7);
+INSERT INTO succession_entry VALUES(273,21,15);
+INSERT INTO succession_entry VALUES(273,22,16);
+INSERT INTO succession_entry VALUES(273,23,8);
+INSERT INTO succession_entry VALUES(273,24,18);
+INSERT INTO succession_entry VALUES(273,25,510);
+INSERT INTO succession_entry VALUES(273,26,559);
+INSERT INTO succession_entry VALUES(273,27,27);
+INSERT INTO succession_entry VALUES(273,28,29);
+INSERT INTO succession_entry VALUES(273,29,30);
+INSERT INTO succession_entry VALUES(273,30,28);
 CREATE INDEX "change_idx_change_date_id" ON "change" ("change_date_id");
 CREATE INDEX "change_idx_person_id" ON "change" ("person_id");
 CREATE INDEX "exclusion_idx_person_id" ON "exclusion" ("person_id");
