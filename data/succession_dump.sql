@@ -1228,6 +1228,7 @@ INSERT INTO person VALUES(697,'1968-11-20',NULL,297,2,'m',NULL,'79d6d8-archduke-
 INSERT INTO person VALUES(698,'1960-07-29',NULL,298,1,'m',NULL,'bbaa3f-johannes-holzhausen','Q3808939','2026-08-15 05:16:16');
 INSERT INTO person VALUES(699,'1962-02-16',NULL,298,2,'m',NULL,'8740ba-georg-ferdinand-freiherr-von-holzhausen','Q75384107','2026-08-15 05:16:19');
 INSERT INTO person VALUES(700,'1963-01-22',NULL,298,3,'f',NULL,'0cb45c-alexandra-maria-freiin-von-holzhausen','Q75384108','2026-08-15 05:16:21');
+INSERT INTO person VALUES(701,'2026-08-03',NULL,12,3,'f',NULL,NULL,NULL,NULL);
 CREATE TABLE IF NOT EXISTS "position" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
@@ -2977,6 +2978,7 @@ INSERT INTO title VALUES(1042,'Archduke Gregor of Austria',NULL,NULL,697,1);
 INSERT INTO title VALUES(1043,'Johannes Holzhausen',NULL,NULL,698,1);
 INSERT INTO title VALUES(1044,'Georg Ferdinand Freiherr von Holzhausen',NULL,NULL,699,1);
 INSERT INTO title VALUES(1045,'Alexandra Maria Freiin von Holzhausen',NULL,NULL,700,1);
+INSERT INTO title VALUES(1046,'Adelaide Brooksbank',NULL,NULL,701,1);
 CREATE TABLE succession_period (
   id        INTEGER PRIMARY KEY,
   from_date DATE NOT NULL,
