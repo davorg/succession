@@ -11,7 +11,7 @@ use Test::More;
 sub run_bash {
   my ($cmd) = @_;
   my $stderr = gensym;
-  my $pid = open3(undef, my $stdout, $stderr, 'bash', '-lc', $cmd);
+  my $pid = open3(undef, my $stdout, $stderr, 'bash', '-c', $cmd);
   my $out = do { local $/; <$stdout> // '' };
   my $err = do { local $/; <$stderr> // '' };
   waitpid $pid, 0;
@@ -32,10 +32,12 @@ print {$fh} <<"GCLOUD";
 set -euo pipefail
 case "\${1:-}" in
   artifacts)
-    echo "v0.11.2"
+    printf '%s\\n' "\${GCLOUD_ARTIFACT_TAGS:-v0.11.2}"
     ;;
   run)
-    printf '%s\\n' "\$@" > "\${GCLOUD_DEPLOY_LOG}"
+    if [[ -n "\${GCLOUD_DEPLOY_LOG:-}" ]]; then
+      printf '%s\\n' "\$@" > "\${GCLOUD_DEPLOY_LOG}"
+    fi
     ;;
 esac
 GCLOUD
@@ -54,8 +56,14 @@ my ($invalid_exit, $invalid_out, $invalid_err) = run_bash(
 isnt($invalid_exit, 0, 'deploy_container fails with an invalid version');
 like($invalid_err . $invalid_out, qr/is not valid/, 'invalid version is rejected');
 
+my ($missing_tag_exit, $missing_tag_out, $missing_tag_err) = run_bash(
+  "cd '$repo_root' && GCLOUD_ARTIFACT_TAGS='v0.11.2' PATH=\"$fake_bin:\$PATH\" '$script' v0.11.3"
+);
+isnt($missing_tag_exit, 0, 'deploy_container fails if version tag is missing from Artifact Registry');
+like($missing_tag_err . $missing_tag_out, qr/was not found in Artifact Registry/, 'missing version tag is rejected');
+
 my ($ok_exit, $ok_out, $ok_err) = run_bash(
-  "cd '$repo_root' && GCLOUD_DEPLOY_LOG='$deploy_log' PATH=\"$fake_bin:\$PATH\" " .
+  "cd '$repo_root' && GCLOUD_ARTIFACT_TAGS='v0.11.2' GCLOUD_DEPLOY_LOG='$deploy_log' PATH=\"$fake_bin:\$PATH\" " .
   "PROJECT_ID=test-proj REGION=test-region REPO=test-repo IMAGE_NAME=test-image " .
   "SERVICE_NAME=test-service VPC_CONNECTOR=test-connector SUCC_DSN='dbi:SQLite:dbname=/tmp/test.sqlite' " .
   "'$script' v0.11.2"
