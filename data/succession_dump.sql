@@ -700,12 +700,12 @@ INSERT INTO person VALUES(164,'1998-04-23',NULL,162,2,'f',NULL,'6b5b7a-stella-fe
 INSERT INTO person VALUES(165,'1969-03-30',NULL,157,1,'f',NULL,'8b933c-elisabeth-ferner','Q11242397','2026-08-22 05:14:21');
 INSERT INTO person VALUES(166,'1999-04-25',NULL,165,1,'m',NULL,'490f0a-benjamin-ferner-beckmann','Q76103402','2026-08-22 05:14:21');
 INSERT INTO person VALUES(167,'1972-10-22',NULL,157,1,'m',NULL,'29f7e3-carl-christian-ferner','Q4592162','2026-08-22 05:14:22');
-INSERT INTO person VALUES(168,'1937-02-21',NULL,152,1,'m','https://en.wikipedia.org/wiki/Harald_V','5e0755-harald-v-king-of-norway','Q57287','2026-08-22 05:14:24');
+INSERT INTO person VALUES(168,'1937-02-21','2026-08-28',152,1,'m','https://en.wikipedia.org/wiki/Harald_V','5e0755-harald-v-king-of-norway','Q57287','2026-08-22 05:14:24');
 INSERT INTO person VALUES(169,'1971-09-22',NULL,168,2,'f','https://en.wikipedia.org/wiki/Princess_M%C3%A4rtha_Louise_of_Norway','f04b3a-princess-martha-louise','Q165096','2026-08-22 05:14:27');
 INSERT INTO person VALUES(170,'2003-04-29',NULL,169,1,'f','https://en.wikipedia.org/wiki/Maud_Angelica_Behn','b75d33-maud-angelica-behn','Q6299782','2026-08-22 05:14:28');
 INSERT INTO person VALUES(171,'2005-04-08',NULL,169,2,'f','https://en.wikipedia.org/wiki/Leah_Isadora_Behn','60fd74-leah-isadora-behn','Q9509787','2026-08-22 05:14:29');
 INSERT INTO person VALUES(172,'2008-09-29',NULL,169,3,'f','https://en.wikipedia.org/wiki/Emma_Tallulah_Behn','80acd9-emma-tallulah-behn','Q3507831','2026-08-22 05:14:29');
-INSERT INTO person VALUES(173,'1973-07-20',NULL,168,1,'m','https://en.wikipedia.org/wiki/Haakon%2C_Crown_Prince_of_Norway','511adc-crown-prince-haakon-magnus','Q165241','2026-08-22 05:14:32');
+INSERT INTO person VALUES(173,'1973-07-20',NULL,168,1,'m','https://en.wikipedia.org/wiki/Haakon%2C_Crown_Prince_of_Norway','c51718-haakon-viii-king-of-norway','Q165241','2026-08-22 05:14:32');
 INSERT INTO person VALUES(174,'2004-01-21',NULL,173,1,'f','https://en.wikipedia.org/wiki/Princess_Ingrid_Alexandra_of_Norway','6d930d-princess-ingrid-alexandra','Q165249','2026-08-22 05:14:33');
 INSERT INTO person VALUES(175,'2005-12-03',NULL,173,2,'f','https://en.wikipedia.org/wiki/Prince_Sverre_Magnus_of_Norway','0d35ef-prince-sverre-magnus','Q828957','2026-08-22 05:14:33');
 INSERT INTO person VALUES(176,'1924-08-21','1998-02-27',26,2,'m','https://en.wikipedia.org/wiki/Gerald_David_Lascelles','b20846-gerald-lascelles','Q2962982','2026-08-22 05:14:36');
@@ -1230,7 +1230,7 @@ INSERT INTO person VALUES(697,'1968-11-20',NULL,297,2,'m',NULL,'79d6d8-archduke-
 INSERT INTO person VALUES(698,'1960-07-29',NULL,298,1,'m',NULL,'bbaa3f-johannes-holzhausen','Q3808939','2026-08-23 05:19:02');
 INSERT INTO person VALUES(699,'1962-02-16',NULL,298,2,'m',NULL,'8740ba-georg-ferdinand-freiherr-von-holzhausen','Q75384107','2026-08-23 05:19:05');
 INSERT INTO person VALUES(700,'1963-01-22',NULL,298,3,'f',NULL,'0cb45c-alexandra-maria-freiin-von-holzhausen','Q75384108','2026-08-23 05:19:07');
-INSERT INTO person VALUES(701,'2026-08-03',NULL,12,3,'f',NULL,NULL,NULL,NULL);
+INSERT INTO person VALUES(701,'2026-08-03',NULL,12,3,'f',NULL,'346339-adelaide-brooksbank',NULL,NULL);
 CREATE TABLE IF NOT EXISTS "position" (
   "id" INTEGER PRIMARY KEY NOT NULL,
   "person_id" integer NOT NULL,
@@ -2323,7 +2323,7 @@ INSERT INTO title VALUES(229,'Princess Märtha Louise','1971-09-22',NULL,169,1);
 INSERT INTO title VALUES(230,'Maud Angelica Behn','2003-04-29',NULL,170,1);
 INSERT INTO title VALUES(231,'Leah Isadora Behn','2005-04-08',NULL,171,1);
 INSERT INTO title VALUES(232,'Emma Tallulah Behn','2008-09-29',NULL,172,1);
-INSERT INTO title VALUES(233,'Crown Prince Haakon Magnus','1973-07-20',NULL,173,1);
+INSERT INTO title VALUES(233,'Crown Prince Haakon Magnus','1973-07-20','2026-08-28',173,0);
 INSERT INTO title VALUES(234,'Princess Ingrid Alexandra','2004-01-21',NULL,174,1);
 INSERT INTO title VALUES(235,'Prince Sverre Magnus','2005-12-03',NULL,175,1);
 INSERT INTO title VALUES(236,'Prince Albert, The Prince of Wales','1841-12-08','1901-01-22',65,0);
@@ -2981,6 +2981,7 @@ INSERT INTO title VALUES(1043,'Johannes Holzhausen',NULL,NULL,698,1);
 INSERT INTO title VALUES(1044,'Georg Ferdinand Freiherr von Holzhausen',NULL,NULL,699,1);
 INSERT INTO title VALUES(1045,'Alexandra Maria Freiin von Holzhausen',NULL,NULL,700,1);
 INSERT INTO title VALUES(1046,'Adelaide Brooksbank',NULL,NULL,701,1);
+INSERT INTO title VALUES(1047,'Haakon VIII, King of Norway','2026-08-28',NULL,173,1);
 CREATE TABLE succession_period (
   id        INTEGER PRIMARY KEY,
   from_date DATE NOT NULL,
