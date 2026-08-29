@@ -4,18 +4,35 @@ use strict;
 use warnings;
 use 5.010;
 
+use DateTime::Format::Strptime;
+use Getopt::Long qw(GetOptions);
+
 use Succession::App;
 
-my $args = {};
+my $n;
 
-$args->{date} = shift if @ARGV;
+GetOptions('n=i' => \$n);
 
-my $app = Succession::App->new( $args );
+my $date_str = shift if @ARGV;
 
-say 'Sovereign on ', $app->date->strftime('%d %B %Y'), ': ',
-    $app->sovereign->name;
+my $app = Succession::App->new;
+
+my $date = $date_str
+  ? DateTime::Format::Strptime->new(pattern => '%Y-%m-%d')
+      ->parse_datetime($date_str)
+  : $app->today;
+
+my $sovereign = $app->model->sovereign_on_date($date);
+
+say 'Sovereign on ', $date->strftime('%d %B %Y'), ': ', $sovereign->name;
 
 say 'Succession:';
 
+my @succ = grep {
+  ! $_->excluded_on_date($date);
+} $sovereign->succession_on_date($date);
+
+$#succ = $n - 1 if defined $n && $n <= $#succ;
+
 my $i = 1;
-say $i++, ': ', $_->describe($app->date) for @{$app->succession};
+say $i++, ': ', $_->describe($date) for @succ;
