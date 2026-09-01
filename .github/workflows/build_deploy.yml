@@ -1,7 +1,12 @@
 name: Deploy to Cloud Run
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version tag to deploy (for example 0.11.2)
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -38,7 +43,7 @@ jobs:
           VPC_CONNECTOR: ${{ env.VPC_CONNECTOR }}
         run: |
           chmod +x bin/deploy_container
-          bin/deploy_container
+          bin/deploy_container "${{ inputs.version }}"
 
       - name: Smoke test
         env:
@@ -52,4 +57,3 @@ jobs:
             --format='value(status.url)')"
           echo "Service URL: ${URL}"
           curl -fsS "${URL}/" > /dev/null
-
