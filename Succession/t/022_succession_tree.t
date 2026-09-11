@@ -15,6 +15,7 @@ my $tree = $model->succession_tree($current_sovereign->id, $date);
 is(ref $tree, 'HASH', 'succession_tree returns a hashref root node');
 is($tree->{name}, $current_sovereign->person->name_on_date($date), 'root node is the chosen sovereign');
 ok(!defined $tree->{succession_number}, 'root sovereign has no succession number');
+is($tree->{current_sovereign}, 1, 'root node is flagged when it is the current sovereign');
 
 my @succession_numbers;
 check_node($tree, $date, 1);
@@ -118,11 +119,18 @@ ok($george_v_sov, 'Found sovereign row for George V reign dates');
 if ($george_v_sov) {
   my $corner_tree = $model->succession_tree($george_v_sov->id, $corner_date);
   my $edward_node = find_node_by_born($corner_tree, '1894-06-23');
+  my $elizabeth_node = find_node_by_born($corner_tree, '1926-04-21');
 
   ok($edward_node, 'Edward VIII node exists in George V tree');
   if ($edward_node) {
     is($edward_node->{alive_on_date}, 1, 'Edward VIII is alive on 1962-09-07');
     ok(!defined $edward_node->{succession_number}, 'Edward VIII has no succession number after his reign');
+    ok(defined $edward_node->{exclusion_reason}, 'Edward VIII has an exclusion_reason');
+  }
+
+  ok($elizabeth_node, 'Elizabeth II node exists in George V tree');
+  if ($elizabeth_node) {
+    is($elizabeth_node->{current_sovereign}, 1, 'current sovereign on date is flagged in tree');
   }
 }
 
