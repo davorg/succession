@@ -578,7 +578,7 @@ sub _succession_tree_node($self, $person, $date, $succession_number, $current_so
   })->all;
 
   my $alive_on_date = $person->is_alive_on_date($date) ? 1 : 0;
-  my $exclusion_reason = $person->excluded_on_date($date);
+  my $exclusion     = $person->exclusion_on_date($date);
 
   my $node = {
     name              => $person->name_on_date($date),
@@ -590,8 +590,8 @@ sub _succession_tree_node($self, $person, $date, $succession_number, $current_so
     children          => \@children,
   };
 
-  $node->{current_sovereign} = 1 if $person->id == $current_sovereign_id;
-  $node->{exclusion_reason} = $exclusion_reason if defined $exclusion_reason;
+  $node->{current_sovereign} = $person->id == $current_sovereign_id ? 1 : 0;
+  $node->{exclusion_reason} = $exclusion->exclusion_reason if defined $exclusion;
 
   return $node;
 }

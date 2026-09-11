@@ -115,7 +115,7 @@ __PACKAGE__->belongs_to(
 
 use feature 'state';
 
-sub exclusion_description {
+sub exclusion_reason {
   my $self = shift;
 
   state $desc = {
@@ -130,7 +130,7 @@ sub exclusion_description {
   die "Invalid exclusion type: ", $self->reason, "\n"
     unless exists $desc->{$self->reason};
 
-  return $self->reason;
+  return $desc->{$self->reason};
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
