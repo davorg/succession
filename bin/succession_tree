@@ -1,0 +1,36 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use DateTime;
+use JSON::MaybeXS qw[encode_json];
+
+use Succession::Model;
+
+my ($sovereign_id, $date_str) = @ARGV;
+
+die "Usage: $0 sovereign_id YYYY-MM-DD\n"
+  unless defined $sovereign_id && defined $date_str;
+
+die "Sovereign id must be an integer\n"
+  unless $sovereign_id =~ /\A\d+\z/;
+
+my $date;
+if ($date_str =~ /\A(\d{4})-(\d\d)-(\d\d)\z/) {
+  $date = eval {
+    DateTime->new(
+      year  => $1,
+      month => $2,
+      day   => $3,
+    );
+  };
+}
+
+die "Date must be in YYYY-MM-DD format\n"
+  unless $date;
+
+my $model = Succession::Model->new;
+my $tree  = $model->succession_tree($sovereign_id, $date);
+
+print encode_json($tree), "\n";

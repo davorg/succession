@@ -460,6 +460,15 @@ sub excluded_on_date( $self, $date ) {
   return $exc->reason;
 }
 
+sub exclusion_on_date( $self, $date ) {
+  my $exc = first {
+    _active_on_date($_, $date)
+  } $self->exclusions->all;
+
+  return unless $exc;
+  return $exc;
+}
+
 sub _active_on_date($row, $date) {
   my $d     = $date->ymd('');
   my $start = $row->start ? $row->start->ymd('') : 0;
