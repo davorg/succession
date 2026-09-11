@@ -547,7 +547,8 @@ sub succession_tree($self, $sovereign_id, $date) {
 
   my $current_sovereign = $self->sovereign_on_date($date);
   my $is_current_on_date = $current_sovereign->id == $sovereign->id;
-  my $is_dead = defined $sovereign->person->died;
+  my $is_dead = defined $sovereign->person->died
+    && $sovereign->person->died <= $date;
 
   die "Sovereign must be current on date or be dead\n"
     unless $is_current_on_date || $is_dead;
