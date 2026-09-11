@@ -564,12 +564,13 @@ sub succession_tree($self, $sovereign_id, $date) {
     $sovereign->person,
     $date,
     \%succession_number,
+    $current_sovereign->person->id,
   );
 }
 
-sub _succession_tree_node($self, $person, $date, $succession_number) {
+sub _succession_tree_node($self, $person, $date, $succession_number, $current_sovereign_id) {
   my @children = map {
-    $self->_succession_tree_node($_, $date, $succession_number);
+    $self->_succession_tree_node($_, $date, $succession_number, $current_sovereign_id);
   } grep {
     $_->born <= $date;
   } $person->children({}, {
@@ -577,8 +578,9 @@ sub _succession_tree_node($self, $person, $date, $succession_number) {
   })->all;
 
   my $alive_on_date = $person->is_alive_on_date($date) ? 1 : 0;
+  my $exclusion_reason = $person->excluded_on_date($date);
 
-  return {
+  my $node = {
     name              => $person->name_on_date($date),
     born              => $person->born->ymd,
     died              => $person->died ? $person->died->ymd : undef,
@@ -587,6 +589,11 @@ sub _succession_tree_node($self, $person, $date, $succession_number) {
     alive_on_date     => $alive_on_date,
     children          => \@children,
   };
+
+  $node->{current_sovereign} = 1 if $person->id == $current_sovereign_id;
+  $node->{exclusion_reason} = $exclusion_reason if defined $exclusion_reason;
+
+  return $node;
 }
 
 sub get_succession($self) {
