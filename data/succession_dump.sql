@@ -691,7 +691,7 @@ INSERT INTO person VALUES(153,'1930-06-09','2012-09-16',152,2,'f','https://en.wi
 INSERT INTO person VALUES(154,'1954-08-23',NULL,153,1,'m',NULL,'b9067c-haakon-lorentzen','Q3319938','2026-09-06 05:17:06');
 INSERT INTO person VALUES(155,'1957-02-27',NULL,153,2,'f',NULL,'3414bd-ingeborg-lorentzen','Q3314861','2026-09-06 05:17:07');
 INSERT INTO person VALUES(156,'1968-05-08',NULL,153,3,'f',NULL,'5bfdbb-ragnhild-lorentzen','Q3314887','2026-09-06 05:17:09');
-INSERT INTO person VALUES(157,'1932-02-12',NULL,152,3,'f','https://en.wikipedia.org/wiki/Princess_Astrid%2C_Mrs._Ferner','1f2fa6-princess-astrid-of-norway','Q270685','2026-09-06 05:17:13');
+INSERT INTO person VALUES(157,'1932-02-12','2026-09-11',152,3,'f','https://en.wikipedia.org/wiki/Princess_Astrid%2C_Mrs._Ferner','1f2fa6-princess-astrid-of-norway','Q270685','2026-09-06 05:17:13');
 INSERT INTO person VALUES(158,'1962-07-22',NULL,157,1,'f',NULL,'5785fe-cathrine-ferner','Q11963290','2026-09-06 05:17:15');
 INSERT INTO person VALUES(159,'1990-05-09',NULL,158,1,'m',NULL,'7c627e-sebastian-ferner-johansen','Q75323120','2026-09-06 05:17:15');
 INSERT INTO person VALUES(160,'1993-03-07',NULL,158,2,'f',NULL,'be3c42-f-madeleine-ferner-johansen','Q76103397','2026-09-06 05:17:16');
