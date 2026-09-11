@@ -59,6 +59,28 @@ if ($dead_sovereign) {
   pass('No dead sovereign found in fixture data');
 }
 
+my ($former_living_sovereign) = $model->sovereign_rs->search({
+  'me.end'      => { '!=' => undef },
+  'person.died' => { '>'  => \'me.end' },
+}, {
+  join => 'person',
+  order_by => { -asc => 'me.end' },
+  rows => 1,
+});
+
+if ($former_living_sovereign) {
+  my $probe_date = $former_living_sovereign->end->clone->add(days => 1);
+  my $ok = eval {
+    $model->succession_tree($former_living_sovereign->id, $probe_date);
+    1;
+  };
+  ok(!$ok, 'former sovereign is rejected when they are not dead on target date');
+  like($@, qr/current on date or be dead/, 'former still-living sovereign has expected error');
+} else {
+  pass('No former still-living sovereign found in fixture data');
+  pass('No former still-living sovereign found in fixture data');
+}
+
 done_testing();
 
 sub check_node {
