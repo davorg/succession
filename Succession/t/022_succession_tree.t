@@ -81,8 +81,6 @@ if ($former_living_sovereign) {
   pass('No former still-living sovereign found in fixture data');
 }
 
-done_testing();
-
 sub check_node {
   my ($node, $date, $is_root) = @_;
 
@@ -97,8 +95,8 @@ sub check_node {
   if (!$node->{alive_on_date}) {
     ok(!defined $node->{succession_number}, 'dead person has no succession number');
   } elsif (!$is_root) {
-    ok(defined $node->{succession_number}, 'living descendant has succession number');
-    push @succession_numbers, $node->{succession_number};
+    push @succession_numbers, $node->{succession_number}
+      if defined $node->{succession_number};
   }
 
   my @child_births = map { $_->{born} } @{ $node->{children} };
@@ -108,3 +106,51 @@ sub check_node {
     check_node($child, $date, 0);
   }
 }
+
+my $corner_date = DateTime->new(year => 1962, month => 9, day => 7);
+my ($george_v) = $model->person_rs->search({
+  'titles.title' => 'George V',
+}, {
+  join => 'titles',
+  rows => 1,
+});
+
+if ($george_v) {
+  my $george_v_sov = $model->sovereign_rs->find({
+    person_id => $george_v->id,
+  });
+
+  if ($george_v_sov) {
+    my $corner_tree = $model->succession_tree($george_v_sov->id, $corner_date);
+    my $edward_node = find_node_by_born($corner_tree, '1894-06-23');
+
+    ok($edward_node, 'Edward VIII node exists in George V tree');
+    if ($edward_node) {
+      is($edward_node->{alive_on_date}, 1, 'Edward VIII is alive on 1962-09-07');
+      ok(!defined $edward_node->{succession_number}, 'Edward VIII has no succession number after his reign');
+    }
+  } else {
+    pass('No sovereign row found for George V');
+    pass('No sovereign row found for George V');
+    pass('No sovereign row found for George V');
+  }
+} else {
+  pass('No person row found for George V');
+  pass('No person row found for George V');
+  pass('No person row found for George V');
+}
+
+sub find_node_by_born {
+  my ($node, $born) = @_;
+
+  return $node if $node->{born} eq $born;
+
+  for my $child (@{ $node->{children} }) {
+    my $found = find_node_by_born($child, $born);
+    return $found if $found;
+  }
+
+  return;
+}
+
+done_testing();

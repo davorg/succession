@@ -556,7 +556,7 @@ sub succession_tree($self, $sovereign_id, $date) {
   my %succession_number;
   my $number = 1;
 
-  for my $person ($sovereign->succession_on_date($date)) {
+  for my $person (@{ $self->succession_on_date($date) }) {
     $succession_number{$person->id} = $number++;
   }
 
