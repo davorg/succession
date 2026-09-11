@@ -113,6 +113,25 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07053 @ 2026-02-13 11:19:30
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:q4PssLBFgTXO/oXTrSZIXQ
 
+use feature 'state';
+
+sub exclusion_description {
+  my $self = shift;
+
+  state $desc = {
+    a  => 'Abdicated',
+    c  => 'Catholic',
+    di => 'Declared Invalid',
+    i  => 'Illegitimate',
+    mc => 'Married a Catholic',
+    rm => 'Royal Marriages Act',
+  };
+
+  die "Invalid exclusion type: ", $self->reason, "\n"
+    unless exists $desc->{$self->reason};
+
+  return $self->reason;
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
