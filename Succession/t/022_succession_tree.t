@@ -108,36 +108,22 @@ sub check_node {
 }
 
 my $corner_date = DateTime->new(year => 1962, month => 9, day => 7);
-my ($george_v) = $model->person_rs->search({
-  'titles.title' => 'George V',
-}, {
-  join => 'titles',
-  rows => 1,
+my $george_v_sov = $model->sovereign_rs->find({
+  start => '1910-05-06',
+  end   => '1936-01-20',
 });
 
-if ($george_v) {
-  my $george_v_sov = $model->sovereign_rs->find({
-    person_id => $george_v->id,
-  });
+ok($george_v_sov, 'Found sovereign row for George V reign dates');
 
-  if ($george_v_sov) {
-    my $corner_tree = $model->succession_tree($george_v_sov->id, $corner_date);
-    my $edward_node = find_node_by_born($corner_tree, '1894-06-23');
+if ($george_v_sov) {
+  my $corner_tree = $model->succession_tree($george_v_sov->id, $corner_date);
+  my $edward_node = find_node_by_born($corner_tree, '1894-06-23');
 
-    ok($edward_node, 'Edward VIII node exists in George V tree');
-    if ($edward_node) {
-      is($edward_node->{alive_on_date}, 1, 'Edward VIII is alive on 1962-09-07');
-      ok(!defined $edward_node->{succession_number}, 'Edward VIII has no succession number after his reign');
-    }
-  } else {
-    pass('No sovereign row found for George V');
-    pass('No sovereign row found for George V');
-    pass('No sovereign row found for George V');
+  ok($edward_node, 'Edward VIII node exists in George V tree');
+  if ($edward_node) {
+    is($edward_node->{alive_on_date}, 1, 'Edward VIII is alive on 1962-09-07');
+    ok(!defined $edward_node->{succession_number}, 'Edward VIII has no succession number after his reign');
   }
-} else {
-  pass('No person row found for George V');
-  pass('No person row found for George V');
-  pass('No person row found for George V');
 }
 
 sub find_node_by_born {
