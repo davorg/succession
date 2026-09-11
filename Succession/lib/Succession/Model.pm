@@ -66,6 +66,11 @@ Returns the sovereign in office on a date.
 
 Returns the ordered people in the line of succession on a date.
 
+=item C<succession_tree($sovereign_id, $date)>
+
+Builds a descendant tree for a sovereign, annotated with alive status and
+succession numbers on the supplied date.
+
 =item C<get_succession>
 
 Returns the current sovereign and succession as a simple name structure.
@@ -529,6 +534,58 @@ sub succession_on_date($self, $date = undef) {
   );
 
   return $succession;
+}
+
+sub succession_tree($self, $sovereign_id, $date) {
+  my $sovereign = $self->sovereign_rs->find({
+    id => $sovereign_id,
+  }, {
+    prefetch => { person => 'titles' },
+  });
+
+  die "Unknown sovereign id: $sovereign_id\n" unless $sovereign;
+
+  my $current_sovereign = $self->sovereign_on_date($date);
+  my $is_current_on_date = $current_sovereign->id == $sovereign->id;
+  my $is_dead = defined $sovereign->person->died;
+
+  die "Sovereign must be current on date or be dead\n"
+    unless $is_current_on_date || $is_dead;
+
+  my %succession_number;
+  my $number = 1;
+
+  for my $person ($sovereign->succession_on_date($date)) {
+    $succession_number{$person->id} = $number++;
+  }
+
+  return $self->_succession_tree_node(
+    $sovereign->person,
+    $date,
+    \%succession_number,
+  );
+}
+
+sub _succession_tree_node($self, $person, $date, $succession_number) {
+  my @children = map {
+    $self->_succession_tree_node($_, $date, $succession_number);
+  } grep {
+    $_->born <= $date;
+  } $person->children({}, {
+    order_by => { -asc => 'me.born' },
+  })->all;
+
+  my $alive_on_date = $person->is_alive_on_date($date) ? 1 : 0;
+
+  return {
+    name              => $person->name_on_date($date),
+    born              => $person->born->ymd,
+    died              => $person->died ? $person->died->ymd : undef,
+    age               => $person->age_on_date($date),
+    succession_number => $alive_on_date ? $succession_number->{$person->id} : undef,
+    alive_on_date     => $alive_on_date,
+    children          => \@children,
+  };
 }
 
 sub get_succession($self) {
