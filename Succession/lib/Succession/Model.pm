@@ -66,10 +66,16 @@ Returns the sovereign in office on a date.
 
 Returns the ordered people in the line of succession on a date.
 
-=item C<succession_tree($sovereign_id, $date)>
+=item C<succession_tree($sovereign_id, $date, $order = 'birth')>
 
 Builds a descendant tree for a sovereign, annotated with alive status and
 succession numbers on the supplied date.
+
+Ordering is C<birth> (oldest sibling first) or C<succession> (branches
+ordered by their earliest dated succession position, with the sovereign
+ranked first). Branches without a ranked person retain their birth-order
+slots. Descendants always stay with their parent. The print route defaults
+to C<succession>; other callers retain the C<birth> default.
 
 =item C<get_succession>
 
@@ -536,7 +542,9 @@ sub succession_on_date($self, $date = undef) {
   return $succession;
 }
 
-sub succession_tree($self, $sovereign_id, $date) {
+sub succession_tree($self, $sovereign_id, $date, $order = 'birth') {
+  die "Order must be birth or succession\n"
+    unless $order eq 'birth' || $order eq 'succession';
   my $sovereign = $self->sovereign_rs->find({
     id => $sovereign_id,
   }, {
@@ -553,19 +561,50 @@ sub succession_tree($self, $sovereign_id, $date) {
   die "Sovereign must be current on date or be dead\n"
     unless $is_current_on_date || $is_dead;
 
-  my %succession_number;
-  my $number = 1;
+  # Stored succession periods can contain only the first 30 successors.
+  # A family print can extend beyond that, so use the same full genealogy
+  # calculation as bin/get_succ, excluding people ineligible on this date.
+  my $succession_number = $self->cache->compute(
+    'print-ranks-v1|' . $date->ymd, undef,
+    sub {
+      my %ranks;
+      my $number = 1;
+      for my $person ($current_sovereign->succession_on_date($date)) {
+        next if $person->excluded_on_date($date);
+        $ranks{$person->id} = $number++;
+      }
+      return \%ranks;
+    },
+  );
 
-  for my $person (@{ $self->succession_on_date($date) }) {
-    $succession_number{$person->id} = $number++;
-  }
-
-  return $self->_succession_tree_node(
+  my $tree = $self->_succession_tree_node(
     $sovereign->person,
     $date,
-    \%succession_number,
+    $succession_number,
     $current_sovereign->person->id,
   );
+  $self->_order_succession_tree($tree) if $order eq 'succession';
+  return $tree;
+}
+
+# Rank whole branches by their earliest actual position on the selected date.
+# The sovereign's branch comes first. Branches with no sovereign or eligible
+# descendants keep their birth-order slots, including excluded/deceased leaves.
+sub _order_succession_tree($self, $node) {
+  my $rank = $node->{current_sovereign} ? 0 : $node->{succession_number};
+  my @ranked;
+  my @slots;
+  my $children = $node->{children};
+  for my $i (0 .. $#$children) {
+    my $child_rank = $self->_order_succession_tree($children->[$i]);
+    next unless defined $child_rank;
+    push @slots, $i;
+    push @ranked, [$child_rank, $i, $children->[$i]];
+    $rank = $child_rank if !defined($rank) || $child_rank < $rank;
+  }
+  @ranked = sort { $a->[0] <=> $b->[0] || $a->[1] <=> $b->[1] } @ranked;
+  $children->[$_] = (shift @ranked)->[2] for @slots;
+  return $rank;
 }
 
 sub _succession_tree_node($self, $person, $date, $succession_number, $current_sovereign_id) {

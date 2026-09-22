@@ -147,4 +147,36 @@ sub find_node_by_born {
   return;
 }
 
+my $modern_date = DateTime->new(year => 2025, month => 9, day => 7);
+my $modern_tree = $model->succession_tree(1, $modern_date, 'birth');
+my $arthur = find_node_by_born($modern_tree, '1999-02-05');
+is($arthur->{succession_number}, 31, 'Arthur Chatto is numbered beyond the stored top 30');
+my $full_tree = $model->succession_tree(4, $modern_date, 'succession');
+is(find_node_by_born($full_tree, '1944-08-26')->{succession_number}, 32,
+  'later family branches also receive full succession numbers');
+
+my $ordering_tree = { children => [
+  { name => 'excluded', children => [] },
+  { name => 'later branch', children => [
+    { name => 'later successor', succession_number => 8, children => [] },
+  ] },
+  { name => 'dead leaf', children => [] },
+  { name => 'earlier ancestor', children => [
+    { name => 'second', succession_number => 2, children => [] },
+    { name => 'first', succession_number => 1, children => [] },
+  ] },
+  { name => 'sovereign branch', children => [
+    { name => 'sovereign', current_sovereign => 1, children => [] },
+  ] },
+] };
+$model->_order_succession_tree($ordering_tree);
+is_deeply([map { $_->{name} } @{$ordering_tree->{children}}],
+  ['excluded', 'sovereign branch', 'dead leaf', 'earlier ancestor', 'later branch'],
+  'whole branches follow descendant ranks while unranked branches keep their slots');
+is_deeply([map { $_->{name} } @{$ordering_tree->{children}[3]{children}}],
+  ['first', 'second'], 'ordering applies recursively');
+my $invalid = eval { $model->succession_tree(4, $corner_date, 'unknown'); 1 };
+ok(!$invalid, 'model rejects unsupported ordering');
+like($@, qr/Order must be birth or succession/, 'model reports ordering error');
+
 done_testing();

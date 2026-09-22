@@ -6,6 +6,7 @@ use feature 'state';
 
 use Dancer2;
 use JSON::MaybeXS ();
+use DateTime;
 use Text::Markdown 'markdown';
 use Path::Tiny;
 use Path::Tiny qw[path];
@@ -14,6 +15,7 @@ use Succession::App;
 use Succession::MCP;
 use Succession::Request;
 use Succession::RouteHelpers;
+use Succession::Print;
 
 our $VERSION = '0.12.2';
 
@@ -31,6 +33,61 @@ hook before_template_render => sub {
   return unless $tokens->{app};
   my $ref_dir = path(setting('appdir'), 'reference');
   $tokens->{ref_menu} = $tokens->{app}->model->get_reference_menu($ref_dir);
+};
+
+get '/print.svg' => sub {
+  # Preserve old preview links without exposing downloadable vector artwork.
+  my @params;
+  for my $key (qw(date sovereign_id size order)) {
+    my $value = query_parameters->get($key);
+    push @params, "$key=" . uri_escape_utf8($value) if defined $value;
+  }
+  redirect '/print.png' . (@params ? '?' . join('&', @params) : '');
+};
+
+get '/print.png' => sub {
+  my $app = vars->{app};
+  my $date_str = query_parameters->get('date') // '';
+  my $sovereign_id = query_parameters->get('sovereign_id') // '';
+  my $size = query_parameters->get('size') // 'A3';
+  my $order = query_parameters->get('order') // 'succession';
+  my $bad_request = sub {
+    status 400;
+    content_type 'text/plain';
+    return $_[0] . "\n";
+  };
+
+  my $date;
+  if ($date_str =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})\z/) {
+    $date = eval { DateTime->new(year => $1, month => $2, day => $3) };
+  }
+  return $bad_request->('date must be a valid YYYY-MM-DD date') unless $date;
+  return $bad_request->('date must be between ' . $app->earliest->ymd . ' and today')
+    if $date < $app->earliest || $date > DateTime->today;
+  return $bad_request->('sovereign_id must be a positive integer')
+    unless $sovereign_id =~ /\A[1-9][0-9]*\z/;
+  return $bad_request->('Only size=A3 is currently supported') unless $size eq 'A3';
+  return $bad_request->('order must be birth or succession')
+    unless $order eq 'birth' || $order eq 'succession';
+
+  my $tree = eval { $app->model->succession_tree($sovereign_id, $date, $order) };
+  if (my $error = $@) {
+    return $bad_request->('Unknown sovereign_id') if $error =~ /\AUnknown sovereign id:/;
+    return $bad_request->('The root monarch must be reigning or deceased on the selected date')
+      if $error =~ /\ASovereign must be current on date or be dead/;
+    die $error;
+  }
+
+  my $svg = Succession::Print->render(data => $tree, date => $date, size => $size);
+  unless (defined $svg) {
+    status 422;
+    content_type 'text/plain';
+    return "This hierarchy is too large for the current A3 layout; choose a more recent root monarch.\n";
+  }
+  my $png = Succession::Print->preview_png($svg);
+  content_type 'image/png';
+  response_header 'Content-Disposition' => qq{inline; filename="succession-$date_str-specimen.png"};
+  return $png;
 };
 
 get '/info' => sub {

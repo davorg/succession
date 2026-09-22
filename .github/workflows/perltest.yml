@@ -35,7 +35,7 @@ jobs:
       - name: Update apt cache
         run: sudo apt-get update
       - name: Install sqlite3
-        run: sudo apt-get install -y sqlite3
+        run: sudo apt-get install -y sqlite3 librsvg2-bin fonts-liberation
       - name: Setup database
         run: bin/load_db
       - name: Check database
@@ -53,4 +53,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HARNESS_PERL_SWITCHES: -MDevel::Cover
         run: prove -ISuccession/lib -v Succession/t && cover -report Coveralls -ignore t/*
-
