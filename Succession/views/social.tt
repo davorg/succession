@@ -1,4 +1,5 @@
-<nav class="d-flex justify-content-center gap-3" aria-label="Follow Line of Succession">
+<h3 id="social-heading" class="sidebar-heading h6 text-center mb-2">Follow Line of Succession</h3>
+<nav class="d-flex justify-content-center gap-3" aria-labelledby="social-heading">
   <a class="d-inline-flex align-items-center justify-content-center p-2 rounded"
      href="https://www.instagram.com/linesuccession/"
      aria-label="Line of Succession on Instagram" title="Instagram: @linesuccession">

@@ -371,4 +371,6 @@ ul, ol { padding-left: 1.2rem; }
   white-space: nowrap;
   font-size: 0.95em;
 }
-
+.sidebar-heading {
+  font-variant: small-caps;
+}

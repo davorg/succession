@@ -157,7 +157,7 @@
 <% content %>
         </div>
         <div class="col-sm-3">
-          <p>Welcome to the site.</p>
+          <h3 class="sidebar-heading h6 text-center mb-2">Welcome to the site</h3>
           <p>Choose a date from the date-picker above or from the "interesting dates" menu to see the line of succession to the British throne on that date.</p>
           <!-- Go to www.addthis.com/dashboard to customize your tools -->
           <div class="addthis_native_toolbox"></div>
