@@ -179,6 +179,8 @@
    END -%>
 <% INSERT 'substack.tt' -%>
           <hr>
+<% INSERT 'social.tt' -%>
+          <hr>
 <% INSERT 'my-ads.tt' -%>
           <hr>
         </div>

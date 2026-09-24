@@ -1,0 +1,12 @@
+<nav class="d-flex justify-content-center gap-3" aria-label="Follow Line of Succession">
+  <a class="d-inline-flex align-items-center justify-content-center p-2 rounded"
+     href="https://www.instagram.com/linesuccession/"
+     aria-label="Line of Succession on Instagram" title="Instagram: @linesuccession">
+    <img src="/images/social/instagram.svg" width="32" height="32" alt="">
+  </a>
+  <a class="d-inline-flex align-items-center justify-content-center p-2 rounded"
+     href="https://www.tiktok.com/@linesuccession"
+     aria-label="Line of Succession on TikTok" title="TikTok: @linesuccession">
+    <img src="/images/social/tiktok.svg" width="32" height="32" alt="">
+  </a>
+</nav>
