@@ -230,6 +230,10 @@ sub _build_static_titles($) {
       title => 'Browse interesting dates for the British Line of Succession',
       desc  => 'Browse interesting dates for the British Line of Succession',
     },
+    print => {
+      title => 'Design your print',
+      desc => 'Create a personalised British line of succession print for a date that matters to you.',
+    },
     shop   => {
       title => 'British Line of Succession Shop',
       desc  => 'British Line of Succession Shop',

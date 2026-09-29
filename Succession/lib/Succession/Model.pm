@@ -66,6 +66,14 @@ Returns the sovereign in office on a date.
 
 Returns the ordered people in the line of succession on a date.
 
+=item C<succession_print_data($date, $order = 'succession')>
+
+Selects the first reigning or deceased monarch, searching backwards through
+reigns, whose family has at least 25 people. If no family qualifies, uses the
+largest available family. Returns the first 30 people in display order,
+including the root and contextual relatives, with parent links preserved.
+Succession numbers are positions in the full line, not row numbers.
+
 =item C<succession_tree($sovereign_id, $date, $order = 'birth')>
 
 Builds a descendant tree for a sovereign, annotated with alive status and
@@ -542,6 +550,49 @@ sub succession_on_date($self, $date = undef) {
   return $succession;
 }
 
+# Select by reign chronology, then retain a prefix of the displayed tree.
+# Counting includes contextual ancestors and exclusions, not just successors.
+sub succession_print_data($self, $date, $order = 'succession') {
+  die "Order must be birth or succession\n"
+    unless $order eq 'birth' || $order eq 'succession';
+  my $current = $self->sovereign_on_date($date);
+  die "No monarch found for this date\n" unless $current;
+  my ($best, $largest) = (undef, 0);
+  for my $monarch ($self->sovereign_rs->search({
+    'me.start' => { '<=' => $current->start->ymd },
+  }, { order_by => [{ -desc => 'me.start' }, 'me.id'], prefetch => 'person' })->all) {
+    next unless $monarch->id == $current->id ||
+      (defined $monarch->person->died && $monarch->person->died <= $date);
+    my $tree = $self->succession_tree($monarch->id, $date, $order);
+    my $count = $self->_print_tree_count($tree);
+    if ($count > $largest) {
+      $best = $tree;
+      $largest = $count;
+    }
+    last if $count >= 25;
+  }
+  die "No family found for this date\n" unless $best;
+  my $remaining = 30;
+  return $self->_print_tree_prefix($best, \$remaining);
+}
+
+sub _print_tree_count($self, $node) {
+  my $count = 1;
+  $count += $self->_print_tree_count($_) for @{ $node->{children} };
+  return $count;
+}
+
+sub _print_tree_prefix($self, $node, $remaining) {
+  return unless $$remaining > 0;
+  --$$remaining;
+  my @children;
+  for my $child (@{ $node->{children} }) {
+    last unless $$remaining > 0;
+    push @children, $self->_print_tree_prefix($child, $remaining);
+  }
+  return { %$node, children => \@children };
+}
+
 sub succession_tree($self, $sovereign_id, $date, $order = 'birth') {
   die "Order must be birth or succession\n"
     unless $order eq 'birth' || $order eq 'succession';
@@ -565,7 +616,7 @@ sub succession_tree($self, $sovereign_id, $date, $order = 'birth') {
   # A family print can extend beyond that, so use the same full genealogy
   # calculation as bin/get_succ, excluding people ineligible on this date.
   my $succession_number = $self->cache->compute(
-    'print-ranks-v1|' . $date->ymd, undef,
+    'print-ranks-v2|' . $date->ymd, undef,
     sub {
       my %ranks;
       my $number = 1;

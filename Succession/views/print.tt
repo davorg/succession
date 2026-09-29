@@ -1,0 +1,35 @@
+<h1>Design your print</h1>
+<p class="lead">The British line of succession on a date that matters to you.</p>
+<p>Choose a birthday, wedding, anniversary or a moment in history to preview your personalised A3 print.</p>
+<form id="print-form" class="row g-3 mb-3">
+  <div class="col-md-5">
+    <label for="print-date" class="form-label">Your date</label>
+    <input id="print-date" name="date" type="date" class="form-control" required
+      min="<% app.earliest.ymd %>" max="<% app.today.ymd %>" value="<% app.today.ymd %>">
+  </div>
+  <div class="col-md-5">
+    <label for="print-order" class="form-label">Family order</label>
+    <select id="print-order" name="order" class="form-select">
+      <option value="succession">Succession order</option>
+      <option value="birth">Birth order</option>
+    </select>
+  </div>
+  <div class="col-md-2 d-flex align-items-end">
+    <button id="print-submit" class="btn btn-primary w-100" type="submit">Show me</button>
+  </div>
+</form>
+<p class="small">Try a date:
+  <button type="button" class="btn btn-sm btn-outline-secondary print-example" data-date="1837-06-20">Victoria’s accession</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary print-example" data-date="1977-02-06">Silver Jubilee</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary print-example" data-date="2000-01-01">1 January 2000</button>
+</p>
+<p class="small text-muted">We start with the reigning monarch’s family and look back through earlier monarchs to find at least 25 people. The print shows up to 30 people, including deceased relatives who explain the family relationships. For smaller families, we show the largest available list. Changing the order can change who fits on the print.</p>
+<p class="small text-muted">The preview carries a SPECIMEN watermark. Succession numbers show each person’s place in the full line, so they can be greater than 30.</p>
+<noscript><p class="alert alert-info">Please enable JavaScript to generate a preview.</p></noscript>
+<p id="print-status" role="status" aria-live="polite"></p>
+<div id="print-error" class="alert alert-danger" role="alert" hidden></div>
+<div id="print-preview" class="print-preview" aria-busy="false">
+  <p id="print-placeholder" class="text-muted p-4">Your print will appear here.</p>
+  <img id="print-image" alt="" hidden>
+</div>
+<script src="/js/print.js" defer></script>

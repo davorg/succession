@@ -45,7 +45,7 @@ is($birth_response->code, 200, 'birth order is supported');
 like($last_svg, qr{The Prince Charles.*The Princess Anne.*The Prince Andrew}s, 'birth order places Anne before Andrew');
 
 for my $query (
-  '', 'date=1962-09-07', 'date=1962-02-30&sovereign_id=4',
+  '', 'date=1962-09-07&sovereign_id=', 'date=1962-02-30&sovereign_id=4',
   'date=1962/09/07&sovereign_id=4', 'date=1819-12-31&sovereign_id=4',
   'date=9999-01-01&sovereign_id=4', 'date=1962-09-07&sovereign_id=abc',
   'date=1962-09-07&sovereign_id=999999', 'date=1962-09-07&sovereign_id=10',

@@ -374,3 +374,17 @@ ul, ol { padding-left: 1.2rem; }
 .sidebar-heading {
   font-variant: small-caps;
 }
+
+.print-preview {
+  aspect-ratio: 297 / 420;
+  width: 100%;
+  background: #fbf8ed;
+  border: 1px solid #d6c9ac;
+  margin-bottom: 2rem;
+}
+.print-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.print-preview img[hidden] { display: none; }

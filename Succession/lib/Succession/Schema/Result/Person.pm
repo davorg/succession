@@ -403,7 +403,8 @@ sub is_alive_on_date( $self, $date = undef) {
 
   return 0 if $self->born > $date;
   return 1 if !defined $self->died;
-  return 0 if $self->died < $date;
+  # Dated views describe the end of the day, including deaths on that date.
+  return 0 if $self->died <= $date;
   return 1;
 }
 
