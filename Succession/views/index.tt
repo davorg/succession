@@ -63,25 +63,29 @@
     <% IF tomorr -%>
       Next day: <% link_date(tomorr) %>
     <% END -%></p>
-    <ol>
+    <ul class="succession-list">
 <% count = 0;
-   FOR person IN app.succession;
-     exc = person.excluded_on_date(request.date) -%>
-      <li<% IF exc %> class="disable" <% END %>><a href="/p/<% person.slug %>"><% person.name_on_date(request.date) %></a>
+   FOR entry IN app.succession_rows;
+     person = entry.person;
+     exc = entry.exclusion_reason -%>
+      <li<% IF exc %> class="excluded"<% END %>>
+        <span class="succession-number"><% IF exc; 'X'; ELSE; entry.rank; END %>.</span>
+        <div><a href="/p/<% person.slug %>"><% person.name_on_date(request.date) %></a>
         <% IF person.name_on_date(request.date) != person.name -%>
         <span class="small">(<% person.name %>)</span>
         <% END -%>
         <br><span class="small">Age <% person.age_on_date(request.date) %>
         (born <% link_date(person.born) %><% IF person.died %>, will die on <% link_date(person.died); END %>),
         <br><% app.model.get_relationship_between_people(person, app.sovereign.person) %> of the sovereign
-        <% IF exc %><br>Excluded: <% exclusions.$exc %><% END %></span></li>
+        <% IF exc %><br>Excluded: <% exc | html %><% END %></span></div>
+      </li>
 <% IF NOT exc;
      count = count + 1;
    END -%>
 <!-- <% count %> -->
 <%   LAST IF count >= app.list_size -%>
 <% END -%>
-    </ol>
+    </ul>
     <% IF count < app.list_size -%>
     <div class="alert alert-danger alert-dismissable fade show">
     We don't have <% app.list_size_str %> people to go here yet.

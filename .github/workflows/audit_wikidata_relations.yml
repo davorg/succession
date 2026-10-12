@@ -102,6 +102,10 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       
+      - name: Rebuild succession snapshots if database changed
+        if: steps.db_check.outputs.changed == 'true'
+        run: bin/rebuild_succession --apply
+
       - name: Dump database if changed
         if: steps.db_check.outputs.changed == 'true'
         run: |

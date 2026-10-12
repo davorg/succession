@@ -171,6 +171,16 @@ ol > li.disable { opacity: .5; }
 ol, .succession-list { padding-left: 1.4rem; }
 ol li, .succession-list li { margin: .4rem 0; font-size: 1.05rem; }
 
+ul.succession-list { list-style: none; padding: 0; }
+.succession-list > li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  gap: .35rem;
+}
+.succession-number { text-align: right; }
+.succession-list > li.excluded,
+.succession-list > li.excluded a { color: var(--muted); }
+
 /* Positions list accent */
 #positions-list li::marker { color: var(--link); font-weight: bold; }
 #positions-list li strong  { color: var(--link); }

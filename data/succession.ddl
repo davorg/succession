@@ -81,3 +81,12 @@ CREATE INDEX idx_succ_entry_person
   ON succession_entry(person_id);
 CREATE INDEX idx_succ_period_range
   ON succession_period(from_date, to_date);
+CREATE TABLE succession_display_entry (
+        period_id INTEGER NOT NULL REFERENCES succession_period(id),
+        display_order INTEGER NOT NULL,
+        person_id INTEGER NOT NULL REFERENCES person(id),
+        succession_rank INTEGER,
+        PRIMARY KEY (period_id, display_order),
+        UNIQUE (period_id, person_id),
+        UNIQUE (period_id, succession_rank)
+      );

@@ -11,8 +11,7 @@ sub succession_on_date {
 
   die "succession_on_date() requires a date" unless defined $date;
 
-  $date = $self->result_source->schema->storage
-            ->datetime_parser->format_datetime($date);
+  $date = $date->ymd;
 
   my $row = $self->search(
     {
@@ -25,11 +24,11 @@ sub succession_on_date {
     {
       order_by => [
         { -desc => 'me.from_date' },   # latest applicable period
-        'succession_entries.rank',
+        'display_entries.display_order',
       ],
       rows     => 1,
       prefetch => {
-        succession_entries => {
+        display_entries => {
           person => [ qw(titles exclusions) ],
         },
       },

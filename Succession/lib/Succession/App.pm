@@ -127,15 +127,22 @@ has succession => (
 );
 
 sub _build_succession( $self ) {
-  my $succ = $self->model->succession_on_date($self->request->date);
+  return [ map { $_->{person} } grep { defined $_->{rank} } @{ $self->succession_rows } ];
+}
 
-  my @short_succ = grep {
-    ! $_->excluded_on_date($self->request->date);
-  } @$succ;
+has succession_rows => (
+  is => 'ro',
+  isa => 'ArrayRef',
+  lazy_build => 1,
+);
 
-  $#short_succ = $self->list_size - 1 if $#short_succ >= $self->list_size;
-
-  return \@short_succ;
+sub _build_succession_rows($self) {
+  my @rows;
+  for my $row (@{ $self->model->succession_display_on_date($self->request->date) }) {
+    push @rows, $row;
+    last if defined($row->{rank}) && $row->{rank} >= $self->list_size;
+  }
+  return \@rows;
 }
 
 has feed_entries => (
@@ -395,13 +402,9 @@ around json_ld_data => sub {
 sub make_succ_str_for_date( $self, $date = undef) {
   $date //= $self->request->date;
 
-  my @succ = @{ $self->model->succession_on_date($date) };
-
-  $#succ = $self->list_size - 1 if @succ > $self->list_size;
-
   return join ':', map {
-    $_->excluded_on_date($date) ? $_->id . 'x' : $_->id
-  } @succ;
+    $_->{person_id} . (defined($_->{succession_rank}) ? '' : 'x')
+  } @{ $self->model->generate_succession_rows($date, $self->list_size) };
 }
 
 around BUILDARGS => sub {

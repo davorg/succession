@@ -17,7 +17,7 @@ use Succession::Request;
 use Succession::RouteHelpers;
 use Succession::Print;
 
-our $VERSION = '0.14.1';
+our $VERSION = '1.0.0';
 
 hook before => sub {
   bless request, 'Succession::Request';

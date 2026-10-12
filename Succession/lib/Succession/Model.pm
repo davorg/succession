@@ -64,7 +64,18 @@ Returns the sovereign in office on a date.
 
 =item C<succession_on_date($date)>
 
-Returns the ordered people in the line of succession on a date.
+Returns the ordered eligible people in the line of succession on a date.
+
+=item C<succession_display_on_date($date)>
+
+Returns ordered display rows with C<person>, nullable C<rank>, and a readable
+C<exclusion_reason>. Exclusions retain their family order before the last
+eligible successor in the snapshot.
+
+=item C<generate_succession_rows($date, $count = 30)>
+
+Generates a snapshot prefix from the full genealogy for maintenance scripts.
+The count limits eligible successors rather than total display rows.
 
 =item C<succession_print_data($date, $order = 'succession')>
 
@@ -187,6 +198,7 @@ use Genealogy::Relationship;
 use Succession (); # for version number to use in cache
 use Succession::RelationshipPerson;
 use Succession::Schema;
+use Succession::Snapshot;
 
 # Database access
 
@@ -292,7 +304,7 @@ sub _build_cache( $self ) {
   my $driver = $ENV{SUCC_CACHE_DRIVER} // 'FastMmap';
 
   my %common = (
-    namespace => "succession-$Succession::VERSION",
+    namespace => "succession-$Succession::VERSION-snapshots-v1",
   );
 
   try {
@@ -541,15 +553,37 @@ sub sovereign_on_date($self, $date = undef) {
 sub succession_on_date($self, $date = undef) {
   $date //= $self->date;
 
-  my $succession = $self->cache->compute(
-    'succ|' . $date->ymd, undef,
+  return [ map { $_->{person} }
+    grep { defined $_->{rank} } @{ $self->succession_display_on_date($date) } ];
+}
+
+sub succession_display_on_date($self, $date) {
+  return $self->cache->compute(
+    'succession_display_v1|' . $date->ymd, undef,
     sub {
-      my $succ = $self->schema->succession_periods->succession_on_date($date);
-      [ $succ ? map { $_->person } $succ->succession_entries : () ];
+      my $period = $self->schema->succession_periods->succession_on_date($date);
+      return [] unless $period;
+      return [ map {
+        my $person = $_->person;
+        my $exclusion = $person->exclusion_on_date($date);
+        +{
+          person => $person,
+          rank => $_->succession_rank,
+          exclusion_reason => $exclusion ? $exclusion->exclusion_reason : undef,
+        }
+      } $period->display_entries ];
     },
   );
+}
 
-  return $succession;
+has snapshot_generator => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { Succession::Snapshot->new(schema => $_[0]->schema) },
+);
+
+sub generate_succession_rows($self, $date, $count = 30) {
+  return $self->snapshot_generator->line_on_date($date, $count);
 }
 
 # Select by reign chronology, then retain a prefix of the displayed tree.
@@ -614,17 +648,15 @@ sub succession_tree($self, $sovereign_id, $date, $order = 'birth') {
   die "Sovereign must be current on date or be dead\n"
     unless $is_current_on_date || $is_dead;
 
-  # Stored succession periods can contain only the first 30 successors.
-  # A family print can extend beyond that, so use the same full genealogy
-  # calculation as bin/get_succ, excluding people ineligible on this date.
+  # Prints can extend beyond the stored top 30. Use the same generator as
+  # the snapshots so both interfaces agree on ranks and exclusion boundaries.
   my $succession_number = $self->cache->compute(
-    'print-ranks-v2|' . $date->ymd, undef,
+    'print-ranks-v3|' . $date->ymd, undef,
     sub {
       my %ranks;
-      my $number = 1;
-      for my $person ($current_sovereign->succession_on_date($date)) {
-        next if $person->excluded_on_date($date);
-        $ranks{$person->id} = $number++;
+      for my $row (@{ $self->snapshot_generator->full_line_on_date($date) }) {
+        next unless defined $row->{succession_rank};
+        $ranks{$row->{person_id}} = $row->{succession_rank};
       }
       return \%ranks;
     },

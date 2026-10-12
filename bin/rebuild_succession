@@ -1,0 +1,50 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../Succession/lib";
+use Getopt::Long qw(GetOptions);
+use DateTime;
+use DateTime::Format::Strptime;
+use JSON::MaybeXS;
+use Path::Tiny;
+use Succession::Schema;
+use Succession::Snapshot;
+
+my ($database, $apply, $report, $through, $limit);
+$database = $ENV{SUCC_DB_PATH};
+$through = DateTime->today->ymd;
+$limit = 30;
+GetOptions('database=s' => \$database, 'apply!' => \$apply,
+  'report=s' => \$report, 'through=s' => \$through, 'limit=i' => \$limit)
+  or die "Usage: $0 --database FILE [--apply] [--through YYYY-MM-DD] [--report FILE]\n";
+die "Unexpected arguments\n" if @ARGV;
+die "An existing --database file or SUCC_DB_PATH is required\n"
+  unless defined($database) && -f $database;
+my $date = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d', strict => 1)->parse_datetime($through);
+die "through must be a valid YYYY-MM-DD date\n" unless $date && $through eq $date->ymd;
+
+my $schema = Succession::Schema->connect("dbi:SQLite:dbname=$database;mode=" . ($apply ? 'rw' : 'ro'),
+  '', '', { quote_names => 1, on_connect_do => 'PRAGMA foreign_keys = ON' });
+my $generator = Succession::Snapshot->new(schema => $schema, limit => $limit);
+my $plan = $generator->plan($through);
+my $summary = {
+  through => $through, limit => $limit,
+  periods => scalar @{ $plan->{periods} },
+  added_periods => [ map { $_->{date} } grep { !$_->{existing} } @{ $plan->{periods} } ],
+  changed_periods => $plan->{differences},
+  removed_boundaries => $plan->{obsolete},
+  short_periods => [ map { $_->{date} } grep {
+    scalar(grep { defined $_->{succession_rank} } @{ $_->{rows} }) < $limit
+  } @{ $plan->{periods} } ],
+};
+my $json = JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode($summary);
+path($report)->spew_utf8($json) if defined $report;
+$generator->apply($plan) if $apply;
+say(($apply ? 'Rebuilt' : 'Planned') . ' ' . $summary->{periods} . ' periods; '
+  . scalar(@{ $summary->{changed_periods} }) . ' existing ranked lists changed; '
+  . scalar(@{ $summary->{added_periods} }) . ' boundaries added; '
+  . scalar(@{ $summary->{removed_boundaries} }) . ' redundant boundaries removed; '
+  . scalar(@{ $summary->{short_periods} }) . ' short lists.');

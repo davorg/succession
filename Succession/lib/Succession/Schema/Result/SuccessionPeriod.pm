@@ -171,5 +171,12 @@ sub succession_people {
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->has_many(
+  'display_entries',
+  'Succession::Schema::Result::SuccessionDisplayEntry',
+  { 'foreign.period_id' => 'self.id' },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 __PACKAGE__->meta->make_immutable;
 1;
