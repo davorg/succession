@@ -106,14 +106,16 @@ Returns the canonical change date for a dated succession page.
 =item C<get_prev_change_date($date, $include_current)>
 
 Returns the change date immediately before the supplied date.
+Pass a true C<$include_current> to also consider a change on that date.
 
 =item C<get_next_change_date($date, $include_current)>
 
 Returns the change date immediately after the supplied date.
+Pass a true C<$include_current> to also consider a change on that date.
 
 =item C<get_changes_on_date($date)>
 
-Returns change records for the day before, the day itself, and the day after.
+Returns change records within two days before or after the supplied date.
 
 =item C<get_all_changes>
 
@@ -756,10 +758,9 @@ sub get_canonical_date($self, $date) {
 
 sub get_prev_change_date($self, $date, $include_curr = 0) {
   my $prev_date = $self->cache->compute(
-    "prev_change|$include_curr|" . $date->ymd, undef,
+    "prev_change_v2|$include_curr|" . $date->ymd, undef,
     sub {
-      my $search_date =
-        $self->schema->storage->datetime_parser->format_datetime($date);
+      my $search_date = $date->ymd;
 
       my $cmp = ($include_curr ? '<=' : '<');
 
@@ -777,10 +778,9 @@ sub get_prev_change_date($self, $date, $include_curr = 0) {
 
 sub get_next_change_date($self, $date, $include_curr = 0) {
   my $next_date = $self->cache->compute(
-    "next_change|$include_curr|" . $date->ymd, undef,
+    "next_change_v2|$include_curr|" . $date->ymd, undef,
     sub {
-      my $search_date =
-        $self->schema->storage->datetime_parser->format_datetime($date);
+      my $search_date = $date->ymd;
 
       my $cmp = ($include_curr ? '>=' : '>');
 
@@ -798,21 +798,21 @@ sub get_next_change_date($self, $date, $include_curr = 0) {
 
 sub get_changes_on_date($self, $date) {
   return $self->cache->compute(
-    'changes_around|' . $date->ymd, undef,
+    'changes_around_v2|' . $date->ymd, undef,
     sub {
-      my $dtf = $self->schema->storage->datetime_parser;
       my @dates = map {
-        $dtf->format_datetime($_)
-      } (
-        $date->clone->subtract(days => 1),
-        $date,
-        $date->clone->add(days => 1),
-      );
+        $date->clone->add(days => $_)->ymd
+      } -2 .. 2;
 
       return [ $self->change_date_rs->search({
-        change_date => { -in => \@dates },
+        'me.change_date' => { -in => \@dates },
       }, {
-        order_by => { -asc => 'change_date' },
+        order_by => [ 'me.change_date', 'changes.id' ],
+        prefetch => {
+          changes => {
+            person => 'titles',
+          },
+        },
       })->all ];
     },
   );

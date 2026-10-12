@@ -1,0 +1,10 @@
+<h3 class="sidebar-heading h6 text-center mb-2">Share this page</h3>
+<div class="a2a_kit a2a_kit_size_32 a2a_default_style d-flex justify-content-center gap-2"
+     data-a2a-url="https://lineofsuccession.co.uk<% request.path | html %>"
+     data-a2a-title="<% (title || app.title) | html %>">
+  <a class="a2a_button_facebook" aria-label="Share on Facebook"></a>
+  <a class="a2a_button_email" aria-label="Share by email"></a>
+  <a class="a2a_dd" href="https://www.addtoany.com/share" aria-label="More sharing options"></a>
+</div>
+<script defer src="https://static.addtoany.com/menu/page.js"></script>
+<hr>

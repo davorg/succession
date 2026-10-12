@@ -1,0 +1,15 @@
+<% IF request.is_date_page OR request.is_home_page;
+     changes = app.get_changes;
+     IF changes.size -%>
+<h3 class="sidebar-heading h6 text-center mb-2">Changes</h3>
+<%     FOR change IN changes -%>
+<h4 class="h6"><% link_date(change.change_date) %></h4>
+<ul>
+<%       FOR item IN change.changes -%>
+  <li><a href="/p/<% item.person.slug %>"><% item.person.name %></a> <% item.description %></li>
+<%       END -%>
+</ul>
+<%     END -%>
+<hr>
+<%   END;
+   END -%>
