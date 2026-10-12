@@ -28,6 +28,12 @@ Dockerfile and CI installation. The page uses the existing Bootstrap layout
 and local `/js/print.js`. Unexpected server errors are logged but return a
 generic message to visitors.
 
+The local stylesheet and designer script use content fingerprints in their
+URLs (`?v=...`) so CSS and JavaScript changes bypass browser and CDN caches.
+Each file's fingerprint changes independently of the application version. The
+asset registry in the `before_template_render` hook computes the URLs once per
+worker; register additional local CSS or JavaScript there when adding assets.
+
 Relevant checks:
 
 ```

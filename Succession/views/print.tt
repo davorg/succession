@@ -32,4 +32,4 @@
   <p id="print-placeholder" class="text-muted p-4">Your print will appear here.</p>
   <img id="print-image" alt="" hidden>
 </div>
-<script src="/js/print.js" defer></script>
+<script src="<% asset_urls.item('js/print.js') %>" defer></script>

@@ -3,6 +3,7 @@ use warnings;
 BEGIN { $ENV{SUCC_CACHE_DRIVER} = 'Null' }
 use Test::More;
 use DateTime;
+use Digest::SHA qw(sha256_hex);
 use HTTP::Request::Common;
 use Plack::Test;
 use Succession;
@@ -64,6 +65,13 @@ is(scalar @{$source->{children}[0]{children}}, 35, 'source tree unchanged');
 my $test = Plack::Test->create(Succession->to_app);
 my $page = $test->request(GET '/print');
 is($page->code, 200, 'designer page loads');
+my ($script_url, $script_digest) = $page->decoded_content =~
+  m{src="(/js/print\.js\?v=([a-f0-9]{16}))"};
+ok($script_url, 'Designer script URL has a content fingerprint to bypass stale caches');
+my $script = $test->request(GET($script_url // '/js/print.js'));
+ok($script->is_success, 'Fingerprint URL serves the designer script');
+is($script_digest, substr(sha256_hex($script->content), 0, 16),
+   'Fingerprint matches the JavaScript served to the browser');
 like($page->decoded_content, qr{id="print-image" alt="" hidden}, 'initial preview is blank');
 unlike($page->decoded_content, qr{href="/print">Design your print}, 'designer is not linked from navigation');
 like($page->decoded_content, qr{min="1820-01-29"}, 'date control uses supported lower bound');

@@ -32,10 +32,16 @@ hook before => sub {
 hook before_template_render => sub {
   my ($tokens) = @_;
   return unless $tokens->{app};
-  state $stylesheet_digest = substr sha256_hex(
-    path(setting('appdir'), 'public', 'css', 'style.css')->slurp_raw
-  ), 0, 16;
-  $tokens->{stylesheet_digest} = $stylesheet_digest;
+  state $asset_urls = {
+    map {
+      my $asset = $_;
+      my $digest = substr sha256_hex(
+        path(setting('appdir'), 'public', $asset)->slurp_raw
+      ), 0, 16;
+      $asset => "/$asset?v=$digest";
+    } qw(css/style.css js/print.js)
+  };
+  $tokens->{asset_urls} = $asset_urls;
   my $ref_dir = path(setting('appdir'), 'reference');
   $tokens->{ref_menu} = $tokens->{app}->model->get_reference_menu($ref_dir);
 };
