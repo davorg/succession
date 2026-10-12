@@ -7,6 +7,7 @@ use feature 'state';
 use Dancer2;
 use JSON::MaybeXS ();
 use DateTime;
+use Digest::SHA qw(sha256_hex);
 use Text::Markdown 'markdown';
 use Path::Tiny;
 use Path::Tiny qw[path];
@@ -31,6 +32,10 @@ hook before => sub {
 hook before_template_render => sub {
   my ($tokens) = @_;
   return unless $tokens->{app};
+  state $stylesheet_digest = substr sha256_hex(
+    path(setting('appdir'), 'public', 'css', 'style.css')->slurp_raw
+  ), 0, 16;
+  $tokens->{stylesheet_digest} = $stylesheet_digest;
   my $ref_dir = path(setting('appdir'), 'reference');
   $tokens->{ref_menu} = $tokens->{app}->model->get_reference_menu($ref_dir);
 };

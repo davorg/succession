@@ -40,7 +40,7 @@
           crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style.css?v=<% stylesheet_digest %>" rel="stylesheet">
 
     <title><% title || app.title %></title>
     <!-- Google tag (gtag.js) -->
