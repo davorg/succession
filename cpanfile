@@ -28,6 +28,7 @@ requires 'HTML::LinkExtor';
 requires 'HTTP::Request::Common';
 requires 'HTTP::Tiny';
 requires 'JSON::MaybeXS';
+requires 'JSON::XS';
 requires 'Lingua::EN::Numbers';
 requires 'List::MoreUtils';
 requires 'List::Util';
@@ -57,4 +58,5 @@ requires 'Time::Piece';
 requires 'URI';
 requires 'URI::Escape';
 requires 'XML::Feed';
+requires 'YAML::XS';
 

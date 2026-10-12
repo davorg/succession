@@ -18,7 +18,7 @@ use Succession::Request;
 use Succession::RouteHelpers;
 use Succession::Print;
 
-our $VERSION = '1.0.0';
+our $VERSION = '1.0.1';
 
 hook before => sub {
   bless request, 'Succession::Request';
@@ -228,6 +228,15 @@ get '/anniversaries' => sub {
 };
 
 get '/mcp' => sub {
+  my $accept = request->header('Accept') // '';
+
+  if ($accept =~ m{\btext/event-stream\b}i) {
+    status 405;
+    response_header 'Allow' => 'POST';
+    content_type 'text/plain';
+    return "This endpoint does not provide an SSE stream.\n";
+  }
+
   state $mcp = Succession::MCP->new(
     server_version => $Succession::VERSION,
     tools_file     => path(setting('appdir'), 'public', 'mcp-tools.yml')->stringify,
@@ -255,7 +264,10 @@ post '/mcp' => sub {
   my $id     = $req->{id};
   my $method = $req->{method} // '';
 
-  return '' unless exists $req->{id}; # JSON-RPC notification
+  unless (exists $req->{id}) {
+    status 202;
+    return '';
+  }
 
   if ($method eq 'initialize') {
     return to_json($mcp->rpc_result($id, $mcp->initialize_data));
