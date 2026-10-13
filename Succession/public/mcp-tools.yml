@@ -6,6 +6,10 @@
     specified historical date. Useful for questions such as "Who was
     the British monarch in 1936?" or "Who was on the throne when
     Charles Dickens was born?"
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    openWorldHint: false
   documentation: |
     Looks up the reigning British sovereign for the supplied date.
 
@@ -29,6 +33,10 @@
     it stands today or on a specified historical date. Results include
     succession positions, names and titles appropriate to the
     requested date, and ages. Returns up to 30 successors.
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    openWorldHint: false
   documentation: |
     Returns people in the British line of succession to the throne.
 
