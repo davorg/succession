@@ -243,6 +243,7 @@ get '/mcp' => sub {
   );
 
   template 'mcp' => {
+    app   => vars->{app},
     tools => $mcp->tool_docs,
   };
 };
