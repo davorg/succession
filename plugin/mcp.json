@@ -3,14 +3,7 @@
   "mcpServers": {
     "line-of-succession": {
       "type": "streamable-http",
-      "url": "https://lineofsuccession.co.uk/mcp",
-      "extensions": {
-        "com.openai": {
-          "auth": {
-            "type": "none"
-          }
-        }
-      }
+      "url": "https://lineofsuccession.co.uk/mcp"
     }
   }
 }
