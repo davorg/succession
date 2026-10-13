@@ -1,36 +1,62 @@
 # data/mcp-tools.yml
 
 - name: sovereign_on_date
-  description: Return the British sovereign on a given date.
+  description: >-
+    Return the British monarch (King or Queen) who was reigning on a
+    specified historical date. Useful for questions such as "Who was
+    the British monarch in 1936?" or "Who was on the throne when
+    Charles Dickens was born?"
   documentation: |
     Looks up the reigning British sovereign for the supplied date.
 
-    Use this when answering questions such as “Who was sovereign on
-    6 February 1952?”
+    Use this tool when answering questions about who occupied the
+    British throne at a particular point in history.
+
+    The date must be supplied in YYYY-MM-DD format.
   inputSchema:
     type: object
     properties:
       date:
         type: string
+        format: date
         description: Date in YYYY-MM-DD format.
     required:
       - date
 
 - name: line_of_succession
-  description: Return the line of succession on a given date.
+  description: >-
+    Return the British line of succession to the throne, either as
+    it stands today or on a specified historical date. Results include
+    succession positions, names and titles appropriate to the
+    requested date, and ages. Returns up to 30 successors.
   documentation: |
-    Returns people in the line of succession.
+    Returns people in the British line of succession to the throne.
 
     If no date is supplied, the current line of succession is returned.
+
+    For historical dates, names and titles reflect those in use on
+    the requested date, rather than the person's current name or title.
+
+    Results include the reigning sovereign and a numbered list of
+    successors, with their names, dates of birth and ages.
+
+    The limit parameter controls the maximum number of successors
+    returned, up to a maximum of 30.
   inputSchema:
     type: object
     properties:
       date:
         type: string
-        description: Optional date in YYYY-MM-DD format. Omit for the current line of succession.
+        format: date
+        description: >-
+          Optional date in YYYY-MM-DD format. Omit for the current
+          line of succession.
       limit:
         type: integer
-        description: Maximum number of successors to return.
+        description: >-
+          Maximum number of successors to return.
+          Defaults to 10, with a maximum of 30.
         minimum: 1
         maximum: 30
+        default: 10
     required: []
