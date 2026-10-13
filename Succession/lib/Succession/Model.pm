@@ -748,7 +748,7 @@ sub get_succession_data($self, $date, $count) {
   my $i = 1;
   my @succ = map {{
     number => $i++,
-    name   => $_->name,
+    name   => $_->name_on_date($date),
     born   => $_->born->ymd,
     age    => $_->age_on_date($date),
     slug   => $_->slug,
