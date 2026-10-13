@@ -1,0 +1,38 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "line-of-succession",
+  "version": "1.0.0",
+  "description": "Explore the British monarchy and historical lines of succession.",
+  "author": {
+    "name": "Dave Cross",
+    "url": "https://lineofsuccession.co.uk"
+  },
+  "homepage": "https://lineofsuccession.co.uk",
+  "keywords": [
+    "history",
+    "royalty",
+    "monarchy",
+    "genealogy",
+    "british-history"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Line of Succession",
+        "shortDescription": "Explore Britain's royal succession, past and present",
+        "longDescription": "Find out who was the British monarch on any supported historical date and explore the line of succession to the throne at different points in history. Discover the people, their positions, ages and historically appropriate titles.",
+        "developerName": "Dave Cross",
+        "category": "Education",
+        "capabilities": [
+          "Read"
+        ],
+        "websiteURL": "https://lineofsuccession.co.uk",
+        "defaultPrompt": [
+          "Who was the British monarch on 7 September 1962?",
+          "Who were the first five people in line to the throne in 1952?",
+          "Who is currently in line to the British throne?"
+        ]
+      }
+    }
+  }
+}
