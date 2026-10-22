@@ -18,6 +18,12 @@ use Succession::Request;
 use Succession::RouteHelpers;
 use Succession::Print;
 
+# Standard JSON-RPC errors: https://www.jsonrpc.org/specification#error_object
+use constant {
+  JSONRPC_PARSE_ERROR      => -32700,
+  JSONRPC_METHOD_NOT_FOUND => -32601,
+};
+
 our $VERSION = '1.1.4';
 
 hook before => sub {
@@ -259,7 +265,7 @@ post '/mcp' => sub {
   my $req = eval { from_json(request->body) };
 
   if ($@ or ref $req ne 'HASH') {
-    return to_json($mcp->rpc_error(undef, -32700, 'Parse error'));
+    return to_json($mcp->rpc_error(undef, JSONRPC_PARSE_ERROR, 'Parse error'));
   }
 
   my $id     = $req->{id};
@@ -290,7 +296,7 @@ post '/mcp' => sub {
     ));
   }
 
-  return to_json($mcp->rpc_error($id, -32601, 'Method not found'));
+  return to_json($mcp->rpc_error($id, JSONRPC_METHOD_NOT_FOUND, 'Method not found'));
 };
 
 get qr{/(\d{4}-\d\d-\d\d)?$} => sub {

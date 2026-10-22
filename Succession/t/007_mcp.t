@@ -125,6 +125,21 @@ is($rpc_error->{error}{code}, -1, 'rpc_error includes error code');
     'MCP initialize returns the application version');
   unlike($response->content, qr{<!doctype html|<html}, 'MCP POST omits the HTML layout');
 
+  for my $case (
+    ['malformed JSON', '{', undef, -32700, 'Parse error'],
+    ['unknown method', '{"jsonrpc":"2.0","id":42,"method":"unknown"}', 42, -32601, 'Method not found'],
+  ) {
+    my ($label, $body, $id, $code, $message) = @$case;
+    my $error = $test->request(POST '/mcp', Content_Type => 'application/json', Content => $body);
+    is($error->code, 200, "$label retains the existing HTTP status");
+    like($error->header('Content-Type'), qr{^application/json}, "$label returns JSON");
+    is_deeply(decode_json($error->content), {
+      jsonrpc => '2.0', id => $id, error => { code => $code, message => $message },
+    }, "$label retains the JSON-RPC error envelope, request ID and code");
+    like($error->content, qr/"code"\s*:\s*\Q$code\E\s*[,}]/,
+      "$label serialises its error code as a JSON number");
+  }
+
   my $stream = $test->request(GET '/mcp', Accept => 'text/event-stream');
   is($stream->code, 405, 'MCP GET still rejects SSE requests');
   is($stream->header('Allow'), 'POST', 'SSE response directs clients to POST');
