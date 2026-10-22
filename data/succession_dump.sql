@@ -681,9 +681,9 @@ INSERT INTO person VALUES(44,'1964-04-28',NULL,40,4,'f','https://en.wikipedia.or
 INSERT INTO person VALUES(45,'1970-07-25',NULL,40,2,'m','https://en.wikipedia.org/wiki/Lord_Nicholas_Windsor','6cd899-lord-nicholas-windsor','Q1217757','2026-10-21 05:19:37');
 INSERT INTO person VALUES(46,'1964-02-29',NULL,41,1,'m','https://en.wikipedia.org/wiki/James_Ogilvy','4165b0-james-ogilvy','Q662282','2026-10-21 05:19:39');
 INSERT INTO person VALUES(47,'1966-07-31',NULL,41,2,'f','https://en.wikipedia.org/wiki/Marina_Ogilvy','7c717d-marina-mowatt','Q3312290','2026-10-21 05:19:41');
-INSERT INTO person VALUES(48,'1979-04-06',NULL,42,1,'m','https://en.wikipedia.org/wiki/Lord_Frederick_Windsor','e8030c-lord-frederick-windsor','Q3735133','2026-10-15 05:19:07');
-INSERT INTO person VALUES(49,'1981-04-23',NULL,42,2,'f','https://en.wikipedia.org/wiki/Lady_Gabriella_Kingston','0c034b-lady-gabriella-windsor','Q75426','2026-10-15 05:19:08');
-INSERT INTO person VALUES(50,'1974-10-24',NULL,38,1,'m','https://en.wikipedia.org/wiki/Alexander_Windsor%2C_Earl_of_Ulster','c96149-alexander-windsor-earl-of-ulster','Q621866','2026-10-15 05:19:10');
+INSERT INTO person VALUES(48,'1979-04-06',NULL,42,1,'m','https://en.wikipedia.org/wiki/Lord_Frederick_Windsor','e8030c-lord-frederick-windsor','Q3735133','2026-10-22 05:19:13');
+INSERT INTO person VALUES(49,'1981-04-23',NULL,42,2,'f','https://en.wikipedia.org/wiki/Lady_Gabriella_Kingston','0c034b-lady-gabriella-windsor','Q75426','2026-10-22 05:19:14');
+INSERT INTO person VALUES(50,'1974-10-24',NULL,38,1,'m','https://en.wikipedia.org/wiki/Alexander_Windsor%2C_Earl_of_Ulster','c96149-alexander-windsor-earl-of-ulster','Q621866','2026-10-22 05:19:16');
 INSERT INTO person VALUES(51,'1977-11-19',NULL,38,2,'f','https://en.wikipedia.org/wiki/Lady_Davina_Windsor','a8b207-lady-davina-lewis','Q268139','2026-10-15 05:19:11');
 INSERT INTO person VALUES(52,'1980-03-01',NULL,38,3,'f','https://en.wikipedia.org/wiki/Lady_Rose_Gilman','2c1064-lady-rose-gilman','Q430785','2026-10-15 05:19:13');
 INSERT INTO person VALUES(53,'2007-03-12',NULL,50,1,'m','https://en.wikipedia.org/wiki/Xan_Windsor','2cf1ed-xan-windsor-lord-culloden','Q3270399','2026-10-15 05:19:14');
