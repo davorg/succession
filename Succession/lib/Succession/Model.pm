@@ -114,7 +114,16 @@ limited to C<$count> eligible successors.
 
 =item C<get_canonical_date($date)>
 
-Returns the canonical change date for a dated succession page.
+Returns the preceding change date as C<YYYY-MM-DD>, including a change on the
+supplied L<DateTime> date. Dates in the latest recorded period return an empty
+string, which C<Succession::App::canonical> turns into the homepage path C</>.
+If there is no change on or before the date (including an empty change history),
+the same homepage fallback is returned. A single recorded change therefore
+also uses the homepage. The time of day does not affect the result.
+
+This selects the canonical link advertised by a dated page; it does not
+redirect the requested page. The latest change is checked first so dates in
+the current period need no preceding-change lookup.
 
 =item C<get_prev_change_date($date, $include_current)>
 
@@ -760,28 +769,17 @@ sub get_succession_data($self, $date, $count) {
 # Change-date queries
 
 sub get_canonical_date($self, $date) {
-  my $canonical_date = $self->cache->compute(
-    'canon|' . $date->ymd, undef,
+  my $day = $date->ymd;
+  return $self->cache->compute(
+    'canon|' . $day, undef,
     sub {
-      my $search_date =
-        $self->schema->storage->datetime_parser->format_datetime($date);
+      my $latest_change = $self->change_date_rs->get_column('change_date')->max;
+      return '' if !defined($latest_change) || $day ge $latest_change;
 
-      my $canon_date = $self->get_prev_change_date($date, 1);
-
-      # TODO: Remove hack!
-      return '' unless $canon_date;
-
-      my $max_date = $self->change_date_rs->get_column('change_date')->max;
-
-      if ($canon_date->change_date->strftime('%Y-%m-%d') eq $max_date) {
-        return '';
-      } else {
-        return $canon_date->change_date->strftime('%Y-%m-%d');
-      }
+      my $change = $self->get_prev_change_date($date, 1);
+      return $change ? $change->change_date->ymd : '';
     }
   );
-
-  return $canonical_date;
 }
 
 sub get_prev_change_date($self, $date, $include_curr = 0) {
