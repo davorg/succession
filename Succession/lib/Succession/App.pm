@@ -55,7 +55,7 @@ has model => (
   is => 'ro',
   isa => 'Succession::Model',
   lazy_build => 1,
-  handles => [ qw( get_succession get_succession_data interesting_dates ) ],
+  handles => [ qw( get_succession_data interesting_dates ) ],
 );
 
 sub _build_model(@) {

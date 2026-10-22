@@ -3,16 +3,18 @@ use warnings;
 
 use Test::More;
 use DateTime;
+use FindBin qw($RealBin);
 use JSON::MaybeXS qw[decode_json];
 use IPC::Open3;
+use Path::Tiny qw(path);
 use Symbol qw[gensym];
 
 use Succession::Model;
 
-my $repo_root = '/home/runner/work/succession/succession';
+my $repo_root = path($RealBin)->parent(2)->stringify;
 my $script    = "$repo_root/bin/succession_tree";
 my $lib_path  = "$repo_root/Succession/lib";
-my $db_path   = "$repo_root/data/los.sqlite";
+my $db_path   = $ENV{SUCC_DB_PATH} // "$repo_root/data/los.sqlite";
 
 $ENV{SUCC_DB_PATH} = $db_path;
 

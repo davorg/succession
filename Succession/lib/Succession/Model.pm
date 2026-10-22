@@ -56,6 +56,11 @@ Returns cached blog-feed entries, using stale data when a refresh fails.
 
 =head2 Succession
 
+C<sovereign_on_date>, C<succession_on_date> and C<succession_display_on_date>
+require an explicit L<DateTime> object and reject missing or invalid dates.
+The model has no current-date state; callers choose their request date or
+C<< DateTime->today >> when a default is wanted.
+
 =over 4
 
 =item C<sovereign_on_date($date)>
@@ -96,13 +101,10 @@ ranked first). Branches without a ranked person retain their birth-order
 slots. Descendants always stay with their parent. The print route defaults
 to C<succession>; other callers retain the C<birth> default.
 
-=item C<get_succession>
-
-Returns the current sovereign and succession as a simple name structure.
-
 =item C<get_succession_data($date, $count)>
 
-Builds the dated succession view data, limited to C<$count> successors.
+Builds structured succession data for the explicit L<DateTime> C<$date>,
+limited to C<$count> eligible successors.
 
 =back
 
@@ -191,6 +193,7 @@ use Path::Tiny;
 use Try::Tiny;
 use JSON::MaybeXS qw(decode_json);
 use Digest::SHA qw(sha1_hex);
+use Scalar::Util qw(blessed);
 use HTTP::Tiny;
 use Time::Piece;
 use XML::Feed;
@@ -538,7 +541,8 @@ sub _build_interesting_dates($) {
 # Succession queries
 
 sub sovereign_on_date($self, $date = undef) {
-  $date //= $self->date;
+  die "sovereign_on_date() requires a DateTime object\n"
+    unless blessed($date) && $date->isa('DateTime');
 
   my $sovereign = $self->cache->compute(
     'sov|' . $date->ymd, undef,
@@ -551,13 +555,17 @@ sub sovereign_on_date($self, $date = undef) {
 }
 
 sub succession_on_date($self, $date = undef) {
-  $date //= $self->date;
+  die "succession_on_date() requires a DateTime object\n"
+    unless blessed($date) && $date->isa('DateTime');
 
   return [ map { $_->{person} }
     grep { defined $_->{rank} } @{ $self->succession_display_on_date($date) } ];
 }
 
-sub succession_display_on_date($self, $date) {
+sub succession_display_on_date($self, $date = undef) {
+  die "succession_display_on_date() requires a DateTime object\n"
+    unless blessed($date) && $date->isa('DateTime');
+
   return $self->cache->compute(
     'succession_display_v1|' . $date->ymd, undef,
     sub {
@@ -718,18 +726,6 @@ sub _succession_tree_node($self, $person, $date, $succession_number, $current_so
   $node->{exclusion_reason} = $exclusion->exclusion_reason if defined $exclusion;
 
   return $node;
-}
-
-sub get_succession($self) {
-  my $succ = {
-    sovereign => $self->sovereign->name,
-  };
-
-  for (@{$self->succession}) {
-    push @{ $succ->{succ} }, $_->name;
-  }
-
-  return $succ;
 }
 
 sub get_succession_data($self, $date, $count) {
