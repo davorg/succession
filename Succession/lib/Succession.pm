@@ -24,7 +24,7 @@ use constant {
   JSONRPC_METHOD_NOT_FOUND => -32601,
 };
 
-our $VERSION = '1.1.5';
+our $VERSION = '1.1.6';
 
 hook before => sub {
   bless request, 'Succession::Request';
@@ -177,7 +177,7 @@ get qr{/r/([\w-]+)$} => sub {
   };
 };
 
-get '/shop/prints' => sub {
+get qr{^/shop/prints/?$} => sub {
   my @images = (
     {
       file => 'British Line of Succession Wall Display.png',

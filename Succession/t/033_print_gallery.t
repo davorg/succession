@@ -75,10 +75,14 @@ use Succession::Schema;
     like($other->decoded_content, qr{href="/shop/prints">Preview the prints</a>}, "$path widget links to the gallery");
     unlike($other->decoded_content, qr{/js/print-gallery\.js}, "$path does not load gallery JavaScript");
   }
-  my $query_page = $test->request(GET '/shop/prints?source=sidebar');
-  ok($query_page->is_success, 'gallery with a query string renders');
-  unlike($query_page->decoded_content, qr{class="subscribe-box print-shop-widget"},
-    'gallery with a query string also hides its own advert');
+  for my $path ('/shop/prints?source=sidebar', '/shop/prints/', '/shop/prints/?source=sidebar') {
+    my $page = $test->request(GET $path);
+    ok($page->is_success, "$path renders");
+    like($page->decoded_content, qr{<title>Personalised British Line of Succession Prints</title>},
+      "$path renders the print gallery");
+    unlike($page->decoded_content, qr{class="subscribe-box print-shop-widget"},
+      "$path hides its own advert");
+  }
 }
 
 done_testing();
