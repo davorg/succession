@@ -1,0 +1,74 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../Succession/lib";
+use CHI;
+use DateTime;
+use Encode qw(encode);
+use File::Temp ();
+use Getopt::Long qw(GetOptions);
+use Path::Tiny qw(path);
+use Succession::Model;
+use Succession::Print;
+
+my $usage = <<'USAGE';
+Usage: export_print [--format png|svg] [--output FILE] [--order succession|birth] YYYY-MM-DD
+
+Export an unwatermarked A3 print for a date from 1820-01-29 through today.
+PNG is the default format, rendered at 300 dpi. SVG keeps the vector artwork.
+Output goes to stdout unless --output FILE is supplied; --output - also uses stdout.
+Order defaults to succession. PNG output requires rsvg-convert.
+Uses SUCC_DSN or SUCC_DB_PATH when set, otherwise the repository's data/los.sqlite.
+USAGE
+
+my ($format, $output, $order, $help) = ('png', undef, 'succession', 0);
+GetOptions('format=s' => \$format, 'output=s' => \$output,
+  'order=s' => \$order, 'help' => \$help) or die $usage;
+if ($help) {
+  print $usage;
+  exit 0;
+}
+die $usage unless @ARGV == 1;
+die "--format must be svg or png\n" unless $format eq 'svg' || $format eq 'png';
+die "--order must be succession or birth\n" unless $order eq 'succession' || $order eq 'birth';
+
+my $date_str = shift;
+my $date;
+if ($date_str =~ /\A(\d{4})-(\d\d)-(\d\d)\z/) {
+  $date = eval { DateTime->new(year => $1, month => $2, day => $3) };
+}
+die "Date must be a valid YYYY-MM-DD date\n" unless $date;
+die "Date must be between 1820-01-29 and today\n"
+  if $date_str lt '1820-01-29' || $date > DateTime->today;
+
+if (!defined($ENV{SUCC_DSN}) && !defined($ENV{SUCC_DB_PATH})) {
+  $ENV{SUCC_DB_PATH} = "$FindBin::Bin/../data/los.sqlite";
+}
+# Keep exports tied to the selected database, independently of the web cache.
+my $model = Succession::Model->new(cache => CHI->new(driver => 'Null'));
+my $svg = Succession::Print->render(
+  data => $model->succession_print_data($date, $order), date => $date, size => 'A3',
+);
+die "This family does not fit the print layout\n" unless defined $svg;
+
+my $bytes = encode('UTF-8', $svg);
+if ($format eq 'png') {
+  my $dir = File::Temp->newdir;
+  my $input = path("$dir", 'print.svg');
+  my $png = path("$dir", 'print.png');
+  $input->spew_raw($bytes);
+  system('rsvg-convert', '--dpi-x', '300', '--dpi-y', '300',
+    '--output', "$png", "$input") == 0
+    or die "Unable to convert SVG to PNG; check that rsvg-convert is installed\n";
+  $bytes = $png->slurp_raw;
+}
+
+if (defined($output) && $output ne '-') {
+  path($output)->spew_raw($bytes);
+} else {
+  binmode STDOUT, ':raw' or die "Unable to set binary stdout: $!\n";
+  print STDOUT $bytes or die "Unable to write output: $!\n";
+}

@@ -34,9 +34,31 @@ Each file's fingerprint changes independently of the application version. The
 asset registry in the `before_template_render` hook computes the URLs once per
 worker; register additional local CSS or JavaScript there when adding assets.
 
+## Clean exports for advertising and production
+
+`bin/export_print` exports unwatermarked artwork locally. Give it a date and
+optionally `--format png|svg` (default: `png`). PNG output is A3 at 300 dpi;
+SVG retains the vector artwork. Output goes to stdout by default, or to the
+file supplied with `--output`. `--order birth` selects birth ordering instead
+of the default succession order.
+
+```sh
+bin/export_print 1962-09-07 > sample.png
+bin/export_print --format svg --output sample.svg 1962-09-07
+bin/export_print --format png --order birth --output sample-birth.png 1962-09-07
+```
+
+The command locates its library and the repository's `data/los.sqlite` from
+the script location, so it also works outside the checkout. Set `SUCC_DB_PATH`
+or `SUCC_DSN` to select a different database. Exports read uncached model data.
+SVG export uses the internal
+renderer directly; PNG export converts that clean SVG with `rsvg-convert`.
+The public web previews continue to use the SPECIMEN watermark.
+
 Relevant checks:
 
 ```
 SUCC_DB_PATH="$PWD/data/los.sqlite" prove -ISuccession/lib Succession/t/022_succession_tree.t Succession/t/024_print_route.t Succession/t/025_print_designer.t
+prove -ISuccession/lib Succession/t/032_export_print_cli.t
 node --check Succession/public/js/print.js
 ```
