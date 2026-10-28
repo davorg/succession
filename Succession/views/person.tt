@@ -221,6 +221,14 @@
      END %></li>
 <% END -%>
 </ul>
+<% IF person.born AND person.born < app.earliest -%>
+<p class="small text-muted mb-0" id="position-history-notice">
+  <strong>Historical data limitation:</strong> Our succession records currently
+  begin on <% app.earliest.strftime('%e %B %Y').trim %>. Positions held before
+  that date are not yet included, so this may not represent the person's
+  complete succession history.
+</p>
+<% END -%>
 </div>
 <% END -%>
 
