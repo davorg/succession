@@ -24,7 +24,7 @@ use constant {
   JSONRPC_METHOD_NOT_FOUND => -32601,
 };
 
-our $VERSION = '1.1.4';
+our $VERSION = '1.1.5';
 
 hook before => sub {
   bless request, 'Succession::Request';
@@ -45,7 +45,7 @@ hook before_template_render => sub {
         path(setting('appdir'), 'public', $asset)->slurp_raw
       ), 0, 16;
       $asset => "/$asset?v=$digest";
-    } qw(css/style.css js/print.js)
+    } qw(css/style.css js/print.js js/print-gallery.js)
   };
   $tokens->{asset_urls} = $asset_urls;
   my $ref_dir = path(setting('appdir'), 'reference');
@@ -175,6 +175,31 @@ get qr{/r/([\w-]+)$} => sub {
     content => $html,
     title   => $title,
   };
+};
+
+get '/shop/prints' => sub {
+  my @images = (
+    {
+      file => 'British Line of Succession Wall Display.png',
+      date => '6 February 1952',
+      setting => 'A modern living room',
+      alt => 'A succession print for 6 February 1952 mounted on a bright living-room wall',
+    },
+    {
+      file => 'Cosy Royal Succession Study.png',
+      date => '2 June 1977',
+      setting => 'A cosy study',
+      alt => 'A framed succession print for 2 June 1977 beside bookshelves in a cosy study',
+    },
+    {
+      file => 'Royal Line of Succession in a Palace Study.png',
+      date => '8 September 2022',
+      setting => 'A palace study',
+      alt => 'A succession print for 8 September 2022 in an ornate gold frame in a palace study',
+    },
+  );
+  $_->{url} = '/images/prints/' . uri_escape_utf8($_->{file}) for @images;
+  template 'prints', { app => vars->{app}, print_images => \@images };
 };
 
 get '/shop' => sub {

@@ -1,7 +1,17 @@
 # Personalised print designer
 
 `/print` is currently unlinked from the main navigation; a shop link is planned.
-It provides a date selector, birth/succession ordering, example dates and
+The public preview page at `/shop/prints` shows the three supplied room mock-ups,
+with a three-column gallery on desktop and one column on mobile. Each image
+opens a Bootstrap modal carousel at that image, with previous/next controls,
+keyboard arrows, Escape to close and focus returning to the thumbnail. The
+page uses the normal site layout, says the prints are coming soon and links
+to `/print` to try a date. A separate `views/widgets/print-shop.tt` sidebar
+widget advertises the coming-soon prints and links to this gallery on other
+pages; it is hidden on `/shop/prints` itself. Dedicated links in the homepage
+and shop's main content are left for later.
+
+The designer provides a date selector, birth/succession ordering, example dates and
 an initially blank preview. “Show me” fetches the watermarked PNG; loading,
 validation and generation failures are displayed on the page. The initial
 release is A3 only. It has no ordering, payment or interest-registration flow.

@@ -160,6 +160,7 @@
 <% INCLUDE 'widgets/welcome.tt';
    INCLUDE 'widgets/sharing.tt';
    INCLUDE 'widgets/changes.tt';
+   INCLUDE 'widgets/print-shop.tt';
    INCLUDE 'widgets/newsletter.tt';
    INCLUDE 'widgets/social.tt';
    INCLUDE 'widgets/adverts.tt' -%>

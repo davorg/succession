@@ -178,7 +178,7 @@ sub _build_title( $self ) {
     return $self->request->person->name . ' (' . $self->request->person->years . ") - $title";
   }
 
-  for (keys %{ $self->static_titles }) {
+  for (sort { length($b) <=> length($a) } keys %{ $self->static_titles }) {
     if ($path =~ m[^/$_\b]) {
       return $self->static_titles->{$_}{title};
     }
@@ -212,7 +212,7 @@ sub _build_description( $self ) {
            ' in the Line of Succession to the British Throne.';
   }
 
-  for (keys %{ $self->static_titles }) {
+  for (sort { length($b) <=> length($a) } keys %{ $self->static_titles }) {
     if ($path =~ m[^/$_\b]) {
       return $self->static_titles->{$_}{desc};
     }
@@ -240,6 +240,10 @@ sub _build_static_titles($) {
     print => {
       title => 'Design your print',
       desc => 'Create a personalised British line of succession print for a date that matters to you.',
+    },
+    'shop/prints' => {
+      title => 'Personalised British Line of Succession Prints',
+      desc => 'Coming soon: personalised British line of succession prints for a birthday, anniversary or a day that is special to you. Explore the gallery and try your date.',
     },
     shop   => {
       title => 'British Line of Succession Shop',

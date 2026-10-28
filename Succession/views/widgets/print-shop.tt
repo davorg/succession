@@ -1,0 +1,14 @@
+<% UNLESS app.request.path == '/shop/prints' OR app.request.path == '/shop/prints/' -%>
+<div class="subscribe-box print-shop-widget">
+  <h3 class="sidebar-heading h6 text-center mb-2">Your day in royal history</h3>
+  <a class="print-shop-widget-image" href="/shop/prints" aria-label="Preview our personalised succession prints">
+    <img src="/images/prints/British%20Line%20of%20Succession%20Wall%20Display.png"
+         alt="A personalised succession print displayed on a living-room wall"
+         width="1254" height="1254" loading="lazy" decoding="async">
+  </a>
+  <p class="small text-muted my-3">Coming soon: a personalised print of the line
+    of succession on a day that's special to you.</p>
+  <a class="btn btn-primary w-100" href="/shop/prints">Preview the prints</a>
+</div>
+<hr>
+<% END -%>

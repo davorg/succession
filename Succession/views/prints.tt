@@ -1,0 +1,73 @@
+<div class="card-soft prints-page">
+  <p class="prints-coming-soon">Coming soon</p>
+  <h1>Royal history. Your special day.</h1>
+  <p class="lead">The British line of succession, on a date that matters to you.</p>
+  <p>We'll soon be selling personalised prints of the British line of succession.
+    Choose a birthday, a wedding day, an anniversary or any date that is special
+    to you, and display the line of succession as it stood on that day.</p>
+  <p>A distinctive piece of royal history for your home, or a thoughtful gift
+    with a personal connection.</p>
+
+  <h2 class="h4 mt-4">Picture it on your wall</h2>
+  <p class="small text-muted">Explore these room mock-ups. Select a picture to take a closer look.</p>
+  <div class="prints-gallery">
+<% FOR image IN print_images -%>
+    <figure class="prints-gallery-item">
+      <a class="prints-gallery-link" href="<% image.url %>"
+         data-bs-toggle="modal" data-bs-target="#printGalleryModal"
+         data-print-slide="<% loop.index %>" aria-label="Enlarge: <% image.alt | html %>">
+        <img src="<% image.url %>" alt="<% image.alt | html %>"
+             width="1254" height="1254" decoding="async"<% IF NOT loop.first %> loading="lazy"<% END %>>
+        <span class="prints-gallery-enlarge" aria-hidden="true">View larger</span>
+      </a>
+      <figcaption><strong><% image.date %></strong><br><span class="small text-muted"><% image.setting %></span></figcaption>
+    </figure>
+<% END -%>
+  </div>
+
+  <div class="prints-sample-link">
+    <h2 class="h4">Which date would you choose?</h2>
+    <p>You can explore a sample of your own while we get the prints ready for sale.</p>
+    <a class="btn btn-primary" href="/print">Try your special date</a>
+  </div>
+</div>
+
+<div class="modal fade prints-lightbox" id="printGalleryModal" tabindex="-1"
+     aria-labelledby="printGalleryTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title h5" id="printGalleryTitle">Picture it on your wall</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close gallery"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div id="printGalleryCarousel" class="carousel" role="region"
+             aria-roledescription="carousel" aria-label="Print room mock-ups">
+          <div class="carousel-inner">
+<% FOR image IN print_images -%>
+            <div class="carousel-item<% IF loop.first %> active<% END %>"
+                 role="group" aria-roledescription="slide" aria-label="<% loop.count %> of <% print_images.size %>">
+              <img class="prints-lightbox-image" src="<% image.url %>" alt="<% image.alt | html %>"
+                   width="1254" height="1254" loading="lazy" decoding="async">
+              <p class="prints-lightbox-caption"><strong><% image.date %></strong> &middot; <% image.setting %></p>
+            </div>
+<% END -%>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#printGalleryCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous image</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#printGalleryCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next image</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <span id="printGalleryPosition" class="small" aria-live="polite" aria-atomic="true">1 of <% print_images.size %></span>
+        <span class="small text-muted">Use the arrows to explore</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="<% asset_urls.item('js/print-gallery.js') %>" defer></script>
