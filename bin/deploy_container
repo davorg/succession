@@ -7,25 +7,53 @@ SERVICE_NAME="${SERVICE_NAME:-succession}"
 VPC_CONNECTOR="${VPC_CONNECTOR:-los-connector}"
 REPO="${REPO:-containers}"
 IMAGE_NAME="${IMAGE_NAME:-succession}"
+DEPLOY_VERSION="${1:-${VERSION:-}}"
 
 # SQLite DSN (matches Dockerfile)
 SUCC_DSN="${SUCC_DSN:-dbi:SQLite:dbname=/app/data/los.sqlite;mode=ro;immutable=1}"
-VERSION="$(
-  sed -n 's/^our $VERSION = .\([^;]*\).;/\1/p' Succession/lib/Succession.pm
-)"
 
-# --- Image reference: use tag based on commit SHA ---
+if [[ -z "${DEPLOY_VERSION}" ]]; then
+  echo "Usage: $0 <version>" >&2
+  echo 'Version can also be provided with the VERSION environment variable.' >&2
+  exit 1
+fi
 
-SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+DEPLOY_VERSION="${DEPLOY_VERSION#v}"
+
+if [[ ! "${DEPLOY_VERSION}" =~ ^[0-9]+([.][0-9]+)*$ ]]; then
+  echo "Version '${DEPLOY_VERSION}' is not valid. Expected digits separated by dots." >&2
+  exit 1
+fi
+
 IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
-IMAGE_REF="${IMAGE_PATH}:${SHA}"
+VERSION_TAG="${IMAGE_PATH}:v${DEPLOY_VERSION}"
 
-echo "Deploying image ${IMAGE_REF}"
+echo "Checking for version tag: ${VERSION_TAG}"
+EXISTING_TAGS="$(
+  gcloud artifacts docker tags list "${IMAGE_PATH}" \
+    --format='value(tag)'
+)"
+EXISTING_VERSION_TAG=""
+while IFS= read -r EXISTING_TAG; do
+  case "${EXISTING_TAG}" in
+    "${VERSION_TAG}"|"v${DEPLOY_VERSION}"|*":v${DEPLOY_VERSION}")
+      EXISTING_VERSION_TAG="${EXISTING_TAG}"
+      break
+      ;;
+  esac
+done <<< "${EXISTING_TAGS}"
 
-ENV_VARS="SUCC_DSN=${SUCC_DSN},PLACK_ENV=production,SUCC_VERSION=${VERSION}"
+if [[ -z "${EXISTING_VERSION_TAG}" ]]; then
+  echo "Version ${DEPLOY_VERSION} was not found in Artifact Registry." >&2
+  exit 1
+fi
+
+echo "Deploying image ${VERSION_TAG}"
+
+ENV_VARS="SUCC_DSN=${SUCC_DSN},PLACK_ENV=production,SUCC_VERSION=${DEPLOY_VERSION}"
 
 gcloud run deploy "${SERVICE_NAME}" \
-  --image="${IMAGE_REF}" \
+  --image="${VERSION_TAG}" \
   --project="${PROJECT_ID}" \
   --region="${REGION}" \
   --platform=managed \

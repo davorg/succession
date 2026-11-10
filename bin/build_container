@@ -6,6 +6,7 @@ REGION="${REGION:-europe-west1}"
 REPO="${REPO:-containers}"
 IMAGE_NAME="${IMAGE_NAME:-succession}"
 SOURCE_URL="${SOURCE_URL:-https://github.com/davorg/succession}"
+DOCKERHUB_NAMESPACE="${DOCKERHUB_NAMESPACE:-davorg}"
 
 VERSION="$(
   sed -n 's/^our $VERSION = .\([^;]*\).;/\1/p' Succession/lib/Succession.pm
@@ -14,6 +15,9 @@ SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
 IMAGE_PATH="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${IMAGE_NAME}"
 TAG="${IMAGE_PATH}:${SHA}"
 VERSION_TAG="${IMAGE_PATH}:v${VERSION}"
+DOCKERHUB_IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}"
+DOCKERHUB_TAG="${DOCKERHUB_IMAGE}:${SHA}"
+DOCKERHUB_VERSION_TAG="${DOCKERHUB_IMAGE}:v${VERSION}"
 
 echo "Checking for existing version tag: ${VERSION_TAG}"
 EXISTING_TAGS="$(
@@ -38,12 +42,15 @@ fi
 
 echo "Building image: ${TAG}"
 echo "Adding version tag: ${VERSION_TAG}"
+echo "Adding Docker Hub tags: ${DOCKERHUB_TAG}, ${DOCKERHUB_VERSION_TAG}"
 docker build \
   --build-arg "VERSION=${VERSION}" \
   --build-arg "SHA=${SHA}" \
   --build-arg "SOURCE_URL=${SOURCE_URL}" \
   -t "${TAG}" \
   -t "${VERSION_TAG}" \
+  -t "${DOCKERHUB_TAG}" \
+  -t "${DOCKERHUB_VERSION_TAG}" \
   .
 
 echo "Pushing image: ${TAG}"
@@ -51,6 +58,12 @@ docker push "${TAG}"
 
 echo "Pushing image: ${VERSION_TAG}"
 docker push "${VERSION_TAG}"
+
+echo "Pushing image: ${DOCKERHUB_TAG}"
+docker push "${DOCKERHUB_TAG}"
+
+echo "Pushing image: ${DOCKERHUB_VERSION_TAG}"
+docker push "${DOCKERHUB_VERSION_TAG}"
 
 # Grab the repo digest (e.g. europe-west1-docker.pkg.dev/...@sha256:...)
 DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' "${TAG}")"
