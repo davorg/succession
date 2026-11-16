@@ -715,11 +715,11 @@ INSERT INTO person VALUES(148,'1961-03-03',NULL,145,2,'m','https://en.wikipedia.
 INSERT INTO person VALUES(149,'1989-07-01',NULL,148,1,'m',NULL,'10b78f-charles-duff-carnegie-earl-of-southesk','Q75487816','2026-11-15 05:13:43');
 INSERT INTO person VALUES(150,'1991-03-23',NULL,148,2,'m',NULL,'0079f9-lord-george-william-carnegie','Q75487817','2026-11-15 05:13:44');
 INSERT INTO person VALUES(151,'1993-06-10',NULL,148,3,'m',NULL,'cc15bd-lord-hugh-alexander-carnegie','Q75487821','2026-11-15 05:13:44');
-INSERT INTO person VALUES(152,'1903-07-02','1991-01-17',70,1,'m','https://en.wikipedia.org/wiki/Olav_V','2fede5-olaf-v-king-of-norway','Q154912','2026-11-09 05:14:37');
-INSERT INTO person VALUES(153,'1930-06-09','2012-09-16',152,2,'f','https://en.wikipedia.org/wiki/Princess_Ragnhild%2C_Mrs._Lorentzen','d7a42c-princess-ragnhild-of-norway','Q235236','2026-11-09 05:14:40');
-INSERT INTO person VALUES(154,'1954-08-23',NULL,153,1,'m',NULL,'b9067c-haakon-lorentzen','Q3319938','2026-11-09 05:14:43');
-INSERT INTO person VALUES(155,'1957-02-27',NULL,153,2,'f',NULL,'3414bd-ingeborg-lorentzen','Q3314861','2026-11-09 05:14:45');
-INSERT INTO person VALUES(156,'1968-05-08',NULL,153,3,'f',NULL,'5bfdbb-ragnhild-lorentzen','Q3314887','2026-11-09 05:14:47');
+INSERT INTO person VALUES(152,'1903-07-02','1991-01-17',70,1,'m','https://en.wikipedia.org/wiki/Olav_V','2fede5-olaf-v-king-of-norway','Q154912','2026-11-16 05:14:54');
+INSERT INTO person VALUES(153,'1930-06-09','2012-09-16',152,2,'f','https://en.wikipedia.org/wiki/Princess_Ragnhild%2C_Mrs._Lorentzen','d7a42c-princess-ragnhild-of-norway','Q235236','2026-11-16 05:14:57');
+INSERT INTO person VALUES(154,'1954-08-23',NULL,153,1,'m',NULL,'b9067c-haakon-lorentzen','Q3319938','2026-11-16 05:15:00');
+INSERT INTO person VALUES(155,'1957-02-27',NULL,153,2,'f',NULL,'3414bd-ingeborg-lorentzen','Q3314861','2026-11-16 05:15:01');
+INSERT INTO person VALUES(156,'1968-05-08',NULL,153,3,'f',NULL,'5bfdbb-ragnhild-lorentzen','Q3314887','2026-11-16 05:15:03');
 INSERT INTO person VALUES(157,'1932-02-12','2026-09-11',152,3,'f','https://en.wikipedia.org/wiki/Princess_Astrid%2C_Mrs._Ferner','1f2fa6-princess-astrid-of-norway','Q270685','2026-11-09 05:14:51');
 INSERT INTO person VALUES(158,'1962-07-22',NULL,157,1,'f',NULL,'5785fe-cathrine-ferner','Q11963290','2026-11-09 05:14:53');
 INSERT INTO person VALUES(159,'1990-05-09',NULL,158,1,'m',NULL,'7c627e-sebastian-ferner-johansen','Q75323120','2026-11-09 05:14:54');
